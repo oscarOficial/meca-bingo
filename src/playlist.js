@@ -16,15 +16,18 @@ export async function handlePlaylist(request) {
     else if (host.endsWith('music.apple.com')) out = await apple(link);
     else if (host.endsWith('youtube.com') || host === 'youtu.be') out = await youtube(link);
     else if (host.startsWith('music.amazon.')) out = await amazon(link);
-    else return json({ error: 'unsupported', message: 'Provider not supported' }, 400);
+    else return json({ error: 'unsupported' }, 400);
     out.tracks = dedupe(out.tracks || []);
-    if (!out.tracks.length) return json({ error: 'empty', provider: out.provider, message: 'No songs found. Is the playlist public?' }, 422);
+    if (!out.tracks.length) return json({ error: 'empty', provider: out.provider }, 422);
     return json(out);
   } catch (e) {
-    return json({ error: 'failed', message: String(e && e.message || e) }, 500);
+    return json({ error: 'failed', provider: providerOf(u), detail: String(e && e.message || e) }, 500);
   }
 }
 
+function providerOf(u) {
+  try { const h = new URL(u).hostname; return h.includes('spotify') ? 'spotify' : h.includes('deezer') ? 'deezer' : h.includes('apple') ? 'apple' : h.includes('youtu') ? 'youtube' : h.includes('amazon') ? 'amazon' : ''; } catch (e) { return ''; }
+}
 const json = (o, status = 200) => new Response(JSON.stringify(o), {
   status, headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'public, max-age=300' }
 });
@@ -60,7 +63,7 @@ async function spotify(link) {
     provider: 'spotify',
     title: (ent && (ent.name || ent.title)) || 'Spotify playlist',
     tracks: list.map(t => ({ title: t.title, artist: t.subtitle })),
-    note: list.length >= 100 ? 'Spotify only shares the first 100 songs of a playlist this way.' : undefined
+    note: list.length >= 100 ? 'spotify100' : undefined
   };
 }
 function findKey(o, key, depth = 0) {

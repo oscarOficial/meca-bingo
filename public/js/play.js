@@ -13,7 +13,7 @@
   let state = { prize: null, winners: {}, over: false }, net = null, connected = false, busy = false;
 
   const show = id => ['enter', 'name', 'play', 'msg'].forEach(s => $(s).classList.toggle('hidden', s !== id));
-  function setStatus(s) { const e = $('status'); e.textContent = s === 'open' ? '● online' : s === 'lost' ? '● ' + t.reconnecting : '● ' + t.connecting; e.className = 'status pill ' + (s === 'open' ? 'ok' : 'warn'); }
+  function setStatus(s) { const e = $('status'); e.textContent = s === 'open' ? '● ' + t.online : s === 'lost' ? '● ' + t.reconnecting : '● ' + t.connecting; e.className = 'status pill ' + (s === 'open' ? 'ok' : 'warn'); }
   function texts() {
     t = I18N.get(lang); document.documentElement.lang = lang;
     $('tCode').textContent = t.code; $('tJoin').textContent = t.join; $('tName').textContent = t.yourName; $('nameIn').placeholder = t.namePh; $('tGo').textContent = t.letsGo; $('hint').textContent = t.tapToMark;

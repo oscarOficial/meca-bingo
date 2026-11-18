@@ -24,11 +24,11 @@
     set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} },
     del(k) { try { localStorage.removeItem(k); } catch (e) {} }
   };
-  async function toggleFullscreen() {
+  async function toggleFullscreen(msg) {
     try {
       if (document.fullscreenElement) await document.exitFullscreen();
       else await document.documentElement.requestFullscreen();
-    } catch (e) { toast('Full screen is not available here'); }
+    } catch (e) { toast(msg || 'Full screen is not available here'); }
   }
   G.FX = { $, toast, flash, confetti, pick, esc, store, toggleFullscreen };
 })(window);

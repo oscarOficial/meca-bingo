@@ -1,6 +1,7 @@
 // Host screen: set up the game, then run it. All game state lives in this browser.
 (function () {
-  const { $, toast, flash, confetti, pick, esc, store, toggleFullscreen } = FX;
+  const { $, toast, flash, confetti, pick, esc, store } = FX;
+  const toggleFullscreen = () => FX.toggleFullscreen(t.noFullscreen);
   const KEY = 'meca-host';
   const DEFAULT_CFG = { fmt: 'es', vertical: false, diagonal: false, prizes: { line: true, two: true, bingo: true }, clip: 0, maxPlayers: 30 };
 
@@ -69,7 +70,7 @@
     if (pl) {
       $('plTitle').textContent = pl.title; $('plCount').textContent = pl.tracks.length + ' ' + t.songs;
       const need = MB.minSongs(c.fmt) - pl.tracks.length; ok = need <= 0;
-      $('plCheck').innerHTML = (ok ? `<span class="ok">✓ ${esc(t.enough)}</span>` : `<span class="bad">✗ ${esc(t.needMore(need))}</span>`) + (pl.note ? `<br>${esc(pl.note)}` : '');
+      $('plCheck').innerHTML = (ok ? `<span class="ok">✓ ${esc(t.enough)}</span>` : `<span class="bad">✗ ${esc(t.needMore(need))}</span>`) + (pl.note === 'spotify100' ? `<br>${esc(t.spotifyNote)}` : '');
       $('plTracks').innerHTML = pl.tracks.map((s, i) => `<div>${i + 1}. ${esc(s.title)}${s.artist ? ' — ' + esc(s.artist) : ''}</div>`).join('');
     }
     const anyPrize = c.prizes.line || c.prizes.two || c.prizes.bingo;
@@ -84,12 +85,16 @@
     const url = $('plUrl').value.trim(); if (!url) return;
     $('importBtn').disabled = true; $('importBtn').textContent = t.importing;
     try {
-      const r = await fetch('/api/playlist?url=' + encodeURIComponent(url));
-      const d = await r.json();
-      if (!r.ok) throw new Error(d.message || d.error);
+      let r, d;
+      try { r = await fetch('/api/playlist?url=' + encodeURIComponent(url)); d = await r.json(); } catch (e) { throw new Error(t.errNetwork); }
+      if (!r.ok) {
+        const prov = t.providers[d.provider] || '';
+        if (d.detail) console.warn('playlist import:', d.detail);
+        throw new Error(d.error === 'unsupported' ? t.errUnsupported : d.error === 'empty' ? t.errEmpty(prov) : t.errFailed(prov));
+      }
       S.playlist = { title: d.title, provider: d.provider, tracks: d.tracks, note: d.note, url };
       save(); drawSetup();
-    } catch (e) { toast('⚠️ ' + e.message, 6000); }
+    } catch (e) { toast('⚠️ ' + e.message, 7000); }
     $('importBtn').disabled = false; $('importBtn').textContent = t.import;
   }
 
@@ -220,7 +225,7 @@
   $('fs').onclick = toggleFullscreen;
   $('importBtn').onclick = importPlaylist;
   $('plUrl').onkeydown = e => { if (e.key === 'Enter') importPlaylist(); };
-  $('useList').onclick = () => { const tr = MB.parsePasted($('paste').value); if (!tr.length) return; S.playlist = { title: 'My list', provider: 'pasted', tracks: tr }; save(); drawSetup(); };
+  $('useList').onclick = () => { const tr = MB.parsePasted($('paste').value); if (!tr.length) return; S.playlist = { title: t.myList, provider: 'pasted', tracks: tr }; save(); drawSetup(); };
   $('fmt').onclick = e => { const b = e.target.closest('button'); if (!b) return; S.cfg.fmt = b.dataset.v; save(); drawSetup(); };
   $('vertical').onclick = e => { const b = e.target.closest('button'); if (!b) return; S.cfg.vertical = b.dataset.v === '1'; save(); drawSetup(); };
   $('diagonal').onchange = e => { S.cfg.diagonal = e.target.checked; save(); };

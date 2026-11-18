@@ -3,6 +3,13 @@
   const T = {
     en: {
       langName: 'English',
+      errUnsupported: 'This link is not from a supported provider (Spotify, Deezer, Apple Music, YouTube Music, Amazon Music).',
+      errEmpty: p => `No songs found in this ${p} playlist. Check it is public, or paste the songs below.`,
+      errFailed: p => `Could not read the ${p} playlist right now. Try again or paste the songs below.`,
+      errNetwork: 'No connection with the server. Check your internet and try again.',
+      spotifyNote: 'Spotify only shares the first 100 songs of a playlist.',
+      myList: 'My list', online: 'online', noFullscreen: 'Full screen is not available here',
+      providers: { spotify: 'Spotify', deezer: 'Deezer', apple: 'Apple Music', youtube: 'YouTube', amazon: 'Amazon Music', pasted: '' },
       tagline: 'Turn any public playlist into a music bingo night',
       hostGame: 'Host a game', joinGame: 'Join a game', code: 'Game code', join: 'Join',
       setupTitle: 'New game', language: 'Language',
@@ -41,6 +48,13 @@
     },
     es: {
       langName: 'Español',
+      errUnsupported: 'Este enlace no es de un proveedor compatible (Spotify, Deezer, Apple Music, YouTube Music, Amazon Music).',
+      errEmpty: p => `No he encontrado canciones en esta playlist de ${p}. Comprueba que es pública o pega las canciones abajo.`,
+      errFailed: p => `Ahora mismo no puedo leer la playlist de ${p}. Vuelve a intentarlo o pega las canciones abajo.`,
+      errNetwork: 'No hay conexión con el servidor. Revisa internet y vuelve a intentarlo.',
+      spotifyNote: 'Spotify solo comparte las 100 primeras canciones de una playlist.',
+      myList: 'Mi lista', online: 'conectado', noFullscreen: 'La pantalla completa no está disponible aquí',
+      providers: { spotify: 'Spotify', deezer: 'Deezer', apple: 'Apple Music', youtube: 'YouTube', amazon: 'Amazon Music', pasted: '' },
       tagline: 'Convierte cualquier playlist pública en una noche de bingo musical',
       hostGame: 'Crear partida', joinGame: 'Unirme a una partida', code: 'Código de la partida', join: 'Entrar',
       setupTitle: 'Nueva partida', language: 'Idioma',
