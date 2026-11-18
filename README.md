@@ -9,11 +9,11 @@ LINE / 2 LINES / BINGO. The host's screen checks every call automatically.
 - **No database.** The host's browser *is* the game server. Phones connect to it directly
   (WebRTC through [PeerJS](https://peerjs.com)); the public PeerJS service only introduces
   browsers to each other, no game data goes through it.
-- **Static site + one small function** on Cloudflare Pages:
-  - `index.html` – landing page (host or join)
-  - `host.html` – set up and run a game
-  - `play.html` – player's card
-  - `functions/api/playlist.js` – reads a public playlist (no login) and returns its songs
+- **Static site + one small Worker** on Cloudflare:
+  - `public/index.html` – landing page (host or join)
+  - `public/host.html` – set up and run a game
+  - `public/play.html` – player's card
+  - `src/playlist.js` – reads a public playlist (no login) and returns its songs
 
 ## What the host can customise
 
@@ -45,19 +45,21 @@ All imports read **public** playlists without logging in, best effort:
 
 If a provider fails you can always paste the song list.
 
-## Deploy on Cloudflare Pages (free, unlimited bandwidth)
+## Deploy on Cloudflare (Workers, free, unlimited static traffic)
 
-1. Cloudflare dashboard → **Workers & Pages → Create → Pages → Connect to Git**.
-2. Pick this repository.
-3. Build settings: **Framework preset: None**, **Build command: (empty)**, **Build output directory: `/`**.
-4. **Save and Deploy**. Every push to `main` publishes automatically at `https://<project>.pages.dev`.
+The project is a Cloudflare **Worker with static assets**: `public/` holds the app and
+`src/worker.js` adds the `/api/playlist` importer. Config is in `wrangler.jsonc`.
+
+1. Cloudflare dashboard → **Workers & Pages → Create → Import a repository** → this repo.
+2. Deploy command: `npx wrangler deploy` (the default). No build command needed.
+3. Every push to `main` publishes automatically at `https://meca-bingo.<account>.workers.dev`.
 
 ## Local testing
 
 ```bash
-python3 -m http.server 8080
-# host:   http://localhost:8080/host.html?net=local
-# player: http://localhost:8080/play.html?r=CODE&net=local   (other tabs, same browser)
+npx wrangler dev          # app + playlist API on http://localhost:8787
+# host:   http://localhost:8787/host.html?net=local
+# player: http://localhost:8787/play.html?r=CODE&net=local   (other tabs, same browser)
 ```
 `?net=local` swaps WebRTC for a BroadcastChannel so everything runs in one browser.
-The playlist import function only runs on Cloudflare (or `npx wrangler pages dev .`).
+

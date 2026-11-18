@@ -1,11 +1,11 @@
-// Cloudflare Pages Function: GET /api/playlist?url=<public playlist link>
+// GET /api/playlist?url=<public playlist link>  (called from src/worker.js)
 // Reads a PUBLIC playlist from a music provider (no login needed) and returns
 // { provider, title, tracks: [{ title, artist }] }.
 // Every provider is "best effort": they can change their pages at any time.
 
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126 Safari/537.36';
 
-export async function onRequestGet({ request }) {
+export async function handlePlaylist(request) {
   const u = new URL(request.url).searchParams.get('url') || '';
   try {
     const link = new URL(u.trim());
