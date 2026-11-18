@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d0b1a">
+<title>Meca Bingo · Player</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/app.css">
+<style>
+.wrap{max-width:720px;padding:14px 10px calc(120px + env(safe-area-inset-bottom))}
+.head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px}
+.head h1{font-size:22px}
+.status{font-size:12.5px}
+.prize{text-align:center;margin-bottom:10px;font:800 18px 'Bricolage Grotesque',sans-serif}.prize b{color:var(--yel)}
+.board{display:grid;gap:4px;user-select:none;-webkit-user-select:none}
+.board.es{grid-template-columns:repeat(9,1fr)}
+.board.us{grid-template-columns:repeat(5,1fr);gap:6px}
+.cell{border-radius:8px;background:var(--panel);border:1px solid var(--line);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:3px;min-height:64px;font-weight:700;line-height:1.1;overflow:hidden;cursor:pointer;transition:transform .12s}
+.board.es .cell{font-size:clamp(8.5px,2.3vw,13px);min-height:clamp(58px,15vw,96px)}
+.board.us .cell{font-size:clamp(10px,2.9vw,14px);aspect-ratio:1/1}
+.cell small{display:block;font-weight:500;color:var(--mut);font-size:.8em;margin-top:3px}
+.cell.gap{background:repeating-linear-gradient(45deg,#ffffff06 0 6px,transparent 6px 12px);border-style:dashed;cursor:default}
+.cell.on{background:linear-gradient(135deg,var(--pink),#ff6b3d);border-color:transparent;color:#fff;transform:scale(.97)}
+.cell.on small{color:#ffe3ee}
+.cell:active:not(.gap){transform:scale(.92)}
+.callbar{position:fixed;left:0;right:0;bottom:0;padding:12px 14px calc(12px + env(safe-area-inset-bottom));background:linear-gradient(transparent,#0d0b1a 35%);display:flex;justify-content:center;z-index:5}
+.callbar .btn{width:min(520px,100%);font-size:20px;padding:16px}
+.hello{max-width:420px;margin:60px auto 0;text-align:center}
+.hello h2{font-size:28px;margin-bottom:14px}
+.res{position:fixed;inset:0;z-index:30;display:none;align-items:center;justify-content:center;flex-direction:column;gap:14px;background:#05030ce6;text-align:center;padding:24px}
+.res.on{display:flex}
+.res h2{font-size:clamp(34px,10vw,60px)}
+.res.ok h2{color:var(--green);animation:pop .6s cubic-bezier(.2,1.6,.4,1)}
+.res.no h2{color:var(--pink);animation:shake .5s}
+@keyframes pop{0%{transform:scale(.3)}100%{transform:scale(1)}}
+@keyframes shake{20%,60%{transform:translateX(-10px)}40%,80%{transform:translateX(10px)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head"><h1>Meca <span class="grad">Bingo</span></h1><span class="status pill" id="status"></span></div>
+
+  <section id="enter" class="hello hidden">
+    <h2 id="tCode"></h2>
+    <form id="codeForm" class="row"><input type="text" id="codeIn" maxlength="5" style="flex:1;text-transform:uppercase;letter-spacing:4px;font-weight:800;font-size:22px"><button class="btn cy" id="tJoin"></button></form>
+  </section>
+
+  <section id="name" class="hello hidden">
+    <h2 id="tName"></h2>
+    <form id="nameForm"><input type="text" id="nameIn" maxlength="24" autocomplete="nickname"><button class="btn big" id="tGo" style="width:100%;margin-top:12px"></button></form>
+  </section>
+
+  <section id="play" class="hidden">
+    <div class="prize" id="prize"></div>
+    <div class="row" style="justify-content:space-between;margin-bottom:8px"><span class="mut" id="hint"></span><span class="pill" id="cardNo"></span></div>
+    <div class="board" id="board"></div>
+    <div class="card mut" id="winners" style="margin-top:12px"></div>
+  </section>
+
+  <section id="msg" class="hello hidden"><h2 id="msgText"></h2></section>
+</div>
+<div class="callbar hidden" id="callbar"><button class="btn big" id="callBtn"></button></div>
+<div class="res" id="res"><h2 id="resT"></h2><p class="mut" id="resS" style="font-size:16px"></p></div>
+<canvas id="fx"></canvas>
+<div class="toast" id="toast"></div>
+
+<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/game.js"></script>
+<script src="js/net.js"></script>
+<script src="js/fx.js"></script>
+<script src="js/play.js"></script>
+</body>
+</html>

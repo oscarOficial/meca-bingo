@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meca Bingo · Host</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/app.css">
+<style>
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.top h1{font-size:26px}
+/* setup */
+.tracks{max-height:180px;overflow:auto;margin-top:10px;font-size:13px;color:var(--mut);background:var(--panel2);border-radius:10px;padding:8px 12px}
+.tracks div{padding:2px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.thumbs{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.thumbs img{width:64px;height:64px;object-fit:cover;border-radius:6px;border:2px solid var(--paper)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+/* game */
+.join{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center}
+.join .qr{background:#fff;border-radius:14px;padding:10px;width:170px;height:170px}
+.join .qr svg{width:100%;height:100%}
+.join .code{font:800 clamp(40px,7vw,64px) 'Bricolage Grotesque',sans-serif;letter-spacing:8px;color:var(--yel)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.prize{text-align:center;font:800 22px 'Bricolage Grotesque',sans-serif}
+.prize b{color:var(--yel)}
+.now{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:start;background:linear-gradient(135deg,#2a1240,#12233a)}
+.now .lbl2{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--cyan)}
+.now .title{font-size:30px;margin:6px 0 2px}
+.bar{height:6px;background:#ffffff14;border-radius:9px;margin:12px 0;overflow:hidden}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--pink));transition:width .3s}
+.snap{width:108px;transform:rotate(5deg)}.snap img{width:96px;height:96px;object-fit:cover}.snap p{font:600 10.5px/1.2 'Bricolage Grotesque',sans-serif;color:#2a2340;text-align:center;margin-top:5px;min-height:24px}
+.snap.flip{animation:flipin .6s cubic-bezier(.2,1.4,.4,1)}@keyframes flipin{0%{transform:rotate(-30deg) scale(.3);opacity:0}100%{transform:rotate(5deg)}}
+.timer{font:800 15px 'Bricolage Grotesque',sans-serif}.timer.end{color:var(--pink)}
+.lock{text-align:center;border:1px dashed var(--line);border-radius:16px;padding:22px}
+.song{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:12px;background:var(--panel2);margin-bottom:4px;cursor:pointer}
+.song .t{flex:1;min-width:0}.song .t div{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.song .t small{color:var(--mut)}
+.song .ck{width:22px;height:22px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;color:transparent;font-size:12px}
+.song.played{opacity:.75}.song.played .ck{background:var(--green);border-color:var(--green);color:#06210f}
+.sub{font:700 12px Inter;letter-spacing:1.2px;text-transform:uppercase;color:var(--mut);margin:14px 2px 8px}
+.claim{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);font-size:14px}
+.cols{display:grid;grid-template-columns:1.3fr 1fr;gap:12px}
+@media (max-width:720px){.cols{grid-template-columns:1fr}.join{grid-template-columns:1fr;justify-items:center;text-align:center}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <h1>Meca <span class="grad">Bingo</span></h1>
+    <div class="row"><select id="lang" style="width:auto"></select><button class="btn" id="fs">⛶</button></div>
+  </div>
+
+  <!-- ============ SETUP ============ -->
+  <section id="setup">
+    <div class="card">
+      <label class="lbl" id="tPlaylist"></label>
+      <p class="mut" id="tPlaylistHint" style="margin-bottom:10px"></p>
+      <div class="row"><input type="url" id="plUrl" placeholder="https://open.spotify.com/playlist/…" style="flex:1;min-width:220px"><button class="btn cy" id="importBtn"></button></div>
+      <details style="margin-top:12px"><summary class="mut" id="tOrPaste" style="cursor:pointer"></summary>
+        <textarea id="paste" style="margin-top:8px" placeholder="Toxic - Britney Spears&#10;Hey Ya! - Outkast"></textarea>
+        <button class="btn" id="useList" style="margin-top:8px"></button>
+      </details>
+      <div id="plInfo" class="hidden" style="margin-top:14px"><div class="row"><b id="plTitle"></b><span class="pill" id="plCount"></span></div><p id="plCheck" class="mut" style="margin-top:6px"></p><div class="tracks" id="plTracks"></div></div>
+    </div>
+
+    <div class="grid2">
+      <div class="card"><label class="lbl" id="tCard"></label><div class="seg" id="fmt"><button data-v="es"></button><button data-v="us"></button></div></div>
+      <div class="card"><label class="lbl" id="tLines"></label><div class="seg" id="vertical"><button data-v="0"></button><button data-v="1"></button></div>
+        <label class="chk hidden" id="diagWrap"><input type="checkbox" id="diagonal"><span id="tDiag"></span></label><p class="mut" id="tVertNote" style="margin-top:6px"></p></div>
+      <div class="card"><label class="lbl" id="tPrizes"></label>
+        <label class="chk"><input type="checkbox" id="pLine"><span id="tPLine"></span></label>
+        <label class="chk"><input type="checkbox" id="pTwo"><span id="tPTwo"></span></label>
+        <label class="chk"><input type="checkbox" id="pBingo"><span id="tPBingo"></span></label></div>
+      <div class="card"><label class="lbl" id="tClip"></label><select id="clip"></select>
+        <label class="lbl" id="tMax" style="margin-top:14px"></label><input type="number" id="maxPlayers" min="1" max="30"></div>
+    </div>
+
+    <div class="card">
+      <label class="lbl" id="tPhotos"></label>
+      <p class="mut" id="tPhotosHint"></p>
+      <div class="thumbs" id="thumbs"></div>
+      <div class="row"><label class="btn" style="cursor:pointer"><span id="tAddPhotos"></span><input type="file" id="photoIn" accept="image/*" multiple hidden></label><button class="btn" id="clearPhotos"></button></div>
+      <div class="grid2" style="margin-top:14px">
+        <div><label class="lbl" id="tMsgWait"></label><textarea id="msgWait"></textarea></div>
+        <div><label class="lbl" id="tMsgWin"></label><textarea id="msgWin"></textarea></div>
+        <div><label class="lbl" id="tMsgLose"></label><textarea id="msgLose"></textarea></div>
+      </div>
+      <p class="mut" id="tOnePerLine" style="margin-top:6px"></p>
+    </div>
+    <button class="btn big" id="create" disabled></button>
+  </section>
+
+  <!-- ============ GAME ============ -->
+  <section id="game" class="hidden">
+    <div class="reel" aria-hidden="true"><div class="track" id="reel"></div></div>
+    <div class="card join">
+      <div class="qr" id="qr"></div>
+      <div><div class="mut" id="tScan"></div><div class="code" id="codeBig"></div><div class="mut"><span id="tGoTo"></span> <b id="joinUrl"></b></div>
+        <label class="lbl" style="margin-top:12px"><span id="tPlayers"></span> · <span id="pCount"></span></label><div class="chips" id="chips"></div></div>
+    </div>
+    <div class="card prize" id="prizeNow"></div>
+    <div class="cols">
+      <div>
+        <div class="card now">
+          <div><div class="lbl2" id="nowLbl"></div><h2 class="title" id="nowTitle"></h2><div class="mut" id="nowSub"></div>
+            <div class="bar"><i id="prog"></i></div>
+            <div class="row"><button class="btn" id="undo"></button><span class="timer" id="timer"></span></div></div>
+          <div class="pol snap" id="snap"><img id="snapImg" alt=""><p id="snapCap"></p></div>
+        </div>
+        <div class="card">
+          <div class="lock" id="lock"><div style="font-size:28px">🔒</div><h3 id="tLogHidden" style="margin:6px 0"></h3><p class="mut" id="tLogHint" style="margin-bottom:12px"></p><button class="btn" id="unlock"></button></div>
+          <div id="logBody" class="hidden">
+            <div class="row" style="margin-bottom:8px"><input type="text" id="q" style="flex:1"><button class="btn" id="relock"></button></div>
+            <h4 class="sub" id="hTodo"></h4><div id="todo"></div>
+            <h4 class="sub" id="hDone"></h4><div id="done"></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="card"><label class="lbl" id="tWinners"></label><div id="winners" class="mut"></div></div>
+        <div class="card"><label class="lbl" id="tClaims"></label><div id="claims" class="mut"></div></div>
+        <button class="btn" id="endBtn" style="width:100%"></button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="stage" id="stage"><div class="who" id="stWho"></div><div class="big"><img alt=""><p></p><div class="stamp"></div></div></div>
+<canvas id="fx"></canvas>
+<div class="modal" id="modal"><div><h3 id="mTitle"></h3><p id="mText"></p><div class="row" style="justify-content:flex-end"><button class="btn" id="mNo"></button><button class="btn big" id="mYes"></button></div></div></div>
+<div class="toast" id="toast"></div>
+
+<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/game.js"></script>
+<script src="js/net.js"></script>
+<script src="js/fx.js"></script>
+<script src="js/host.js"></script>
+</body>
+</html>

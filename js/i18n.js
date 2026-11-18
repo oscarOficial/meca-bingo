@@ -1,0 +1,82 @@
+// Interface text and default fun messages. Add a language by copying one block.
+(function (G) {
+  const T = {
+    en: {
+      langName: 'English',
+      tagline: 'Turn any public playlist into a music bingo night',
+      hostGame: 'Host a game', joinGame: 'Join a game', code: 'Game code', join: 'Join',
+      setupTitle: 'New game', language: 'Language',
+      playlist: 'Playlist', playlistHint: 'Paste a link to a PUBLIC playlist (Spotify, Deezer, Apple Music, YouTube Music, Amazon Music).',
+      import: 'Import', importing: 'Reading playlist…', orPaste: 'Or paste the songs, one per line: Song - Artist',
+      useList: 'Use this list', songs: 'songs', needMore: n => `Add at least ${n} more songs for this card type.`,
+      enough: 'Enough songs for up to 30 players.',
+      cardType: 'Card', cardEs: 'Spanish 3×9 (15 songs, with gaps)', cardUs: 'Classic 5×5 (25 songs)',
+      lines: 'What counts as a line', linesH: 'Horizontal only', linesHV: 'Horizontal and vertical', diagonals: 'Diagonals too',
+      verticalNote: 'On the 3×9 card a column only counts when it has 3 songs.',
+      prizes: 'Prizes (in this order)', prizeLine: 'Line', prizeTwo: '2 lines', prizeBingo: 'Bingo (full card)',
+      clip: 'How long each song plays', full: 'Whole song', secs: s => `${s} seconds`,
+      maxPlayers: 'Max players', photosMsgs: 'Photos and messages',
+      photosHint: 'Add as many photos as you like. They appear on the host screen.',
+      addPhotos: 'Add photos', removeAll: 'Remove all', msgWait: 'Messages while playing', msgWin: 'Messages for a valid prize', msgLose: 'Messages for a wrong call',
+      onePerLine: 'One per line', create: 'Create game',
+      scanToJoin: 'Scan to join', orGoTo: 'or go to', players: 'Players', noPlayers: 'Waiting for players…',
+      playingFor: 'Playing for', allPrizesDone: 'All prizes awarded!', songN: n => `Song #${n}`, songHidden: 'Song name hidden', waitingFirst: 'Waiting for the first song',
+      played: n => `Played · ${n}`, songLog: 'Song log', logHidden: 'The song log is hidden', logHint: 'Open it to mark the song that is playing.',
+      showLog: 'Show song log', hide: 'Hide', find: 'Find the song that is playing…', notPlayed: n => `Not played yet (${n})`, playedList: n => `Played (${n}) · tap to unmark`,
+      undo: 'Undo last', claims: 'Calls', noClaims: 'Nobody has called yet', winners: 'Winners',
+      endGame: 'End game', endConfirm: 'End this game? Players will be disconnected.', cancel: 'Cancel', confirm: 'Confirm',
+      fullscreen: 'Full screen', timeUp: 'Time! Next song',
+      valid: 'VALID!', nope: 'NOPE', youWrong: 'You marked a song that has not played yet', youIncomplete: 'Your prize is not complete yet', reasonWrong: 'marked a song that has not played', reasonIncomplete: 'the prize is not complete',
+      // player
+      yourName: 'Your name', namePh: 'So everyone knows who won', letsGo: "Let's go", connecting: 'Connecting to the game…',
+      reconnecting: 'Reconnecting…', card: 'Card', tapToMark: 'Tap a song when you hear it', call: p => `Call ${p}!`,
+      gameFull: 'This game is full.', notFound: 'Game not found. Check the code.', youWon: p => `You won ${p}!`, notValid: 'Not valid',
+      winnerIs: (n, p) => `${n} won ${p}!`, prizeClosed: 'That prize is already won', waitPrize: 'Wait for the host to start',
+      gameOver: 'Game over. Thanks for playing!',
+      defaults: {
+        wait: ['Official dance committee', 'Already singing the chorus', 'Knows every word. Allegedly.', 'Air guitar champions', 'Pretending they know this one', 'Volume up, please!', 'Front row energy', 'Karaoke ready'],
+        win: ['Certified hit!', 'Number one!', 'Encore!', 'Pop royalty!', 'Bingo legends!'],
+        lose: ['Nice try 😅', 'Not today!', 'Back to the dance floor', 'Keep dancing', 'Hold your horses']
+      }
+    },
+    es: {
+      langName: 'Español',
+      tagline: 'Convierte cualquier playlist pública en una noche de bingo musical',
+      hostGame: 'Crear partida', joinGame: 'Unirme a una partida', code: 'Código de la partida', join: 'Entrar',
+      setupTitle: 'Nueva partida', language: 'Idioma',
+      playlist: 'Playlist', playlistHint: 'Pega el enlace de una playlist PÚBLICA (Spotify, Deezer, Apple Music, YouTube Music, Amazon Music).',
+      import: 'Importar', importing: 'Leyendo la playlist…', orPaste: 'O pega las canciones, una por línea: Canción - Artista',
+      useList: 'Usar esta lista', songs: 'canciones', needMore: n => `Añade al menos ${n} canciones más para este tipo de cartón.`,
+      enough: 'Canciones suficientes para hasta 30 jugadores.',
+      cardType: 'Cartón', cardEs: 'Español 3×9 (15 canciones, con huecos)', cardUs: 'Clásico 5×5 (25 canciones)',
+      lines: 'Qué cuenta como línea', linesH: 'Solo horizontal', linesHV: 'Horizontal y vertical', diagonals: 'También diagonales',
+      verticalNote: 'En el cartón 3×9 una columna solo cuenta si tiene 3 canciones.',
+      prizes: 'Premios (en este orden)', prizeLine: 'Línea', prizeTwo: 'Dos líneas', prizeBingo: 'Bingo (cartón lleno)',
+      clip: 'Cuánto suena cada canción', full: 'Entera', secs: s => `${s} segundos`,
+      maxPlayers: 'Máximo de jugadores', photosMsgs: 'Fotos y mensajes',
+      photosHint: 'Añade tantas fotos como quieras. Salen en la pantalla del presentador.',
+      addPhotos: 'Añadir fotos', removeAll: 'Quitar todas', msgWait: 'Mensajes durante el juego', msgWin: 'Mensajes de premio válido', msgLose: 'Mensajes cuando no vale',
+      onePerLine: 'Uno por línea', create: 'Crear partida',
+      scanToJoin: 'Escanea para jugar', orGoTo: 'o entra en', players: 'Jugadores', noPlayers: 'Esperando jugadores…',
+      playingFor: 'Jugamos a', allPrizesDone: '¡Todos los premios repartidos!', songN: n => `Canción nº ${n}`, songHidden: 'Nombre oculto', waitingFirst: 'Esperando la primera canción',
+      played: n => `Han sonado · ${n}`, songLog: 'Registro', logHidden: 'El registro de canciones está oculto', logHint: 'Ábrelo para marcar la canción que suena.',
+      showLog: 'Ver registro', hide: 'Ocultar', find: 'Busca la canción que suena…', notPlayed: n => `Por sonar (${n})`, playedList: n => `Han sonado (${n}) · toca para desmarcar`,
+      undo: 'Deshacer', claims: 'Cantos', noClaims: 'Nadie ha cantado todavía', winners: 'Ganadores',
+      endGame: 'Terminar partida', endConfirm: '¿Terminar la partida? Los jugadores se desconectarán.', cancel: 'Cancelar', confirm: 'Confirmar',
+      fullscreen: 'Pantalla completa', timeUp: '¡Tiempo! Siguiente canción',
+      valid: '¡VÁLIDO!', nope: 'NOPE', youWrong: 'Has marcado una canción que todavía no ha sonado', youIncomplete: 'Tu premio aún no está completo', reasonWrong: 'marcó una canción que no ha sonado', reasonIncomplete: 'el premio no está completo',
+      yourName: 'Tu nombre', namePh: 'Para saber quién gana', letsGo: '¡Vamos!', connecting: 'Conectando con la partida…',
+      reconnecting: 'Reconectando…', card: 'Cartón', tapToMark: 'Toca una canción cuando la oigas', call: p => `¡Cantar ${p}!`,
+      gameFull: 'La partida está completa.', notFound: 'No encuentro la partida. Revisa el código.', youWon: p => `¡Has ganado ${p}!`, notValid: 'No vale',
+      winnerIs: (n, p) => `¡${n} gana ${p}!`, prizeClosed: 'Ese premio ya tiene ganador', waitPrize: 'Espera a que empiece la partida',
+      gameOver: 'Fin de la partida. ¡Gracias por jugar!',
+      defaults: {
+        wait: ['Comité oficial de baile', 'Ya cantando el estribillo', 'Se sabe todas las letras. Supuestamente.', 'Campeones de air guitar', 'Fingiendo que se la saben', '¡Más volumen, por favor!', 'Energía de primera fila', 'Listos para el karaoke'],
+        win: ['¡Éxito certificado!', '¡Número uno!', '¡Otra, otra!', '¡Realeza del pop!', '¡Leyendas del bingo!'],
+        lose: ['Buen intento 😅', '¡Hoy no!', 'Vuelve a la pista', 'Sigue bailando', 'Para el carro']
+      }
+    }
+  };
+  function prizeName(t, p) { return p === 'line' ? t.prizeLine : p === 'two' ? t.prizeTwo : 'Bingo'; }
+  G.I18N = { T, langs: Object.keys(T), prizeName, get: l => T[l] || T.en };
+})(window);

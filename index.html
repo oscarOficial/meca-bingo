@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meca Bingo · Music bingo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/app.css">
+<style>
+.hero{text-align:center;padding:60px 0 30px}
+.hero h1{font-size:clamp(44px,9vw,84px);line-height:.95}
+.hero p{color:var(--mut);font-size:17px;margin-top:14px}
+.choices{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));margin-top:20px}
+.choices .card{padding:22px}
+.choices h2{font-size:24px;margin-bottom:8px}
+.lang{position:absolute;top:16px;right:16px;width:auto}
+</style>
+</head>
+<body>
+<select class="lang" id="lang"></select>
+<div class="wrap">
+  <div class="hero">
+    <h1>Meca <span class="grad">Bingo</span></h1>
+    <p id="tagline"></p>
+  </div>
+  <div class="choices">
+    <div class="card">
+      <h2 id="hHost"></h2>
+      <p class="mut" style="margin-bottom:16px">🎧 Spotify · Deezer · Apple Music · YouTube Music · Amazon Music</p>
+      <a class="btn big" href="host.html" id="goHost" style="display:inline-block;text-decoration:none"></a>
+    </div>
+    <div class="card">
+      <h2 id="hJoin"></h2>
+      <form id="joinForm" class="row" style="margin-top:6px">
+        <input type="text" id="code" maxlength="5" autocomplete="off" style="flex:1;text-transform:uppercase;letter-spacing:4px;font-weight:800;font-size:20px">
+        <button class="btn cy" id="joinBtn"></button>
+      </form>
+    </div>
+  </div>
+</div>
+<script src="js/i18n.js"></script>
+<script>
+let lang = localStorage.getItem('meca-lang') || (navigator.language || 'en').slice(0, 2);
+if (!I18N.T[lang]) lang = 'en';
+const sel = document.getElementById('lang');
+sel.innerHTML = I18N.langs.map(l => `<option value="${l}">${I18N.T[l].langName}</option>`).join('');
+function draw() {
+  const t = I18N.get(lang); sel.value = lang; document.documentElement.lang = lang;
+  tagline.textContent = t.tagline; hHost.textContent = t.hostGame; goHost.textContent = t.hostGame + ' →';
+  hJoin.textContent = t.joinGame; code.placeholder = t.code; joinBtn.textContent = t.join;
+}
+sel.onchange = () => { lang = sel.value; localStorage.setItem('meca-lang', lang); draw(); };
+joinForm.onsubmit = e => { e.preventDefault(); const c = code.value.trim().toUpperCase(); if (c.length === 5) location.href = 'play.html?r=' + c + location.search.replace('?', '&'); };
+draw();
+</script>
+</body>
+</html>
