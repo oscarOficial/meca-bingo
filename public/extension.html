@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meca Bingo Sync · Chrome extension</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/app.css">
+<style>.wrap{max-width:760px}h1{font-size:34px;margin:20px 0 6px}ol{padding-left:22px}li{margin:8px 0;line-height:1.5}code{background:var(--panel2);padding:2px 6px;border-radius:6px}</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="row"><img src="icon.png" width="64" height="64" style="border-radius:14px"><h1>Meca Bingo <span class="grad">Sync</span></h1></div>
+  <p class="mut" id="intro"></p>
+  <div class="card" id="store"></div>
+  <div class="card"><h3 id="hManual" style="margin-bottom:8px"></h3><ol id="steps"></ol><a class="btn cy" href="download/meca-bingo-sync.zip" id="dl" style="display:inline-block;text-decoration:none;margin-top:8px"></a></div>
+  <p class="mut"><a href="privacy.html" style="color:var(--cyan)">Privacy policy</a></p>
+</div>
+<script src="js/i18n.js"></script>
+<script>
+// When the extension is published, put its Chrome Web Store link here:
+const STORE_URL = '';
+const L = { en: {
+  intro: 'Optional, only for the host’s computer (Chrome or Edge). It imports Amazon Music playlists, starts the round in shuffle, marks each song automatically and adds play / pause / next to the bingo screen. Players never need it.',
+  store: 'Install from the Chrome Web Store', soon: 'Coming soon to the Chrome Web Store. Meanwhile, install it by hand:',
+  manual: 'Install by hand', dl: '⬇ Download the extension (.zip)',
+  steps: ['Download the zip and unzip it into a folder you will keep.', 'Open <code>chrome://extensions</code> and turn on <b>Developer mode</b> (top right).', 'Click <b>Load unpacked</b> and choose the unzipped folder.', 'Open the host page again: you will see <b>🧩 Sync</b> at the top.'] },
+  es: {
+  intro: 'Opcional y solo para el ordenador del presentador (Chrome o Edge). Importa playlists de Amazon Music, arranca la ronda en aleatorio, marca sola cada canción y añade play / pausa / siguiente a la pantalla del bingo. Los jugadores no la necesitan.',
+  store: 'Instalar desde la Chrome Web Store', soon: 'Pronto en la Chrome Web Store. Mientras tanto, instálala a mano:',
+  manual: 'Instalar a mano', dl: '⬇ Descargar la extensión (.zip)',
+  steps: ['Descarga el zip y descomprímelo en una carpeta que no vayas a borrar.', 'Abre <code>chrome://extensions</code> y activa el <b>Modo de desarrollador</b> (arriba a la derecha).', 'Pulsa <b>Cargar descomprimida</b> y elige la carpeta.', 'Vuelve a abrir la página del presentador: verás <b>🧩 Sync</b> arriba.'] } };
+let lang = (localStorage.getItem('meca-lang') || '').replace(/"/g, '') || (navigator.language || 'en').slice(0, 2); if (!L[lang]) lang = 'en';
+const t = L[lang]; document.documentElement.lang = lang;
+intro.textContent = t.intro; hManual.textContent = t.manual; dl.textContent = t.dl;
+steps.innerHTML = t.steps.map(s => `<li>${s}</li>`).join('');
+store.innerHTML = STORE_URL ? `<a class="btn big" style="display:inline-block;text-decoration:none" href="${STORE_URL}">${t.store}</a>` : `<span class="mut">${t.soon}</span>`;
+</script>
+</body>
+</html>

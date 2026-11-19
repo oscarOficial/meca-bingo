@@ -1,0 +1,16 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><style>
+body{font:13px system-ui,sans-serif;width:280px;margin:0;padding:14px;background:#0d0b1a;color:#f3f0ff}
+h1{font-size:16px;margin:0 0 12px;display:flex;align-items:center;gap:8px}
+.row{background:#17142b;border:1px solid #2e2950;border-radius:10px;padding:9px 10px;margin-bottom:8px}
+small{color:#9a93c2;display:block;margin-bottom:3px}.ok{color:#3ef08a}.no{color:#ff3d9a}.warn{color:#ffd23f}
+.ctl{display:grid;grid-template-columns:1fr 1.4fr 1fr;gap:8px;margin:10px 0}
+button{background:#201c3a;color:#f3f0ff;border:1px solid #2e2950;border-radius:10px;padding:9px;font-size:20px;cursor:pointer}
+button.playing{background:#2de2e6;color:#062022;border-color:#2de2e6}
+a{color:#2de2e6}
+</style></head><body>
+<h1><img src="icons/icon32.png" width="22" height="22" style="border-radius:5px">Meca Bingo Sync</h1>
+<div class="row"><small>Music player</small><b id="player">…</b></div>
+<div class="row"><small>Meca Bingo</small><b id="site">…</b></div>
+<div class="ctl"><button data-a="prev" title="Previous">⏮</button><button data-a="toggle" id="tg" title="Play / pause">▶</button><button data-a="next" title="Next">⏭</button></div>
+<p style="color:#9a93c2;margin:0">Open the host page at <a href="https://meca-bingo.oscasais.workers.dev/host.html" target="_blank">meca-bingo.oscasais.workers.dev</a></p>
+<script src="popup.js"></script></body></html>

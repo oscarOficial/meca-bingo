@@ -12,6 +12,44 @@
   if (!S.msgs) S.msgs = { ...t.defaults };
   const save = () => store.set(KEY, S);
 
+  // ---------------- Meca Bingo Sync (Chrome extension, optional) ----------------
+  const EXT = { on: false, version: null, playing: false, player: false };
+  let extSeq = 0; const extWait = {};
+  function extCall(type, data = {}, ms = 120000) {
+    return new Promise(res => {
+      const id = 'x' + (++extSeq); extWait[id] = res;
+      window.postMessage({ __mbPage: true, type, id, ...data }, '*');
+      setTimeout(() => { if (extWait[id]) { delete extWait[id]; res({ ok: false, error: 'timeout' }); } }, ms);
+    });
+  }
+  const isAmazon = u => /^https?:\/\/music\.amazon\./i.test(u || '');
+  const normT = s => String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\(.*?\)|\[.*?\]/g, ' ').replace(/\s(feat|ft)\..*$/i, ' ').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+  // find the playlist song the player is playing (titles are written slightly differently by each provider)
+  function findTrack(title, artist) {
+    if (!S.playlist) return -1;
+    const nt = normT(title), na = normT(artist), T = S.playlist.tracks;
+    let best = -1, score = 0;
+    T.forEach((tr, i) => {
+      const a = normT(tr.title); let sc = 0;
+      if (a === nt) sc = 3; else if (a && nt && (a.startsWith(nt + ' ') || nt.startsWith(a + ' '))) sc = 2;
+      if (sc && na && normT(tr.artist) && (na.includes(normT(tr.artist).split(' ')[0]) || normT(tr.artist).includes(na.split(' ')[0]))) sc += 1;
+      if (sc > score) { score = sc; best = i; }
+    });
+    return best;
+  }
+  window.addEventListener('message', e => {
+    const m = e.data; if (e.source !== window || !m || !m.__mbExt) return;
+    if (m.id && extWait[m.id]) { const f = extWait[m.id]; delete extWait[m.id]; f(m); }
+    if (m.type === 'ready') { EXT.on = true; EXT.version = m.version; drawExt(); if (S.phase === 'game') window.postMessage({ __mbPage: true, type: 'getState', id: 'st' }, '*'); }
+    else if (m.type === 'state') { EXT.playing = !!m.playing; if (m.player !== undefined) EXT.player = m.player; drawExt(); }
+    else if (m.type === 'track' && S.phase === 'game') {
+      const i = findTrack(m.title, m.artist);
+      if (i >= 0 && !S.played.includes(i)) { markSong(i); toast('🎧 ' + t.autoMarked(S.played.length)); }
+      else if (i < 0) toast('🎧 ' + t.notOnCards, 4000);
+    }
+  });
+  window.postMessage({ __mbPage: true, type: 'hello' }, '*');
+
   // ---------------- photos (kept in this browser only) ----------------
   let photos = [];
   const db = new Promise(res => { const r = indexedDB.open('meca-photos', 1); r.onupgradeneeded = () => r.result.createObjectStore('p', { autoIncrement: true }); r.onsuccess = () => res(r.result); r.onerror = () => res(null); });
@@ -42,7 +80,7 @@
     t = I18N.get(lang); document.documentElement.lang = lang;
     const set = (id, s) => { const e = $(id); if (e) e.textContent = s; };
     $('lang').innerHTML = I18N.langs.map(l => `<option value="${l}">${I18N.T[l].langName}</option>`).join(''); $('lang').value = lang;
-    set('tPlaylist', t.playlist); set('tPlaylistHint', t.playlistHint); set('importBtn', t.import); set('tOrPaste', t.orPaste); set('useList', t.useList);
+    set('tPlaylist', t.playlist); set('extLink', t.getExt); set('tPlaylistHint', t.playlistHint); set('importBtn', t.import); set('tOrPaste', t.orPaste); set('useList', t.useList);
     set('tCard', t.cardType); const f = $('fmt').children; f[0].textContent = t.cardEs; f[1].textContent = t.cardUs;
     set('tLines', t.lines); const v = $('vertical').children; v[0].textContent = t.linesH; v[1].textContent = t.linesHV; set('tDiag', t.diagonals); set('tVertNote', t.verticalNote);
     set('tPrizes', t.prizes); set('tPLine', t.prizeLine); set('tPTwo', t.prizeTwo); set('tPBingo', t.prizeBingo);
@@ -85,6 +123,13 @@
     const url = $('plUrl').value.trim(); if (!url) return;
     $('importBtn').disabled = true; $('importBtn').textContent = t.importing;
     try {
+      if (isAmazon(url)) {
+        if (!EXT.on) throw new Error(t.needExtension);
+        const r = await extCall('import', { url });
+        if (!r.ok || !r.tracks || !r.tracks.length) throw new Error(t.errEmpty('Amazon Music'));
+        S.playlist = { title: r.title || 'Amazon Music', provider: 'amazon', tracks: r.tracks, url };
+        save(); drawSetup(); return;
+      }
       let r, d;
       try { r = await fetch('/api/playlist?url=' + encodeURIComponent(url)); d = await r.json(); } catch (e) { throw new Error(t.errNetwork); }
       if (!r.ok) {
@@ -94,8 +139,8 @@
       }
       S.playlist = { title: d.title, provider: d.provider, tracks: d.tracks, note: d.note, url };
       save(); drawSetup();
-    } catch (e) { toast('⚠️ ' + e.message, 7000); }
-    $('importBtn').disabled = false; $('importBtn').textContent = t.import;
+    } catch (e) { toast('⚠️ ' + e.message, 8000); }
+    finally { $('importBtn').disabled = false; $('importBtn').textContent = t.import; }
   }
 
   // ---------------- game ----------------
@@ -161,7 +206,7 @@
     try { const qr = qrcode(0, 'M'); qr.addData(url); qr.make(); $('qr').innerHTML = qr.createSvgTag({ cellSize: 4, margin: 0, scalable: true }); } catch (e) { $('qr').textContent = url; }
     if (net) net.close();
     net = NET.hostRoom(S.code, { onMessage, onStatus: (s, e) => { if (s === 'error' && e !== 'peer-unavailable') console.warn('net', e); } });
-    shuffleSnap(); drawGame();
+    shuffleSnap(); drawGame(); drawExt();
   }
   let q = '', lastSongCount = -1;
   function drawGame() {
@@ -198,7 +243,31 @@
   function startClip() {
     clearInterval(tId); const secs = +S.cfg.clip; const el = $('timer'); el.className = 'timer'; el.textContent = '';
     if (!secs) return; let left = secs; el.textContent = '⏱ ' + left;
-    tId = setInterval(() => { left--; el.textContent = '⏱ ' + left; if (left <= 0) { clearInterval(tId); el.className = 'timer end'; el.textContent = '⏭ ' + t.timeUp; toast('⏱ ' + t.timeUp); } }, 1000);
+    tId = setInterval(() => { left--; el.textContent = '⏱ ' + left; if (left <= 0) { clearInterval(tId); el.className = 'timer end'; el.textContent = '⏭ ' + t.timeUp; if (EXT.on && EXT.playing) extCall('control', { action: 'next' }, 5000); else toast('⏱ ' + t.timeUp); } }, 1000);
+  }
+  function drawExt() {
+    const pill = $('extPill'); if (pill) { pill.classList.toggle('hidden', !EXT.on); pill.title = 'Meca Bingo Sync ' + (EXT.version || ''); }
+    const bar = $('ctlbar'); if (!bar) return;
+    const inGame = S.phase === 'game';
+    bar.classList.toggle('hidden', !(EXT.on && inGame));
+    if (!inGame) return;
+    const canStart = S.playlist && S.playlist.provider === 'amazon' && S.playlist.url;
+    const pre = canStart && !S.musicStarted;
+    bar.classList.toggle('pre', !!pre);
+    const tg = $('ctlToggle');
+    if (pre) { tg.innerHTML = '▶ ' + esc(t.startMusic); tg.classList.add('start'); tg.classList.remove('playing'); }
+    else { tg.textContent = EXT.playing ? '⏸' : '▶'; tg.classList.remove('start'); tg.classList.toggle('playing', EXT.playing); }
+  }
+  async function ctl(action) {
+    if (action === 'toggle' && $('ctlToggle').classList.contains('start')) {
+      S.musicStarted = true; save(); drawExt(); toast('▶ ' + t.startingMusic);
+      const r = await extCall('start', { url: S.playlist.url });
+      if (!r.ok) { S.musicStarted = false; save(); drawExt(); toast('⚠️ ' + t.startFailed, 6000); }
+      return;
+    }
+    if (action === 'toggle') { EXT.playing = !EXT.playing; drawExt(); }
+    const r = await extCall('control', { action }, 8000);
+    if (!r.ok) toast('⚠️ ' + (r.error === 'notab' ? t.noPlayer : t.controlFailed), 5000);
   }
   function shuffleSnap() { const s = $('snap'); $('snapImg').src = rndPhoto(); $('snapCap').textContent = pick(S.msgs.wait); s.classList.remove('flip'); void s.offsetWidth; s.classList.add('flip'); }
   let stT = null;
@@ -242,12 +311,13 @@
   $('todo').onclick = $('done').onclick = e => { const r = e.target.closest('[data-s]'); if (r) markSong(+r.dataset.s); };
   $('undo').onclick = () => { S.played.pop(); save(); drawGame(); };
   $('snap').onclick = shuffleSnap;
+  document.querySelectorAll('[data-ctl]').forEach(b => b.onclick = () => ctl(b.dataset.ctl));
   $('stage').onclick = () => $('stage').classList.remove('on');
   $('mNo').onclick = () => $('modal').classList.remove('on');
   $('endBtn').onclick = () => ask(t.endGame, t.endConfirm, () => {
     net && net.broadcast({ t: 'over' }); setTimeout(() => { net && net.close(); net = null; }, 500);
     S = { phase: 'setup', cfg: S.cfg, playlist: S.playlist, msgs: S.msgs }; save();
-    $('game').classList.add('hidden'); $('setup').classList.remove('hidden'); drawSetup();
+    $('game').classList.add('hidden'); $('setup').classList.remove('hidden'); drawSetup(); drawExt();
   });
 
   texts(); loadPhotos();

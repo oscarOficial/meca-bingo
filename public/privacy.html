@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meca Bingo · Privacy policy</title>
+<link rel="stylesheet" href="css/app.css">
+<style>.wrap{max-width:760px}h1{font-size:30px;margin:20px 0}h2{font-size:20px;margin:22px 0 8px}p,li{line-height:1.6;color:#d9d4f5;margin-bottom:8px}ul{padding-left:20px}</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Privacy policy</h1>
+<p class="mut">Meca Bingo website and the Meca Bingo Sync browser extension · Last updated: 19 November 2026</p>
+
+<h2>Summary</h2>
+<p>Meca Bingo does not collect, sell or share personal data. There are no accounts, no analytics and no advertising. Game data stays in the browsers of the people playing.</p>
+
+<h2>The website</h2>
+<ul>
+  <li><b>Game data</b> (playlist, cards, played songs, player nicknames, photos and messages) is stored only in the host's browser (localStorage and IndexedDB). Photos never leave the host's computer.</li>
+  <li><b>Players' phones</b> connect directly to the host's browser (WebRTC). The public PeerJS signalling service is used only to introduce the two browsers; game data does not pass through it.</li>
+  <li><b>Playlist import:</b> when the host pastes a link to a public playlist, our server reads that public page once to get the song titles and artists, and returns them. Nothing is stored.</li>
+</ul>
+
+<h2>The Meca Bingo Sync extension</h2>
+<p>The extension is optional and only used by the host. It works only on the Amazon Music and Spotify web players and on the Meca Bingo website. It:</p>
+<ul>
+  <li>reads the titles and artists of a playlist the host asks to import, on the Amazon Music page open in the host's own browser;</li>
+  <li>reads the title and artist of the song currently playing, and sends them to the Meca Bingo page open in the same browser, so the song is marked on the bingo;</li>
+  <li>presses play, pause, next and previous in the music player when the host asks;</li>
+  <li>stores a few technical values (which tab is the music tab) in the browser's session storage, deleted when the browser closes.</li>
+</ul>
+<p>The extension does not read passwords, cookies, browsing history or any other website, does not send data to any server, and does not use remote code.</p>
+
+<h2>Contact</h2>
+<p>Questions: open an issue at <a href="https://github.com/oscarOficial/meca-bingo/issues" style="color:var(--cyan)">github.com/oscarOficial/meca-bingo</a>.</p>
+</div>
+</body>
+</html>

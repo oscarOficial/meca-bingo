@@ -63,3 +63,11 @@ npx wrangler dev          # app + playlist API on http://localhost:8787
 ```
 `?net=local` swaps WebRTC for a BroadcastChannel so everything runs in one browser.
 
+
+## Meca Bingo Sync (Chrome extension, optional)
+
+Source in `extension/`, downloadable build at `public/download/meca-bingo-sync.zip`,
+install page at `/extension.html`, privacy policy at `/privacy.html`.
+It imports Amazon Music playlists (no public API), starts the round in shuffle, marks the song
+that is playing and adds play / pause / next to the host screen. Works with the Amazon Music and
+Spotify web players. Store submission notes: `extension/STORE.md`.

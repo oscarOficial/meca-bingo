@@ -39,6 +39,12 @@
 .sub{font:700 12px Inter;letter-spacing:1.2px;text-transform:uppercase;color:var(--mut);margin:14px 2px 8px}
 .claim{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);font-size:14px}
 .cols{display:grid;grid-template-columns:1.3fr 1fr;gap:12px}
+.ctlbar{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:20;display:flex;gap:14px;align-items:center;background:#17142bee;border:1px solid var(--line);border-radius:999px;padding:10px 16px;box-shadow:0 12px 40px #000a}
+.ctlbar button{width:56px;height:56px;border-radius:50%;border:1px solid var(--line);background:var(--panel2);color:var(--txt);font-size:22px;cursor:pointer}
+.ctlbar button.main{width:70px;height:70px;font-size:26px;background:linear-gradient(135deg,var(--pink),#ff6b3d);border:0;color:#fff}
+.ctlbar button.main.playing{background:var(--cyan);color:#062022}
+.ctlbar button.main.start{width:auto;border-radius:999px;padding:0 24px;font:800 18px Inter,sans-serif;white-space:nowrap}
+.ctlbar.pre [data-ctl=prev],.ctlbar.pre [data-ctl=next]{display:none}
 @media (max-width:720px){.cols{grid-template-columns:1fr}.join{grid-template-columns:1fr;justify-items:center;text-align:center}}
 </style>
 </head>
@@ -46,7 +52,7 @@
 <div class="wrap">
   <div class="top">
     <h1>Meca <span class="grad">Bingo</span></h1>
-    <div class="row"><select id="lang" style="width:auto"></select><button class="btn" id="fs">⛶</button></div>
+    <div class="row"><span class="pill ok hidden" id="extPill">🧩 Sync</span><select id="lang" style="width:auto"></select><button class="btn" id="fs">⛶</button></div>
   </div>
 
   <!-- ============ SETUP ============ -->
@@ -54,6 +60,7 @@
     <div class="card">
       <label class="lbl" id="tPlaylist"></label>
       <p class="mut" id="tPlaylistHint" style="margin-bottom:10px"></p>
+      <p class="mut" style="margin:-4px 0 10px"><a href="extension.html" target="_blank" id="extLink" style="color:var(--cyan)"></a></p>
       <div class="row"><input type="url" id="plUrl" placeholder="https://open.spotify.com/playlist/…" style="flex:1;min-width:220px"><button class="btn cy" id="importBtn"></button></div>
       <details style="margin-top:12px"><summary class="mut" id="tOrPaste" style="cursor:pointer"></summary>
         <textarea id="paste" style="margin-top:8px" placeholder="Toxic - Britney Spears&#10;Hey Ya! - Outkast"></textarea>
@@ -124,6 +131,7 @@
   </section>
 </div>
 
+<div class="ctlbar hidden" id="ctlbar"><button data-ctl="prev" title="Previous">⏮</button><button data-ctl="toggle" id="ctlToggle" class="main">▶</button><button data-ctl="next" title="Next">⏭</button></div>
 <div class="stage" id="stage"><div class="who" id="stWho"></div><div class="big"><img alt=""><p></p><div class="stamp"></div></div></div>
 <canvas id="fx"></canvas>
 <div class="modal" id="modal"><div><h3 id="mTitle"></h3><p id="mText"></p><div class="row" style="justify-content:flex-end"><button class="btn" id="mNo"></button><button class="btn big" id="mYes"></button></div></div></div>
