@@ -69,7 +69,7 @@
       let f = 15; c.style.fontSize = f + 'px';
       while (f > 9 && over(c)) { f -= 0.5; c.style.fontSize = f + 'px'; }
       if (over(c)) { c.classList.add('tiny'); }
-      if (over(c)) { c.classList.add('split'); f = 11; c.style.fontSize = f + 'px'; while (f > 9 && over(c)) { f -= 0.5; c.style.fontSize = f + 'px'; } }
+      if (over(c)) { c.classList.add('split', 'tiny'); f = 11; c.style.fontSize = f + 'px'; while (f > 9 && over(c)) { f -= 0.5; c.style.fontSize = f + 'px'; } }
       if (f < 10.5) c.classList.add('tiny');
     }
     // one font size per row, so the card looks even
