@@ -107,8 +107,15 @@
     let ok = false;
     if (pl) {
       $('plTitle').textContent = pl.title; $('plCount').textContent = pl.tracks.length + ' ' + t.songs;
-      const need = MB.minSongs(c.fmt) - pl.tracks.length; ok = need <= 0;
-      $('plCheck').innerHTML = (ok ? `<span class="ok">✓ ${esc(t.enough)}</span>` : `<span class="bad">✗ ${esc(t.needMore(need))}</span>`) + (pl.note === 'spotify100' ? `<br>${esc(t.spotifyNote)}` : '');
+      // songs and players go together: more players need more songs
+      const n = pl.tracks.length, players = +c.maxPlayers || 30, cap = MB.maxPlayersFor(c.fmt, n);
+      const need = MB.minSongs(c.fmt, players) - n; ok = need <= 0;
+      let msg;
+      if (ok) msg = `<span class="ok">✓ ${esc(t.enoughFor(n, players))}</span>` + (cap > players ? ` <span class="mut">${esc(t.upTo(cap))}</span>` : '');
+      else if (cap > 0) msg = `<span class="bad">✗ ${esc(t.needFor(players, MB.minSongs(c.fmt, players), need))}</span><br><span class="warn">${esc(t.orLower(cap))}</span> <button class="btn" id="useCap" style="padding:6px 12px;margin-top:6px">${esc(t.setPlayers(cap))}</button>`;
+      else msg = `<span class="bad">✗ ${esc(t.needMore(MB.minSongs(c.fmt, 1) - n))}</span>`;
+      $('plCheck').innerHTML = msg + (pl.note === 'spotify100' ? `<br>${esc(t.spotifyNote)}` : '');
+      const u = $('useCap'); if (u) u.onclick = () => { S.cfg.maxPlayers = cap; save(); drawSetup(); };
       $('plTracks').innerHTML = pl.tracks.map((s, i) => `<div>${i + 1}. ${esc(s.title)}${s.artist ? ' — ' + esc(s.artist) : ''}</div>`).join('');
     }
     const anyPrize = c.prizes.line || c.prizes.two || c.prizes.bingo;
@@ -314,7 +321,8 @@
   ['line', 'two', 'bingo'].forEach(p => { $('p' + p[0].toUpperCase() + p.slice(1)).onchange = e => { S.cfg.prizes[p] = e.target.checked; save(); drawSetup(); }; });
   $('clip').onchange = e => { S.cfg.clip = +e.target.value; save(); };
   $('momentSecs').onchange = e => { S.cfg.moment = +e.target.value; save(); };
-  $('maxPlayers').onchange = e => { S.cfg.maxPlayers = Math.max(1, Math.min(30, +e.target.value || 30)); e.target.value = S.cfg.maxPlayers; save(); };
+  $('maxPlayers').oninput = e => { const v = +e.target.value; if (v >= 1 && v <= 30) { S.cfg.maxPlayers = v; save(); drawSetup(); } };
+  $('maxPlayers').onchange = e => { S.cfg.maxPlayers = Math.max(1, Math.min(30, +e.target.value || 30)); e.target.value = S.cfg.maxPlayers; save(); drawSetup(); };
   ['msgWait', 'msgWin', 'msgLose'].forEach(id => $(id).onchange = () => { readMsgs(); save(); });
   $('photoIn').onchange = async e => { for (const f of e.target.files) { const d = await shrink(f); if (d) await addPhoto(d); } e.target.value = ''; drawThumbs(); drawReel(); };
   $('clearPhotos').onclick = clearPhotos;

@@ -17,9 +17,22 @@
   };
   const MAX_PLAYERS = 30;
 
-  // Minimum playlist length for a format (from simulations with up to 30 players:
-  // keeps first-line ties around 20% or less and full-card ties around 25% or less).
-  function minSongs(fmt) { return FORMATS[fmt].minSongs; }
+  // Songs needed for a number of players. From simulations (500 games per point) with the
+  // cards this app makes: first-line ties ≤ 20% and full-card ties ≤ 25%. Smoothed and rounded up.
+  const NEED = {
+    es: [[4, 28], [8, 31], [12, 34], [20, 36], [30, 38]],
+    us: [[4, 48], [8, 50], [12, 52], [20, 55], [30, 58]]
+  };
+  function minSongs(fmt, players = MAX_PLAYERS) {
+    for (const [n, songs] of NEED[fmt]) if (players <= n) return songs;
+    return NEED[fmt][NEED[fmt].length - 1][1];
+  }
+  // how many players a playlist of `songs` songs can take (0 = too short for any game)
+  function maxPlayersFor(fmt, songs) {
+    let best = 0;
+    for (let p = 1; p <= MAX_PLAYERS; p++) if (minSongs(fmt, p) <= songs) best = p;
+    return best;
+  }
 
   function shuffle(arr, rnd) { for (let i = arr.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [arr[i], arr[j]] = [arr[j], arr[i]]; } return arr; }
 
@@ -110,5 +123,5 @@
     }).filter(t => t.title);
   }
 
-  G.MB = { FORMATS, MAX_PLAYERS, PRIZES, minSongs, makeCards, lines, checkClaim, roomCode, parsePasted, mulberry32, hashStr };
+  G.MB = { FORMATS, MAX_PLAYERS, PRIZES, minSongs, maxPlayersFor, makeCards, lines, checkClaim, roomCode, parsePasted, mulberry32, hashStr };
 })(typeof window !== 'undefined' ? window : globalThis);

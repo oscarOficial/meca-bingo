@@ -28,8 +28,18 @@ LINE / 2 LINES / BINGO. The host's screen checks every call automatically.
 | Photos & messages | Any number of photos (kept only in the host's browser) and three lists of messages |
 | Language | English, Spanish (add more in `js/i18n.js`) |
 
-Minimum playlist size (from simulations, keeps ties low with 30 players): **40 songs** for 3×9,
-**55 songs** for 5×5. Shorter playlists cannot start a game.
+Songs and players go together (from simulations: first-line ties ≤ 20 %, full-card ties ≤ 25 %):
+
+| Players | 3×9 card | 5×5 card |
+|---|---|---|
+| up to 4 | 28 | 48 |
+| up to 8 | 31 | 50 |
+| up to 12 | 34 | 52 |
+| up to 20 | 36 | 55 |
+| up to 30 | 38 | 58 |
+
+If the playlist is too short for the chosen number of players, the game cannot start; the host
+can add songs or lower the number of players with one click.
 
 ## Playlist providers
 
