@@ -1,0 +1,29 @@
+name: UX check
+
+# Every push plays a small game in a headless browser, takes screenshots on phone,
+# tablet and desktop, and checks the layout (no sideways scroll, song names fit and are
+# readable, buttons big enough, call button not covering the card...).
+# Screenshots and report: the run's "ux-report" artifact.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  ux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: pip install playwright && python -m playwright install --with-deps chromium
+      - name: Run UX checks
+        run: python3 tools/ux/ux_check.py
+      - name: Add report to the run summary
+        if: always()
+        run: cat ux-report/report.md >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ux-report
+          path: ux-report/

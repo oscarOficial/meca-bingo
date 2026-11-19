@@ -3,7 +3,7 @@
   const { $, toast, flash, confetti, pick, esc, store } = FX;
   const toggleFullscreen = () => FX.toggleFullscreen(t.noFullscreen);
   const KEY = 'meca-host';
-  const DEFAULT_CFG = { fmt: 'es', vertical: false, diagonal: false, prizes: { line: true, two: true, bingo: true }, clip: 0, maxPlayers: 30 };
+  const DEFAULT_CFG = { fmt: 'es', vertical: false, diagonal: false, prizes: { line: true, two: true, bingo: true }, clip: 0, maxPlayers: 30, moment: 6 };
 
   let lang = store.get('meca-lang') || (navigator.language || 'en').slice(0, 2); if (!I18N.T[lang]) lang = 'en';
   let t = I18N.get(lang);
@@ -85,7 +85,7 @@
     set('tLines', t.lines); const v = $('vertical').children; v[0].textContent = t.linesH; v[1].textContent = t.linesHV; set('tDiag', t.diagonals); set('tVertNote', t.verticalNote);
     set('tPrizes', t.prizes); set('tPLine', t.prizeLine); set('tPTwo', t.prizeTwo); set('tPBingo', t.prizeBingo);
     set('tClip', t.clip); $('clip').innerHTML = [0, 30, 45, 60, 90].map(s => `<option value="${s}">${s ? t.secs(s) : t.full}</option>`).join('');
-    set('tMax', t.maxPlayers); set('tPhotos', t.photosMsgs); set('tPhotosHint', t.photosHint); set('tAddPhotos', t.addPhotos); set('clearPhotos', t.removeAll);
+    set('tMax', t.maxPlayers); set('tMoment', t.momentLbl); $('momentSecs').innerHTML = [0, 4, 6, 8, 10].map(v => `<option value="${v}">${v ? t.momentSecs(v) : t.momentOff}</option>`).join(''); set('tPhotos', t.photosMsgs); set('tPhotosHint', t.photosHint); set('tAddPhotos', t.addPhotos); set('clearPhotos', t.removeAll);
     set('tMsgWait', t.msgWait); set('tMsgWin', t.msgWin); set('tMsgLose', t.msgLose); set('tOnePerLine', t.onePerLine); set('create', t.create);
     set('tScan', t.scanToJoin); set('tGoTo', t.orGoTo); set('tPlayers', t.players); set('undo', '↶ ' + t.undo);
     set('tLogHidden', t.logHidden); set('tLogHint', t.logHint); set('unlock', t.showLog); set('relock', '🔒 ' + t.hide); $('q').placeholder = t.find;
@@ -100,7 +100,7 @@
     $('diagWrap').classList.toggle('hidden', c.fmt !== 'us'); $('diagonal').checked = c.diagonal;
     $('tVertNote').classList.toggle('hidden', !(c.fmt === 'es' && c.vertical));
     $('pLine').checked = c.prizes.line; $('pTwo').checked = c.prizes.two; $('pBingo').checked = c.prizes.bingo;
-    $('clip').value = c.clip; $('maxPlayers').value = c.maxPlayers;
+    $('clip').value = c.clip; $('maxPlayers').value = c.maxPlayers; $('momentSecs').value = c.moment ?? 6;
     $('msgWait').value = S.msgs.wait.join('\n'); $('msgWin').value = S.msgs.win.join('\n'); $('msgLose').value = S.msgs.lose.join('\n');
     const pl = S.playlist;
     $('plInfo').classList.toggle('hidden', !pl);
@@ -193,14 +193,14 @@
         if (!a.names.includes(p.name)) a.names.push(p.name);
       }
       save();
-      reply({ t: 'result', ok: r.ok, prize: m.prize, reason: r.reason });
+      reply({ t: 'result', ok: r.ok, prize: m.prize, reason: r.reason, wrong: r.wrong || [] });
       showStage(r.ok, p, m.prize, r.reason);
       net.broadcast(publicState());
       drawGame();
     }
   }
   function startGame() {
-    $('setup').classList.add('hidden'); $('game').classList.remove('hidden');
+    $('setup').classList.add('hidden'); $('game').classList.remove('hidden'); document.body.classList.add('ingame');
     const url = new URL('play.html', location.href).href.replace(/\?.*$/, '') + '?r=' + S.code + (new URLSearchParams(location.search).get('net') === 'local' ? '&net=local' : '');
     $('codeBig').textContent = S.code; $('joinUrl').textContent = url.replace(/^https?:\/\//, '').replace(/\?.*/, '') + ' · ' + S.code;
     try { const qr = qrcode(0, 'M'); qr.addData(url); qr.make(); $('qr').innerHTML = qr.createSvgTag({ cellSize: 4, margin: 0, scalable: true }); } catch (e) { $('qr').textContent = url; }
@@ -235,7 +235,7 @@
   }
   function markSong(i) {
     const k = S.played.indexOf(i);
-    if (k >= 0) S.played.splice(k, 1); else { S.played.push(i); shuffleSnap(); startClip(); q = ''; $('q').value = ''; }
+    if (k >= 0) S.played.splice(k, 1); else { S.played.push(i); shuffleSnap(); showMoment(); startClip(); q = ''; $('q').value = ''; }
     save(); drawGame();
   }
   // clip timer: reminds the host when it is time to change song
@@ -269,10 +269,23 @@
     const r = await extCall('control', { action }, 8000);
     if (!r.ok) toast('⚠️ ' + (r.error === 'notab' ? t.noPlayer : t.controlFailed), 5000);
   }
+  // Photo moment: after each new song the photo and its message take the whole screen for a few seconds
+  let mT = null;
+  function showMoment() {
+    const secs = S.cfg.moment ?? 6; const m = $('moment');
+    if (!secs || !photos.length || $('stage').classList.contains('on')) return;
+    clearTimeout(mT); m.classList.remove('out');
+    $('mImg').src = $('snapImg').src; $('mCap').textContent = $('snapCap').textContent;
+    $('mLbl').textContent = '🎵 ' + t.songN(S.played.length);
+    m.style.setProperty('--msecs', secs + 's');
+    m.classList.remove('on'); void m.offsetWidth; m.classList.add('on');
+    mT = setTimeout(hideMoment, secs * 1000);
+  }
+  function hideMoment() { const m = $('moment'); if (!m.classList.contains('on')) return; m.classList.add('out'); clearTimeout(mT); mT = setTimeout(() => m.classList.remove('on', 'out'), 650); }
   function shuffleSnap() { const s = $('snap'); $('snapImg').src = rndPhoto(); $('snapCap').textContent = pick(S.msgs.wait); s.classList.remove('flip'); void s.offsetWidth; s.classList.add('flip'); }
   let stT = null;
   function showStage(ok, p, prize, reason) {
-    const st = $('stage'); clearTimeout(stT);
+    hideMoment(); const st = $('stage'); clearTimeout(stT);
     st.className = 'stage on ' + (ok ? 'win' : 'lose');
     $('stWho').textContent = `${p.name} · #${p.card + 1} · ${prizeLabel(prize)}`;
     st.querySelector('img').src = rndPhoto();
@@ -300,6 +313,7 @@
   $('diagonal').onchange = e => { S.cfg.diagonal = e.target.checked; save(); };
   ['line', 'two', 'bingo'].forEach(p => { $('p' + p[0].toUpperCase() + p.slice(1)).onchange = e => { S.cfg.prizes[p] = e.target.checked; save(); drawSetup(); }; });
   $('clip').onchange = e => { S.cfg.clip = +e.target.value; save(); };
+  $('momentSecs').onchange = e => { S.cfg.moment = +e.target.value; save(); };
   $('maxPlayers').onchange = e => { S.cfg.maxPlayers = Math.max(1, Math.min(30, +e.target.value || 30)); e.target.value = S.cfg.maxPlayers; save(); };
   ['msgWait', 'msgWin', 'msgLose'].forEach(id => $(id).onchange = () => { readMsgs(); save(); });
   $('photoIn').onchange = async e => { for (const f of e.target.files) { const d = await shrink(f); if (d) await addPhoto(d); } e.target.value = ''; drawThumbs(); drawReel(); };
@@ -308,16 +322,18 @@
   $('unlock').onclick = () => { $('lock').classList.add('hidden'); $('logBody').classList.remove('hidden'); };
   $('relock').onclick = () => { $('lock').classList.remove('hidden'); $('logBody').classList.add('hidden'); q = ''; $('q').value = ''; drawGame(); };
   $('q').oninput = e => { q = e.target.value; drawGame(); };
-  $('todo').onclick = $('done').onclick = e => { const r = e.target.closest('[data-s]'); if (r) markSong(+r.dataset.s); };
+  let relockT = null;
+  $('todo').onclick = $('done').onclick = e => { const r = e.target.closest('[data-s]'); if (!r) return; markSong(+r.dataset.s); clearTimeout(relockT); relockT = setTimeout(() => $('relock').click(), 4000); };
   $('undo').onclick = () => { S.played.pop(); save(); drawGame(); };
   $('snap').onclick = shuffleSnap;
   document.querySelectorAll('[data-ctl]').forEach(b => b.onclick = () => ctl(b.dataset.ctl));
   $('stage').onclick = () => $('stage').classList.remove('on');
+  $('moment').onclick = hideMoment;
   $('mNo').onclick = () => $('modal').classList.remove('on');
   $('endBtn').onclick = () => ask(t.endGame, t.endConfirm, () => {
     net && net.broadcast({ t: 'over' }); setTimeout(() => { net && net.close(); net = null; }, 500);
     S = { phase: 'setup', cfg: S.cfg, playlist: S.playlist, msgs: S.msgs }; save();
-    $('game').classList.add('hidden'); $('setup').classList.remove('hidden'); drawSetup(); drawExt();
+    $('game').classList.add('hidden'); $('setup').classList.remove('hidden'); document.body.classList.remove('ingame'); drawSetup(); drawExt();
   });
 
   texts(); loadPhotos();

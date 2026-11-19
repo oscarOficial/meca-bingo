@@ -72,3 +72,16 @@ install page at `/extension.html`, privacy policy at `/privacy.html`.
 It imports Amazon Music playlists (no public API), starts the round in shuffle, marks the song
 that is playing and adds play / pause / next to the host screen. Works with the Amazon Music and
 Spotify web players. Store submission notes: `extension/STORE.md`.
+
+## UX check (runs on every push)
+
+`tools/ux/ux_check.py` plays a small game in a headless browser (host + player), takes screenshots
+of every screen on phone (portrait, small, landscape), tablet and desktop, and checks the layout:
+no sideways scroll, song names fit their cell and stay ≥ 9px, buttons ≥ 40px, the call button never
+covers the card, the photo moment appears. The GitHub Action `UX check` runs it on each push and
+attaches the screenshots + `report.md` to the run (artifact `ux-report`).
+
+```bash
+pip install playwright && python -m playwright install chromium
+python3 tools/ux/ux_check.py
+```

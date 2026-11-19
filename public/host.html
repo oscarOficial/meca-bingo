@@ -18,15 +18,15 @@
 .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
 /* game */
 .join{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center}
-.join .qr{background:#fff;border-radius:14px;padding:10px;width:170px;height:170px}
+.join .qr{background:#fff;border-radius:14px;padding:10px;width:170px;height:170px;overflow:hidden;color:transparent}
 .join .qr svg{width:100%;height:100%}
 .join .code{font:800 clamp(40px,7vw,64px) 'Bricolage Grotesque',sans-serif;letter-spacing:8px;color:var(--yel)}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.prize{text-align:center;font:800 22px 'Bricolage Grotesque',sans-serif}
+.prize{text-align:center;font:800 clamp(22px,2.6vw,40px) 'Bricolage Grotesque',sans-serif}
 .prize b{color:var(--yel)}
 .now{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:start;background:linear-gradient(135deg,#2a1240,#12233a)}
 .now .lbl2{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--cyan)}
-.now .title{font-size:30px;margin:6px 0 2px}
+.now .title{font-size:clamp(34px,4.6vw,72px);margin:6px 0 2px;line-height:1}
 .bar{height:6px;background:#ffffff14;border-radius:9px;margin:12px 0;overflow:hidden}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--pink));transition:width .3s}
 .snap{width:108px;transform:rotate(5deg)}.snap img{width:96px;height:96px;object-fit:cover}.snap p{font:600 10.5px/1.2 'Bricolage Grotesque',sans-serif;color:#2a2340;text-align:center;margin-top:5px;min-height:24px}
 .snap.flip{animation:flipin .6s cubic-bezier(.2,1.4,.4,1)}@keyframes flipin{0%{transform:rotate(-30deg) scale(.3);opacity:0}100%{transform:rotate(5deg)}}
@@ -37,7 +37,9 @@
 .song .ck{width:22px;height:22px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;color:transparent;font-size:12px}
 .song.played{opacity:.75}.song.played .ck{background:var(--green);border-color:var(--green);color:#06210f}
 .sub{font:700 12px Inter;letter-spacing:1.2px;text-transform:uppercase;color:var(--mut);margin:14px 2px 8px}
-.claim{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);font-size:14px}
+.claim{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);font-size:clamp(14px,1.4vw,20px)}
+#winners{font-size:clamp(15px,1.6vw,24px);color:var(--txt)}
+@media (min-width:1100px){#game{max-width:1400px;margin:0 auto}body.ingame .wrap{max-width:1400px}}
 .cols{display:grid;grid-template-columns:1.3fr 1fr;gap:12px}
 .ctlbar{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:20;display:flex;gap:14px;align-items:center;background:#17142bee;border:1px solid var(--line);border-radius:999px;padding:10px 16px;box-shadow:0 12px 40px #000a}
 .ctlbar button{width:56px;height:56px;border-radius:50%;border:1px solid var(--line);background:var(--panel2);color:var(--txt);font-size:22px;cursor:pointer}
@@ -45,6 +47,20 @@
 .ctlbar button.main.playing{background:var(--cyan);color:#062022}
 .ctlbar button.main.start{width:auto;border-radius:999px;padding:0 24px;font:800 18px Inter,sans-serif;white-space:nowrap}
 .ctlbar.pre [data-ctl=prev],.ctlbar.pre [data-ctl=next]{display:none}
+/* photo moment after each song */
+.moment{position:fixed;inset:0;z-index:25;display:none;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:radial-gradient(circle at 50% 40%,#2a1240f5,#05030cfc 70%);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);cursor:pointer;padding:20px}
+.moment.on{display:flex;animation:mFade .4s ease both}
+.moment.out{animation:mOut .7s ease-in both}
+.moment .mlbl{font:800 clamp(16px,2.6vw,26px) 'Bricolage Grotesque',sans-serif;letter-spacing:3px;text-transform:uppercase;color:var(--cyan)}
+.moment .mpol{background:var(--paper);padding:14px 14px 18px;border-radius:4px;box-shadow:0 30px 80px #000d;max-width:min(86vw,900px);display:flex;flex-direction:column;align-items:center;animation:mIn 1s cubic-bezier(.2,1.4,.4,1) both}
+.moment .mimg{overflow:hidden;border-radius:2px;max-height:64vh}
+.moment .mimg img{display:block;max-width:100%;max-height:64vh;animation:kb var(--msecs,6s) ease-out both}
+.moment p{margin-top:14px;max-width:min(80vw,820px);text-align:center;font:800 clamp(22px,3.6vw,40px)/1.15 'Bricolage Grotesque',sans-serif;color:#2a2340;animation:mCapIn .6s .45s ease both}
+@keyframes mFade{from{opacity:0}to{opacity:1}}
+@keyframes mIn{0%{transform:translateY(40vh) rotate(18deg) scale(.5);opacity:0}100%{transform:rotate(-2deg)}}
+@keyframes mCapIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes kb{from{transform:scale(1.12) translate(2%,1%)}to{transform:scale(1) translate(0,0)}}
+@keyframes mOut{to{opacity:0;transform:scale(.4) translate(45vw,-20vh)}}
 @media (max-width:720px){.cols{grid-template-columns:1fr}.join{grid-template-columns:1fr;justify-items:center;text-align:center}}
 </style>
 </head>
@@ -78,7 +94,8 @@
         <label class="chk"><input type="checkbox" id="pTwo"><span id="tPTwo"></span></label>
         <label class="chk"><input type="checkbox" id="pBingo"><span id="tPBingo"></span></label></div>
       <div class="card"><label class="lbl" id="tClip"></label><select id="clip"></select>
-        <label class="lbl" id="tMax" style="margin-top:14px"></label><input type="number" id="maxPlayers" min="1" max="30"></div>
+        <label class="lbl" id="tMax" style="margin-top:14px"></label><input type="number" id="maxPlayers" min="1" max="30">
+        <label class="lbl" id="tMoment" style="margin-top:14px"></label><select id="momentSecs"></select></div>
     </div>
 
     <div class="card">
@@ -132,6 +149,7 @@
 </div>
 
 <div class="ctlbar hidden" id="ctlbar"><button data-ctl="prev" title="Previous">⏮</button><button data-ctl="toggle" id="ctlToggle" class="main">▶</button><button data-ctl="next" title="Next">⏭</button></div>
+<div class="moment" id="moment"><div class="mlbl" id="mLbl"></div><div class="mpol"><div class="mimg"><img id="mImg" alt=""></div><p id="mCap"></p></div></div>
 <div class="stage" id="stage"><div class="who" id="stWho"></div><div class="big"><img alt=""><p></p><div class="stamp"></div></div></div>
 <canvas id="fx"></canvas>
 <div class="modal" id="modal"><div><h3 id="mTitle"></h3><p id="mText"></p><div class="row" style="justify-content:flex-end"><button class="btn" id="mNo"></button><button class="btn big" id="mYes"></button></div></div></div>

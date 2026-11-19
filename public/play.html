@@ -14,17 +14,28 @@
 .head h1{font-size:22px}
 .status{font-size:12.5px}
 .prize{text-align:center;margin-bottom:10px;font:800 18px 'Bricolage Grotesque',sans-serif}.prize b{color:var(--yel)}
-.board{display:grid;gap:4px;user-select:none;-webkit-user-select:none}
-.board.es{grid-template-columns:repeat(9,1fr)}
-.board.us{grid-template-columns:repeat(5,1fr);gap:6px}
-.cell{border-radius:8px;background:var(--panel);border:1px solid var(--line);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:3px;min-height:64px;font-weight:700;line-height:1.1;overflow:hidden;cursor:pointer;transition:transform .12s}
-.board.es .cell{font-size:clamp(8.5px,2.3vw,13px);min-height:clamp(58px,15vw,96px)}
-.board.us .cell{font-size:clamp(10px,2.9vw,14px);aspect-ratio:1/1}
-.cell small{display:block;font-weight:500;color:var(--mut);font-size:.8em;margin-top:3px}
-.cell.gap{background:repeating-linear-gradient(45deg,#ffffff06 0 6px,transparent 6px 12px);border-style:dashed;cursor:default}
-.cell.on{background:linear-gradient(135deg,var(--pink),#ff6b3d);border-color:transparent;color:#fff;transform:scale(.97)}
-.cell.on small{color:#ffe3ee}
-.cell:active:not(.gap){transform:scale(.92)}
+.board{--cellH:72px;display:grid;gap:5px;user-select:none;-webkit-user-select:none}
+.board.es{grid-template-columns:repeat(9,minmax(0,1fr))}
+.board.us{grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.board.rows{display:flex;flex-direction:column;gap:8px}
+.board.rows .line{display:flex;gap:6px;align-items:stretch}
+.board.rows .ln{width:14px;flex:none;display:grid;place-items:center;font:800 12px 'Bricolage Grotesque',sans-serif;color:var(--mut)}
+.board.rows .lgrid{flex:1;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.cell{height:var(--cellH);border-radius:10px;background:var(--panel);border:1px solid var(--line);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:3px;text-align:center;padding:4px 3px;overflow:hidden;cursor:pointer;transition:transform .12s,background .15s;font-size:14px;line-height:1.12;-webkit-tap-highlight-color:transparent}
+.cell .tt{font-weight:700;overflow-wrap:normal;word-break:normal;max-width:100%}
+.cell .ar{font-weight:500;color:var(--mut);font-size:.78em;overflow-wrap:normal;max-width:100%}
+.cell.split .tt,.cell.split .ar{overflow-wrap:anywhere;hyphens:auto;-webkit-hyphens:auto}
+.cell.tiny .ar{display:none}
+.cell.gap{background:repeating-linear-gradient(45deg,#ffffff07 0 6px,transparent 6px 12px);border:1px dashed #2e295080;cursor:default}
+.cell.on{background:linear-gradient(135deg,#c81d63,#d4461c);border-color:transparent;color:#fff;box-shadow:inset 0 0 0 2px #ffffffd9,0 4px 14px #ff3d9a44}
+.cell.wrong{animation:wrong .5s 3;box-shadow:inset 0 0 0 3px var(--yel)}
+@keyframes wrong{50%{transform:translateX(-4px)}}
+.rot{position:fixed;inset:0;z-index:8;background:#0d0b1af5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;padding:30px}
+.rot .ic{font-size:64px;animation:rot 1.6s ease-in-out infinite}
+@keyframes rot{50%{transform:rotate(-90deg)}}
+.cell.on .ar{color:#fff;opacity:.9}
+.cell{position:relative}
+.cell:active:not(.gap){transform:scale(.94)}
 .callbar{position:fixed;left:0;right:0;bottom:0;padding:12px 14px calc(12px + env(safe-area-inset-bottom));background:linear-gradient(transparent,#0d0b1a 35%);display:flex;justify-content:center;z-index:5}
 .callbar .btn{width:min(520px,100%);font-size:20px;padding:16px}
 .hello{max-width:420px;margin:60px auto 0;text-align:center}
@@ -36,6 +47,9 @@
 .res.no h2{color:var(--pink);animation:shake .5s}
 @keyframes pop{0%{transform:scale(.3)}100%{transform:scale(1)}}
 @keyframes shake{20%,60%{transform:translateX(-10px)}40%,80%{transform:translateX(10px)}}
+@media (orientation:landscape) and (max-height:500px){.wrap{padding:6px 136px 10px 10px;max-width:none}.head{margin-bottom:4px}.head h1{font-size:18px}.prize{margin-bottom:4px;font-size:15px}#hint{display:none}
+.callbar{left:auto;top:0;right:0;bottom:0;width:128px;padding:10px 10px calc(10px + env(safe-area-inset-bottom)) 6px;align-items:center;background:linear-gradient(90deg,transparent,#0d0b1a 25%)}
+.callbar .btn{width:100%;white-space:normal;font-size:17px;padding:18px 8px;line-height:1.15}}
 </style>
 </head>
 <body>
@@ -55,6 +69,7 @@
   <section id="play" class="hidden">
     <div class="prize" id="prize"></div>
     <div class="row" style="justify-content:space-between;margin-bottom:8px"><span class="mut" id="hint"></span><span class="pill" id="cardNo"></span></div>
+    <div class="rot hidden" id="rotate"><div class="ic">📱</div><h2 id="tRotate"></h2><button class="btn" id="rotateAnyway"></button></div>
     <div class="board" id="board"></div>
     <div class="card mut" id="winners" style="margin-top:12px"></div>
   </section>
@@ -62,7 +77,7 @@
   <section id="msg" class="hello hidden"><h2 id="msgText"></h2></section>
 </div>
 <div class="callbar hidden" id="callbar"><button class="btn big" id="callBtn"></button></div>
-<div class="res" id="res"><h2 id="resT"></h2><p class="mut" id="resS" style="font-size:16px"></p></div>
+<div class="res" id="res"><h2 id="resT"></h2><p class="mut" id="resS" style="font-size:16px"></p><button class="btn" id="resBack" style="min-height:48px;margin-top:10px"></button></div>
 <canvas id="fx"></canvas>
 <div class="toast" id="toast"></div>
 
