@@ -5,28 +5,94 @@
   "version": "1.0.0",
   "description": "Companion for Meca Bingo: imports Amazon Music playlists, marks the song that is playing and lets the host control the music.",
   "homepage_url": "https://meca-bingo.oscasais.workers.dev/",
-  "icons": { "16": "icons/icon16.png", "32": "icons/icon32.png", "48": "icons/icon48.png", "128": "icons/icon128.png" },
-  "action": { "default_title": "Meca Bingo Sync", "default_popup": "popup.html", "default_icon": { "16": "icons/icon16.png", "32": "icons/icon32.png", "48": "icons/icon48.png", "128": "icons/icon128.png" } },
-  "background": { "service_worker": "background.js" },
-  "permissions": ["storage"],
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_title": "Meca Bingo Sync",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "storage"
+  ],
   "host_permissions": [
-    "https://music.amazon.es/*", "https://music.amazon.com/*", "https://music.amazon.co.uk/*",
-    "https://music.amazon.de/*", "https://music.amazon.fr/*", "https://music.amazon.it/*",
+    "https://music.amazon.es/*",
+    "https://music.amazon.com/*",
+    "https://music.amazon.co.uk/*",
+    "https://music.amazon.de/*",
+    "https://music.amazon.fr/*",
+    "https://music.amazon.it/*",
     "https://open.spotify.com/*",
     "https://meca-bingo.oscasais.workers.dev/*"
   ],
   "content_scripts": [
     {
-      "matches": ["https://music.amazon.es/*", "https://music.amazon.com/*", "https://music.amazon.co.uk/*", "https://music.amazon.de/*", "https://music.amazon.fr/*", "https://music.amazon.it/*", "https://open.spotify.com/*"],
-      "js": ["mainworld.js"], "world": "MAIN", "run_at": "document_start"
+      "matches": [
+        "https://music.amazon.es/*",
+        "https://music.amazon.com/*",
+        "https://music.amazon.co.uk/*",
+        "https://music.amazon.de/*",
+        "https://music.amazon.fr/*",
+        "https://music.amazon.it/*",
+        "https://open.spotify.com/*"
+      ],
+      "js": [
+        "mainworld.js"
+      ],
+      "world": "MAIN",
+      "run_at": "document_start"
     },
     {
-      "matches": ["https://music.amazon.es/*", "https://music.amazon.com/*", "https://music.amazon.co.uk/*", "https://music.amazon.de/*", "https://music.amazon.fr/*", "https://music.amazon.it/*", "https://open.spotify.com/*"],
-      "js": ["provider.js"], "run_at": "document_start"
+      "matches": [
+        "https://music.amazon.es/*",
+        "https://music.amazon.com/*",
+        "https://music.amazon.co.uk/*",
+        "https://music.amazon.de/*",
+        "https://music.amazon.fr/*",
+        "https://music.amazon.it/*",
+        "https://open.spotify.com/*"
+      ],
+      "js": [
+        "provider.js"
+      ],
+      "run_at": "document_start"
     },
     {
-      "matches": ["https://meca-bingo.oscasais.workers.dev/*"],
-      "js": ["bridge.js"], "run_at": "document_idle"
+      "matches": [
+        "https://meca-bingo.oscasais.workers.dev/*"
+      ],
+      "js": [
+        "bridge.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "icons/*"
+      ],
+      "matches": [
+        "https://music.amazon.es/*",
+        "https://music.amazon.com/*",
+        "https://music.amazon.co.uk/*",
+        "https://music.amazon.de/*",
+        "https://music.amazon.fr/*",
+        "https://music.amazon.it/*",
+        "https://open.spotify.com/*"
+      ]
     }
   ]
 }

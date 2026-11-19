@@ -12,8 +12,10 @@
     if (document.getElementById('mb-cover')) { document.getElementById('mb-cover-t').textContent = text; return; }
     const d = document.createElement('div'); d.id = 'mb-cover';
     d.style.cssText = 'position:fixed;inset:0;z-index:2147483646;pointer-events:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;background:radial-gradient(circle at 20% 0%,#3a1450,#0d0b1a 60%);color:#f3f0ff;font:600 18px system-ui,sans-serif';
-    d.innerHTML = `<img src="${chrome.runtime.getURL('icons/icon128.png')}" width="96" height="96" style="border-radius:22px"><div style="font:800 30px system-ui">Meca Bingo</div><div id="mb-cover-t"></div>`;
-    d.lastChild.textContent = text;
+    const img = document.createElement('img'); img.src = chrome.runtime.getURL('icons/icon128.png'); img.width = img.height = 96; img.style.borderRadius = '22px';
+    const name = document.createElement('div'); name.style.font = '800 30px system-ui'; name.textContent = 'Meca Bingo';
+    const msg = document.createElement('div'); msg.id = 'mb-cover-t'; msg.textContent = text;
+    d.append(img, name, msg);
     root.appendChild(d);
   }
   const uncover = () => { const d = document.getElementById('mb-cover'); if (d) d.remove(); };
@@ -94,7 +96,7 @@
       unpre(); cover('');
       const o = document.createElement('div');
       o.style.cssText = 'position:fixed;inset:0;z-index:2147483647;background:#0d0b1a;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;font:600 16px system-ui;cursor:pointer';
-      o.innerHTML = '<div style="font-size:70px">▶</div><div style="font:800 28px system-ui">Tap to start the music</div><div style="opacity:.7">Chrome needs one tap before music can play · Toca para empezar</div>';
+      [['70px', '▶'], ['800 28px system-ui', 'Tap to start the music'], ['', 'The browser needs one tap before music can play · Toca para empezar']].forEach(([f, txt]) => { const e = document.createElement('div'); if (f.startsWith('800')) e.style.font = f; else if (f) e.style.fontSize = f; else e.style.opacity = '.7'; e.textContent = txt; o.appendChild(e); });
       o.onclick = async () => { o.remove(); (document.querySelector('[data-testid*="Toolbar_Shuffle_Button"]') || btn).click(); res({ ok: !!(await waitFor(isPlaying, 5000)), tapped: true }); };
       root.appendChild(o);
       send({ type: 'mb-needtap' });

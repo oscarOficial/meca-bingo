@@ -14,27 +14,36 @@
   <div class="row"><img src="icon.png" width="64" height="64" style="border-radius:14px"><h1>Meca Bingo <span class="grad">Sync</span></h1></div>
   <p class="mut" id="intro"></p>
   <div class="card" id="store"></div>
-  <div class="card"><h3 id="hManual" style="margin-bottom:8px"></h3><ol id="steps"></ol><a class="btn cy" href="download/meca-bingo-sync.zip" id="dl" style="display:inline-block;text-decoration:none;margin-top:8px"></a></div>
+  <div class="card"><h3 id="hManual" style="margin-bottom:8px"></h3><ol id="steps"></ol><a class="btn cy" href="download/meca-bingo-sync-chrome.zip" id="dl" style="display:inline-block;text-decoration:none;margin-top:8px"></a></div>
+  <div class="card"><h3 style="margin-bottom:8px">Firefox</h3><p class="mut" id="ff"></p><a class="btn" href="download/meca-bingo-sync-firefox.zip" style="display:inline-block;text-decoration:none;margin-top:8px">⬇ Firefox (.zip)</a></div>
+  <div class="card"><h3 style="margin-bottom:8px">Safari</h3><p class="mut" id="sf"></p></div>
   <p class="mut"><a href="privacy.html" style="color:var(--cyan)">Privacy policy</a></p>
 </div>
 <script src="js/i18n.js"></script>
 <script>
 // When the extension is published, put its Chrome Web Store link here:
-const STORE_URL = '';
+const STORE_URL = '';           // Chrome Web Store
+const FIREFOX_URL = '';         // addons.mozilla.org
+const SAFARI_URL = '';          // Mac App Store
 const L = { en: {
   intro: 'Optional, only for the host’s computer (Chrome or Edge). It imports Amazon Music playlists, starts the round in shuffle, marks each song automatically and adds play / pause / next to the bingo screen. Players never need it.',
   store: 'Install from the Chrome Web Store', soon: 'Coming soon to the Chrome Web Store. Meanwhile, install it by hand:',
-  manual: 'Install by hand', dl: '⬇ Download the extension (.zip)',
+  manual: 'Chrome, Edge, Brave, Opera: install by hand', dl: '⬇ Chrome / Edge (.zip)',
+  ff: 'Coming soon to Firefox Add-ons. To try it now: open about:debugging → This Firefox → Load Temporary Add-on… and pick the zip (it stays until you close Firefox).',
+  sf: 'Coming soon to the Mac App Store. Safari extensions are installed through the App Store only.',
   steps: ['Download the zip and unzip it into a folder you will keep.', 'Open <code>chrome://extensions</code> and turn on <b>Developer mode</b> (top right).', 'Click <b>Load unpacked</b> and choose the unzipped folder.', 'Open the host page again: you will see <b>🧩 Sync</b> at the top.'] },
   es: {
   intro: 'Opcional y solo para el ordenador del presentador (Chrome o Edge). Importa playlists de Amazon Music, arranca la ronda en aleatorio, marca sola cada canción y añade play / pausa / siguiente a la pantalla del bingo. Los jugadores no la necesitan.',
   store: 'Instalar desde la Chrome Web Store', soon: 'Pronto en la Chrome Web Store. Mientras tanto, instálala a mano:',
-  manual: 'Instalar a mano', dl: '⬇ Descargar la extensión (.zip)',
+  manual: 'Chrome, Edge, Brave, Opera: instalar a mano', dl: '⬇ Chrome / Edge (.zip)',
+  ff: 'Pronto en Firefox Add-ons. Para probarla ya: abre about:debugging → Este Firefox → Cargar complemento temporal… y elige el zip (dura hasta que cierres Firefox).',
+  sf: 'Pronto en la Mac App Store. Las extensiones de Safari solo se instalan desde la App Store.',
   steps: ['Descarga el zip y descomprímelo en una carpeta que no vayas a borrar.', 'Abre <code>chrome://extensions</code> y activa el <b>Modo de desarrollador</b> (arriba a la derecha).', 'Pulsa <b>Cargar descomprimida</b> y elige la carpeta.', 'Vuelve a abrir la página del presentador: verás <b>🧩 Sync</b> arriba.'] } };
 let lang = (localStorage.getItem('meca-lang') || '').replace(/"/g, '') || (navigator.language || 'en').slice(0, 2); if (!L[lang]) lang = 'en';
 const t = L[lang]; document.documentElement.lang = lang;
 intro.textContent = t.intro; hManual.textContent = t.manual; dl.textContent = t.dl;
 steps.innerHTML = t.steps.map(s => `<li>${s}</li>`).join('');
+ff.textContent = FIREFOX_URL ? '' : t.ff; sf.textContent = SAFARI_URL ? '' : t.sf;
 store.innerHTML = STORE_URL ? `<a class="btn big" style="display:inline-block;text-decoration:none" href="${STORE_URL}">${t.store}</a>` : `<span class="mut">${t.soon}</span>`;
 </script>
 </body>

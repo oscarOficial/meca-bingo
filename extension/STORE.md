@@ -1,7 +1,7 @@
 # Publishing Meca Bingo Sync on the Chrome Web Store
 
-Everything needed to fill in the store form. Upload file: `public/download/meca-bingo-sync.zip`
-(the contents of this folder, without this file).
+Build the packages first: `python3 tools/build_extension.py` (one source, three builds).
+Chrome upload file: `public/download/meca-bingo-sync-chrome.zip`.
 
 ## 1. Developer account (once)
 1. Go to https://chrome.google.com/webstore/devconsole with the Google account that will own the extension.
@@ -57,3 +57,26 @@ instead of the zip.
 - If you change the site's domain, update `host_permissions` and the `bridge.js` match in `manifest.json`,
   and the `SITE` lists in `background.js` / `popup.js`, then bump `version`.
 - Review usually takes a few days; host permissions on specific sites are reviewed by a person.
+
+
+# Firefox Add-ons (addons.mozilla.org) — free
+
+1. Create a Firefox account and open https://addons.mozilla.org/developers/ → **Submit a New Add-on**.
+2. Choose **On this site** (listed) and upload `public/download/meca-bingo-sync-firefox.zip`.
+3. Source code question: answer **No** (the code is not minified or generated).
+4. Reuse the Chrome texts above (name, summary, description, category *Music*, privacy policy URL).
+5. Firefox lets people choose which sites an extension may use. If someone switches site access off,
+   the extension cannot see Amazon Music / Spotify: the popup will say no player tab is open.
+Minimum Firefox version: 128 (needed for the page-level script that talks to the player).
+
+# Safari (Mac App Store) — US$99/year
+
+Safari extensions are only installed from the App Store, inside a small Mac app.
+1. Join the **Apple Developer Program** (US$99/year) with the Apple ID that will publish it.
+2. Package `public/download/meca-bingo-sync-safari.zip`:
+   - with a Mac: `xcrun safari-web-extension-converter dist/safari --app-name "Meca Bingo Sync" --bundle-identifier dev.workers.oscasais.mecabingo --macos-only`
+     then in Xcode set the Team, **Product → Archive → Distribute App → App Store Connect**;
+   - or, without a Mac, App Store Connect's **Safari Web Extension Packager** if it is available for your account.
+3. In App Store Connect fill in the listing (same texts), category **Music**, privacy policy URL, screenshots.
+4. Test on a Mac before submitting: Safari shows a permission request for Amazon Music / Spotify / the site
+   the first time; the user must allow them (Safari → Settings → Extensions).

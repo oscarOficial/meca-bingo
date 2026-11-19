@@ -66,7 +66,8 @@ npx wrangler dev          # app + playlist API on http://localhost:8787
 
 ## Meca Bingo Sync (Chrome extension, optional)
 
-Source in `extension/`, downloadable build at `public/download/meca-bingo-sync.zip`,
+Source in `extension/`; `python3 tools/build_extension.py` builds Chrome/Edge, Firefox and Safari packages
+into `public/download/meca-bingo-sync-<browser>.zip`;
 install page at `/extension.html`, privacy policy at `/privacy.html`.
 It imports Amazon Music playlists (no public API), starts the round in shuffle, marks the song
 that is playing and adds play / pause / next to the host screen. Works with the Amazon Music and
