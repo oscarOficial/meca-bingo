@@ -32,7 +32,7 @@ Chrome upload file: `public/download/meca-bingo-sync-chrome.zip`.
 - **Icon:** `icons/icon128.png`
 - **Screenshots (1280×800):** `store-assets/2-host.png`, `3-players.png`, `4-photo-moment.png`, `1-import.png`
 - **Small promo tile (440×280):** `store-assets/promo-440x280.png`
-- **Homepage:** https://meca-bingo.oscasais.workers.dev/
+- **Homepage:** https://mecabingo.com/
 - **Support:** https://github.com/oscarOficial/meca-bingo/issues
 
 ### Privacy practices
@@ -41,10 +41,10 @@ Chrome upload file: `public/download/meca-bingo-sync-chrome.zip`.
   - `storage`: remember, for the browser session only, which tab is the music tab and whether it has already been shown (Chrome only plays sound in a tab that has been visible once).
   - Host `music.amazon.*`: read the playlist the host asks to import, read the title/artist of the song playing, press play/pause/next/previous and the shuffle button.
   - Host `open.spotify.com`: read the title/artist of the song playing and press play/pause/next/previous.
-  - Host `meca-bingo.oscasais.workers.dev`: exchange messages with the Meca Bingo host page.
+  - Hosts `mecabingo.com` (and `www.`, plus the backup address `meca-bingo.oscasais.workers.dev`): exchange messages with the Meca Bingo host page.
 - **Remote code:** No, the extension does not use remote code.
 - **Data usage:** tick nothing in "collected data" (the extension only reads song titles/artists and passes them to the Meca Bingo page in the same browser; nothing is sent to a server). Certify the three statements (no selling, no unrelated use, no creditworthiness).
-- **Privacy policy URL:** https://meca-bingo.oscasais.workers.dev/privacy.html
+- **Privacy policy URL:** https://mecabingo.com/privacy.html (until the domain is live: https://meca-bingo.oscasais.workers.dev/privacy.html)
 
 ### Distribution
 - Visibility: **Public** (or **Unlisted** while testing: only people with the link can install it).

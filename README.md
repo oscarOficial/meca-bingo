@@ -1,6 +1,6 @@
 # Meca Bingo 🎵
 
-**Live site: https://meca-bingo.oscasais.workers.dev** · [Host a game](https://meca-bingo.oscasais.workers.dev/host.html) · [Extension](https://meca-bingo.oscasais.workers.dev/extension.html) · [Privacy](https://meca-bingo.oscasais.workers.dev/privacy.html)
+**Live site: https://mecabingo.com** (backup: https://meca-bingo.oscasais.workers.dev) · [Host a game](https://mecabingo.com/host.html) · [Extension](https://mecabingo.com/extension.html) · [Privacy](https://mecabingo.com/privacy.html)
 
 Music bingo for friends. The host turns a **public playlist** into unique bingo cards; every
 player joins from their phone with a code or QR, marks the songs they recognise and calls
@@ -65,6 +65,7 @@ The project is a Cloudflare **Worker with static assets**: `public/` holds the a
 1. Cloudflare dashboard → **Workers & Pages → Create → Import a repository** → this repo.
 2. Deploy command: `npx wrangler deploy` (the default). No build command needed.
 3. Every push to `main` publishes automatically at https://meca-bingo.oscasais.workers.dev
+4. Custom domain: **Settings → Domains & Routes → Add → Custom domain** → `mecabingo.com` (and `www.mecabingo.com`). The domain must use Cloudflare DNS (buying it with Cloudflare Registrar does this automatically).
 
 ## Local testing
 

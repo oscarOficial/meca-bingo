@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /play.html
+Disallow: /download/
+Sitemap: https://mecabingo.com/sitemap.xml
