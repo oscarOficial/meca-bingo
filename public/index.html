@@ -13,8 +13,7 @@
 <meta property="og:type" content="website"><meta property="og:url" content="https://mecabingo.com/"><meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#0d0b1a">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Meca Bingo","url":"https://mecabingo.com/","applicationCategory":"GameApplication","operatingSystem":"Any (web browser)","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"description":"Music bingo for friends: turn a public playlist into unique bingo cards on every phone.","inLanguage":["en","es"]}</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/fonts.css">
 <link rel="stylesheet" href="css/app.css">
 <style>
 html{scroll-behavior:smooth}
@@ -159,7 +158,7 @@ footer a{color:var(--mut)}
 
   <div class="final"><h2 class="t" data-t="finalTitle"></h2><p class="lead" style="margin:0 auto 22px" data-t="finalLead"></p><a class="btn big" href="host.html" data-t="ctaHostLong" style="text-decoration:none"></a></div>
 
-  <footer><span>© Meca Bingo</span><span><a href="privacy.html" data-t="fPrivacy"></a> · <a href="extension.html" data-t="fExt"></a> · <a href="https://github.com/oscarOficial/meca-bingo">GitHub</a></span></footer>
+  <footer style="line-height:1.6"><span>© Meca Bingo · <span data-t="fTm"></span></span><span><a href="privacy.html" data-t="fPrivacy"></a> · <a href="extension.html" data-t="fExt"></a> · <a href="https://github.com/oscarOficial/meca-bingo">GitHub</a></span></footer>
 </div>
 
 <script>
@@ -190,7 +189,7 @@ en: {
   faqTitle: 'Questions',
   faq: [['Is it free?', 'Yes. No accounts, no ads, no tracking.'], ['Do players need an app or an account?', 'No. They scan the QR or type the 5-letter code in any phone browser and write their name.'], ['Can two players get the same card?', 'No. Each phone gets a different card, and keeps it if it reloads.'], ['How are calls checked?', 'Every marked song must have played, and the marks must complete the prize. Otherwise the host screen shows NOPE and the player sees which song was wrong.'], ['Where is our data?', 'Everything stays in the host\'s browser; phones connect directly to it. Your photos never leave the host\'s computer.'], ['Do I need the extension?', 'Only for Amazon Music, or if you want songs to be marked automatically. Without it, the host marks the song that is playing with two taps.'], ['Do I need a license to play music in public?', 'Streaming accounts are for personal use. For bars or public events, check the music licensing rules of your country.']],
   finalTitle: 'Ready for tonight?', finalLead: 'Create a game in two minutes and share the QR with your friends.',
-  fPrivacy: 'Privacy', fExt: 'Extension', altHost: 'Host screen with join code, QR and song counter', altPlayer: 'Player card on a phone', altMoment: 'Photo moment with a group photo and a caption'
+  fPrivacy: 'Privacy', fTm: 'Not affiliated with Spotify, Amazon, Apple, Deezer or YouTube. We don\'t host or stream music.', fExt: 'Extension', altHost: 'Host screen with join code, QR and song counter', altPlayer: 'Player card on a phone', altMoment: 'Photo moment with a group photo and a caption'
 },
 es: {
   navHow: 'Cómo funciona', navFeatures: 'Personaliza', navMusic: 'Música', navExt: 'Extensión', navFaq: 'Preguntas',
@@ -218,7 +217,7 @@ es: {
   faqTitle: 'Preguntas',
   faq: [['¿Es gratis?', 'Sí. Sin cuentas, sin anuncios y sin rastreo.'], ['¿Los jugadores necesitan app o cuenta?', 'No. Escanean el QR o escriben el código de 5 letras en el navegador del móvil y ponen su nombre.'], ['¿Pueden dos jugadores tener el mismo cartón?', 'No. Cada móvil recibe un cartón distinto y lo conserva si recarga.'], ['¿Cómo se comprueban los cantos?', 'Todas las canciones marcadas tienen que haber sonado y completar el premio. Si no, la pantalla del presentador muestra NOPE y el jugador ve qué canción falló.'], ['¿Dónde están nuestros datos?', 'Todo se queda en el navegador del presentador; los móviles se conectan directamente a él. Vuestras fotos nunca salen de su ordenador.'], ['¿Necesito la extensión?', 'Solo para Amazon Music o si quieres que las canciones se marquen solas. Sin ella, el presentador marca la canción que suena con dos toques.'], ['¿Hace falta licencia para poner música en público?', 'Las cuentas de streaming son para uso personal. Para bares o eventos públicos, consulta las normas de licencias musicales de tu país.']],
   finalTitle: '¿Listos para esta noche?', finalLead: 'Crea una partida en dos minutos y comparte el QR con tus amigos.',
-  fPrivacy: 'Privacidad', fExt: 'Extensión', altHost: 'Pantalla del presentador con código, QR y contador de canciones', altPlayer: 'Cartón de un jugador en el móvil', altMoment: 'Momento foto con una foto del grupo y una frase'
+  fPrivacy: 'Privacidad', fTm: 'Sin relación con Spotify, Amazon, Apple, Deezer ni YouTube. No alojamos ni emitimos música.', fExt: 'Extensión', altHost: 'Pantalla del presentador con código, QR y contador de canciones', altPlayer: 'Cartón de un jugador en el móvil', altMoment: 'Momento foto con una foto del grupo y una frase'
 }};
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 let lang; try { lang = JSON.parse(localStorage.getItem('meca-lang')); } catch (e) {}
