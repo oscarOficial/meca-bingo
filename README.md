@@ -98,3 +98,18 @@ attaches the screenshots + `report.md` to the run (artifact `ux-report`).
 pip install playwright && python -m playwright install chromium
 python3 tools/ux/ux_check.py
 ```
+
+## Domains
+
+All domains live in **`site.config.json`**:
+
+- `canonical`: the main address (used by Google, the sitemap and share previews).
+- `domains`: every address the site is served on. The extension works on all of them.
+- `redirectToCanonical`: `true` sends visitors of the other domains to the canonical one.
+
+To add or change a domain:
+1. Edit `site.config.json`.
+2. Cloudflare → Worker → Settings → Domains & Routes → Add → Custom domain (the zone must use Cloudflare DNS).
+3. `python3 tools/build_extension.py`, raise the extension `version` in `extension/manifest.json`, and upload the new zips to the stores (only needed if the domain list changed).
+4. Commit and push (or Retry build).
+

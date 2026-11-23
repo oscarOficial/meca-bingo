@@ -1,5 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /play.html
-Disallow: /download/
-Sitemap: https://mecabingo.oscasais.es/sitemap.xml

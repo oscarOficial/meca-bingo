@@ -1,0 +1,6 @@
+{
+  "_help": "Domains for Meca Bingo. 'canonical' is the main address (Google, share previews). 'domains' are all addresses the site is served on; the extension works on all of them. 'redirectToCanonical': true sends visitors of the other domains to the canonical one. After changing domains run: python3 tools/build_extension.py (and upload the new extension version to the stores).",
+  "canonical": "mecabingo.oscasais.es",
+  "domains": ["mecabingo.oscasais.es", "meca-bingo.oscasais.workers.dev"],
+  "redirectToCanonical": false
+}
