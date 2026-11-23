@@ -62,6 +62,78 @@
 @keyframes mCapIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 @keyframes kb{from{transform:scale(1.12) translate(2%,1%)}to{transform:scale(1) translate(0,0)}}
 @keyframes mOut{to{opacity:0;transform:scale(.4) translate(45vw,-20vh)}}
+
+/* ---- setup step 1: paste the playlist ---- */
+.pastebox{max-width:760px;margin:6vh auto 0;text-align:center}
+.pastebox h2{font-size:clamp(34px,6vw,58px);line-height:1}
+.pastebox>p{margin:10px 0 22px;font-size:17px}
+.pasterow{display:flex;gap:10px}
+.pasterow input{flex:1;min-width:0;font-size:18px;padding:16px 18px;border-radius:16px}
+.pasterow .btn{white-space:nowrap}
+.svcs{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin:16px 0 8px;align-items:center}
+.svc{font-size:13px;font-weight:600;padding:5px 10px;border-radius:999px;background:var(--panel);border:1px solid var(--line)}
+.info{margin-top:10px;text-align:left;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 16px}
+.info summary{cursor:pointer;font-weight:600;color:var(--mut);min-height:28px}
+.info ul{margin:10px 0 8px 18px;color:var(--mut);line-height:1.6}
+.info a{color:var(--cyan)}
+@media (max-width:560px){.pasterow{flex-direction:column}.pastebox{margin-top:2vh}}
+/* ---- setup step 2 ---- */
+.plbar b{font-size:18px}
+.fmtpick{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fmtpick button{display:flex;align-items:center;gap:14px;padding:14px;border-radius:14px;border:2px solid var(--line);background:var(--panel2);color:var(--txt);cursor:pointer;text-align:left;min-height:84px}
+.fmtpick button[aria-pressed=true]{border-color:var(--cyan);background:#2de2e614}
+.fmtpick .cardpic{flex:none;height:48px;width:auto}.cardpic .poff{fill:#ffffff55}.cardpic .pgap{fill:#ffffff0a}
+.fmtpick b{display:block;font-size:17px}.fmtpick small{color:var(--mut)}
+@media (max-width:520px){.fmtpick{grid-template-columns:1fr}}
+.prizes{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.pz{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;padding:48px 12px 14px;border-radius:16px;border:1px solid var(--line);background:var(--panel2);cursor:pointer;text-align:center;color:var(--txt);min-height:180px}
+.pz:hover,.pz:focus-visible{border-color:var(--cyan)}
+.pz .num{position:absolute;top:8px;left:10px;width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--pink),#ff6b3d);display:grid;place-items:center;font:800 13px 'Bricolage Grotesque',sans-serif;color:#fff}
+.pz .patpic svg{height:74px;width:auto;max-width:100%}.pz .patpic .es9{height:46px}
+.pz b{font-size:17px}
+.pz .est{font-size:13px;color:var(--cyan);font-weight:600}
+.pz .w{font-size:12.5px;color:var(--yel);line-height:1.3;background:#ffd23f1f;border-radius:8px;padding:5px 8px}
+.pz .mv{position:absolute;top:6px;right:6px;display:flex;gap:2px}
+.pz .mv button{width:40px;height:40px;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:var(--mut);cursor:pointer;font-size:14px}
+.pz.add{justify-content:center;min-height:120px;padding:14px;border-style:dashed;color:var(--mut);font-weight:700;font-size:16px}
+
+.fold summary{cursor:pointer;font-weight:700;min-height:28px}
+.fold[open] summary{margin-bottom:12px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.createbar{position:sticky;bottom:0;padding:12px 0 calc(12px + env(safe-area-inset-bottom));background:linear-gradient(transparent,var(--bg) 40%);z-index:4}
+.createbar .btn{width:100%}
+/* prize editor sheet */
+.sheet{position:fixed;inset:0;z-index:40;display:none;align-items:flex-end;justify-content:center;background:#000a;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.sheet.on{display:flex}
+.sheetin{width:min(720px,100%);max-height:92vh;overflow:auto;background:#17142b;border:1px solid var(--line);border-radius:22px 22px 0 0;padding:18px 18px calc(16px + env(safe-area-inset-bottom));animation:shUp .25s ease}
+@media (min-width:760px){.sheet{align-items:center}.sheetin{border-radius:22px}}
+@keyframes shUp{from{transform:translateY(40px);opacity:0}}
+.shhead{display:flex;gap:14px;align-items:center;margin-bottom:12px}
+.patbig .patsvg{height:64px;width:auto}.patbig .es9{height:40px}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px;background:var(--panel);padding:4px;border-radius:12px}
+.tabs button{min-height:44px;border:0;border-radius:9px;background:transparent;color:var(--mut);font-weight:700;cursor:pointer}
+.tabs button[aria-selected=true]{background:var(--cyan);color:#06131a}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:8px}
+.gal button{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 6px 10px;border-radius:14px;border:2px solid var(--line);background:var(--panel2);color:var(--txt);cursor:pointer;min-height:120px}
+.gal button[aria-pressed=true]{border-color:var(--cyan);background:#2de2e614}
+.gal .patpic svg{height:50px;width:auto;max-width:100%}.gal .patpic .es9{height:32px}
+.gal b{font-size:14px}.gal small{font-size:11.5px;color:var(--mut);line-height:1.25}
+.drawgrid{display:grid;gap:6px;margin:0 auto;touch-action:none;user-select:none;-webkit-user-select:none}
+.drawgrid.es{grid-template-columns:repeat(5,1fr);max-width:420px}
+.drawgrid.us{grid-template-columns:repeat(5,1fr);max-width:360px}
+.drawgrid button{aspect-ratio:1;min-height:44px;border-radius:12px;border:1px solid var(--line);background:#ffffff10;cursor:pointer;font-size:20px;color:#1a1630}
+.drawgrid button[aria-pressed=true]{background:var(--pink);border-color:transparent}
+.drawgrid button.free{background:var(--yel);cursor:default}
+.shfoot{justify-content:space-between;margin-top:16px;position:sticky;bottom:calc(-16px - env(safe-area-inset-bottom));background:#17142b;padding:12px 0;z-index:2}
+.shfoot #shDone{flex:1;max-width:320px;margin-left:auto}
+#shRemove{color:var(--pink)}
+.grab{width:44px;height:5px;border-radius:9px;background:#ffffff30;margin:-6px auto 10px}
+.sheetin{position:relative}
+.shx{position:absolute;top:10px;right:10px;width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--panel);color:var(--mut);font-size:18px;cursor:pointer}
+.shhead{padding-right:50px}
+.gal button{position:relative}.gal .tick{position:absolute;top:6px;right:8px;color:var(--cyan);font-weight:800}
+/* pattern next to the prize on the game screen */
+.prize .patpic svg{height:1.3em;width:auto;vertical-align:-.25em;margin-left:.3em}
 @media (max-width:720px){.cols{grid-template-columns:1fr}.join{grid-template-columns:1fr;justify-items:center;text-align:center}}
 </style>
 </head>
@@ -74,44 +146,60 @@
 
   <!-- ============ SETUP ============ -->
   <section id="setup">
-    <div class="card">
-      <label class="lbl" id="tPlaylist"></label>
-      <p class="mut" id="tPlaylistHint" style="margin-bottom:10px"></p>
-      <p class="mut" style="margin:-4px 0 10px"><a href="extension.html" target="_blank" id="extLink" style="color:var(--cyan)"></a></p>
-      <div class="row"><input type="url" id="plUrl" placeholder="https://open.spotify.com/playlist/…" style="flex:1;min-width:220px"><button class="btn cy" id="importBtn"></button></div>
-      <details style="margin-top:12px"><summary class="mut" id="tOrPaste" style="cursor:pointer"></summary>
-        <textarea id="paste" style="margin-top:8px" placeholder="Toxic - Britney Spears&#10;Hey Ya! - Outkast"></textarea>
+    <!-- step 1: only the playlist -->
+    <div id="step1" class="pastebox">
+      <h2 id="tPasteTitle"></h2>
+      <p class="mut" id="tPasteSub"></p>
+      <form class="pasterow" id="plForm"><input type="url" id="plUrl" autocomplete="off" aria-labelledby="tPasteTitle"><button class="btn big cy" id="importBtn"></button></form>
+      <div class="svcs"><span class="mut" id="tWorksWith"></span><span class="svc">Spotify</span><span class="svc">Deezer</span><span class="svc">Apple Music</span><span class="svc">YouTube Music</span><span class="svc">Amazon Music <b>🧩</b></span></div>
+      <details class="info"><summary id="tHowImport"></summary><ul id="importInfo"></ul><a href="extension.html" target="_blank" id="extLink"></a></details>
+      <details class="info"><summary id="tOrPaste"></summary>
+        <textarea id="paste" placeholder="Toxic - Britney Spears&#10;Hey Ya! - Outkast"></textarea>
         <button class="btn" id="useList" style="margin-top:8px"></button>
       </details>
-      <div id="plInfo" class="hidden" style="margin-top:14px"><div class="row"><b id="plTitle"></b><span class="pill" id="plCount"></span><a class="pill hidden" id="plOpen" target="_blank" rel="noopener" style="color:var(--cyan);text-decoration:none"></a></div><p id="plCheck" class="mut" style="margin-top:6px"></p><div class="tracks" id="plTracks"></div></div>
     </div>
 
-    <div class="grid2">
-      <div class="card"><label class="lbl" id="tCard"></label><div class="seg" id="fmt"><button data-v="es"></button><button data-v="us"></button></div></div>
-      <div class="card"><label class="lbl" id="tLines"></label><div class="seg" id="vertical"><button data-v="0"></button><button data-v="1"></button></div>
-        <label class="chk hidden" id="diagWrap"><input type="checkbox" id="diagonal"><span id="tDiag"></span></label><p class="mut" id="tVertNote" style="margin-top:6px"></p></div>
-      <div class="card"><label class="lbl" id="tPrizes"></label>
-        <label class="chk"><input type="checkbox" id="pLine"><span id="tPLine"></span></label>
-        <label class="chk"><input type="checkbox" id="pTwo"><span id="tPTwo"></span></label>
-        <label class="chk"><input type="checkbox" id="pBingo"><span id="tPBingo"></span></label></div>
-      <div class="card"><label class="lbl" id="tClip"></label><select id="clip"></select>
-        <label class="lbl" id="tMax" style="margin-top:14px"></label><input type="number" id="maxPlayers" min="1" max="30">
-        <label class="lbl" id="tMoment" style="margin-top:14px"></label><select id="momentSecs"></select></div>
-    </div>
-
-    <div class="card">
-      <label class="lbl" id="tPhotos"></label>
-      <p class="mut" id="tPhotosHint"></p>
-      <div class="thumbs" id="thumbs"></div>
-      <div class="row"><label class="btn" style="cursor:pointer"><span id="tAddPhotos"></span><input type="file" id="photoIn" accept="image/*" multiple hidden></label><button class="btn" id="clearPhotos"></button></div>
-      <div class="grid2" style="margin-top:14px">
-        <div><label class="lbl" id="tMsgWait"></label><textarea id="msgWait"></textarea></div>
-        <div><label class="lbl" id="tMsgWin"></label><textarea id="msgWin"></textarea></div>
-        <div><label class="lbl" id="tMsgLose"></label><textarea id="msgLose"></textarea></div>
+    <!-- step 2: the game settings -->
+    <div id="step2" class="hidden">
+      <div class="card plbar">
+        <div class="row"><b id="plTitle"></b><span class="pill" id="plCount"></span><a class="pill hidden" id="plOpen" target="_blank" rel="noopener" style="color:var(--cyan);text-decoration:none"></a><button class="btn" id="plChange" style="margin-left:auto"></button></div>
+        <p id="plCheck" class="mut" style="margin-top:8px"></p>
+        <details style="margin-top:6px"><summary class="mut" id="tSongList" style="cursor:pointer"></summary><div class="tracks" id="plTracks"></div></details>
       </div>
-      <p class="mut" id="tOnePerLine" style="margin-top:6px"></p>
+
+      <div class="card">
+        <label class="lbl" id="tCard"></label>
+        <div class="fmtpick" id="fmt"><button data-v="es" type="button"></button><button data-v="us" type="button"></button></div>
+        <label class="chk hidden" id="freeWrap" style="min-height:44px;margin-top:10px"><input type="checkbox" id="freeCenter"><span><b id="tFree"></b><span class="mut" id="tFreeHint" style="display:block;font-size:13px"></span></span></label>
+      </div>
+
+      <div class="card">
+        <label class="lbl" id="tPrizesTitle"></label>
+        <p class="mut" id="tPrizesHint" style="margin-bottom:12px"></p>
+        <div class="prizes" id="prizeList"></div>
+      </div>
+
+      <details class="card fold"><summary id="tMore"></summary>
+        <div class="grid3">
+          <div><label class="lbl" id="tClip"></label><select id="clip"></select></div>
+          <div><label class="lbl" id="tMax"></label><input type="number" id="maxPlayers" min="1" max="30"></div>
+          <div><label class="lbl" id="tMoment"></label><select id="momentSecs"></select></div>
+        </div>
+      </details>
+
+      <details class="card fold"><summary id="tPhotos"></summary>
+        <p class="mut" id="tPhotosHint"></p>
+        <div class="thumbs" id="thumbs"></div>
+        <div class="row"><label class="btn" style="cursor:pointer"><span id="tAddPhotos"></span><input type="file" id="photoIn" accept="image/*" multiple hidden></label><button class="btn" id="clearPhotos"></button></div>
+        <div class="grid2" style="margin-top:14px">
+          <div><label class="lbl" id="tMsgWait"></label><textarea id="msgWait"></textarea></div>
+          <div><label class="lbl" id="tMsgWin"></label><textarea id="msgWin"></textarea></div>
+          <div><label class="lbl" id="tMsgLose"></label><textarea id="msgLose"></textarea></div>
+        </div>
+        <p class="mut" id="tOnePerLine" style="margin-top:6px"></p>
+      </details>
+      <div class="createbar"><button class="btn big" id="create" disabled></button></div>
     </div>
-    <button class="btn big" id="create" disabled></button>
   </section>
 
   <!-- ============ GAME ============ -->
@@ -155,12 +243,22 @@
 <div class="stage" id="stage"><div class="who" id="stWho"></div><div class="big"><img alt=""><p></p><div class="stamp"></div></div></div>
 <canvas id="fx"></canvas>
 <div class="modal" id="modal"><div><h3 id="mTitle"></h3><p id="mText"></p><div class="row" style="justify-content:flex-end"><button class="btn" id="mNo"></button><button class="btn big" id="mYes"></button></div></div></div>
+<div class="sheet" id="sheet" aria-hidden="true"><div class="sheetin" role="dialog" aria-modal="true" aria-labelledby="shTitle">
+  <div class="grab" aria-hidden="true"></div><button type="button" class="shx" id="shClose">✕</button>
+  <div class="shhead"><span class="patbig" id="shPic"></span><div style="flex:1;min-width:0"><label class="lbl" id="shTitle" for="shName"></label><input type="text" id="shName" maxlength="24"></div></div>
+  <div class="tabs" role="tablist"><button type="button" role="tab" id="tabGal" data-tab="gal"></button><button type="button" role="tab" id="tabDraw" data-tab="draw"></button></div>
+  <div id="gal" class="gal"></div>
+  <div id="draw" class="hidden"><p class="mut" id="drawHint" style="margin-bottom:10px"></p><div class="drawgrid" id="drawGrid"></div>
+    <div class="row" style="justify-content:center;margin-top:10px"><button type="button" class="btn" id="dClear"></button><button type="button" class="btn" id="dInvert"></button><button type="button" class="btn" id="dAll"></button></div></div>
+  <div class="row shfoot"><button type="button" class="btn" id="shRemove"></button><button type="button" class="btn big" id="shDone"></button></div>
+</div></div>
 <div class="toast" id="toast"></div>
 
 <script src="js/vendor/peerjs.min.js"></script>
 <script src="js/vendor/qrcode.js"></script>
 <script src="js/i18n.js"></script>
 <script src="js/game.js"></script>
+<script src="js/patterns-ui.js"></script>
 <script src="js/net.js"></script>
 <script src="js/fx.js"></script>
 <script src="js/stats.js"></script>

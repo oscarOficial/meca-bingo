@@ -18,11 +18,15 @@
     t = I18N.get(lang); document.documentElement.lang = lang;
     $('tCode').textContent = t.code; $('tJoin').textContent = t.join; $('tName').textContent = t.yourName; $('nameIn').placeholder = t.namePh; $('tGo').textContent = t.letsGo; $('hint').textContent = t.tapToMark; $('tRotate').textContent = t.rotate; $('rotateAnyway').textContent = t.rotateAnyway; $('resBack').textContent = t.backToCard;
   }
-  const prizeLabel = p => I18N.prizeName(t, p);
+  // prize names and shapes come from the host; very old hosts sent 'line' / 'two' / 'bingo'
+  const prizeLabel = p => (state.prizes && state.prizes[p] && state.prizes[p].name) || I18N.prizeName(t, p);
+  const hasPrize = () => state.prize !== null && state.prize !== undefined;
 
   // Shorter names on the card: drop "(From the film…)", "[feat. …]", "feat. …"
   const short = s => String(s || '').replace(/\s*[\(\[][^\)\]]*[\)\]]/g, '').replace(/\s+(feat\.?|ft\.?|featuring)\s.*$/i, '').trim() || String(s || '');
-  const cellHtml = (s, i, M) => s
+  const cellHtml = (s, i, M) => s === 'free'
+    ? `<div class="cell free" aria-label="free"><span class="tt">★</span></div>`
+    : s
     ? `<div class="cell ${M.has(i) ? 'on' : ''}" data-i="${i}" title="${esc(s[0] + (s[1] ? ' — ' + s[1] : ''))}"><span class="tt">${esc(short(s[0]))}</span>${s[1] ? `<span class="ar">${esc(short(s[1]))}</span>` : ''}</div>`
     : `<div class="cell gap"></div>`;
   // Spanish 3×9 card on a phone held upright: 9 columns are too narrow, so when only
@@ -87,9 +91,10 @@
   // the web fonts can arrive after the card is drawn and are a bit wider: fit the text again
   try { document.fonts.ready.then(() => { if (document.querySelector('#board .cell[data-i]')) fitText(); }); document.fonts.addEventListener('loadingdone', () => { if (document.querySelector('#board .cell[data-i]')) fitText(); }); } catch (e) {}
   function drawState() {
-    $('prize').innerHTML = state.over ? `🎉 ${esc(t.allPrizesDone)}` : state.prize ? `${esc(t.playingFor)} <b>${esc(prizeLabel(state.prize))}</b>` : '';
-    const cb = $('callbar'); const was = cb.classList.contains('hidden'); cb.classList.toggle('hidden', !state.prize || !P.card); if (was !== cb.classList.contains('hidden')) { sizeBoard(); fitText(); }
-    if (state.prize) $('callBtn').textContent = t.call(prizeLabel(state.prize).toUpperCase());
+    const pz = hasPrize() && state.prizes && state.prizes[state.prize];
+    $('prize').innerHTML = state.over ? `🎉 ${esc(t.allPrizesDone)}` : hasPrize() ? `<span>${esc(t.playingFor)} <b>${esc(prizeLabel(state.prize))}</b></span>${pz && window.PATUI ? PATUI.html(state.fmt || (P.card && P.card.fmt) || 'es', pz.pat, { free: state.free, label: prizeLabel(state.prize), logical: !!(P.card && layoutMode(P.card) === 'rows') }) : ''}` : '';
+    const cb = $('callbar'); const was = cb.classList.contains('hidden'); cb.classList.toggle('hidden', !hasPrize() || !P.card); if (was !== cb.classList.contains('hidden')) { sizeBoard(); fitText(); }
+    if (hasPrize()) $('callBtn').textContent = t.call(prizeLabel(state.prize).replace(/\s*\(.*?\)/g, '').toUpperCase());
     $('callBtn').disabled = !connected || busy;
     const W = Object.entries(state.winners || {}).filter(([, n]) => n && n.length).map(([p, n]) => `🏆 <b>${esc(prizeLabel(p))}</b>: ${n.map(esc).join(', ')}`);
     $('winners').innerHTML = W.join('<br>'); $('winners').classList.toggle('hidden', !W.length);
@@ -138,12 +143,12 @@
   }
 
   $('board').onclick = e => {
-    const c = e.target.closest('.cell[data-i]'); if (!c) return;
+    const c = e.target.closest('.cell[data-i]'); if (!c) return;   // the free square has no data-i
     const i = +c.dataset.i, k = P.marks.indexOf(i);
     if (k >= 0) P.marks.splice(k, 1); else P.marks.push(i);
     c.classList.toggle('on', k < 0); store.set(K(), P);
   };
-  $('callBtn').onclick = () => { if (!connected || !state.prize) return; busy = true; drawState(); net.send({ t: 'claim', dev, prize: state.prize, marks: P.marks }); setTimeout(() => { busy = false; drawState(); }, 6000); };
+  $('callBtn').onclick = () => { if (!connected || !hasPrize()) return; busy = true; drawState(); net.send({ t: 'claim', dev, prize: state.prize, marks: P.marks }); setTimeout(() => { busy = false; drawState(); }, 6000); };
   $('res').onclick = () => $('res').classList.remove('on');
   $('rotateAnyway').onclick = () => { rotateDismissed = true; drawCard(); };
   $('codeForm').onsubmit = e => { e.preventDefault(); const c = $('codeIn').value.trim().toUpperCase(); if (c.length === 5) { code = c; history.replaceState(null, '', '?r=' + c + (params.get('net') ? '&net=' + params.get('net') : '')); P = store.get(K()) || { card: null, marks: [] }; start(); } };

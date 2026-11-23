@@ -16,6 +16,7 @@
     us: { rows: 5, cols: 5, songs: 25, perRow: 5, minSongs: 55, label: '5×5' }
   };
   const MAX_PLAYERS = 30;
+  const FREE = -2, FREE_CELL = 12;   // free centre square on the 5×5 card (always marked)
 
   // Songs needed for a number of players. From simulations (500 games per point) with the
   // cards this app makes: first-line ties ≤ 20% and full-card ties ≤ 25%. Smoothed and rounded up.
@@ -46,8 +47,10 @@
   }
 
   // Build `count` different cards. Songs are spread evenly so every song matters.
-  function makeCards(nSongs, count, fmt, seed) {
-    const F = FORMATS[fmt];
+  function makeCards(nSongs, count, fmt, seed, opts = {}) {
+    const F = { ...FORMATS[fmt] };
+    const free = fmt === 'us' && opts.freeCenter;
+    if (free) F.songs = 24;
     const rnd = mulberry32(hashStr(String(seed)));
     const usage = new Array(nSongs).fill(0);
     const seen = new Set(), cards = [];
@@ -67,47 +70,142 @@
       if (fmt === 'es') {
         let k = 0;
         spanishLayout(rnd).forEach((cols, r) => cols.forEach(c => { cells[r * 9 + c] = pick[k++]; }));
-      } else pick.forEach((s, i) => { cells[i] = s; });
+      } else {
+        let k = 0;
+        for (let i = 0; i < 25; i++) cells[i] = free && i === FREE_CELL ? FREE : pick[k++];
+      }
       cards.push(cells);
     }
     return cards;
   }
 
-  // All the lines a card has under the chosen rules. Each line is a list of cell positions.
-  function lines(cells, fmt, rules) {
-    const F = FORMATS[fmt], L = [];
-    for (let r = 0; r < F.rows; r++) {
-      const line = []; for (let c = 0; c < F.cols; c++) if (cells[r * F.cols + c] >= 0) line.push(r * F.cols + c);
-      L.push({ kind: 'row', n: r + 1, cells: line });
-    }
-    if (rules.vertical) {
-      for (let c = 0; c < F.cols; c++) {
-        const col = []; for (let r = 0; r < F.rows; r++) if (cells[r * F.cols + c] >= 0) col.push(r * F.cols + c);
-        // a column only counts when it is full (on the Spanish card: 3 songs)
-        if (col.length === F.rows) L.push({ kind: 'col', n: c + 1, cells: col });
-      }
-    }
-    if (rules.diagonal && fmt === 'us') {
-      L.push({ kind: 'diag', n: 1, cells: [0, 6, 12, 18, 24] });
-      L.push({ kind: 'diag', n: 2, cells: [4, 8, 12, 16, 20] });
-    }
-    return L;
+  // ================= prize patterns =================
+  // A prize is { name, pat } where pat is one of:
+  //   { kind: 'lines', dirs: 'h' | 'hv' | 'hvd', need: n }  any n complete lines
+  //   { kind: 'full' }                                       the whole card
+  //   { kind: 'masks', masks: [[...], ...] }                 any of these shapes (one drawn shape = one mask)
+  // Masks use the card's logical grid: 5×5 on the American card; 3 rows × 5 songs on the
+  // Spanish card (k-th song of each row), so a shape is equally hard on every card.
+  const MAX_PRIZES = 4;
+  const GRID = { es: { rows: 3, cols: 5 }, us: { rows: 5, cols: 5 } };
+  const range = (a, b) => Array.from({ length: b - a }, (_, i) => a + i);
+  const US_ROWS = range(0, 5).map(r => range(0, 5).map(c => r * 5 + c));
+  const US_COLS = range(0, 5).map(c => range(0, 5).map(r => r * 5 + c));
+  const US_DIAG = [[0, 6, 12, 18, 24], [4, 8, 12, 16, 20]];
+  const ES_ROWS = range(0, 3).map(r => range(0, 5).map(k => r * 5 + k));
+  const PRESETS = {
+    es: [
+      { id: 'line', pat: { kind: 'lines', dirs: 'h', need: 1 } },
+      { id: 'lineHV', pat: { kind: 'lines', dirs: 'hv', need: 1 } },
+      { id: 'two', pat: { kind: 'lines', dirs: 'h', need: 2 } },
+      { id: 'corners', pat: { kind: 'masks', masks: [[0, 4, 10, 14]] } },
+      { id: 'ends', pat: { kind: 'masks', masks: [[0, 4, 5, 9, 10, 14]] } },
+      { id: 'topBottom', pat: { kind: 'masks', masks: [[...ES_ROWS[0], ...ES_ROWS[2]]] } },
+      { id: 'full', pat: { kind: 'full' } },
+    ],
+    us: [
+      { id: 'line', pat: { kind: 'lines', dirs: 'hvd', need: 1 } },
+      { id: 'lineH', pat: { kind: 'lines', dirs: 'h', need: 1 } },
+      { id: 'two', pat: { kind: 'lines', dirs: 'hvd', need: 2 } },
+      { id: 'corners', pat: { kind: 'masks', masks: [[0, 4, 20, 24]] } },
+      { id: 'stamp', pat: { kind: 'masks', masks: [[0, 1, 5, 6], [3, 4, 8, 9], [15, 16, 20, 21], [18, 19, 23, 24]] } },
+      { id: 'x', pat: { kind: 'masks', masks: [[...US_DIAG[0], ...US_DIAG[1]]] } },
+      { id: 'plus', pat: { kind: 'masks', masks: [[...US_ROWS[2], ...US_COLS[2]]] } },
+      { id: 't', pat: { kind: 'masks', masks: [[...US_ROWS[0], ...US_COLS[2]]] } },
+      { id: 'l', pat: { kind: 'masks', masks: [[...US_COLS[0], ...US_ROWS[4]]] } },
+      { id: 'diamond', pat: { kind: 'masks', masks: [[2, 6, 8, 10, 14, 16, 18, 22]] } },
+      { id: 'frame', pat: { kind: 'masks', masks: [[...US_ROWS[0], ...US_ROWS[4], ...US_COLS[0], ...US_COLS[4]]] } },
+      { id: 'full', pat: { kind: 'full' } },
+    ],
+  };
+  for (const f in PRESETS) for (const p of PRESETS[f]) if (p.pat.masks) p.pat.masks = p.pat.masks.map(m => [...new Set(m)].sort((a, b) => a - b));
+  const presetById = (fmt, id) => PRESETS[fmt].find(p => p.id === id);
+  // default prizes for a card type
+  const defaultPrizes = fmt => [{ preset: 'line' }, { preset: 'full' }].map(p => ({ preset: p.preset, pat: presetById(fmt, p.preset).pat }));
+
+  // old settings (vertical / diagonal / line-two-bingo switches) → prize list
+  function migratePrizes(cfg) {
+    if (Array.isArray(cfg.prizes)) return cfg.prizes;
+    const old = cfg.prizes || { line: true, bingo: true }, fmt = cfg.fmt || 'es', out = [];
+    const dirs = 'h' + (cfg.vertical ? 'v' : '') + (cfg.diagonal && fmt === 'us' ? 'd' : '');
+    if (old.line) out.push({ preset: '', pat: { kind: 'lines', dirs, need: 1 } });
+    if (old.two) out.push({ preset: '', pat: { kind: 'lines', dirs, need: 2 } });
+    if (old.bingo || !out.length) out.push({ preset: 'full', pat: { kind: 'full' } });
+    // match a preset when there is one, so the name and picture are the usual ones
+    for (const p of out) { const hit = PRESETS[fmt].find(x => JSON.stringify(x.pat) === JSON.stringify(p.pat)); if (hit) p.preset = hit.id; }
+    return out;
   }
 
-  const PRIZES = ['line', 'two', 'bingo'];
+  // logical position → card cell (null when there is no song there)
+  function cellOf(cells, fmt, i) {
+    if (fmt === 'us') return i;
+    const r = Math.floor(i / 5), k = i % 5;
+    const cols = []; for (let c = 0; c < 9; c++) if (cells[r * 9 + c] !== -1) cols.push(c);
+    return cols[k] === undefined ? null : r * 9 + cols[k];
+  }
+  // The shapes (lists of card cells) that win this prize on this card, and how many are needed.
+  function shapesFor(cells, fmt, pat) {
+    const F = FORMATS[fmt], song = i => i !== null && cells[i] >= 0;   // free square needs no mark
+    const keep = list => list.filter(song);
+    let shapes = [], need = 1;
+    if (pat.kind === 'full') shapes = [keep(cells.map((_, i) => i))];
+    else if (pat.kind === 'lines') {
+      need = Math.max(1, pat.need || 1);
+      for (let r = 0; r < F.rows; r++) shapes.push(keep(range(0, F.cols).map(c => r * F.cols + c)));
+      if (pat.dirs.includes('v')) for (let c = 0; c < F.cols; c++) {
+        const col = range(0, F.rows).map(r => r * F.cols + c);
+        if (fmt === 'us') shapes.push(keep(col));
+        else if (col.every(i => cells[i] >= 0)) shapes.push(col);       // 3×9: only full columns
+      }
+      if (pat.dirs.includes('d') && fmt === 'us') US_DIAG.forEach(d => shapes.push(keep(d)));
+    } else if (pat.kind === 'masks') shapes = (pat.masks || []).map(m => keep(m.map(i => cellOf(cells, fmt, i))));
+    return { shapes: shapes.filter(s => s.length), need };
+  }
+  function prizeDone(cells, fmt, pat, isMarked) {
+    const { shapes, need } = shapesFor(cells, fmt, pat);
+    const done = shapes.filter(s => s.every(isMarked));
+    return { ok: done.length >= need, done };
+  }
+  // does this prize need the card drawn as it really is (3×9 columns)? otherwise rows of 5 are fine
+  const needsRealLayout = (fmt, prizes) => fmt === 'es' && prizes.some(p => p.pat.kind === 'lines' && p.pat.dirs.includes('v'));
 
   // Check a claim. Only what the player marked counts; every mark must be a song that has played.
-  function checkClaim(cells, fmt, rules, marks, played, prize) {
+  function checkClaim(cells, fmt, pat, marks, played) {
     const P = new Set(played), M = new Set(marks.filter(i => cells[i] >= 0));
     const wrong = [...M].filter(i => !P.has(cells[i]));
     if (wrong.length) return { ok: false, reason: 'wrong', wrong };
-    const done = lines(cells, fmt, rules).filter(l => l.cells.length && l.cells.every(i => M.has(i)));
-    const filled = cells.filter(s => s >= 0).length;
-    let ok;
-    if (prize === 'line') ok = done.length >= 1;
-    else if (prize === 'two') ok = done.length >= 2;
-    else ok = M.size === filled;
-    return { ok, reason: ok ? 'ok' : 'incomplete', lines: done };
+    const r = prizeDone(cells, fmt, pat, i => M.has(i));
+    return { ok: r.ok, reason: r.ok ? 'ok' : 'incomplete', lines: r.done };
+  }
+
+  // Play many pretend games to see when each prize is usually won and how often there are ties.
+  // Returns, per prize, the median song number of the first winner and the share of games with a tie.
+  function simulate(fmt, nSongs, players, prizes, opts = {}) {
+    const runs = opts.runs || 200, out = prizes.map(() => ({ at: [], ties: 0 }));
+    const rnd = mulberry32(opts.seed || 12345);
+    for (let g = 0; g < runs; g++) {
+      const cards = makeCards(nSongs, players, fmt, 'sim' + g + '-' + (opts.seed || 1), opts);
+      const order = shuffle([...Array(nSongs).keys()], rnd), pos = new Array(nSongs);
+      order.forEach((s, i) => { pos[s] = i + 1; });   // song s plays as song number pos[s]
+      prizes.forEach((p, k) => {
+        let best = Infinity, count = 0;
+        for (const cells of cards) {
+          const { shapes, need } = shapesFor(cells, fmt, p.pat);
+          // a shape is done when its last song plays; the prize when the need-th shape is done
+          const t = shapes.map(s => Math.max(...s.map(i => pos[cells[i]]))).sort((a, b) => a - b)[need - 1];
+          if (t === undefined) continue;
+          if (t < best) { best = t; count = 1; } else if (t === best) count++;
+        }
+        if (best < Infinity) { out[k].at.push(best); if (count > 1) out[k].ties++; }
+      });
+    }
+    return out.map(o => { const a = o.at.sort((x, y) => x - y); return { median: a.length ? a[Math.floor(a.length / 2)] : null, ties: a.length ? o.ties / a.length : 0, never: 1 - a.length / runs }; });
+  }
+
+  // Kept for older callers and tests: the lines a card has.
+  function lines(cells, fmt, rules) {
+    const dirs = 'h' + (rules && rules.vertical ? 'v' : '') + (rules && rules.diagonal ? 'd' : '');
+    return shapesFor(cells, fmt, { kind: 'lines', dirs, need: 1 }).shapes.map(c => ({ cells: c }));
   }
 
   function roomCode(rnd = Math.random) {
@@ -123,5 +221,5 @@
     }).filter(t => t.title);
   }
 
-  G.MB = { FORMATS, MAX_PLAYERS, PRIZES, minSongs, maxPlayersFor, makeCards, lines, checkClaim, roomCode, parsePasted, mulberry32, hashStr };
+  G.MB = { FORMATS, MAX_PLAYERS, MAX_PRIZES, FREE, FREE_CELL, GRID, PRESETS, presetById, defaultPrizes, migratePrizes, shapesFor, prizeDone, needsRealLayout, minSongs, maxPlayersFor, makeCards, lines, checkClaim, simulate, roomCode, parsePasted, mulberry32, hashStr };
 })(typeof window !== 'undefined' ? window : globalThis);

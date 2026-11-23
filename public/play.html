@@ -15,6 +15,9 @@
 .head h1{font-size:22px}
 .status{font-size:12.5px}
 .prize{text-align:center;margin-bottom:10px;font:800 18px 'Bricolage Grotesque',sans-serif}.prize b{color:var(--yel)}
+.prize{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:nowrap}
+.prize .patpic svg{height:40px;width:auto}.prize .patpic .es9{height:26px}
+.cell.free{background:var(--yel);color:#1a1630;cursor:default;font-size:24px;border-color:transparent}
 .board{--cellH:72px;display:grid;gap:5px;user-select:none;-webkit-user-select:none}
 .board.es{grid-template-columns:repeat(9,minmax(0,1fr))}
 .board.us{grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
@@ -87,6 +90,7 @@
 <script src="js/vendor/peerjs.min.js"></script>
 <script src="js/i18n.js"></script>
 <script src="js/game.js"></script>
+<script src="js/patterns-ui.js"></script>
 <script src="js/net.js"></script>
 <script src="js/fx.js"></script>
 <script src="js/play.js"></script>

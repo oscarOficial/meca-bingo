@@ -66,10 +66,33 @@ def head(lang, t, langs, site):
 {ld}'''
 
 
+SERVICES = ['Spotify', 'Deezer', 'Apple Music', 'YouTube Music', 'Amazon Music']
+# game modes shown on the landing: card type, shape (cells lit on the logical grid)
+MODES = [('es', 'line', list(range(5, 10))), ('es', 'two', list(range(0, 5)) + list(range(10, 15))), ('us', 'corners', [0, 4, 20, 24]),
+         ('us', 'x', [0, 6, 12, 18, 24, 4, 8, 16, 20]), ('us', 'stamp', [0, 1, 5, 6]), ('us', 'diamond', [2, 6, 8, 10, 14, 16, 18, 22]),
+         ('us', 'frame', [0, 1, 2, 3, 4, 5, 9, 10, 14, 15, 19, 20, 21, 22, 23, 24]), ('es', 'full', list(range(15))), ('us', 'custom', [1, 3, 10, 14, 16, 17, 18])]
+
+
+ES_COLS = [[0, 2, 4, 5, 8], [1, 3, 6, 7, 8], [0, 1, 2, 5, 7]]   # same sample card as patterns-ui.js
+
+
+def pattern_svg(fmt, on, label):
+    if fmt == 'es':
+        cells = ''.join(f'<rect x="{c * 12}" y="{r * 12}" width="10" height="10" rx="2.4" class="{("pon" if r * 5 + ES_COLS[r].index(c) in on else "poff") if c in ES_COLS[r] else "pgap"}"/>'
+                        for r in range(3) for c in range(9))
+        return f'<svg class="es9" viewBox="-1 -1 108 36" role="img" aria-label="{esc(label)}">{cells}</svg>'
+    rows, cols = (3, 5) if fmt == 'es' else (5, 5)
+    cells = ''.join(f'<rect x="{c * 12}" y="{r * 12}" width="10" height="10" rx="2.4" class="{"pon" if r * cols + c in on else "poff"}"/>'
+                    for r in range(rows) for c in range(cols))
+    return f'<svg viewBox="-1 -1 {cols * 12} {rows * 12}" role="img" aria-label="{esc(label)}">{cells}</svg>'
+
+
 def render(lang, L, site):
     t = L[lang]
     s = open(TEMPLATE, encoding='utf-8').read()
     s = s.replace('{{HEAD}}', head(lang, t, list(L), site))
+    s = s.replace('{{SERVICES}}', ''.join(f'<span class="svc">{esc(n)}</span>' for n in SERVICES))
+    s = s.replace('{{MODES}}', ''.join(f'<div class="mode">{pattern_svg(f, set(on), t["modes"][k][0])}<b>{esc(t["modes"][k][0])}</b><span>{esc(t["modes"][k][1])}</span></div>' for f, k, on in MODES))
     s = s.replace('{{LANGS}}', ''.join(
         f'<a href="/{l}/" hreflang="{l}" lang="{l}"' + (' aria-current="page"' if l == lang else '') + f'>{l.upper()}</a>' for l in L))
     s = re.sub(r'\{\{(\w+)\}\}', lambda m: esc(lang if m.group(1) == 'lang' else t[m.group(1)]), s)

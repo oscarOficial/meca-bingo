@@ -77,10 +77,35 @@ def run():
             ctx = browser.new_context()
             host = ctx.new_page(); host.set_viewport_size({'width': 1366, 'height': 850})
             host.goto(base + '/host.html?net=local'); host.evaluate('localStorage.clear()'); host.reload(); time.sleep(0.6)
+            if tag == 'es':
+                # first screen: only "paste your playlist"
+                for dev in ('desktop', 'phone-small'):
+                    w, h = DEVICES[dev]; host.set_viewport_size({'width': w, 'height': h}); time.sleep(0.2)
+                    shot(host, f'host-paste-{dev}'); page_checks(host, f'host paste ({dev})')
+                    check(f'host paste ({dev}): playlist box visible without scrolling', host.evaluate("document.getElementById('plUrl').getBoundingClientRect().bottom < innerHeight"))
+                host.set_viewport_size({'width': 1366, 'height': 850})
             host.click('#tOrPaste'); host.fill('#paste', SONGS + ('\n' + '\n'.join(f'Extra Song {i} - Extra Artist' for i in range(20)) if fmt == 'us' else '')); host.click('#useList')
             host.click(f'#fmt [data-v="{fmt}"]')
             if tag == 'es': host.set_input_files('#photoIn', os.path.join(os.path.dirname(__file__), 'test-photo.jpg')); time.sleep(0.8)
-            if vertical: host.click('#vertical [data-v="1"]')
+            if vertical:
+                # prize 1 → "line (also columns)" from the shapes gallery
+                host.click('.pz[data-k="0"]'); time.sleep(0.3); host.click('#gal [data-preset="lineHV"]'); host.click('#shDone'); time.sleep(0.2)
+            if fmt == 'us':
+                host.click('#freeCenter')
+                # add a drawn prize: three squares of the top row
+                host.click('#addPrize'); time.sleep(0.3); host.click('#tabDraw')
+                for dev in ('phone-portrait', 'desktop'):
+                    w, h = DEVICES[dev]; host.set_viewport_size({'width': w, 'height': h}); time.sleep(0.2)
+                    shot(host, f'host-draw-{dev}'); page_checks(host, f'prize editor draw ({dev})')
+                host.click('#drawGrid [data-cell="0"]'); host.click('#drawGrid [data-cell="2"]'); host.click('#drawGrid [data-cell="4"]')
+                host.click('#tabGal'); time.sleep(0.2)
+                w, h = DEVICES['phone-portrait']; host.set_viewport_size({'width': w, 'height': h}); time.sleep(0.2)
+                shot(host, 'host-gallery-phone'); page_checks(host, 'prize editor gallery (phone-portrait)')
+                host.click('#tabDraw'); host.click('#shDone'); time.sleep(1.2)
+                check('drawn prize added', host.evaluate("document.querySelectorAll('.pz[data-k]').length") == 3)
+                check('prize estimates shown', 'canci' in host.inner_text('#prizeList').lower() or 'song' in host.inner_text('#prizeList').lower())
+                shot(host, 'host-prizes-us-phone', full=True); page_checks(host, 'host setup us (phone-portrait)')
+                host.set_viewport_size({'width': 1366, 'height': 850})
             if tag == 'es':
                 for dev in ('desktop', 'phone-portrait'):
                     w, h = DEVICES[dev]; host.set_viewport_size({'width': w, 'height': h}); time.sleep(0.2)

@@ -31,8 +31,6 @@ h2.t{font-size:clamp(30px,4.5vw,46px);line-height:1.05;margin-bottom:12px}
 .hero .lead{margin:18px 0 26px}
 .cta{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .cta .btn{text-decoration:none;display:inline-flex;align-items:center;min-height:52px}
-.join{display:flex;gap:8px}
-.join input{width:150px;text-transform:uppercase;letter-spacing:4px;font-weight:800;font-size:18px;text-align:center}
 .shots{position:relative;min-height:380px}
 .shots .tv{width:100%;border-radius:14px;border:1px solid var(--line);box-shadow:0 30px 80px #000b}
 .shots .ph{position:absolute;right:-6px;bottom:-30px;width:31%;border-radius:22px;border:6px solid #000;box-shadow:0 20px 50px #000c}
@@ -65,6 +63,24 @@ td.y{color:var(--green);font-weight:700}td.e{color:var(--yel);font-weight:700}
 .browsers{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
 .browsers a{text-decoration:none}
 @media (max-width:620px){.ext{grid-template-columns:1fr}}
+.paste{margin-top:6px;max-width:620px}
+.plbl{display:block;font-weight:700;margin-bottom:8px}
+.prow{display:flex;gap:10px}
+.prow input{flex:1;min-width:0;font-size:17px;padding:16px 18px;border-radius:16px}
+.prow .btn{white-space:nowrap;min-height:56px}
+.svcs{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 18px}
+.svc{font-size:13px;font-weight:600;padding:5px 11px;border-radius:999px;background:var(--panel);border:1px solid var(--line)}
+.svcs.big .svc{font-size:15px;padding:9px 16px}
+.join{display:flex;gap:8px;align-items:center;flex-wrap:wrap;color:var(--mut);font-size:14.5px}
+.join input{width:120px;text-transform:uppercase;letter-spacing:3px;font-weight:800;font-size:16px;text-align:center;padding:10px}
+.join .btn{min-height:44px;padding:10px 16px}
+.modes{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:10px;margin-top:24px}
+.mode{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px 12px;text-align:center}
+.mode svg{height:64px;width:auto;display:block;margin:0 auto 10px}
+.mode b{display:block}.mode span{color:var(--mut);font-size:13px}
+.mode .pon{fill:var(--pink)}.mode .poff{fill:#ffffff3a}.mode .pgap{fill:#ffffff0d}.mode svg.es9{height:40px;margin:12px auto 22px;max-width:100%}
+.lead.small{font-size:15px;margin-top:12px}.lead a{color:var(--cyan)}
+@media (max-width:560px){.prow{flex-direction:column}}
 details.q{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:10px}
 details.q summary{font-weight:700;cursor:pointer;font-size:16px;list-style:none}
 details.q summary::after{content:'+';float:right;color:var(--cyan);font-weight:800}
@@ -79,22 +95,23 @@ footer a{color:var(--mut)}
 <a class="skip" href="#main" data-t="skip"></a>
 <nav><div class="in">
   <a class="logo" href="/{{lang}}/"><img src="/img/logo.png" alt="" width="34" height="34">Meca <span class="grad">Bingo</span></a>
-  <div class="links"><a href="#how" data-t="navHow"></a><a href="#features" data-t="navFeatures"></a><a href="#music" data-t="navMusic"></a><a href="#extension" data-t="navExt"></a><a href="#faq" data-t="navFaq"></a></div>
+  <div class="links"><a href="#how" data-t="navHow"></a><a href="#modes" data-t="navModes"></a><a href="#music" data-t="navMusic"></a><a href="#faq" data-t="navFaq"></a></div>
   <div class="langs" role="group" aria-label="Language">{{LANGS}}</div>
   <a class="btn big" href="/host.html" data-t="ctaHost"></a>
 </div></nav>
 
 <main class="wrap" id="main">
-  <!-- HERO -->
+  <!-- HERO: paste a playlist and go -->
   <div class="hero">
     <div>
       <h1 data-t="heroTitle"></h1>
       <p class="lead" data-t="heroLead"></p>
-      <div class="cta">
-        <a class="btn big" href="/host.html" data-t="ctaHostLong"></a>
-        <form class="join" id="joinForm"><input type="text" id="code" maxlength="5" autocomplete="off" aria-label="{{codePh}}" placeholder="{{codePh}}"><button class="btn cy" data-t="ctaJoin"></button></form>
-      </div>
-      <p class="free" data-t="heroFree"></p>
+      <form class="paste" id="pasteForm" action="/host.html" method="get">
+        <label class="plbl" for="playlist" data-t="pasteLabel"></label>
+        <div class="prow"><input type="url" id="playlist" name="playlist" required autocomplete="off" placeholder="{{pastePh}}"><button class="btn big" data-t="pasteBtn"></button></div>
+      </form>
+      <div class="svcs">{{SERVICES}}</div>
+      <form class="join" id="joinForm"><span data-t="haveCode"></span><input type="text" id="code" maxlength="5" autocomplete="off" aria-label="{{codePh}}" placeholder="{{codePh}}"><button class="btn cy" data-t="ctaJoin"></button></form>
     </div>
     <div class="shots"><img class="tv" src="/img/host.jpg" alt="{{altHost}}" width="1280" height="800" fetchpriority="high"><img class="ph" src="/img/player.jpg" alt="{{altPlayer}}" width="390" height="760"></div>
   </div>
@@ -102,49 +119,27 @@ footer a{color:var(--mut)}
   <!-- HOW IT WORKS -->
   <section id="how">
     <h2 class="t" data-t="howTitle"></h2>
-    <p class="lead" data-t="howLead"></p>
     <div class="steps">
       <div class="card"><h3 data-t="s1t"></h3><p data-t="s1p"></p></div>
       <div class="card"><h3 data-t="s2t"></h3><p data-t="s2p"></p></div>
       <div class="card"><h3 data-t="s3t"></h3><p data-t="s3p"></p></div>
       <div class="card"><h3 data-t="s4t"></h3><p data-t="s4p"></p></div>
     </div>
-    <div class="roles">
-      <div class="card"><div class="ic">💻</div><h3 data-t="r1t"></h3><ul data-list="r1l"></ul></div>
-      <div class="card"><div class="ic">📱</div><h3 data-t="r2t"></h3><ul data-list="r2l"></ul></div>
-      <div class="card"><div class="ic">🎧</div><h3 data-t="r3t"></h3><ul data-list="r3l"></ul></div>
-    </div>
   </section>
 
-  <!-- FEATURES -->
-  <section id="features">
-    <h2 class="t" data-t="featTitle"></h2>
-    <p class="lead" data-t="featLead"></p>
-    <div class="split">
-      <div class="feat" id="feat"></div>
-      <img src="/img/moment.jpg" alt="{{altMoment}}" width="1280" height="800" loading="lazy">
-    </div>
-    <h3 style="font-size:24px;margin:44px 0 6px" data-t="needTitle"></h3>
-    <p class="lead" data-t="needLead"></p>
-    <div class="tbl"><table><thead><tr><th data-t="thPlayers"></th><th data-t="thEs"></th><th data-t="thUs"></th></tr></thead>
-      <tbody><tr><td>≤ 4</td><td>28</td><td>48</td></tr><tr><td>≤ 8</td><td>31</td><td>50</td></tr><tr><td>≤ 12</td><td>34</td><td>52</td></tr><tr><td>≤ 20</td><td>36</td><td>55</td></tr><tr><td>≤ 30</td><td>38</td><td>58</td></tr></tbody></table></div>
+  <!-- GAME MODES -->
+  <section id="modes">
+    <h2 class="t" data-t="modesTitle"></h2>
+    <p class="lead" data-t="modesLead"></p>
+    <div class="modes">{{MODES}}</div>
   </section>
 
   <!-- MUSIC -->
   <section id="music">
     <h2 class="t" data-t="musicTitle"></h2>
     <p class="lead" data-t="musicLead"></p>
-    <div class="tbl"><table><thead><tr><th data-t="thProv"></th><th data-t="thImport"></th><th data-t="thAuto"></th></tr></thead>
-      <tbody id="provRows"></tbody></table></div>
-  </section>
-
-  <!-- EXTENSION -->
-  <section id="extension">
-    <div class="card ext">
-      <img src="/img/logo.png" alt="" width="110" height="110" loading="lazy">
-      <div><h2 class="t" style="font-size:clamp(26px,3.4vw,36px)" data-t="extTitle"></h2><p class="lead" data-t="extLead"></p><ul data-list="extList" class="lead" style="margin-top:10px;padding-left:20px;line-height:1.7"></ul>
-        <div class="browsers"><a class="btn cy" href="/extension.html" data-t="extChrome"></a><a class="btn" href="/extension.html" data-t="extFirefox"></a><a class="btn" href="/extension.html" data-t="extSafari"></a></div></div>
-    </div>
+    <div class="svcs big">{{SERVICES}}</div>
+    <p class="lead small"><span data-t="extShort"></span> <a href="/extension.html" data-t="extMore"></a></p>
   </section>
 
   <!-- FAQ -->
@@ -153,7 +148,7 @@ footer a{color:var(--mut)}
     <div id="faqList" style="margin-top:20px"></div>
   </section>
 
-  <div class="final"><h2 class="t" data-t="finalTitle"></h2><p class="lead" style="margin:0 auto 22px" data-t="finalLead"></p><a class="btn big" href="/host.html" data-t="ctaHostLong" style="text-decoration:none"></a></div>
+  <div class="final"><h2 class="t" data-t="finalTitle"></h2><p class="lead" style="margin:0 auto 22px" data-t="finalLead"></p><a class="btn big" href="#main" data-t="ctaPaste" style="text-decoration:none"></a></div>
 
   <footer style="line-height:1.6"><span>© Meca Bingo · <span data-t="fTm"></span></span><span><a href="/privacy.html" data-t="fPrivacy"></a> · <a href="/extension.html" data-t="fExt"></a> · <a href="mailto:info@mecabingo.oscasais.es">info@mecabingo.oscasais.es</a> · <a href="https://github.com/oscarOficial/meca-bingo">GitHub</a></span></footer>
 </main>

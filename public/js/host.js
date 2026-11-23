@@ -3,13 +3,15 @@
   const { $, toast, flash, confetti, pick, esc, store } = FX;
   const toggleFullscreen = () => FX.toggleFullscreen(t.noFullscreen);
   const KEY = 'meca-host';
-  const DEFAULT_CFG = { fmt: 'es', vertical: false, diagonal: false, prizes: { line: true, two: true, bingo: true }, clip: 0, maxPlayers: 30, moment: 6 };
+  const DEFAULT_CFG = { fmt: 'es', freeCenter: false, prizes: MB.defaultPrizes('es'), clip: 0, maxPlayers: 30, moment: 6 };
 
   let lang = store.get('meca-lang') || (navigator.language || 'en').slice(0, 2); if (!I18N.T[lang]) lang = 'en';
   let t = I18N.get(lang);
   // S: the saved game (or the setup in progress)
   let S = store.get(KEY) || { phase: 'setup', cfg: { ...DEFAULT_CFG }, playlist: null, msgs: null };
   if (!S.msgs) S.msgs = { ...t.defaults };
+  // settings saved by older versions: line/two/bingo switches → prize list
+  S.cfg = { ...DEFAULT_CFG, ...S.cfg }; S.cfg.prizes = MB.migratePrizes(S.cfg); delete S.cfg.vertical; delete S.cfg.diagonal;
   const save = () => store.set(KEY, S);
 
   // ---------------- Meca Bingo Sync (Chrome extension, optional) ----------------
@@ -80,30 +82,41 @@
     t = I18N.get(lang); document.documentElement.lang = lang;
     const set = (id, s) => { const e = $(id); if (e) e.textContent = s; };
     $('lang').innerHTML = I18N.langs.map(l => `<option value="${l}">${I18N.T[l].langName}</option>`).join(''); $('lang').value = lang;
-    set('tPlaylist', t.playlist); set('extLink', t.getExt); set('tPlaylistHint', t.playlistHint); set('importBtn', t.import); set('tOrPaste', t.orPaste); set('useList', t.useList);
-    set('tCard', t.cardType); const f = $('fmt').children; f[0].textContent = t.cardEs; f[1].textContent = t.cardUs;
-    set('tLines', t.lines); const v = $('vertical').children; v[0].textContent = t.linesH; v[1].textContent = t.linesHV; set('tDiag', t.diagonals); set('tVertNote', t.verticalNote);
-    set('tPrizes', t.prizes); set('tPLine', t.prizeLine); set('tPTwo', t.prizeTwo); set('tPBingo', t.prizeBingo);
+    set('tPasteTitle', t.pasteTitle); set('tPasteSub', t.pasteSub); $('plUrl').placeholder = t.pastePh; set('importBtn', t.import); set('tWorksWith', t.worksWith);
+    set('tHowImport', t.howImport); $('importInfo').innerHTML = t.importInfo.map(x => `<li>${esc(x)}</li>`).join(''); set('extLink', t.getExt);
+    set('tOrPaste', t.orPaste); set('useList', t.useList); set('plChange', '↺ ' + t.change); set('tSongList', t.songList || t.songs);
+    set('tCard', t.cardType); set('tFree', t.freeCenter); set('tFreeHint', t.freeCenterHint);
+    $('fmt').children[0].innerHTML = `${cardPic('es')}<span><b>${esc(t.cardEsShort)}</b><small>${esc(t.cardEsDesc)}</small></span>`;
+    $('fmt').children[1].innerHTML = `${cardPic('us')}<span><b>${esc(t.cardUsShort)}</b><small>${esc(t.cardUsDesc)}</small></span>`;
+    set('tPrizesTitle', t.prizesTitle); set('tPrizesHint', t.prizesHint); set('tMore', '⚙️ ' + t.moreOptions);
+    set('tabGal', t.patGallery); set('tabDraw', '✏️ ' + t.patDraw); set('dClear', t.clear); set('dInvert', t.invert); set('dAll', t.all); set('shRemove', '🗑 ' + t.remove); set('shDone', t.done); set('shTitle', t.prizeNameLbl);
     set('tClip', t.clip); $('clip').innerHTML = [0, 30, 45, 60, 90].map(s => `<option value="${s}">${s ? t.secs(s) : t.full}</option>`).join('');
-    set('tMax', t.maxPlayers); set('tMoment', t.momentLbl); $('momentSecs').innerHTML = [0, 4, 6, 8, 10].map(v => `<option value="${v}">${v ? t.momentSecs(v) : t.momentOff}</option>`).join(''); set('tPhotos', t.photosMsgs); set('tPhotosHint', t.photosHint); set('tAddPhotos', t.addPhotos); set('clearPhotos', t.removeAll);
+    set('tMax', t.maxPlayers); set('tMoment', t.momentLbl); $('momentSecs').innerHTML = [0, 4, 6, 8, 10].map(v => `<option value="${v}">${v ? t.momentSecs(v) : t.momentOff}</option>`).join(''); set('tPhotos', '📸 ' + t.photosMsgs); set('tPhotosHint', t.photosHint); set('tAddPhotos', t.addPhotos); set('clearPhotos', t.removeAll);
     set('tMsgWait', t.msgWait); set('tMsgWin', t.msgWin); set('tMsgLose', t.msgLose); set('tOnePerLine', t.onePerLine); set('create', t.create);
     set('tScan', t.scanToJoin); set('tGoTo', t.orGoTo); set('tPlayers', t.players); set('undo', '↶ ' + t.undo);
     set('tLogHidden', t.logHidden); set('tLogHint', t.logHint); set('unlock', t.showLog); set('relock', '🔒 ' + t.hide); $('q').placeholder = t.find;
     set('tWinners', t.winners); set('tClaims', t.claims); set('endBtn', t.endGame); $('fs').title = t.fullscreen;
   }
 
+  // small picture of a card type (the Spanish one with its gaps)
+  function cardPic(fmt) {
+    const rows = fmt === 'es' ? 3 : 5, cols = fmt === 'es' ? 9 : 5, gaps = ['010100110', '101011000', '000110101'];
+    let r = '';
+    for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++) {
+      const gap = fmt === 'es' && gaps[y][x] === '1';
+      r += `<rect x="${x * 12}" y="${y * 12}" width="10" height="10" rx="2.4" class="${gap ? 'pgap' : 'poff'}"/>`;
+    }
+    return `<svg class="cardpic" viewBox="-1 -1 ${cols * 12} ${rows * 12}" aria-hidden="true">${r}</svg>`;
+  }
   // ---------------- setup ----------------
+  const prizeTitle = (k, cfg = S.cfg) => I18N.prizeTitle(t, cfg.fmt, cfg.prizes[k]);
   function drawSetup() {
-    const c = S.cfg;
-    [...$('fmt').children].forEach(b => b.classList.toggle('on', b.dataset.v === c.fmt));
-    [...$('vertical').children].forEach(b => b.classList.toggle('on', b.dataset.v === (c.vertical ? '1' : '0')));
-    $('diagWrap').classList.toggle('hidden', c.fmt !== 'us'); $('diagonal').checked = c.diagonal;
-    $('tVertNote').classList.toggle('hidden', !(c.fmt === 'es' && c.vertical));
-    $('pLine').checked = c.prizes.line; $('pTwo').checked = c.prizes.two; $('pBingo').checked = c.prizes.bingo;
+    const c = S.cfg, pl = S.playlist;
+    $('step1').classList.toggle('hidden', !!pl); $('step2').classList.toggle('hidden', !pl);
+    [...$('fmt').children].forEach(b => b.setAttribute('aria-pressed', b.dataset.v === c.fmt));
+    $('freeWrap').classList.toggle('hidden', c.fmt !== 'us'); $('freeCenter').checked = !!c.freeCenter;
     $('clip').value = c.clip; $('maxPlayers').value = c.maxPlayers; $('momentSecs').value = c.moment ?? 6;
     $('msgWait').value = S.msgs.wait.join('\n'); $('msgWin').value = S.msgs.win.join('\n'); $('msgLose').value = S.msgs.lose.join('\n');
-    const pl = S.playlist;
-    $('plInfo').classList.toggle('hidden', !pl);
     let ok = false;
     if (pl) {
       $('plTitle').textContent = pl.title; $('plCount').textContent = pl.tracks.length + ' ' + t.songs;
@@ -119,9 +132,141 @@
       const u = $('useCap'); if (u) u.onclick = () => { S.cfg.maxPlayers = cap; save(); drawSetup(); };
       $('plTracks').innerHTML = pl.tracks.map((s, i) => `<div>${i + 1}. ${esc(s.title)}${s.artist ? ' — ' + esc(s.artist) : ''}</div>`).join('');
     }
-    const anyPrize = c.prizes.line || c.prizes.two || c.prizes.bingo;
-    $('create').disabled = !(ok && anyPrize);
+    drawPrizes();
+    $('create').disabled = !(ok && c.prizes.length);
   }
+  // ---- prizes: cards with the shape, how soon it is usually won and warnings ----
+  let est = null, estKey = '', estT = null;
+  function drawPrizes() {
+    const c = S.cfg, list = $('prizeList');
+    const key = JSON.stringify([c.fmt, c.freeCenter, c.maxPlayers, S.playlist && S.playlist.tracks.length, c.prizes.map(p => p.pat)]);
+    if (key !== estKey) { estKey = key; est = null; clearTimeout(estT); estT = setTimeout(runEstimate, 250); }
+    const n = c.prizes.length;
+    list.innerHTML = c.prizes.map((p, k) => {
+      const e = est && est[k], warns = [];
+      if (e) {
+        if (k > 0 && est[k - 1] && e.median != null && est[k - 1].median != null && e.median < est[k - 1].median) warns.push(t.warnOrder);
+        if (e.never > 0.25) warns.push(t.warnNever); else if (e.ties > 0.35) warns.push(t.warnTies);
+      }
+      return `<div class="pz" role="button" tabindex="0" data-k="${k}" aria-label="${esc(t.prizeN(k + 1) + ': ' + prizeTitle(k))}">
+        <span class="num">${k + 1}</span>
+        <span class="mv">${k > 0 ? `<button type="button" data-up="${k}" title="${esc(t.moveUp)}" aria-label="${esc(t.moveUp)}">↑</button>` : ''}${k < n - 1 ? `<button type="button" data-down="${k}" title="${esc(t.moveDown)}" aria-label="${esc(t.moveDown)}">↓</button>` : ''}</span>
+        ${PATUI.html(c.fmt, p.pat, { free: c.freeCenter && c.fmt === 'us', label: prizeTitle(k) })}
+        <b>${esc(prizeTitle(k))}</b>
+        <span class="est">${e && e.median ? esc(t.aroundSong(e.median)) : est ? '' : esc(t.checking)}</span>
+        ${warns.map(w => `<span class="w">⚠️ ${esc(w)}</span>`).join('')}
+      </div>`;
+    }).join('') + (n < MB.MAX_PRIZES ? `<button type="button" class="pz add" id="addPrize">${esc(t.addPrize)}</button>` : '');
+  }
+  function runEstimate() {
+    const c = S.cfg; if (!S.playlist || !c.prizes.length) return;
+    const n = S.playlist.tracks.length, F = MB.FORMATS[c.fmt];
+    if (n < F.songs + 2) return;
+    const k = estKey;
+    const r = MB.simulate(c.fmt, n, Math.max(2, Math.min(+c.maxPlayers || 30, 30)), c.prizes, { runs: 150, freeCenter: c.freeCenter });
+    if (k === estKey) { est = r; drawPrizes(); }
+  }
+  // move prizes when the card type changes: same shape when it exists, otherwise dropped
+  function convertPrizes(prizes, from, to) {
+    const out = [];
+    for (const p of prizes) {
+      if (p.preset && p.preset !== 'custom') { const hit = MB.presetById(to, p.preset); if (hit) out.push({ ...p, pat: hit.pat }); continue; }
+      if (p.pat.kind === 'masks') {
+        const max = MB.GRID[to].rows * MB.GRID[to].cols;
+        const masks = p.pat.masks.map(m => m.filter(i => i < max)).filter(m => m.length);
+        if (masks.length) out.push({ ...p, pat: { kind: 'masks', masks } });
+      }
+    }
+    return out.length ? out : MB.defaultPrizes(to);
+  }
+
+  // ---- the prize editor (bottom sheet) ----
+  let edK = -1, ed = null, tab = 'gal';
+  function openSheet(k) {
+    const c = S.cfg;
+    const unused = MB.PRESETS[c.fmt].find(p => p.id !== 'full' && !c.prizes.some(x => x.preset === p.id)) || MB.PRESETS[c.fmt][0];
+    edK = k; ed = k < c.prizes.length ? JSON.parse(JSON.stringify(c.prizes[k])) : { preset: unused.id, pat: unused.pat };
+    tab = ed.preset === 'custom' ? 'draw' : 'gal';
+    $('shRemove').classList.toggle('hidden', !(k < c.prizes.length && c.prizes.length > 1));
+    $('shClose').setAttribute('aria-label', t.cancel); $('shClose').title = t.cancel;
+    $('sheet').classList.add('on'); $('sheet').setAttribute('aria-hidden', 'false');
+    drawSheet(); setTimeout(() => $('shName').focus({ preventScroll: true }), 50);
+  }
+  function closeSheet() { $('sheet').classList.remove('on'); $('sheet').setAttribute('aria-hidden', 'true'); edK = -1; ed = null; }
+  const edName = () => ed.name || I18N.prizeTitle(t, S.cfg.fmt, ed);
+  function drawSheet() {
+    const c = S.cfg, fmt = c.fmt, free = c.freeCenter && fmt === 'us';
+    $('shPic').innerHTML = PATUI.html(fmt, ed.pat, { free });
+    $('shName').value = edName();
+    $('tabGal').setAttribute('aria-selected', tab === 'gal'); $('tabDraw').setAttribute('aria-selected', tab === 'draw');
+    $('gal').classList.toggle('hidden', tab !== 'gal'); $('draw').classList.toggle('hidden', tab !== 'draw');
+    $('gal').innerHTML = MB.PRESETS[fmt].map(p => `<button type="button" data-preset="${p.id}" aria-pressed="${ed.preset === p.id}">${ed.preset === p.id ? '<span class="tick">✓</span>' : ''}${PATUI.html(fmt, p.pat, { free })}<b>${esc(t.presets[fmt][p.id])}</b><small>${esc((fmt === 'us' && p.id === 'line' ? t.presetHints.lineAny : t.presetHints[p.id]) || '')}</small></button>`).join('');
+    const sel = $('gal').querySelector('[aria-pressed=true]'); if (sel && tab === 'gal') setTimeout(() => sel.scrollIntoView({ block: 'nearest' }), 30);
+    // drawing grid: the current shape (first position of a preset, so it can be edited)
+    const on = new Set(ed.preset === 'custom' ? ed.pat.masks[0] : PATUI.frames(fmt, ed.pat)[0]);
+    const G = MB.GRID[fmt];
+    $('drawHint').textContent = fmt === 'es' ? t.drawHint + ' ' + t.drawHintEs : t.drawHint;
+    $('drawGrid').className = 'drawgrid ' + fmt;
+    $('drawGrid').innerHTML = Array.from({ length: G.rows * G.cols }, (_, i) => free && i === MB.FREE_CELL
+      ? `<button type="button" class="free" disabled aria-label="free">★</button>`
+      : `<button type="button" data-cell="${i}" aria-pressed="${on.has(i)}" aria-label="${Math.floor(i / G.cols) + 1}·${i % G.cols + 1}"></button>`).join('');
+  }
+  // drawing: cells pressed in the grid become the shape
+  function setDrawn(cells) {
+    const list = [...cells].sort((a, b) => a - b);
+    ed.preset = 'custom'; ed.pat = { kind: 'masks', masks: [list] };
+    if (!ed.nameEdited) delete ed.name;
+    $('shPic').innerHTML = PATUI.html(S.cfg.fmt, ed.pat, { free: S.cfg.freeCenter && S.cfg.fmt === 'us' });
+    if (!ed.nameEdited) $('shName').value = edName();
+    [...$('gal').children].forEach(b => b.setAttribute('aria-pressed', 'false'));
+  }
+  const drawnCells = () => new Set([...$('drawGrid').querySelectorAll('[aria-pressed=true]')].map(b => +b.dataset.cell));
+  let painting = null;
+  $('drawGrid').addEventListener('pointerdown', e => {
+    const b = e.target.closest('[data-cell]'); if (!b) return; e.preventDefault();
+    painting = b.getAttribute('aria-pressed') !== 'true';
+    b.setAttribute('aria-pressed', painting); setDrawn(drawnCells());
+  });
+  $('drawGrid').addEventListener('pointermove', e => {
+    if (painting === null) return;
+    const el = document.elementFromPoint(e.clientX, e.clientY), b = el && el.closest && el.closest('#drawGrid [data-cell]');
+    if (b && b.getAttribute('aria-pressed') !== String(painting)) { b.setAttribute('aria-pressed', painting); setDrawn(drawnCells()); }
+  });
+  addEventListener('pointerup', () => { painting = null; });
+  $('dClear').onclick = () => { $('drawGrid').querySelectorAll('[data-cell]').forEach(b => b.setAttribute('aria-pressed', 'false')); setDrawn(new Set()); };
+  $('dAll').onclick = () => { $('drawGrid').querySelectorAll('[data-cell]').forEach(b => b.setAttribute('aria-pressed', 'true')); setDrawn(drawnCells()); };
+  $('dInvert').onclick = () => { $('drawGrid').querySelectorAll('[data-cell]').forEach(b => b.setAttribute('aria-pressed', b.getAttribute('aria-pressed') !== 'true')); setDrawn(drawnCells()); };
+  $('gal').onclick = e => {
+    const b = e.target.closest('[data-preset]'); if (!b) return;
+    ed.preset = b.dataset.preset; ed.pat = MB.presetById(S.cfg.fmt, ed.preset).pat; if (!ed.nameEdited) delete ed.name;
+    drawSheet();
+  };
+  $('tabGal').onclick = () => { tab = 'gal'; drawSheet(); };
+  $('tabDraw').onclick = () => {
+    tab = 'draw';
+    // drawing always gives one exact shape: start from what the picture shows now
+    if (ed.preset !== 'custom') { ed.preset = 'custom'; ed.pat = { kind: 'masks', masks: [PATUI.frames(S.cfg.fmt, ed.pat)[0]] }; if (!ed.nameEdited) delete ed.name; }
+    drawSheet();
+  };
+  $('shName').oninput = e => { const v = e.target.value.trim(); if (v && v !== I18N.prizeTitle(t, S.cfg.fmt, { preset: ed.preset })) { ed.name = v; ed.nameEdited = true; } else { delete ed.name; ed.nameEdited = false; } };
+  $('shDone').onclick = () => {
+    if (ed.pat.kind === 'masks' && !ed.pat.masks.some(m => m.length)) { toast('✏️ ' + t.drawHint, 3000); return; }
+    const p = { preset: ed.preset, pat: ed.pat }; if (ed.name) p.name = ed.name;
+    if (edK < S.cfg.prizes.length) S.cfg.prizes[edK] = p; else S.cfg.prizes.push(p);
+    save(); closeSheet(); drawSetup();
+  };
+  $('shRemove').onclick = () => { S.cfg.prizes.splice(edK, 1); save(); closeSheet(); drawSetup(); };
+  $('sheet').onclick = e => { if (e.target === $('sheet')) closeSheet(); };
+  $('shClose').onclick = closeSheet;
+  addEventListener('keydown', e => { if (e.key === 'Escape' && $('sheet').classList.contains('on')) closeSheet(); });
+  $('prizeList').onclick = e => {
+    const up = e.target.closest('[data-up]'), down = e.target.closest('[data-down]'), P = S.cfg.prizes;
+    if (up) { const k = +up.dataset.up; [P[k - 1], P[k]] = [P[k], P[k - 1]]; save(); drawSetup(); return; }
+    if (down) { const k = +down.dataset.down; [P[k + 1], P[k]] = [P[k], P[k + 1]]; save(); drawSetup(); return; }
+    if (e.target.closest('#addPrize')) { openSheet(P.length); return; }
+    const card = e.target.closest('.pz[data-k]'); if (card) openSheet(+card.dataset.k);
+  };
+  $('prizeList').onkeydown = e => { const card = e.target.closest('.pz[data-k]'); if (card && (e.key === 'Enter' || e.key === ' ') && e.target === card) { e.preventDefault(); openSheet(+card.dataset.k); } };
   function readMsgs() {
     const rd = id => $(id).value.split('\n').map(s => s.trim()).filter(Boolean);
     S.msgs = { wait: rd('msgWait'), win: rd('msgWin'), lose: rd('msgLose') };
@@ -148,6 +293,7 @@
         throw new Error(d.error === 'unsupported' ? t.errUnsupported : d.error === 'empty' ? t.errEmpty(prov) : t.errFailed(prov));
       }
       S.playlist = { title: d.title, provider: d.provider, tracks: d.tracks, note: d.note, url };
+      scrollTo(0, 0);
       STATS.track('import', { provider: d.provider, ok: true, songs: d.tracks.length });
       save(); drawSetup();
     } catch (e) { toast('⚠️ ' + e.message, 8000); }
@@ -161,27 +307,28 @@
     const c = S.cfg, code = MB.roomCode();
     const max = Math.max(1, Math.min(MB.MAX_PLAYERS, +c.maxPlayers || 30));
     S = { ...S, phase: 'game', code, seed: code + Date.now(), started: Date.now(),
-      cards: MB.makeCards(S.playlist.tracks.length, max, c.fmt, code + Date.now()),
+      cards: MB.makeCards(S.playlist.tracks.length, max, c.fmt, code + Date.now(), { freeCenter: c.fmt === 'us' && c.freeCenter }),
       players: {}, played: [], awarded: {}, claims: [] };
     save(); startGame();
     STATS.track('game_created', { provider: (S.playlist && S.playlist.provider) || 'unknown', songs: S.playlist.tracks.length, fmt: c.fmt,
-      vertical: !!c.vertical, diagonal: !!c.diagonal, prizes: enabledPrizes().join('+'), clip: +c.clip || 0, maxPlayers: max,
+      prizes: c.prizes.map(p => p.preset || 'custom').join('+'), nPrizes: c.prizes.length, freeCenter: !!c.freeCenter, clip: +c.clip || 0, maxPlayers: max,
       photos: photos.length, ext: EXT.on, extVersion: EXT.version || '' });
   }
-  const enabledPrizes = () => MB.PRIZES.filter(p => S.cfg.prizes[p]);
+  const enabledPrizes = () => S.cfg.prizes.map((_, k) => k);
   // a prize stays open for ties until the next song plays after the first winner
   function currentPrize() {
     for (const p of enabledPrizes()) { const a = S.awarded[p]; if (!a || a.atSong === S.played.length) return p; }
     return null;
   }
-  const prizeLabel = p => I18N.prizeName(t, p);
+  const prizeLabel = k => prizeTitle(k);
   function cardForPlayer(dev) {
     const p = S.players[dev]; const cells = S.cards[p.card];
-    return { no: p.card + 1, fmt: S.cfg.fmt, cells: cells.map(s => s < 0 ? null : [S.playlist.tracks[s].title, S.playlist.tracks[s].artist]) };
+    return { no: p.card + 1, fmt: S.cfg.fmt, cells: cells.map(s => s === MB.FREE ? 'free' : s < 0 ? null : [S.playlist.tracks[s].title, S.playlist.tracks[s].artist]) };
   }
   function publicState() {
     const cur = currentPrize();
-    return { t: 'state', lang, prize: cur, winners: Object.fromEntries(Object.entries(S.awarded).map(([k, v]) => [k, v.names])), over: !cur };
+    const prizes = S.cfg.prizes.map((p, k) => ({ name: prizeTitle(k), pat: p.pat }));
+    return { t: 'state', lang, prize: cur, prizes, fmt: S.cfg.fmt, free: S.cfg.fmt === 'us' && !!S.cfg.freeCenter, winners: Object.fromEntries(Object.entries(S.awarded).map(([k, v]) => [k, v.names])), over: cur === null };
   }
   function onMessage(cid, m, reply) {
     if (!m || !m.t) return;
@@ -195,13 +342,13 @@
         STATS.track('player_joined', { players: Object.keys(S.players).length });
       } else if (m.name) p.name = String(m.name).slice(0, 24);
       peers[cid] = m.dev; save();
-      reply({ ...publicState(), t: 'welcome', code: S.code, card: cardForPlayer(m.dev), rules: { vertical: S.cfg.vertical, diagonal: S.cfg.diagonal } });
+      reply({ ...publicState(), t: 'welcome', code: S.code, card: cardForPlayer(m.dev), rules: { vertical: MB.needsRealLayout(S.cfg.fmt, S.cfg.prizes) } });
       drawGame();
     } else if (m.t === 'claim') {
       const dev = peers[cid] || m.dev; const p = S.players[dev]; if (!p) return;
       const cur = currentPrize();
-      if (m.prize !== cur) { reply({ t: 'result', ok: false, prize: m.prize, reason: 'closed' }); return; }
-      const r = MB.checkClaim(S.cards[p.card], S.cfg.fmt, S.cfg, (m.marks || []).map(Number), S.played, m.prize);
+      if (m.prize !== cur || !S.cfg.prizes[m.prize]) { reply({ t: 'result', ok: false, prize: m.prize, reason: 'closed' }); return; }
+      const r = MB.checkClaim(S.cards[p.card], S.cfg.fmt, S.cfg.prizes[m.prize].pat, (m.marks || []).map(Number), S.played);
       S.claims.unshift({ name: p.name, card: p.card + 1, prize: m.prize, ok: r.ok, reason: r.reason, at: S.played.length });
       if (r.ok) {
         const a = S.awarded[m.prize] || (S.awarded[m.prize] = { names: [], atSong: S.played.length });
@@ -209,7 +356,7 @@
       }
       save();
       reply({ t: 'result', ok: r.ok, prize: m.prize, reason: r.reason, wrong: r.wrong || [] });
-      STATS.track('claim', { prize: m.prize, ok: r.ok, reason: r.ok ? '' : (r.reason || ''), songs: S.played.length, players: Object.keys(S.players).length, fmt: S.cfg.fmt });
+      STATS.track('claim', { prize: (S.cfg.prizes[m.prize] && S.cfg.prizes[m.prize].preset) || 'custom', n: +m.prize + 1, ok: r.ok, reason: r.ok ? '' : (r.reason || ''), songs: S.played.length, players: Object.keys(S.players).length, fmt: S.cfg.fmt });
       showStage(r.ok, p, m.prize, r.reason);
       net.broadcast(publicState());
       drawGame();
@@ -233,7 +380,7 @@
     $('pCount').textContent = `${names.length}/${S.cards.length}`;
     $('chips').innerHTML = names.length ? names.map(p => `<span class="pill">${esc(p.name)} · #${p.card + 1}</span>`).join('') : `<span class="mut">${esc(t.noPlayers)}</span>`;
     const cur = currentPrize();
-    $('prizeNow').innerHTML = cur ? `${esc(t.playingFor)} <b>${esc(prizeLabel(cur))}</b>` : `🎉 ${esc(t.allPrizesDone)}`;
+    $('prizeNow').innerHTML = cur !== null ? `${esc(t.playingFor)} <b>${esc(prizeLabel(cur))}</b>${PATUI.html(S.cfg.fmt, S.cfg.prizes[cur].pat, { free: S.cfg.fmt === 'us' && S.cfg.freeCenter })}` : `🎉 ${esc(t.allPrizesDone)}`;
     $('nowLbl').textContent = t.played(`${P.length} / ${N}`);
     $('nowTitle').textContent = P.length ? `🎵 ${t.songN(P.length)}` : t.waitingFirst;
     $('nowSub').textContent = P.length ? t.songHidden : '';
@@ -323,13 +470,11 @@
     if (S.phase === 'game' && net) net.broadcast(publicState());
   };
   $('fs').onclick = toggleFullscreen;
-  $('importBtn').onclick = importPlaylist;
-  $('plUrl').onkeydown = e => { if (e.key === 'Enter') importPlaylist(); };
   $('useList').onclick = () => { const tr = MB.parsePasted($('paste').value); if (!tr.length) return; S.playlist = { title: t.myList, provider: 'pasted', tracks: tr }; save(); drawSetup(); };
-  $('fmt').onclick = e => { const b = e.target.closest('button'); if (!b) return; S.cfg.fmt = b.dataset.v; save(); drawSetup(); };
-  $('vertical').onclick = e => { const b = e.target.closest('button'); if (!b) return; S.cfg.vertical = b.dataset.v === '1'; save(); drawSetup(); };
-  $('diagonal').onchange = e => { S.cfg.diagonal = e.target.checked; save(); };
-  ['line', 'two', 'bingo'].forEach(p => { $('p' + p[0].toUpperCase() + p.slice(1)).onchange = e => { S.cfg.prizes[p] = e.target.checked; save(); drawSetup(); }; });
+  $('fmt').onclick = e => { const b = e.target.closest('button'); if (!b || b.dataset.v === S.cfg.fmt) return; S.cfg.prizes = convertPrizes(S.cfg.prizes, S.cfg.fmt, b.dataset.v); S.cfg.fmt = b.dataset.v; save(); drawSetup(); };
+  $('freeCenter').onchange = e => { S.cfg.freeCenter = e.target.checked; save(); drawSetup(); };
+  $('plChange').onclick = () => { S.playlist = null; save(); drawSetup(); setTimeout(() => $('plUrl').focus(), 50); };
+  $('plForm').onsubmit = e => { e.preventDefault(); importPlaylist(); };
   $('clip').onchange = e => { S.cfg.clip = +e.target.value; save(); };
   $('momentSecs').onchange = e => { S.cfg.moment = +e.target.value; save(); };
   $('maxPlayers').oninput = e => { const v = +e.target.value; if (v >= 1 && v <= 30) { S.cfg.maxPlayers = v; save(); drawSetup(); } };
@@ -358,5 +503,10 @@
   });
 
   texts(); loadPhotos();
-  if (S.phase === 'game' && S.code) startGame(); else { S.phase = 'setup'; drawSetup(); }
+  if (S.phase === 'game' && S.code) startGame(); else {
+    S.phase = 'setup'; drawSetup();
+    // link pasted on the landing page: /host.html?playlist=…
+    const fromLanding = new URLSearchParams(location.search).get('playlist');
+    if (fromLanding) { history.replaceState(null, '', location.pathname); $('plUrl').value = fromLanding; S.playlist = null; drawSetup(); importPlaylist(); }
+  }
 })();

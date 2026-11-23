@@ -31,6 +31,19 @@
       cardType: 'Card', cardEs: 'Spanish 3×9 (15 songs, with gaps)', cardUs: 'Classic 5×5 (25 songs)',
       lines: 'What counts as a line', linesH: 'Horizontal only', linesHV: 'Horizontal and vertical', diagonals: 'Diagonals too',
       verticalNote: 'On the 3×9 card a column only counts when it has 3 songs.',
+      pasteTitle: 'Paste your playlist', pasteSub: 'Copy the link of a public playlist and paste it here.', pastePh: 'open.spotify.com/playlist/…',
+      howImport: 'Which playlists work?', songList: 'See the songs', change: 'Change playlist', worksWith: 'Works with',
+      importInfo: ['The playlist must be public (shared with a link).', 'Spotify: up to the first 100 songs.', 'Amazon Music needs the free Meca Bingo Sync extension.', 'Any other service: paste the song list instead.'],
+      cardEsShort: 'Spanish', cardUsShort: 'Classic', cardEsDesc: '3×9 · 15 songs', cardUsDesc: '5×5 · 25 songs',
+      freeCenter: 'Free centre square', freeCenterHint: 'The middle square counts as marked.',
+      prizesTitle: 'Prizes', prizesHint: 'Played in this order. Tap a prize to change it.', addPrize: '+ Add prize', prizeN: n => `Prize ${n}`,
+      aroundSong: n => `Usually won around song ${n}`, warnOrder: 'Easier than the prize above: move it up?', warnTies: 'Often several winners at once', warnNever: 'With these songs often nobody gets it',
+      patGallery: 'Shapes', patDraw: 'Draw your own', drawHint: 'Tap or drag over the squares that must be marked.', drawHintEs: 'Each row of the 3×9 card has 5 songs: draw on those 5 positions.',
+      clear: 'Clear', invert: 'Invert', all: 'All', prizeNameLbl: 'Prize name', done: 'Done', remove: 'Remove', moveUp: 'Move up', moveDown: 'Move down', myShape: 'My shape', moreOptions: 'Music, players and photo moment', checking: 'Calculating…',
+      presets: {
+        es: { line: 'Line', lineHV: 'Line (also columns)', two: 'Two lines', corners: 'Four corners', ends: 'Row ends', topBottom: 'Top and bottom', full: 'Bingo' },
+        us: { line: 'Line', lineH: 'Horizontal line', two: 'Two lines', corners: 'Four corners', stamp: 'Stamp', x: 'X', plus: 'Cross', t: 'T', l: 'L', diamond: 'Diamond', frame: 'Frame', full: 'Bingo' } },
+      presetHints: { lineAny: 'Any row, column or diagonal', line: 'Any row', lineHV: 'A row or a full column', lineH: 'Any row', two: 'Any two lines', corners: 'The 4 corners', ends: 'First and last song of every row', topBottom: 'Top and bottom rows', stamp: 'A 2×2 square in any corner', x: 'Both diagonals', plus: 'Middle row and column', t: 'Top row and middle column', l: 'Left column and bottom row', diamond: 'A diamond', frame: 'All the edges', full: 'The whole card', custom: 'Your own shape' },
       prizes: 'Prizes (in this order)', prizeLine: 'Line', prizeTwo: '2 lines', prizeBingo: 'Bingo (full card)',
       clip: 'How long each song plays', full: 'Whole song', secs: s => `${s} seconds`,
       maxPlayers: 'Max players', photosMsgs: 'Photos and messages',
@@ -87,6 +100,19 @@
       cardType: 'Cartón', cardEs: 'Español 3×9 (15 canciones, con huecos)', cardUs: 'Clásico 5×5 (25 canciones)',
       lines: 'Qué cuenta como línea', linesH: 'Solo horizontal', linesHV: 'Horizontal y vertical', diagonals: 'También diagonales',
       verticalNote: 'En el cartón 3×9 una columna solo cuenta si tiene 3 canciones.',
+      pasteTitle: 'Pega tu playlist', pasteSub: 'Copia el enlace de una playlist pública y pégalo aquí.', pastePh: 'open.spotify.com/playlist/…',
+      howImport: '¿Qué playlists funcionan?', songList: 'Ver las canciones', change: 'Cambiar playlist', worksWith: 'Funciona con',
+      importInfo: ['La playlist tiene que ser pública (compartida con enlace).', 'Spotify: como máximo las 100 primeras canciones.', 'Amazon Music necesita la extensión gratuita Meca Bingo Sync.', 'Cualquier otro servicio: pega la lista de canciones.'],
+      cardEsShort: 'Español', cardUsShort: 'Clásico', cardEsDesc: '3×9 · 15 canciones', cardUsDesc: '5×5 · 25 canciones',
+      freeCenter: 'Casilla central libre', freeCenterHint: 'La casilla del centro cuenta como marcada.',
+      prizesTitle: 'Premios', prizesHint: 'Se juegan en este orden. Toca un premio para cambiarlo.', addPrize: '+ Añadir premio', prizeN: n => `Premio ${n}`,
+      aroundSong: n => `Suele salir hacia la canción ${n}`, warnOrder: 'Más fácil que el premio anterior: ¿súbelo?', warnTies: 'A menudo habrá varios ganadores a la vez', warnNever: 'Con estas canciones a menudo nadie lo consigue',
+      patGallery: 'Figuras', patDraw: 'Dibuja la tuya', drawHint: 'Toca o arrastra por las casillas que hay que marcar.', drawHintEs: 'Cada fila del cartón 3×9 tiene 5 canciones: dibuja sobre esas 5 posiciones.',
+      clear: 'Borrar', invert: 'Invertir', all: 'Todo', prizeNameLbl: 'Nombre del premio', done: 'Listo', remove: 'Quitar', moveUp: 'Subir', moveDown: 'Bajar', myShape: 'Mi figura', moreOptions: 'Música, jugadores y momento foto', checking: 'Calculando…',
+      presets: {
+        es: { line: 'Línea', lineHV: 'Línea (también columnas)', two: 'Dos líneas', corners: 'Cuatro esquinas', ends: 'Extremos', topBottom: 'Arriba y abajo', full: 'Bingo' },
+        us: { line: 'Línea', lineH: 'Línea horizontal', two: 'Dos líneas', corners: 'Cuatro esquinas', stamp: 'Sello', x: 'Equis', plus: 'Cruz', t: 'T', l: 'L', diamond: 'Rombo', frame: 'Marco', full: 'Bingo' } },
+      presetHints: { lineAny: 'Cualquier fila, columna o diagonal', line: 'Cualquier fila', lineHV: 'Una fila o una columna completa', lineH: 'Cualquier fila', two: 'Dos líneas cualesquiera', corners: 'Las 4 esquinas', ends: 'Primera y última canción de cada fila', topBottom: 'Filas de arriba y abajo', stamp: 'Un cuadrado 2×2 en cualquier esquina', x: 'Las dos diagonales', plus: 'Fila y columna del centro', t: 'Fila de arriba y columna central', l: 'Columna izquierda y fila de abajo', diamond: 'Un rombo', frame: 'Todo el borde', full: 'Todo el cartón', custom: 'Tu propia figura' },
       prizes: 'Premios (en este orden)', prizeLine: 'Línea', prizeTwo: 'Dos líneas', prizeBingo: 'Bingo (cartón lleno)',
       clip: 'Cuánto suena cada canción', full: 'Entera', secs: s => `${s} segundos`,
       maxPlayers: 'Máximo de jugadores', photosMsgs: 'Fotos y mensajes',
@@ -114,5 +140,7 @@
     }
   };
   function prizeName(t, p) { return p === 'line' ? t.prizeLine : p === 'two' ? t.prizeTwo : 'Bingo'; }
-  G.I18N = { T, langs: Object.keys(T), prizeName, get: l => T[l] || T.en };
+  // the name of a prize from the list: its own name, or the shape's usual name
+  function prizeTitle(t, fmt, prize) { return (prize && prize.name) || (prize && t.presets[fmt][prize.preset]) || t.myShape; }
+  G.I18N = { T, langs: Object.keys(T), prizeName, prizeTitle, get: l => T[l] || T.en };
 })(window);

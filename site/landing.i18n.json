@@ -9,18 +9,18 @@
   "ctaHostLong": "Create a game →",
   "ctaJoin": "Join",
   "heroTitle": "Music bingo night with your friends",
-  "heroLead": "Pick a public playlist, every friend gets a unique card on their phone, and the host's screen checks every LINE and BINGO for you.",
+  "heroLead": "Paste a playlist. Every friend gets a different card on their phone, and the host's screen checks every call.",
   "heroFree": "Free · no accounts · no app to install for players · up to 30 players",
   "howTitle": "How it works",
   "howLead": "One person hosts on a laptop or TV; everyone else plays from their phone.",
-  "s1t": "Pick a playlist",
-  "s1p": "Paste a link to a public playlist from Spotify, Deezer, Apple Music, YouTube Music or Amazon Music — or paste the songs.",
-  "s2t": "Set the rules",
-  "s2p": "Card type, what counts as a line, prizes, song length, language, your own photos and messages.",
+  "s1t": "Paste a playlist",
+  "s1p": "From Spotify, Deezer, Apple Music, YouTube Music or Amazon Music.",
+  "s2t": "Choose the prizes",
+  "s2p": "Line, two lines, corners, X, full card… or draw your own shape.",
   "s3t": "Friends scan the QR",
-  "s3p": "Each phone gets a different card with its name. If someone reloads, they keep their card.",
+  "s3p": "Each phone gets a different card. No app, no account.",
   "s4t": "Play and call",
-  "s4p": "Put the music on. Players tap what they hear and call LINE or BINGO; the host's screen says VALID or NOPE.",
+  "s4p": "Players tap what they hear and call the prize; the host's screen says VALID or NOPE.",
   "r1t": "The host",
   "r1l": [
    "Laptop, tablet or a TV for everyone to see",
@@ -73,7 +73,7 @@
   "thEs": "Spanish 3×9 card",
   "thUs": "5×5 card",
   "musicTitle": "Works with your music",
-  "musicLead": "Import any public playlist. Amazon Music has no public access, so it needs the free extension.",
+  "musicLead": "Public playlists from these services are imported directly. Any other service: paste the song list.",
   "thProv": "Service",
   "thImport": "Import the playlist",
   "thAuto": "Auto-mark & play/pause from the bingo screen",
@@ -147,6 +147,10 @@
     "No. Each phone gets a different card, and keeps it if it reloads."
    ],
    [
+    "How many songs do I need?",
+    "More players need more songs, so not everyone wins at once: about 28–38 songs for the Spanish 3×9 card and 48–58 for the 5×5, depending on the number of players. If your playlist is short, the app tells you how many players it can take."
+   ],
+   [
     "How are calls checked?",
     "Every marked song must have played, and the marks must complete the prize. Otherwise the host screen shows NOPE and the player sees which song was wrong."
    ],
@@ -180,7 +184,55 @@
   "ogDesc": "Turn any public playlist into a music bingo night. Unique cards on every phone. Free, no accounts.",
   "langName": "English",
   "codePh": "CODE",
-  "skip": "Skip to content"
+  "skip": "Skip to content",
+  "pasteLabel": "Paste the link of a public playlist",
+  "pastePh": "open.spotify.com/playlist/…",
+  "pasteBtn": "Continue →",
+  "haveCode": "Invited? Enter the code:",
+  "navModes": "Game modes",
+  "modesTitle": "Play it your way",
+  "modesLead": "Choose what counts as a line and as bingo: tap a shape, or draw your own. The app tells you around which song each prize will be won.",
+  "extShort": "Amazon Music, automatic song marking and play/pause from the bingo screen need the free browser extension.",
+  "extMore": "Get the extension →",
+  "ctaPaste": "Paste your playlist ↑",
+  "modes": {
+   "line": [
+    "Line",
+    "Any row"
+   ],
+   "two": [
+    "Two lines",
+    "Any two rows"
+   ],
+   "corners": [
+    "Four corners",
+    "The 4 corners"
+   ],
+   "x": [
+    "X",
+    "Both diagonals"
+   ],
+   "stamp": [
+    "Stamp",
+    "A 2×2 corner square"
+   ],
+   "frame": [
+    "Frame",
+    "All the edges"
+   ],
+   "diamond": [
+    "Diamond",
+    "A diamond"
+   ],
+   "full": [
+    "Bingo",
+    "The whole card"
+   ],
+   "custom": [
+    "Your shape",
+    "Draw it yourself"
+   ]
+  }
  },
  "es": {
   "navHow": "Cómo funciona",
@@ -192,18 +244,18 @@
   "ctaHostLong": "Crear una partida →",
   "ctaJoin": "Entrar",
   "heroTitle": "Noche de bingo musical con tus amigos",
-  "heroLead": "Elige una playlist pública, cada amigo recibe un cartón distinto en su móvil y la pantalla del presentador comprueba cada LÍNEA y BINGO por ti.",
+  "heroLead": "Pega una playlist. Cada amigo recibe un cartón distinto en su móvil y la pantalla del presentador comprueba cada canto.",
   "heroFree": "Gratis · sin cuentas · los jugadores no instalan nada · hasta 30 jugadores",
   "howTitle": "Cómo funciona",
   "howLead": "Una persona presenta desde un portátil o la tele; el resto juega desde el móvil.",
-  "s1t": "Elige una playlist",
-  "s1p": "Pega el enlace de una playlist pública de Spotify, Deezer, Apple Music, YouTube Music o Amazon Music, o pega las canciones.",
-  "s2t": "Pon las reglas",
-  "s2p": "Tipo de cartón, qué cuenta como línea, premios, duración de cada canción, idioma y tus fotos y frases.",
+  "s1t": "Pega una playlist",
+  "s1p": "De Spotify, Deezer, Apple Music, YouTube Music o Amazon Music.",
+  "s2t": "Elige los premios",
+  "s2p": "Línea, dos líneas, esquinas, equis, cartón lleno… o dibuja tu propia figura.",
   "s3t": "Tus amigos escanean el QR",
-  "s3p": "Cada móvil recibe un cartón distinto con su nombre. Si alguien recarga, conserva su cartón.",
+  "s3p": "Cada móvil recibe un cartón distinto. Sin app y sin cuentas.",
   "s4t": "Suena la música y se canta",
-  "s4p": "Pon la música. Los jugadores tocan lo que oyen y cantan LÍNEA o BINGO; la pantalla del presentador dice VÁLIDO o NOPE.",
+  "s4p": "Los jugadores tocan lo que oyen y cantan el premio; la pantalla del presentador dice VÁLIDO o NOPE.",
   "r1t": "El presentador",
   "r1l": [
    "Portátil, tablet o una tele que vea todo el mundo",
@@ -256,7 +308,7 @@
   "thEs": "Cartón español 3×9",
   "thUs": "Cartón 5×5",
   "musicTitle": "Funciona con tu música",
-  "musicLead": "Importa cualquier playlist pública. Amazon Music no permite el acceso público, así que necesita la extensión gratuita.",
+  "musicLead": "Las playlists públicas de estos servicios se importan directamente. Cualquier otro: pega la lista de canciones.",
   "thProv": "Servicio",
   "thImport": "Importar la playlist",
   "thAuto": "Marcado automático y play/pausa desde el bingo",
@@ -330,6 +382,10 @@
     "No. Cada móvil recibe un cartón distinto y lo conserva si recarga."
    ],
    [
+    "¿Cuántas canciones necesito?",
+    "Más jugadores necesitan más canciones, para que no gane todo el mundo a la vez: unas 28–38 canciones con el cartón español 3×9 y 48–58 con el 5×5, según el número de jugadores. Si tu playlist es corta, la app te dice para cuántos jugadores da."
+   ],
+   [
     "¿Cómo se comprueban los cantos?",
     "Todas las canciones marcadas tienen que haber sonado y completar el premio. Si no, la pantalla del presentador muestra NOPE y el jugador ve qué canción falló."
    ],
@@ -363,6 +419,54 @@
   "ogDesc": "Convierte cualquier playlist pública en una noche de bingo musical. Un cartón distinto en cada móvil. Gratis y sin cuentas.",
   "langName": "Español",
   "codePh": "CÓDIGO",
-  "skip": "Saltar al contenido"
+  "skip": "Saltar al contenido",
+  "pasteLabel": "Pega el enlace de una playlist pública",
+  "pastePh": "open.spotify.com/playlist/…",
+  "pasteBtn": "Continuar →",
+  "haveCode": "¿Te han invitado? Escribe el código:",
+  "navModes": "Modos de juego",
+  "modesTitle": "Juega a tu manera",
+  "modesLead": "Elige qué cuenta como línea y como bingo: toca una figura o dibuja la tuya. La app te dice hacia qué canción saldrá cada premio.",
+  "extShort": "Para Amazon Music, el marcado automático de canciones y el play/pausa desde el bingo necesitas la extensión gratuita del navegador.",
+  "extMore": "Consigue la extensión →",
+  "ctaPaste": "Pega tu playlist ↑",
+  "modes": {
+   "line": [
+    "Línea",
+    "Cualquier fila"
+   ],
+   "two": [
+    "Dos líneas",
+    "Dos filas cualesquiera"
+   ],
+   "corners": [
+    "Cuatro esquinas",
+    "Las 4 esquinas"
+   ],
+   "x": [
+    "Equis",
+    "Las dos diagonales"
+   ],
+   "stamp": [
+    "Sello",
+    "Un cuadrado 2×2 en una esquina"
+   ],
+   "frame": [
+    "Marco",
+    "Todo el borde"
+   ],
+   "diamond": [
+    "Rombo",
+    "Un rombo"
+   ],
+   "full": [
+    "Bingo",
+    "Todo el cartón"
+   ],
+   "custom": [
+    "Tu figura",
+    "Dibújala tú"
+   ]
+  }
  }
 }

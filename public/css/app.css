@@ -53,3 +53,10 @@ textarea{min-height:110px;resize:vertical}
 .modal>div{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px;max-width:360px}
 .modal h3{font-size:20px;margin-bottom:8px}.modal p{color:var(--mut);margin-bottom:16px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important}}
+/* prize pattern pictures (patterns-ui.js) */
+.patsvg{display:block}
+.patsvg .pon{fill:var(--pink)}
+.patsvg .poff{fill:#ffffff3a}
+.patsvg .pgap{fill:#ffffff0d}
+.patsvg .pf{fill:var(--yel)}
+.patpic{display:inline-block;line-height:0}
