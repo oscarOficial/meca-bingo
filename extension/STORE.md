@@ -30,7 +30,8 @@ Chrome upload file: `public/download/meca-bingo-sync-chrome.zip`.
   > No accounts, no tracking, no data leaves your browser.
 
 - **Icon:** `icons/icon128.png`
-- **Screenshots (1280×800):** host screen with the control bar, import from Amazon, player card on a phone. (Take them from the live site.)
+- **Screenshots (1280×800):** `store-assets/2-host.png`, `3-players.png`, `4-photo-moment.png`, `1-import.png`
+- **Small promo tile (440×280):** `store-assets/promo-440x280.png`
 - **Homepage:** https://meca-bingo.oscasais.workers.dev/
 - **Support:** https://github.com/oscarOficial/meca-bingo/issues
 
