@@ -32,7 +32,8 @@ Chrome upload file: `public/download/meca-bingo-sync-chrome.zip`.
 - **Screenshots (1280×800):** `store-assets/2-host.png`, `3-players.png`, `4-photo-moment.png`, `1-import.png`
 - **Small promo tile (440×280):** `store-assets/promo-440x280.png`
 - **Homepage:** https://mecabingo.oscasais.es/
-- **Support:** https://github.com/oscarOficial/meca-bingo/issues
+- **Support:** info@mecabingo.oscasais.es (support email) · https://github.com/oscarOficial/meca-bingo/issues (support site)
+- **Developer contact email (both stores):** info@mecabingo.oscasais.es
 
 ### Privacy practices
 - **Single purpose:** Connect the Meca Bingo host page with the music player tab (Spotify, Amazon Music, Deezer, YouTube Music or Apple Music web player) to import the playlist, mark the song that is playing and control playback.

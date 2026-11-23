@@ -1,6 +1,6 @@
 # Meca Bingo 🎵
 
-**Live site: https://mecabingo.oscasais.es** (backup: https://meca-bingo.oscasais.workers.dev) · [Host a game](https://mecabingo.oscasais.es/host.html) · [Extension](https://mecabingo.oscasais.es/extension.html) · [Privacy](https://mecabingo.oscasais.es/privacy.html)
+**Live site: https://mecabingo.oscasais.es** · Contact: info@mecabingo.oscasais.es (backup: https://meca-bingo.oscasais.workers.dev) · [Host a game](https://mecabingo.oscasais.es/host.html) · [Extension](https://mecabingo.oscasais.es/extension.html) · [Privacy](https://mecabingo.oscasais.es/privacy.html)
 
 Music bingo for friends. The host turns a **public playlist** into unique bingo cards; every
 player joins from their phone with a code or QR, marks the songs they recognise and calls
