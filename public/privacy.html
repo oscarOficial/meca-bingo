@@ -15,14 +15,14 @@
 <p class="mut">Meca Bingo website and the Meca Bingo Sync browser extension · Last updated: 23 November 2026 (extension 1.1)</p>
 
 <h2>Summary</h2>
-<p>Meca Bingo does not collect, sell or share personal data. There are no accounts, no analytics and no advertising. Game data stays in the browsers of the people playing.</p>
+<p>Meca Bingo does not collect, sell or share personal data. There are no accounts, no cookies and no advertising. We only keep anonymous visit and usage counts (see below). Game data stays in the browsers of the people playing.</p>
 
 <h2>The website</h2>
 <ul>
   <li><b>Game data</b> (playlist, cards, played songs, player nicknames, photos and messages) is stored only in the host's browser (localStorage and IndexedDB). Photos never leave the host's computer.</li>
   <li><b>Players' phones</b> connect directly to the host's browser (WebRTC). The public PeerJS signalling service is used only to introduce the two browsers; game data does not pass through it.</li>
   <li><b>Anonymous usage statistics:</b> the host's page sends a few anonymous counters to our server so we can see how the game is used and what to improve: that a game was created (music service, number of songs, card type and rules), that a player joined, that a prize was called and whether it was valid, how a playlist import went, and the length of a finished game. We store the day, the country Cloudflare reports and the page language. We do not store IP addresses, device ids, nicknames, playlist names or song titles, and nothing is used for advertising. Records are deleted after about 13 months.</li>
-  <li><b>Hosting:</b> the site is served by Cloudflare. Like any web server, Cloudflare processes your IP address and browser details to deliver the pages and protect against abuse. We do not use cookies, analytics or tracking, and fonts and scripts are served from our own domain.</li>
+  <li><b>Hosting:</b> the site is served by Cloudflare. Like any web server, Cloudflare processes your IP address and browser details to deliver the pages and protect against abuse. We do not use cookies or advertising trackers. Visits are counted with Cloudflare Web Analytics, which does not use cookies, fingerprinting or cross-site tracking. Fonts and scripts are served from our own domain.</li>
   <li><b>Connection service:</b> to connect phones with the host, both browsers contact the PeerJS signalling server (0.peerjs.com), which sees their IP addresses for that purpose only.</li>
   <li><b>Playlist import:</b> when the host pastes a link to a public playlist, our server reads that public page once to get the song titles and artists, and returns them. Nothing is stored.</li>
 </ul>
