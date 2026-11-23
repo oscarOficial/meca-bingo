@@ -100,30 +100,32 @@ async function deezer(link) {
 // ---------- Apple Music: public page has structured data ----------
 async function apple(link) {
   const html = await get(link.toString());
-  const tracks = [];
   let title = 'Apple Music playlist';
+  const fromLd = [];
   for (const m of html.matchAll(/<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)) {
     try {
-      const d = JSON.parse(m[1]);
-      const items = [].concat(d);
-      for (const it of items) {
+      for (const it of [].concat(JSON.parse(m[1]))) {
         if (it.name && /Playlist/i.test(it['@type'] || '')) title = it.name;
         for (const t of [].concat(it.track || [])) {
-          const a = t.byArtist; tracks.push({ title: t.name, artist: Array.isArray(a) ? a.map(x => x.name).join(', ') : a && a.name });
+          const a = t.byArtist; fromLd.push({ title: t.name, artist: Array.isArray(a) ? a.map(x => x.name).join(', ') : (a && a.name) || '' });
         }
       }
     } catch (e) {}
   }
-  if (!tracks.length) {
-    const s = html.match(/<script[^>]*id="serialized-server-data"[^>]*>([\s\S]*?)<\/script>/);
-    if (s) {
-      try {
-        walk(JSON.parse(s[1]), o => {
-          if (o && o.title && o.artistName && o.contentDescriptor) tracks.push({ title: o.title, artist: o.artistName });
-        });
-      } catch (e) {}
-    }
+  // the page's own data has the artists (the structured data no longer does)
+  const fromPage = [], seen = new Set();
+  const s = html.match(/<script[^>]*id="serialized-server-data"[^>]*>([\s\S]*?)<\/script>/);
+  if (s) {
+    try {
+      walk(JSON.parse(s[1]), o => {
+        if (o && o.title && o.artistName && o.contentDescriptor && o.trackNumber !== undefined) {
+          const k = o.id || o.title + '|' + o.artistName;
+          if (!seen.has(k)) { seen.add(k); fromPage.push({ title: o.title, artist: o.artistName }); }
+        }
+      });
+    } catch (e) {}
   }
+  const tracks = fromPage.length >= fromLd.length ? fromPage : fromLd;
   return { provider: 'apple', title: decode(title), tracks };
 }
 function walk(o, fn, depth = 0) {
@@ -142,17 +144,28 @@ async function youtube(link) {
   const data = JSON.parse(m[1]);
   const tracks = [];
   let title = 'YouTube playlist';
+  // "Artist - Song (Official Video)" → artist + clean title
+  const add = (name, channel) => {
+    const clean = t => t.replace(/\s*[\(\[](official|video|lyric|audio|hd|4k|remaster)[^\)\]]*[\)\]]/ig, '').trim();
+    const parts = (name || '').split(/\s[-–—]\s/);
+    if (parts.length >= 2) tracks.push({ artist: parts[0].trim(), title: clean(parts.slice(1).join(' - ')) });
+    else if (name) tracks.push({ title: clean(name), artist: (channel || '').replace(/ - Topic$/, '').replace(/VEVO$/, '').trim() });
+  };
   walk(data, o => {
+    // older page layout
     if (o.playlistVideoRenderer) {
       const v = o.playlistVideoRenderer;
-      const name = v.title && (v.title.simpleText || (v.title.runs || []).map(r => r.text).join(''));
-      const channel = v.shortBylineText && (v.shortBylineText.runs || []).map(r => r.text).join('');
-      // Music videos are usually "Artist - Song"
-      const parts = (name || '').split(/\s[-–—]\s/);
-      if (parts.length >= 2) tracks.push({ artist: parts[0], title: parts.slice(1).join(' - ').replace(/\s*[\(\[](official|video|lyric|audio|hd|4k|remaster)[^\)\]]*[\)\]]/ig, '') });
-      else tracks.push({ title: name, artist: (channel || '').replace(/ - Topic$/, '') });
+      add(v.title && (v.title.simpleText || (v.title.runs || []).map(r => r.text).join('')), v.shortBylineText && (v.shortBylineText.runs || []).map(r => r.text).join(''));
+    }
+    // current page layout (2026)
+    if (o.lockupViewModel && o.lockupViewModel.contentType === 'LOCKUP_CONTENT_TYPE_VIDEO') {
+      const md = o.lockupViewModel.metadata && o.lockupViewModel.metadata.lockupMetadataViewModel;
+      const rows = md && md.metadata && md.metadata.contentMetadataViewModel && md.metadata.contentMetadataViewModel.metadataRows;
+      const channel = rows && rows[0] && rows[0].metadataParts && rows[0].metadataParts[0] && rows[0].metadataParts[0].text && rows[0].metadataParts[0].text.content;
+      add(md && md.title && md.title.content, channel);
     }
     if (o.playlistHeaderRenderer && o.playlistHeaderRenderer.title) title = o.playlistHeaderRenderer.title.simpleText || title;
+    if (o.microformatDataRenderer && o.microformatDataRenderer.title) title = o.microformatDataRenderer.title;
   });
   return { provider: 'youtube', title, tracks };
 }
