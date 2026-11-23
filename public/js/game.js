@@ -37,7 +37,7 @@
 
   function shuffle(arr, rnd) { for (let i = arr.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [arr[i], arr[j]] = [arr[j], arr[i]]; } return arr; }
 
-  // Layout of the Spanish card: 3 rows x 9 columns, 5 songs per row, no empty column.
+  // Layout of the 3×9 card (90-ball style): 3 rows x 9 columns, 5 songs per row, no empty column.
   function spanishLayout(rnd) {
     for (;;) {
       const rows = [0, 1, 2].map(() => shuffle([...Array(9).keys()], rnd).slice(0, 5));
@@ -85,7 +85,7 @@
   //   { kind: 'full' }                                       the whole card
   //   { kind: 'masks', masks: [[...], ...] }                 any of these shapes (one drawn shape = one mask)
   // Masks use the card's logical grid: 5×5 on the American card; 3 rows × 5 songs on the
-  // Spanish card (k-th song of each row), so a shape is equally hard on every card.
+  // 3×9 card (k-th song of each row), so a shape is equally hard on every card.
   const MAX_PRIZES = 4;
   const GRID = { es: { rows: 3, cols: 5 }, us: { rows: 5, cols: 5 } };
   const range = (a, b) => Array.from({ length: b - a }, (_, i) => a + i);

@@ -29,7 +29,7 @@
     : s
     ? `<div class="cell ${M.has(i) ? 'on' : ''}" data-i="${i}" title="${esc(s[0] + (s[1] ? ' — ' + s[1] : ''))}"><span class="tt">${esc(short(s[0]))}</span>${s[1] ? `<span class="ar">${esc(short(s[1]))}</span>` : ''}</div>`
     : `<div class="cell gap"></div>`;
-  // Spanish 3×9 card on a phone held upright: 9 columns are too narrow, so when only
+  // 3×9 card on a phone held upright: 9 columns are too narrow, so when only
   // horizontal lines count we show each row (a possible line) as its own row of 5 songs.
   function layoutMode(c) {
     const portrait = innerWidth < 640 && innerHeight > innerWidth;

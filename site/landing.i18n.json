@@ -44,7 +44,7 @@
   "feats": [
    [
     "🃏 Two card types",
-    "Spanish 3×9 with gaps (15 songs) or classic 5×5 (25 songs)."
+    "3×9 with gaps (15 songs, like 90-ball bingo) or 5×5 (25 songs, like 75-ball bingo)."
    ],
    [
     "📏 Your rules",
@@ -70,7 +70,7 @@
   "needTitle": "How many songs do I need?",
   "needLead": "More players need more songs, so not everyone wins at the same time. If your playlist is short, the app tells you how many players it can take.",
   "thPlayers": "Players",
-  "thEs": "Spanish 3×9 card",
+  "thEs": "3×9 card",
   "thUs": "5×5 card",
   "musicTitle": "Works with your music",
   "musicLead": "Public playlists from these services are imported directly. Any other service: paste the song list.",
@@ -148,7 +148,7 @@
    ],
    [
     "How many songs do I need?",
-    "More players need more songs, so not everyone wins at once: about 28–38 songs for the Spanish 3×9 card and 48–58 for the 5×5, depending on the number of players. If your playlist is short, the app tells you how many players it can take."
+    "More players need more songs, so not everyone wins at once: about 28–38 songs for the 3×9 card and 48–58 for the 5×5, depending on the number of players. If your playlist is short, the app tells you how many players it can take."
    ],
    [
     "How are calls checked?",
@@ -279,7 +279,7 @@
   "feats": [
    [
     "🃏 Dos tipos de cartón",
-    "Español 3×9 con huecos (15 canciones) o clásico 5×5 (25 canciones)."
+    "3×9 con huecos (15 canciones, como el bingo de 90 bolas) o 5×5 (25 canciones, como el de 75 bolas)."
    ],
    [
     "📏 Tus reglas",
@@ -305,7 +305,7 @@
   "needTitle": "¿Cuántas canciones necesito?",
   "needLead": "Más jugadores necesitan más canciones, para que no gane todo el mundo a la vez. Si tu playlist es corta, la app te dice para cuántos jugadores da.",
   "thPlayers": "Jugadores",
-  "thEs": "Cartón español 3×9",
+  "thEs": "Cartón 3×9",
   "thUs": "Cartón 5×5",
   "musicTitle": "Funciona con tu música",
   "musicLead": "Las playlists públicas de estos servicios se importan directamente. Cualquier otro: pega la lista de canciones.",
@@ -383,7 +383,7 @@
    ],
    [
     "¿Cuántas canciones necesito?",
-    "Más jugadores necesitan más canciones, para que no gane todo el mundo a la vez: unas 28–38 canciones con el cartón español 3×9 y 48–58 con el 5×5, según el número de jugadores. Si tu playlist es corta, la app te dice para cuántos jugadores da."
+    "Más jugadores necesitan más canciones, para que no gane todo el mundo a la vez: unas 28–38 canciones con el cartón 3×9 y 48–58 con el 5×5, según el número de jugadores. Si tu playlist es corta, la app te dice para cuántos jugadores da."
    ],
    [
     "¿Cómo se comprueban los cantos?",

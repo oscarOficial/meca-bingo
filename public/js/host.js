@@ -98,7 +98,7 @@
     set('tWinners', t.winners); set('tClaims', t.claims); set('endBtn', t.endGame); $('fs').title = t.fullscreen;
   }
 
-  // small picture of a card type (the Spanish one with its gaps)
+  // small picture of a card type (the 3×9 one with its gaps)
   function cardPic(fmt) {
     const rows = fmt === 'es' ? 3 : 5, cols = fmt === 'es' ? 9 : 5, gaps = ['010100110', '101011000', '000110101'];
     let r = '';

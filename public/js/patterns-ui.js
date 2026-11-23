@@ -25,7 +25,7 @@
     return out;
   }
 
-  // a typical Spanish card: which of the 9 columns hold the 5 songs of each row
+  // a typical 3×9 card: which of the 9 columns hold the 5 songs of each row
   const ES_COLS = [[0, 2, 4, 5, 8], [1, 3, 6, 7, 8], [0, 1, 2, 5, 7]];
   function svgEs(on, opts) {
     const s = 10, g = 2.2, set = new Set(on || []);

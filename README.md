@@ -22,7 +22,7 @@ LINE / 2 LINES / BINGO. The host's screen checks every call automatically.
 | Setting | Options |
 |---|---|
 | Playlist | Link to a public playlist, or paste `Song - Artist` lines |
-| Card | Spanish 3×9 (15 songs with gaps) or classic 5×5 |
+| Card | 3×9 (15 songs with gaps, like 90-ball bingo) or 5×5 (25 songs, like 75-ball bingo); prizes are shapes (gallery or drawn) |
 | Lines | Horizontal only, or horizontal + vertical (+ diagonals on 5×5). On 3×9 a column only counts with 3 songs |
 | Prizes | Line, 2 lines, Bingo (full card) – any combination, in that order |
 | Song length | Whole song, 30 / 45 / 60 / 90 s (timer reminds the host) |
