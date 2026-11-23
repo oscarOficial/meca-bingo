@@ -1,0 +1,11 @@
+{
+  "_help": "Music web players the extension works with. 'import' and 'start': the extension can also read the playlist and start it in shuffle (Amazon Music only, it has no public API). After editing run: python3 tools/build_extension.py",
+  "players": [
+    { "id": "amazon", "name": "Amazon Music", "import": true, "start": true,
+      "matches": ["https://music.amazon.es/*", "https://music.amazon.com/*", "https://music.amazon.co.uk/*", "https://music.amazon.de/*", "https://music.amazon.fr/*", "https://music.amazon.it/*"] },
+    { "id": "spotify", "name": "Spotify", "matches": ["https://open.spotify.com/*"] },
+    { "id": "deezer", "name": "Deezer", "matches": ["https://www.deezer.com/*"] },
+    { "id": "youtube", "name": "YouTube Music", "matches": ["https://music.youtube.com/*"] },
+    { "id": "apple", "name": "Apple Music", "matches": ["https://music.apple.com/*", "https://beta.music.apple.com/*"] }
+  ]
+}

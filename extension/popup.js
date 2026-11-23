@@ -1,8 +1,9 @@
 function setStatus(id, cls, text) { const e = document.getElementById(id); e.className = cls; e.textContent = text; }
+const PLAYER_NAMES = 'Amazon Music, Spotify, Deezer, YouTube Music, Apple Music';  // written by tools/build_extension.py
 const SITE = ['https://mecabingo.oscasais.es/*', 'https://meca-bingo.oscasais.workers.dev/*'];
 async function draw() {
   const s = await chrome.runtime.sendMessage({ type: 'mb-getstate' }).catch(() => null);
-  if (!s || !s.player) setStatus('player', 'no', 'No Amazon Music or Spotify tab open');
+  if (!s || !s.player) setStatus('player', 'no', 'No music player tab open (' + PLAYER_NAMES + ')');
   else if (s.playing) setStatus('player', 'ok', '▶ Playing'); else setStatus('player', 'warn', '⏸ Paused');
   const tg = document.getElementById('tg'); tg.textContent = s && s.playing ? '⏸' : '▶'; tg.classList.toggle('playing', !!(s && s.playing));
   const site = await chrome.tabs.query({ url: SITE });

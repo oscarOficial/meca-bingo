@@ -1,0 +1,101 @@
+name: Extension
+
+# On every change to the extension: build it for Chrome, Firefox and Safari, lint the
+# Firefox build and test it against fake music players.
+#
+# To release a new version: Actions → Extension → Run workflow → choose patch / minor / major.
+# It raises the version, commits the new packages (public/download/*.zip), tags ext-vX.Y.Z,
+# creates a GitHub Release with the three zips and, if the store secrets are set, uploads
+# the new version to the Chrome Web Store and Firefox Add-ons. See extension/RELEASING.md.
+on:
+  push:
+    branches: [main]
+    paths: ['extension/**', 'site.config.json', 'tools/build_extension.py', 'tools/ext/**', '.github/workflows/extension.yml']
+  pull_request:
+    paths: ['extension/**', 'site.config.json', 'tools/build_extension.py', 'tools/ext/**']
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: 'New version'
+        type: choice
+        options: [patch, minor, major]
+        default: patch
+      publish:
+        description: 'Upload to the Chrome Web Store and Firefox Add-ons'
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - run: pip install playwright && python -m playwright install --with-deps chromium
+      - name: Build
+        run: python3 tools/build_extension.py
+      - name: Lint (Firefox rules)
+        run: npx -y web-ext@8 lint --source-dir dist/firefox --warnings-as-errors
+      - name: Test with fake music players
+        run: python3 tools/ext/players_e2e.py
+
+  release:
+    if: github.event_name == 'workflow_dispatch'
+    needs: test
+    runs-on: ubuntu-latest
+    env:
+      CWS_EXTENSION_ID: ${{ secrets.CWS_EXTENSION_ID }}
+      CWS_CLIENT_ID: ${{ secrets.CWS_CLIENT_ID }}
+      CWS_CLIENT_SECRET: ${{ secrets.CWS_CLIENT_SECRET }}
+      CWS_REFRESH_TOKEN: ${{ secrets.CWS_REFRESH_TOKEN }}
+      AMO_JWT_ISSUER: ${{ secrets.AMO_JWT_ISSUER }}
+      AMO_JWT_SECRET: ${{ secrets.AMO_JWT_SECRET }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - name: Raise the version and build
+        id: v
+        run: |
+          python3 tools/build_extension.py --bump ${{ inputs.bump }}
+          echo "version=$(python3 -c "import json;print(json.load(open('extension/manifest.json'))['version'])")" >> "$GITHUB_OUTPUT"
+      - name: Commit, tag and create the GitHub Release
+        run: |
+          V=${{ steps.v.outputs.version }}
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add extension public/download
+          git commit -m "Extension v$V"
+          git tag "ext-v$V"
+          git push origin HEAD:main --follow-tags
+          gh release create "ext-v$V" public/download/meca-bingo-sync-chrome.zip public/download/meca-bingo-sync-firefox.zip public/download/meca-bingo-sync-safari.zip \
+            --title "Meca Bingo Sync v$V" --generate-notes
+      - name: Upload to the Chrome Web Store
+        if: inputs.publish && env.CWS_REFRESH_TOKEN != ''
+        run: |
+          npx -y chrome-webstore-upload-cli@3 upload --source public/download/meca-bingo-sync-chrome.zip \
+            --extension-id "$CWS_EXTENSION_ID" --client-id "$CWS_CLIENT_ID" --client-secret "$CWS_CLIENT_SECRET" \
+            --refresh-token "$CWS_REFRESH_TOKEN" --auto-publish
+      - name: Upload to Firefox Add-ons
+        if: inputs.publish && env.AMO_JWT_SECRET != ''
+        run: |
+          npx -y web-ext@8 sign --source-dir dist/firefox --channel listed \
+            --api-key "$AMO_JWT_ISSUER" --api-secret "$AMO_JWT_SECRET" --approval-timeout 0
+      - name: Summary
+        run: |
+          {
+            echo "### Meca Bingo Sync v${{ steps.v.outputs.version }}"
+            echo "- GitHub Release: ext-v${{ steps.v.outputs.version }}"
+            if [ -n "$CWS_REFRESH_TOKEN" ] && [ "${{ inputs.publish }}" = "true" ]; then echo "- Chrome Web Store: uploaded (in review)"; else echo "- Chrome Web Store: not uploaded (no secrets or publish off), upload meca-bingo-sync-chrome.zip by hand"; fi
+            if [ -n "$AMO_JWT_SECRET" ] && [ "${{ inputs.publish }}" = "true" ]; then echo "- Firefox Add-ons: uploaded (in review)"; else echo "- Firefox Add-ons: not uploaded, upload meca-bingo-sync-firefox.zip by hand"; fi
+            echo "- Safari: needs a Mac with Xcode, see extension/RELEASING.md"
+          } >> "$GITHUB_STEP_SUMMARY"

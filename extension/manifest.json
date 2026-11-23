@@ -2,8 +2,8 @@
   "manifest_version": 3,
   "name": "Meca Bingo Sync",
   "short_name": "Meca Bingo",
-  "version": "1.0.2",
-  "description": "Companion for Meca Bingo: imports Amazon Music playlists, marks the song that is playing and lets the host control the music.",
+  "version": "1.1.0",
+  "description": "Companion for Meca Bingo: marks the song that is playing on your music web player and lets the host control the music.",
   "homepage_url": "https://mecabingo.oscasais.es/",
   "icons": {
     "16": "icons/icon16.png",
@@ -35,6 +35,10 @@
     "https://music.amazon.fr/*",
     "https://music.amazon.it/*",
     "https://open.spotify.com/*",
+    "https://www.deezer.com/*",
+    "https://music.youtube.com/*",
+    "https://music.apple.com/*",
+    "https://beta.music.apple.com/*",
     "https://mecabingo.oscasais.es/*",
     "https://meca-bingo.oscasais.workers.dev/*"
   ],
@@ -47,7 +51,11 @@
         "https://music.amazon.de/*",
         "https://music.amazon.fr/*",
         "https://music.amazon.it/*",
-        "https://open.spotify.com/*"
+        "https://open.spotify.com/*",
+        "https://www.deezer.com/*",
+        "https://music.youtube.com/*",
+        "https://music.apple.com/*",
+        "https://beta.music.apple.com/*"
       ],
       "js": [
         "mainworld.js"
@@ -63,7 +71,11 @@
         "https://music.amazon.de/*",
         "https://music.amazon.fr/*",
         "https://music.amazon.it/*",
-        "https://open.spotify.com/*"
+        "https://open.spotify.com/*",
+        "https://www.deezer.com/*",
+        "https://music.youtube.com/*",
+        "https://music.apple.com/*",
+        "https://beta.music.apple.com/*"
       ],
       "js": [
         "provider.js"
@@ -93,7 +105,11 @@
         "https://music.amazon.de/*",
         "https://music.amazon.fr/*",
         "https://music.amazon.it/*",
-        "https://open.spotify.com/*"
+        "https://open.spotify.com/*",
+        "https://www.deezer.com/*",
+        "https://music.youtube.com/*",
+        "https://music.apple.com/*",
+        "https://beta.music.apple.com/*"
       ]
     }
   ]

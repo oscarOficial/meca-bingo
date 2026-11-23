@@ -1,4 +1,6 @@
-// Runs on the Amazon Music and Spotify web players.
+// Runs on the supported music web players (see players.json): Amazon Music, Spotify, Deezer,
+// YouTube Music and Apple Music. Everything except the Amazon part only uses the standard
+// Media Session data the player gives the browser, so it works the same on every player.
 // - tells the host page which song is playing (title + artist, as the player shows them)
 // - plays / pauses / skips through the player's own media-key controls (see mainworld.js)
 // - Amazon Music only: reads a playlist and starts it in shuffle

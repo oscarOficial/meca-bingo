@@ -77,14 +77,20 @@ npx wrangler dev          # app + playlist API on http://localhost:8787
 `?net=local` swaps WebRTC for a BroadcastChannel so everything runs in one browser.
 
 
-## Meca Bingo Sync (Chrome extension, optional)
+## Meca Bingo Sync (browser extension, optional)
 
-Source in `extension/`; `python3 tools/build_extension.py` builds Chrome/Edge, Firefox and Safari packages
-into `public/download/meca-bingo-sync-<browser>.zip`;
-install page at `/extension.html`, privacy policy at `/privacy.html`.
-It imports Amazon Music playlists (no public API), starts the round in shuffle, marks the song
-that is playing and adds play / pause / next to the host screen. Works with the Amazon Music and
-Spotify web players. Store submission notes: `extension/STORE.md`.
+One code base in `extension/` for Chrome/Edge, Firefox and Safari. It marks the song that is
+playing and adds play / pause / next to the host screen with the Spotify, Amazon Music, Deezer,
+YouTube Music and Apple Music web players (list in `extension/players.json`). With Amazon Music
+(no public API) it also imports the playlist and starts the round in shuffle.
+
+- Build: `python3 tools/build_extension.py` (`--bump patch|minor|major` to raise the version)
+- Test with fake players: `python3 tools/ext/players_e2e.py`
+- CI + releases (GitHub Release and store uploads): `.github/workflows/extension.yml`
+- How to release, store secrets: `extension/RELEASING.md`; store texts: `extension/STORE.md`
+- Install page `/extension.html`, privacy policy `/privacy.html`
+
+To add a music player: add it to `extension/players.json`, build, test, release a `minor` version.
 
 ## UX check (runs on every push)
 
@@ -110,6 +116,6 @@ All domains live in **`site.config.json`**:
 To add or change a domain:
 1. Edit `site.config.json`.
 2. Cloudflare → Worker → Settings → Domains & Routes → Add → Custom domain (the zone must use Cloudflare DNS).
-3. `python3 tools/build_extension.py`, raise the extension `version` in `extension/manifest.json`, and upload the new zips to the stores (only needed if the domain list changed).
+3. Release a new extension version (Actions → Extension → Run workflow → `minor`), only needed if the domain list changed.
 4. Commit and push (or Retry build).
 

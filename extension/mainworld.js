@@ -1,4 +1,4 @@
-// Runs inside Amazon Music's own page context. Amazon registers media-key handlers
+// Runs inside the music player's own page context. Players register media-key handlers
 // (the ones Windows uses for play/pause/next); we keep a copy so the extension can call them.
 (() => {
   const H = {};
