@@ -65,12 +65,14 @@
     const over = c => c.scrollHeight > c.clientHeight + 1 || c.scrollWidth > c.clientWidth + 1 || [...c.children].some(k => k.scrollWidth > k.clientWidth + 1);
     for (const c of document.querySelectorAll('#board .cell[data-i]')) {
       // first keep whole words and make the text smaller; only split words as a last resort
-      c.classList.remove('split', 'tiny');
+      c.classList.remove('split', 'tiny', 'clip'); c.style.removeProperty('--clamp');
       let f = 15; c.style.fontSize = f + 'px';
       while (f > 9 && over(c)) { f -= 0.5; c.style.fontSize = f + 'px'; }
       if (over(c)) { c.classList.add('tiny'); }
       if (over(c)) { c.classList.add('split', 'tiny'); f = 11; c.style.fontSize = f + 'px'; while (f > 9 && over(c)) { f -= 0.5; c.style.fontSize = f + 'px'; } }
       if (f < 10.5) c.classList.add('tiny');
+      // extreme titles (one huge word in a narrow cell): cut with "…" instead of spilling out
+      if (over(c)) { c.classList.add('clip'); c.style.setProperty('--clamp', Math.max(1, Math.floor((c.clientHeight - 8) / (f * 1.12)))); c.title = c.innerText; }
     }
     // one font size per row, so the card looks even
     const rows = {};
@@ -78,13 +80,15 @@
     for (const cells of Object.values(rows)) {
       // cap every cell at the row's median size: similar sizes, without one long title shrinking the whole row
       const sizes = cells.map(c => parseFloat(c.style.fontSize)).sort((a, b) => a - b), med = sizes[Math.floor(sizes.length / 2)];
-      cells.forEach(c => { if (parseFloat(c.style.fontSize) > med) c.style.fontSize = med + 'px'; c.classList.toggle('tiny', parseFloat(c.style.fontSize) < 10.5); });
+      cells.forEach(c => { if (parseFloat(c.style.fontSize) > med) c.style.fontSize = med + 'px'; if (parseFloat(c.style.fontSize) < 10.5) c.classList.add('tiny'); });
     }
   }
   let rT; addEventListener('resize', () => { clearTimeout(rT); rT = setTimeout(drawCard, 120); });
+  // the web fonts can arrive after the card is drawn and are a bit wider: fit the text again
+  try { document.fonts.ready.then(() => { if (document.querySelector('#board .cell[data-i]')) fitText(); }); document.fonts.addEventListener('loadingdone', () => { if (document.querySelector('#board .cell[data-i]')) fitText(); }); } catch (e) {}
   function drawState() {
     $('prize').innerHTML = state.over ? `🎉 ${esc(t.allPrizesDone)}` : state.prize ? `${esc(t.playingFor)} <b>${esc(prizeLabel(state.prize))}</b>` : '';
-    const cb = $('callbar'); const was = cb.classList.contains('hidden'); cb.classList.toggle('hidden', !state.prize || !P.card); if (was !== cb.classList.contains('hidden')) sizeBoard();
+    const cb = $('callbar'); const was = cb.classList.contains('hidden'); cb.classList.toggle('hidden', !state.prize || !P.card); if (was !== cb.classList.contains('hidden')) { sizeBoard(); fitText(); }
     if (state.prize) $('callBtn').textContent = t.call(prizeLabel(state.prize).toUpperCase());
     $('callBtn').disabled = !connected || busy;
     const W = Object.entries(state.winners || {}).filter(([, n]) => n && n.length).map(([p, n]) => `🏆 <b>${esc(prizeLabel(p))}</b>: ${n.map(esc).join(', ')}`);
