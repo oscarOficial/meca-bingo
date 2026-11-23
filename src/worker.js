@@ -1,6 +1,7 @@
 // Cloudflare Worker: serves the static app from /public and the playlist importer API.
 // Domains come from site.config.json (canonical address, extra domains, redirects).
 import { handlePlaylist } from './playlist.js';
+import { handleEvent, handleStats } from './stats.js';
 import SITE from '../site.config.json';
 import TEXTS from '../site/landing.i18n.json';
 
@@ -42,10 +43,12 @@ export default {
       return Response.redirect(url.toString(), 301);
     }
     if (url.pathname === '/api/playlist' && request.method === 'GET') return handlePlaylist(request);
+    if (url.pathname === '/api/event' && request.method === 'POST') return handleEvent(request, env, new Set([...(SITE.domains || []), CANONICAL]));
+    if (url.pathname === '/api/stats' && request.method === 'GET') return handleStats(request, env);
     if (url.pathname === '/robots.txt') {
       // Only the canonical domain is indexed; copies on other domains are not
       if (url.hostname !== CANONICAL) return text('User-agent: *\nDisallow: /\n', 'text/plain');
-      return text(`User-agent: *\nAllow: /\nDisallow: /play.html\nDisallow: /download/\nSitemap: https://${CANONICAL}/sitemap.xml\n`, 'text/plain');
+      return text(`User-agent: *\nAllow: /\nDisallow: /play.html\nDisallow: /stats.html\nDisallow: /download/\nSitemap: https://${CANONICAL}/sitemap.xml\n`, 'text/plain');
     }
     if (url.pathname === '/sitemap.xml') {
       const alt = LANGS.map(l => `    <xhtml:link rel="alternate" hreflang="${l}" href="https://${CANONICAL}/${l}/"/>`).join('\n')
@@ -67,7 +70,7 @@ export default {
     }
     // "/" and "/host" style addresses go to the matching .html page
     let page = url.pathname;
-    if (/^\/(host|play|privacy|legal|extension)\/?$/.test(page)) page = page.replace(/\/?$/, '.html');
+    if (/^\/(host|play|privacy|legal|extension|stats)\/?$/.test(page)) page = page.replace(/\/?$/, '.html');
     const res = await env.ASSETS.fetch(new Request(new URL(page + url.search, url), request));
     return withHeaders(res, page);
   }

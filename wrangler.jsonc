@@ -9,5 +9,7 @@
     "html_handling": "none",
     "not_found_handling": "none"
   },
-  "observability": { "enabled": true }
+  "observability": { "enabled": true },
+  // Anonymous usage statistics (created automatically on the first deploy)
+  "d1_databases": [{ "binding": "DB", "database_name": "meca-bingo-stats" }]
 }

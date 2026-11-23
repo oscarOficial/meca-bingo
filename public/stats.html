@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meca Bingo · Estadísticas</title>
+<link rel="icon" href="/favicon.png">
+<link rel="stylesheet" href="/css/fonts.css">
+<link rel="stylesheet" href="/css/app.css">
+<style>
+.wrap{max-width:1100px;padding-top:22px;padding-bottom:50px}
+header{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+header h1{font-size:28px;margin-right:auto}
+.range{display:flex;gap:6px}
+.range button{padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--mut);font-weight:700;cursor:pointer;min-height:40px}
+.range button[aria-pressed=true]{background:var(--cyan);color:#06131a;border-color:transparent}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:14px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px}
+.kpi b{display:block;font:800 34px 'Bricolage Grotesque',sans-serif;line-height:1.1}
+.kpi span{color:var(--mut);font-size:13.5px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:760px){.grid2{grid-template-columns:1fr}}
+.card{padding:16px 18px}
+.card h2{font-size:17px;margin-bottom:4px}
+.card .sub{color:var(--mut);font-size:13px;margin-bottom:12px}
+.days{display:flex;align-items:flex-end;gap:2px;height:140px;border-bottom:1px solid var(--line);position:relative}
+.days i{flex:1;background:var(--cyan);border-radius:4px 4px 0 0;min-height:0;position:relative}
+.days i.zero{background:transparent}
+.days i:hover{filter:brightness(1.25)}
+.days i:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);white-space:nowrap;background:#000;color:#fff;font:600 12px Inter,sans-serif;padding:4px 8px;border-radius:6px;z-index:2;pointer-events:none}
+.axis{display:flex;justify-content:space-between;color:var(--mut);font-size:12px;margin-top:6px}
+.bars{display:flex;flex-direction:column;gap:7px}
+.bar{display:grid;grid-template-columns:minmax(90px,170px) 1fr 46px;gap:10px;align-items:center;font-size:14px}
+.bar .tr{background:#ffffff0d;border-radius:4px;height:14px;overflow:hidden}
+.bar .tr i{display:block;height:100%;background:var(--cyan);border-radius:0 4px 4px 0}
+.bar .v{text-align:right;color:var(--mut);font-variant-numeric:tabular-nums}
+.bar .k{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line)}
+th{color:var(--mut);font-weight:600;font-size:12.5px}
+td.n{text-align:right;font-variant-numeric:tabular-nums}
+.bad{color:var(--pink)} .good{color:var(--green)}
+.empty{color:var(--mut);font-size:14px;padding:10px 0}
+#login{max-width:420px;margin:12vh auto;padding:26px}
+#login p{color:var(--mut);margin:8px 0 14px;line-height:1.5}
+#login form{display:flex;gap:8px}
+.note{color:var(--mut);font-size:13.5px;margin-top:22px;line-height:1.6}
+.note a{color:var(--cyan)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div id="login" class="card hidden">
+    <h2>Estadísticas de Meca Bingo</h2>
+    <p>Escribe la clave de estadísticas (la variable <code>STATS_KEY</code> del Worker en Cloudflare).</p>
+    <form id="lf"><input id="key" type="password" autocomplete="current-password" aria-label="Clave"><button class="btn">Entrar</button></form>
+    <p id="lerr" class="bad"></p>
+  </div>
+
+  <div id="dash" class="hidden">
+    <header>
+      <h1>📊 Estadísticas</h1>
+      <div class="range" id="range">
+        <button data-d="7">7 días</button><button data-d="30">30 días</button><button data-d="90">90 días</button><button data-d="365">1 año</button>
+      </div>
+      <button class="btn" id="logout" style="padding:8px 12px;min-height:40px">Salir</button>
+    </header>
+    <div class="kpis" id="kpis"></div>
+    <div class="grid2">
+      <div class="card"><h2>Partidas creadas por día</h2><div class="sub" id="gSub"></div><div class="days" id="gDays"></div><div class="axis" id="gAxis"></div></div>
+      <div class="card"><h2>Jugadores que se unen por día</h2><div class="sub" id="pSub"></div><div class="days" id="pDays"></div><div class="axis" id="pAxis"></div></div>
+      <div class="card"><h2>Servicio de música</h2><div class="sub">Partidas creadas</div><div class="bars" id="providers"></div></div>
+      <div class="card"><h2>Importar playlists</h2><div class="sub">Correctas y fallidas por servicio: los fallos dicen qué arreglar</div><div id="imports"></div></div>
+      <div class="card"><h2>Cantos</h2><div class="sub">Válidos y fallidos por premio, y canciones de media hasta el canto</div><div id="claims"></div></div>
+      <div class="card"><h2>Reglas y extensión</h2><div class="sub">Partidas creadas</div><div class="bars" id="formats"></div><div style="height:14px"></div><div class="bars" id="ext"></div></div>
+      <div class="card"><h2>Idioma</h2><div class="sub">Partidas creadas</div><div class="bars" id="langs"></div></div>
+      <div class="card"><h2>País</h2><div class="sub">Partidas creadas (según Cloudflare)</div><div class="bars" id="countries"></div></div>
+    </div>
+    <p class="note">Las visitas a la web (páginas vistas, de dónde llegan, velocidad) están en Cloudflare → Analytics → <a href="https://dash.cloudflare.com/?to=/:account/web-analytics" target="_blank" rel="noopener">Web Analytics</a>. Aquí solo hay datos anónimos del juego: sin nombres, sin direcciones IP y sin canciones. Los días van en hora UTC.</p>
+  </div>
+</div>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const NAMES = {
+    spotify: 'Spotify', deezer: 'Deezer', apple: 'Apple Music', youtube: 'YouTube Music', amazon: 'Amazon Music', pasted: 'Lista pegada', unknown: 'Desconocido',
+    es: 'Cartón español 3×9', us: 'Cartón 5×5', line: 'Línea', two: 'Dos líneas', bingo: 'Bingo',
+    empty: 'sin canciones', failed: 'error', unsupported: 'enlace no compatible', notab: 'sin pestaña', timeout: 'sin respuesta',
+    wrong: 'canción no sonada', incomplete: 'no completa', closed: 'premio cerrado',
+  };
+  const LANGS = { es: 'Español', en: 'Inglés' };
+  const nm = k => NAMES[k] || k || '—';
+  let key = ''; try { key = localStorage.getItem('meca-stats-key') || ''; } catch (e) {}
+  let days = 30;
+
+  function bars(el, rows, label = nm) {
+    const max = Math.max(1, ...rows.map(r => r.n));
+    el.innerHTML = rows.length ? rows.map(r => `<div class="bar" title="${esc(label(r.k))}: ${r.n}"><span class="k">${esc(label(r.k))}</span><span class="tr"><i style="width:${(r.n / max * 100).toFixed(1)}%"></i></span><span class="v">${r.n}</span></div>`).join('') : '<div class="empty">Sin datos todavía</div>';
+  }
+  function daily(el, axis, sub, rows, type, from, unit) {
+    const map = Object.fromEntries(rows.filter(r => r.type === type).map(r => [r.day, r.n]));
+    const list = []; for (let i = 0; i < days; i++) { const d = new Date(Date.parse(from + 'T00:00:00Z') + i * 864e5).toISOString().slice(0, 10); list.push([d, map[d] || 0]); }
+    const max = Math.max(1, ...list.map(x => x[1])), total = list.reduce((a, x) => a + x[1], 0);
+    el.innerHTML = list.map(([d, n]) => `<i class="${n ? '' : 'zero'}" style="height:${(n / max * 100).toFixed(1)}%" data-tip="${d.slice(5)} · ${n} ${unit}"></i>`).join('');
+    axis.innerHTML = `<span>${list[0][0].slice(5)}</span><span>máx. ${max}</span><span>${list[list.length - 1][0].slice(5)}</span>`;
+    sub.textContent = `${total} en ${days} días`;
+  }
+  function draw(s) {
+    const tot = Object.fromEntries(s.totals.map(r => [r.type, r.n]));
+    const p = s.players || {};
+    const kpi = (v, l) => `<div class="kpi"><b>${v}</b><span>${l}</span></div>`;
+    const bingo = s.claims.find(c => c.prize === 'bingo' && c.ok);
+    $('kpis').innerHTML = [
+      kpi(tot.game_created || 0, 'Partidas creadas'),
+      kpi(tot.player_joined || 0, 'Jugadores unidos'),
+      kpi(tot.game_created ? ((tot.player_joined || 0) / tot.game_created).toFixed(1) : '—', 'Jugadores por partida'),
+      kpi(s.ended, 'Partidas terminadas'),
+      kpi(p.avgMinutes ? Math.round(p.avgMinutes) + ' min' : '—', 'Duración media'),
+      kpi(bingo ? Math.round(bingo.avgSongs) : '—', 'Canciones hasta el bingo'),
+    ].join('');
+    daily($('gDays'), $('gAxis'), $('gSub'), s.perDay, 'game_created', s.from, 'partidas');
+    daily($('pDays'), $('pAxis'), $('pSub'), s.perDay, 'player_joined', s.from, 'jugadores');
+    bars($('providers'), s.providers);
+    bars($('formats'), s.formats, k => String(k || '—').replace(/^es/, 'Cartón 3×9').replace(/^us/, 'Cartón 5×5').replace(' + vertical', ' + verticales'));
+    bars($('ext'), s.ext.map(r => ({ k: r.k ? 'Con extensión' : 'Sin extensión', n: r.n })), k => k);
+    bars($('langs'), s.langs, k => LANGS[k] || k || '—');
+    bars($('countries'), s.countries, k => k || '—');
+    // imports per provider: ok vs failed (with reasons)
+    const imp = {};
+    for (const r of s.imports) { const o = imp[r.provider] || (imp[r.provider] = { ok: 0, bad: 0, why: {} }); if (r.ok) o.ok += r.n; else { o.bad += r.n; o.why[r.error] = (o.why[r.error] || 0) + r.n; } }
+    const ik = Object.keys(imp).sort((a, b) => (imp[b].ok + imp[b].bad) - (imp[a].ok + imp[a].bad));
+    $('imports').innerHTML = ik.length ? `<table><tr><th>Servicio</th><th class="n">Bien</th><th class="n">Fallan</th><th>Motivo</th></tr>${ik.map(k => { const o = imp[k]; return `<tr><td>${esc(nm(k))}</td><td class="n good">${o.ok}</td><td class="n ${o.bad ? 'bad' : ''}">${o.bad}</td><td>${esc(Object.entries(o.why).map(([w, n]) => nm(w) + ' ×' + n).join(', '))}</td></tr>`; }).join('')}</table>` : '<div class="empty">Sin datos todavía</div>';
+    // claims per prize
+    const cl = {};
+    for (const r of s.claims) { const o = cl[r.prize] || (cl[r.prize] = { ok: 0, bad: 0, songs: null, why: {} }); if (r.ok) { o.ok += r.n; o.songs = r.avgSongs; } else { o.bad += r.n; o.why[r.reason] = (o.why[r.reason] || 0) + r.n; } }
+    const order = ['line', 'two', 'bingo'].filter(k => cl[k]);
+    $('claims').innerHTML = order.length ? `<table><tr><th>Premio</th><th class="n">Válidos</th><th class="n">Fallidos</th><th class="n">Canciones</th><th>Por qué fallan</th></tr>${order.map(k => { const o = cl[k]; return `<tr><td>${esc(nm(k))}</td><td class="n good">${o.ok}</td><td class="n ${o.bad ? 'bad' : ''}">${o.bad}</td><td class="n">${o.songs ? Math.round(o.songs) : '—'}</td><td>${esc(Object.entries(o.why).map(([w, n]) => nm(w) + ' ×' + n).join(', '))}</td></tr>`; }).join('')}</table>` : '<div class="empty">Sin datos todavía</div>';
+  }
+  async function load() {
+    document.querySelectorAll('#range button').forEach(b => b.setAttribute('aria-pressed', +b.dataset.d === days));
+    let r; try { r = await fetch('/api/stats?days=' + days, { headers: { authorization: 'Bearer ' + key } }); } catch (e) { return show('login', 'No hay conexión con el servidor.'); }
+    const d = await r.json().catch(() => ({}));
+    if (r.status === 401) return show('login', key ? 'Clave incorrecta.' : '');
+    if (d.error === 'nokey') return show('login', 'Falta configurar STATS_KEY en el Worker (Cloudflare → meca-bingo → Settings → Variables and secrets).');
+    if (d.error === 'nodb') return show('login', 'La base de datos de estadísticas no está conectada todavía.');
+    if (!r.ok) return show('login', 'Error ' + r.status);
+    show('dash'); draw(d);
+  }
+  function show(which, err) { $('login').classList.toggle('hidden', which !== 'login'); $('dash').classList.toggle('hidden', which !== 'dash'); if (err != null) $('lerr').textContent = err; }
+  $('lf').onsubmit = e => { e.preventDefault(); key = $('key').value.trim(); try { localStorage.setItem('meca-stats-key', key); } catch (er) {} load(); };
+  $('logout').onclick = () => { key = ''; try { localStorage.removeItem('meca-stats-key'); } catch (e) {} show('login', ''); };
+  $('range').onclick = e => { const b = e.target.closest('button'); if (!b) return; days = +b.dataset.d; load(); };
+  if (key) load(); else show('login', '');
+})();
+</script>
+</body>
+</html>

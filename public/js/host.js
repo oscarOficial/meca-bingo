@@ -134,8 +134,9 @@
       if (isAmazon(url)) {
         if (!EXT.on) throw new Error(t.needExtension);
         const r = await extCall('import', { url });
-        if (!r.ok || !r.tracks || !r.tracks.length) throw new Error(t.errEmpty('Amazon Music'));
+        if (!r.ok || !r.tracks || !r.tracks.length) { STATS.track('import', { provider: 'amazon', ok: false, error: r.error || 'empty' }); throw new Error(t.errEmpty('Amazon Music')); }
         S.playlist = { title: r.title || 'Amazon Music', provider: 'amazon', tracks: r.tracks, url };
+        STATS.track('import', { provider: 'amazon', ok: true, songs: r.tracks.length });
         save(); drawSetup(); return;
       }
       let r, d;
@@ -143,9 +144,11 @@
       if (!r.ok) {
         const prov = t.providers[d.provider] || '';
         if (d.detail) console.warn('playlist import:', d.detail);
+        STATS.track('import', { provider: d.provider || 'unknown', ok: false, error: d.error || 'failed' });
         throw new Error(d.error === 'unsupported' ? t.errUnsupported : d.error === 'empty' ? t.errEmpty(prov) : t.errFailed(prov));
       }
       S.playlist = { title: d.title, provider: d.provider, tracks: d.tracks, note: d.note, url };
+      STATS.track('import', { provider: d.provider, ok: true, songs: d.tracks.length });
       save(); drawSetup();
     } catch (e) { toast('⚠️ ' + e.message, 8000); }
     finally { $('importBtn').disabled = false; $('importBtn').textContent = t.import; }
@@ -161,6 +164,9 @@
       cards: MB.makeCards(S.playlist.tracks.length, max, c.fmt, code + Date.now()),
       players: {}, played: [], awarded: {}, claims: [] };
     save(); startGame();
+    STATS.track('game_created', { provider: (S.playlist && S.playlist.provider) || 'unknown', songs: S.playlist.tracks.length, fmt: c.fmt,
+      vertical: !!c.vertical, diagonal: !!c.diagonal, prizes: enabledPrizes().join('+'), clip: +c.clip || 0, maxPlayers: max,
+      photos: photos.length, ext: EXT.on, extVersion: EXT.version || '' });
   }
   const enabledPrizes = () => MB.PRIZES.filter(p => S.cfg.prizes[p]);
   // a prize stays open for ties until the next song plays after the first winner
@@ -186,6 +192,7 @@
         const free = S.cards.findIndex((_, i) => !used.has(i));
         if (free < 0) { reply({ t: 'full' }); return; }
         p = S.players[m.dev] = { name: String(m.name || '?').slice(0, 24), card: free, joined: Date.now() };
+        STATS.track('player_joined', { players: Object.keys(S.players).length });
       } else if (m.name) p.name = String(m.name).slice(0, 24);
       peers[cid] = m.dev; save();
       reply({ ...publicState(), t: 'welcome', code: S.code, card: cardForPlayer(m.dev), rules: { vertical: S.cfg.vertical, diagonal: S.cfg.diagonal } });
@@ -202,6 +209,7 @@
       }
       save();
       reply({ t: 'result', ok: r.ok, prize: m.prize, reason: r.reason, wrong: r.wrong || [] });
+      STATS.track('claim', { prize: m.prize, ok: r.ok, reason: r.ok ? '' : (r.reason || ''), songs: S.played.length, players: Object.keys(S.players).length, fmt: S.cfg.fmt });
       showStage(r.ok, p, m.prize, r.reason);
       net.broadcast(publicState());
       drawGame();
@@ -342,6 +350,8 @@
   $('moment').onclick = hideMoment;
   $('mNo').onclick = () => $('modal').classList.remove('on');
   $('endBtn').onclick = () => ask(t.endGame, t.endConfirm, () => {
+    STATS.track('game_ended', { songs: S.played.length, players: Object.keys(S.players || {}).length, minutes: Math.round((Date.now() - (S.started || Date.now())) / 60000),
+      prizesWon: Object.keys(S.awarded || {}).length, claims: (S.claims || []).length, ext: EXT.on, provider: (S.playlist && S.playlist.provider) || 'unknown', fmt: S.cfg.fmt });
     net && net.broadcast({ t: 'over' }); setTimeout(() => { net && net.close(); net = null; }, 500);
     S = { phase: 'setup', cfg: S.cfg, playlist: S.playlist, msgs: S.msgs }; save();
     $('game').classList.add('hidden'); $('setup').classList.remove('hidden'); document.body.classList.remove('ingame'); drawSetup(); drawExt();
