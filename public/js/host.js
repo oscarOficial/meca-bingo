@@ -107,6 +107,7 @@
     let ok = false;
     if (pl) {
       $('plTitle').textContent = pl.title; $('plCount').textContent = pl.tracks.length + ' ' + t.songs;
+      $('plOpen').classList.toggle('hidden', !pl.url); if (pl.url) { $('plOpen').href = pl.url; $('plOpen').textContent = t.openPlaylist(t.providers[pl.provider] || ''); }
       // songs and players go together: more players need more songs
       const n = pl.tracks.length, players = +c.maxPlayers || 30, cap = MB.maxPlayersFor(c.fmt, n);
       const need = MB.minSongs(c.fmt, players) - n; ok = need <= 0;
@@ -213,6 +214,8 @@
     try { const qr = qrcode(0, 'M'); qr.addData(url); qr.make(); $('qr').innerHTML = qr.createSvgTag({ cellSize: 4, margin: 0, scalable: true }); } catch (e) { $('qr').textContent = url; }
     if (net) net.close();
     net = NET.hostRoom(S.code, { onMessage, onStatus: (s, e) => { if (s === 'error' && e !== 'peer-unavailable') console.warn('net', e); } });
+    const go = $('gameOpen'), pu = S.playlist && S.playlist.url;
+    go.classList.toggle('hidden', !pu); if (pu) { go.href = pu; go.textContent = t.openPlaylist(t.providers[S.playlist.provider] || ''); }
     shuffleSnap(); drawGame(); drawExt();
   }
   let q = '', lastSongCount = -1;
