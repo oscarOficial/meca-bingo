@@ -1,0 +1,360 @@
+{
+ "en": {
+  "navHow": "How it works",
+  "navFeatures": "Features",
+  "navMusic": "Music",
+  "navExt": "Extension",
+  "navFaq": "FAQ",
+  "ctaHost": "Host a game",
+  "ctaHostLong": "Create a game →",
+  "ctaJoin": "Join",
+  "heroTitle": "Music bingo night with your friends",
+  "heroLead": "Pick a public playlist, every friend gets a unique card on their phone, and the host's screen checks every LINE and BINGO for you.",
+  "heroFree": "Free · no accounts · no app to install for players · up to 30 players",
+  "howTitle": "How it works",
+  "howLead": "One person hosts on a laptop or TV; everyone else plays from their phone.",
+  "s1t": "Pick a playlist",
+  "s1p": "Paste a link to a public playlist from Spotify, Deezer, Apple Music, YouTube Music or Amazon Music — or paste the songs.",
+  "s2t": "Set the rules",
+  "s2p": "Card type, what counts as a line, prizes, song length, language, your own photos and messages.",
+  "s3t": "Friends scan the QR",
+  "s3p": "Each phone gets a different card with its name. If someone reloads, they keep their card.",
+  "s4t": "Play and call",
+  "s4p": "Put the music on. Players tap what they hear and call LINE or BINGO; the host's screen says VALID or NOPE.",
+  "r1t": "The host",
+  "r1l": [
+   "Laptop, tablet or a TV for everyone to see",
+   "Marks the song that is playing (or the extension does it)",
+   "Sees calls, winners and the photo moment"
+  ],
+  "r2t": "The players",
+  "r2l": [
+   "Any phone with a browser, no app",
+   "Tap songs as they recognise them",
+   "One big button to call the prize"
+  ],
+  "r3t": "The music",
+  "r3l": [
+   "Plays from your usual app or speaker",
+   "Shuffle the playlist and enjoy",
+   "Song names stay hidden on the host screen"
+  ],
+  "featTitle": "Make it yours",
+  "featLead": "Every game can look and play differently.",
+  "feats": [
+   [
+    "🃏 Two card types",
+    "Spanish 3×9 with gaps (15 songs) or classic 5×5 (25 songs)."
+   ],
+   [
+    "📏 Your rules",
+    "Horizontal lines only, or vertical too (and diagonals on 5×5)."
+   ],
+   [
+    "🏆 Prizes in order",
+    "Line, two lines and full-card bingo — turn on the ones you want."
+   ],
+   [
+    "⏱ Song length",
+    "Whole songs or 30 / 45 / 60 / 90 seconds for a faster game."
+   ],
+   [
+    "📸 Photo moment",
+    "After each song one of your photos fills the screen with a funny caption."
+   ],
+   [
+    "💬 Your messages & language",
+    "Edit the captions for playing, valid and wrong calls. English and Spanish included."
+   ]
+  ],
+  "needTitle": "How many songs do I need?",
+  "needLead": "More players need more songs, so not everyone wins at the same time. If your playlist is short, the app tells you how many players it can take.",
+  "thPlayers": "Players",
+  "thEs": "Spanish 3×9 card",
+  "thUs": "5×5 card",
+  "musicTitle": "Works with your music",
+  "musicLead": "Import any public playlist. Amazon Music has no public access, so it needs the free extension.",
+  "thProv": "Service",
+  "thImport": "Import the playlist",
+  "thAuto": "Auto-mark & play/pause from the bingo screen",
+  "prov": [
+   [
+    "Spotify",
+    "y",
+    "Directly (first 100 songs)",
+    "e",
+    "With the extension (web player)"
+   ],
+   [
+    "Deezer",
+    "y",
+    "Directly",
+    "e",
+    "With the extension (web player)"
+   ],
+   [
+    "Apple Music",
+    "y",
+    "Directly",
+    "e",
+    "With the extension (web player)"
+   ],
+   [
+    "YouTube Music",
+    "y",
+    "Directly",
+    "e",
+    "With the extension (web player)"
+   ],
+   [
+    "Amazon Music",
+    "e",
+    "With the extension",
+    "e",
+    "With the extension (web player)"
+   ],
+   [
+    "Any other",
+    "y",
+    "Paste the song list",
+    "",
+    "—"
+   ]
+  ],
+  "extTitle": "Meca Bingo Sync (optional)",
+  "extLead": "A browser extension for the host's computer that makes the night run by itself:",
+  "extList": [
+   "Marks every song automatically as it plays",
+   "Play, pause, next and previous on the bingo screen",
+   "Works with the Spotify, Amazon Music, Deezer, YouTube Music and Apple Music web players",
+   "Amazon Music: imports the playlist and START plays the round in shuffle"
+  ],
+  "extChrome": "Chrome / Edge",
+  "extFirefox": "Firefox",
+  "extSafari": "Safari (soon)",
+  "faqTitle": "Questions",
+  "faq": [
+   [
+    "Is it free?",
+    "Yes. No accounts, no ads, no tracking."
+   ],
+   [
+    "Do players need an app or an account?",
+    "No. They scan the QR or type the 5-letter code in any phone browser and write their name."
+   ],
+   [
+    "Can two players get the same card?",
+    "No. Each phone gets a different card, and keeps it if it reloads."
+   ],
+   [
+    "How are calls checked?",
+    "Every marked song must have played, and the marks must complete the prize. Otherwise the host screen shows NOPE and the player sees which song was wrong."
+   ],
+   [
+    "Where is our data?",
+    "Everything stays in the host's browser; phones connect directly to it. Your photos never leave the host's computer."
+   ],
+   [
+    "Do I need the extension?",
+    "Only for Amazon Music playlists, or if you want songs to be marked automatically (playing from the Spotify, Amazon Music, Deezer, YouTube Music or Apple Music web player in the same computer). Without it, the host marks the song that is playing with two taps."
+   ],
+   [
+    "Do I need a license to play music in public?",
+    "Streaming accounts are for personal use. For bars or public events, check the music licensing rules of your country."
+   ]
+  ],
+  "finalTitle": "Ready for tonight?",
+  "finalLead": "Create a game in two minutes and share the QR with your friends.",
+  "fPrivacy": "Privacy",
+  "fTm": "Not affiliated with Spotify, Amazon, Apple, Deezer or YouTube. We don't host or stream music.",
+  "fExt": "Extension",
+  "altHost": "Host screen with join code, QR and song counter",
+  "altPlayer": "Player card on a phone",
+  "altMoment": "Photo moment with a group photo and a caption",
+  "metaTitle": "Music bingo with friends: free online music bingo · Meca Bingo",
+  "metaDesc": "Turn any Spotify, Apple Music, Deezer or YouTube Music playlist into a music bingo night. A unique card on every phone. Free, no accounts.",
+  "ogDesc": "Turn any public playlist into a music bingo night. Unique cards on every phone. Free, no accounts.",
+  "langName": "English",
+  "codePh": "CODE",
+  "skip": "Skip to content"
+ },
+ "es": {
+  "navHow": "Cómo funciona",
+  "navFeatures": "Personaliza",
+  "navMusic": "Música",
+  "navExt": "Extensión",
+  "navFaq": "Preguntas",
+  "ctaHost": "Crear partida",
+  "ctaHostLong": "Crear una partida →",
+  "ctaJoin": "Entrar",
+  "heroTitle": "Noche de bingo musical con tus amigos",
+  "heroLead": "Elige una playlist pública, cada amigo recibe un cartón distinto en su móvil y la pantalla del presentador comprueba cada LÍNEA y BINGO por ti.",
+  "heroFree": "Gratis · sin cuentas · los jugadores no instalan nada · hasta 30 jugadores",
+  "howTitle": "Cómo funciona",
+  "howLead": "Una persona presenta desde un portátil o la tele; el resto juega desde el móvil.",
+  "s1t": "Elige una playlist",
+  "s1p": "Pega el enlace de una playlist pública de Spotify, Deezer, Apple Music, YouTube Music o Amazon Music, o pega las canciones.",
+  "s2t": "Pon las reglas",
+  "s2p": "Tipo de cartón, qué cuenta como línea, premios, duración de cada canción, idioma y tus fotos y frases.",
+  "s3t": "Tus amigos escanean el QR",
+  "s3p": "Cada móvil recibe un cartón distinto con su nombre. Si alguien recarga, conserva su cartón.",
+  "s4t": "Suena la música y se canta",
+  "s4p": "Pon la música. Los jugadores tocan lo que oyen y cantan LÍNEA o BINGO; la pantalla del presentador dice VÁLIDO o NOPE.",
+  "r1t": "El presentador",
+  "r1l": [
+   "Portátil, tablet o una tele que vea todo el mundo",
+   "Marca la canción que suena (o lo hace la extensión)",
+   "Ve los cantos, los ganadores y el momento foto"
+  ],
+  "r2t": "Los jugadores",
+  "r2l": [
+   "Cualquier móvil con navegador, sin app",
+   "Tocan las canciones que reconocen",
+   "Un botón grande para cantar el premio"
+  ],
+  "r3t": "La música",
+  "r3l": [
+   "Suena desde vuestra app o altavoz de siempre",
+   "Pon la playlist en aleatorio y a disfrutar",
+   "En la pantalla del presentador no se ve el título"
+  ],
+  "featTitle": "Hazlo a vuestra manera",
+  "featLead": "Cada partida puede ser distinta.",
+  "feats": [
+   [
+    "🃏 Dos tipos de cartón",
+    "Español 3×9 con huecos (15 canciones) o clásico 5×5 (25 canciones)."
+   ],
+   [
+    "📏 Tus reglas",
+    "Solo líneas horizontales, o también verticales (y diagonales en el 5×5)."
+   ],
+   [
+    "🏆 Premios en orden",
+    "Línea, dos líneas y bingo de cartón lleno: activa los que quieras."
+   ],
+   [
+    "⏱ Duración de cada canción",
+    "Canciones enteras o 30 / 45 / 60 / 90 segundos para una partida más rápida."
+   ],
+   [
+    "📸 Momento foto",
+    "Tras cada canción, una de vuestras fotos llena la pantalla con una frase divertida."
+   ],
+   [
+    "💬 Tus frases e idioma",
+    "Edita las frases de juego, premio válido y canto fallido. Incluye español e inglés."
+   ]
+  ],
+  "needTitle": "¿Cuántas canciones necesito?",
+  "needLead": "Más jugadores necesitan más canciones, para que no gane todo el mundo a la vez. Si tu playlist es corta, la app te dice para cuántos jugadores da.",
+  "thPlayers": "Jugadores",
+  "thEs": "Cartón español 3×9",
+  "thUs": "Cartón 5×5",
+  "musicTitle": "Funciona con tu música",
+  "musicLead": "Importa cualquier playlist pública. Amazon Music no permite el acceso público, así que necesita la extensión gratuita.",
+  "thProv": "Servicio",
+  "thImport": "Importar la playlist",
+  "thAuto": "Marcado automático y play/pausa desde el bingo",
+  "prov": [
+   [
+    "Spotify",
+    "y",
+    "Directamente (100 primeras canciones)",
+    "e",
+    "Con la extensión (reproductor web)"
+   ],
+   [
+    "Deezer",
+    "y",
+    "Directamente",
+    "e",
+    "Con la extensión (reproductor web)"
+   ],
+   [
+    "Apple Music",
+    "y",
+    "Directamente",
+    "e",
+    "Con la extensión (reproductor web)"
+   ],
+   [
+    "YouTube Music",
+    "y",
+    "Directamente",
+    "e",
+    "Con la extensión (reproductor web)"
+   ],
+   [
+    "Amazon Music",
+    "e",
+    "Con la extensión",
+    "e",
+    "Con la extensión (reproductor web)"
+   ],
+   [
+    "Cualquier otro",
+    "y",
+    "Pegando la lista de canciones",
+    "",
+    "—"
+   ]
+  ],
+  "extTitle": "Meca Bingo Sync (opcional)",
+  "extLead": "Una extensión para el navegador del presentador que hace que la noche vaya sola:",
+  "extList": [
+   "Marca sola cada canción que suena",
+   "Play, pausa, siguiente y anterior en la pantalla del bingo",
+   "Funciona con los reproductores web de Spotify, Amazon Music, Deezer, YouTube Music y Apple Music",
+   "Amazon Music: importa la playlist y START arranca la ronda en aleatorio"
+  ],
+  "extChrome": "Chrome / Edge",
+  "extFirefox": "Firefox",
+  "extSafari": "Safari (pronto)",
+  "faqTitle": "Preguntas",
+  "faq": [
+   [
+    "¿Es gratis?",
+    "Sí. Sin cuentas, sin anuncios y sin rastreo."
+   ],
+   [
+    "¿Los jugadores necesitan app o cuenta?",
+    "No. Escanean el QR o escriben el código de 5 letras en el navegador del móvil y ponen su nombre."
+   ],
+   [
+    "¿Pueden dos jugadores tener el mismo cartón?",
+    "No. Cada móvil recibe un cartón distinto y lo conserva si recarga."
+   ],
+   [
+    "¿Cómo se comprueban los cantos?",
+    "Todas las canciones marcadas tienen que haber sonado y completar el premio. Si no, la pantalla del presentador muestra NOPE y el jugador ve qué canción falló."
+   ],
+   [
+    "¿Dónde están nuestros datos?",
+    "Todo se queda en el navegador del presentador; los móviles se conectan directamente a él. Vuestras fotos nunca salen de su ordenador."
+   ],
+   [
+    "¿Necesito la extensión?",
+    "Solo para playlists de Amazon Music o si quieres que las canciones se marquen solas (con la música sonando en el reproductor web de Spotify, Amazon Music, Deezer, YouTube Music o Apple Music en el mismo ordenador). Sin ella, el presentador marca la canción que suena con dos toques."
+   ],
+   [
+    "¿Hace falta licencia para poner música en público?",
+    "Las cuentas de streaming son para uso personal. Para bares o eventos públicos, consulta las normas de licencias musicales de tu país."
+   ]
+  ],
+  "finalTitle": "¿Listos para esta noche?",
+  "finalLead": "Crea una partida en dos minutos y comparte el QR con tus amigos.",
+  "fPrivacy": "Privacidad",
+  "fTm": "Sin relación con Spotify, Amazon, Apple, Deezer ni YouTube. No alojamos ni emitimos música.",
+  "fExt": "Extensión",
+  "altHost": "Pantalla del presentador con código, QR y contador de canciones",
+  "altPlayer": "Cartón de un jugador en el móvil",
+  "altMoment": "Momento foto con una foto del grupo y una frase",
+  "metaTitle": "Bingo musical con amigos: bingo musical online gratis · Meca Bingo",
+  "metaDesc": "Convierte una playlist de Spotify, Apple Music, Deezer o YouTube Music en una noche de bingo musical. Un cartón distinto en cada móvil. Gratis.",
+  "ogDesc": "Convierte cualquier playlist pública en una noche de bingo musical. Un cartón distinto en cada móvil. Gratis y sin cuentas.",
+  "langName": "Español",
+  "codePh": "CÓDIGO",
+  "skip": "Saltar al contenido"
+ }
+}

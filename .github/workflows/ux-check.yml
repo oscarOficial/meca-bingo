@@ -17,6 +17,10 @@ jobs:
       - uses: actions/setup-python@v5
         with: { python-version: '3.12' }
       - run: pip install playwright && python -m playwright install --with-deps chromium
+      - name: Landing pages are up to date
+        run: python3 tools/site/build_site.py --check
+      - name: SEO checks
+        run: python3 tools/site/seo_check.py | tee -a "$GITHUB_STEP_SUMMARY"
       - name: Run UX checks
         run: python3 tools/ux/ux_check.py
       - name: Add report to the run summary

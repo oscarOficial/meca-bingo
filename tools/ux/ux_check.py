@@ -108,9 +108,10 @@ def run():
                 player.click('#callBtn'); time.sleep(0.8)
                 shot(player, 'player-result-phone'); host.set_viewport_size({'width': 1366, 'height': 850}); time.sleep(0.2); shot(host, 'host-call-desktop')
             ctx.close()
-        for dev in ('phone-portrait', 'phone-small', 'tablet', 'desktop'):
-            w, h = DEVICES[dev]; land = browser.new_page(viewport={'width': w, 'height': h}); land.goto(base + '/'); time.sleep(0.5)
-            shot(land, f'landing-{dev}', full=True); page_checks(land, f'landing ({dev})'); land.close()
+        for lang in ('es', 'en'):
+            for dev in (('phone-portrait', 'phone-small', 'tablet', 'desktop') if lang == 'es' else ('phone-small', 'desktop')):
+                w, h = DEVICES[dev]; land = browser.new_page(viewport={'width': w, 'height': h}); land.goto(f'{base}/{lang}/'); time.sleep(0.5)
+                shot(land, f'landing-{lang}-{dev}', full=True); page_checks(land, f'landing /{lang}/ ({dev})'); land.close()
         browser.close()
     srv.shutdown()
     failed = [r for r in results if not r[1]]

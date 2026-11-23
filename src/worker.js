@@ -2,9 +2,21 @@
 // Domains come from site.config.json (canonical address, extra domains, redirects).
 import { handlePlaylist } from './playlist.js';
 import SITE from '../site.config.json';
+import TEXTS from '../site/landing.i18n.json';
 
 const CANONICAL = SITE.canonical;
-const PUBLIC_PAGES = ['/', '/extension.html', '/privacy.html'];
+const LANGS = Object.keys(TEXTS);          // landing languages: /en/, /es/...
+const DEFAULT_LANG = 'en';
+const OTHER_PAGES = ['/extension.html', '/privacy.html'];
+
+// best landing language for this visitor (Accept-Language), e.g. "es-ES,es;q=0.9,en;q=0.8" → es
+function pickLang(request) {
+  const prefs = (request.headers.get('accept-language') || '').split(',')
+    .map(p => { const [tag, q] = p.trim().split(';q='); return { l: tag.slice(0, 2).toLowerCase(), q: q ? +q : 1 }; })
+    .sort((a, b) => b.q - a.q);
+  const hit = prefs.find(p => LANGS.includes(p.l));
+  return hit ? hit.l : DEFAULT_LANG;
+}
 
 function withHeaders(res, path) {
   const r = new Response(res.body, res);
@@ -13,7 +25,7 @@ function withHeaders(res, path) {
   h.set('Referrer-Policy', 'strict-origin-when-cross-origin');
   h.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
   if (!path.startsWith('/api/')) h.set('Strict-Transport-Security', 'max-age=31536000');
-  if (/\.(woff2|png|jpg|svg)$/.test(path)) h.set('Cache-Control', 'public, max-age=2592000');
+  if (/\.(woff2|png|jpg|webp|svg)$/.test(path)) h.set('Cache-Control', 'public, max-age=2592000');
   else if (/\.(js|css)$/.test(path)) h.set('Cache-Control', 'public, max-age=3600');
   return r;
 }
@@ -36,20 +48,27 @@ export default {
       return text(`User-agent: *\nAllow: /\nDisallow: /play.html\nDisallow: /download/\nSitemap: https://${CANONICAL}/sitemap.xml\n`, 'text/plain');
     }
     if (url.pathname === '/sitemap.xml') {
-      const urls = PUBLIC_PAGES.map(p => `  <url><loc>https://${CANONICAL}${p}</loc></url>`).join('\n');
-      return text(`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`, 'application/xml');
+      const alt = LANGS.map(l => `    <xhtml:link rel="alternate" hreflang="${l}" href="https://${CANONICAL}/${l}/"/>`).join('\n')
+        + `\n    <xhtml:link rel="alternate" hreflang="x-default" href="https://${CANONICAL}/"/>`;
+      const urls = LANGS.map(l => `  <url>\n    <loc>https://${CANONICAL}/${l}/</loc>\n${alt}\n  </url>`)
+        .concat(OTHER_PAGES.map(p => `  <url><loc>https://${CANONICAL}${p}</loc></url>`)).join('\n');
+      return text(`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${urls}\n</urlset>\n`, 'application/xml');
+    }
+    // the home page sends each visitor to their language
+    if (url.pathname === '/' || url.pathname === '/index.html') {
+      const to = new URL(`/${pickLang(request)}/${url.search}`, url);
+      return new Response(null, { status: 302, headers: { location: to.toString(), vary: 'Accept-Language', 'cache-control': 'private, no-store' } });
+    }
+    const lm = url.pathname.match(/^\/([a-z]{2})(\/(index\.html)?)?$/);
+    if (lm && LANGS.includes(lm[1])) {
+      if (lm[2] !== '/') return Response.redirect(new URL(`/${lm[1]}/${url.search}`, url).toString(), 301);
+      const page = `/${lm[1]}/index.html`;
+      return withHeaders(await env.ASSETS.fetch(new Request(new URL(page, url), request)), page);
     }
     // "/" and "/host" style addresses go to the matching .html page
     let page = url.pathname;
-    if (page === '/' || /^\/(host|play|privacy|legal|extension)\/?$/.test(page)) {
-      page = page === '/' ? '/index.html' : page.replace(/\/?$/, '.html');
-    }
+    if (/^\/(host|play|privacy|legal|extension)\/?$/.test(page)) page = page.replace(/\/?$/, '.html');
     const res = await env.ASSETS.fetch(new Request(new URL(page + url.search, url), request));
-    if (page === '/index.html' && res.ok) {
-      // Fill the canonical address into the landing's SEO tags
-      const html = (await res.text()).replaceAll('__SITE__', CANONICAL);
-      return withHeaders(new Response(html, res), page);
-    }
     return withHeaders(res, page);
   }
 };

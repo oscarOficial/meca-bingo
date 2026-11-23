@@ -119,3 +119,22 @@ To add or change a domain:
 3. Release a new extension version (Actions → Extension → Run workflow → `minor`), only needed if the domain list changed.
 4. Commit and push (or Retry build).
 
+## Landing page and languages (SEO)
+
+The landing is plain HTML per language at `/en/` and `/es/`, built from:
+
+- `site/landing.template.html`: layout (elements with `data-t="key"` get the text)
+- `site/landing.i18n.json`: all texts, including the page title and description per language
+
+After editing either file run `python3 tools/site/build_site.py` and commit the generated
+`public/<lang>/index.html` (CI fails if you forget). `python3 tools/site/seo_check.py` checks
+titles, descriptions, canonical, hreflang, images and structured data.
+
+`/` sends visitors to their browser's language (`/es/` or `/en/`). Each page has its own
+canonical address, `hreflang` links to the other languages, Open Graph tags and structured data
+(WebApplication, FAQ, HowTo). The sitemap lists both languages with their alternates.
+
+To add a language: add a block to `site/landing.i18n.json` (same keys), run the build, and the
+Worker, sitemap and language links pick it up. The game itself (host and player screens) gets
+its texts from `public/js/i18n.js`.
+

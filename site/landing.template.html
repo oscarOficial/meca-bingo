@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="{{lang}}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{{HEAD}}
+<link rel="preload" href="/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/bricolage-grotesque-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/fonts.css">
+<link rel="stylesheet" href="/css/app.css">
+<style>
+html{scroll-behavior:smooth}
+.wrap{max-width:1120px;padding-bottom:40px}
+nav{position:sticky;top:0;z-index:10;background:#0d0b1acc;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid #2e295066}
+nav .in{max-width:1120px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:14px}
+nav .logo{display:flex;align-items:center;gap:10px;font:800 21px 'Bricolage Grotesque',sans-serif;color:var(--txt);text-decoration:none;margin-right:auto}
+nav .logo img{width:34px;height:34px;border-radius:8px}
+nav .links a{color:var(--mut);text-decoration:none;font-weight:600;font-size:14.5px;padding:8px 6px}
+nav .links a:hover{color:var(--txt)}
+.langs{display:flex;gap:4px}.langs a{color:var(--mut);text-decoration:none;font-weight:700;font-size:13.5px;padding:8px 9px;border-radius:8px;border:1px solid transparent}.langs a[aria-current]{color:var(--txt);border-color:var(--line)}
+.skip{position:absolute;left:-9999px}.skip:focus{left:12px;top:12px;z-index:99;background:#000;padding:8px}
+nav .btn{padding:10px 16px;font-size:14.5px;text-decoration:none}
+@media (max-width:820px){nav .links{display:none}}
+@media (max-width:480px){nav .in>.btn{display:none}}
+main img,nav img{height:auto;max-width:100%}
+section{padding:64px 0 10px}
+h2.t{font-size:clamp(30px,4.5vw,46px);line-height:1.05;margin-bottom:12px}
+.lead{color:var(--mut);font-size:clamp(16px,1.8vw,19px);line-height:1.55;max-width:720px}
+.hero{display:grid;grid-template-columns:1.05fr 1fr;gap:40px;align-items:center;padding-top:50px}
+.hero h1{font-size:clamp(42px,6.4vw,78px);line-height:.98}
+.hero .lead{margin:18px 0 26px}
+.cta{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.cta .btn{text-decoration:none;display:inline-flex;align-items:center;min-height:52px}
+.join{display:flex;gap:8px}
+.join input{width:150px;text-transform:uppercase;letter-spacing:4px;font-weight:800;font-size:18px;text-align:center}
+.shots{position:relative;min-height:380px}
+.shots .tv{width:100%;border-radius:14px;border:1px solid var(--line);box-shadow:0 30px 80px #000b}
+.shots .ph{position:absolute;right:-6px;bottom:-30px;width:31%;border-radius:22px;border:6px solid #000;box-shadow:0 20px 50px #000c}
+.free{margin-top:14px;font-size:13.5px;color:var(--mut)}
+@media (max-width:860px){.hero{grid-template-columns:1fr}.shots{min-height:0;margin-bottom:30px}}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:26px;counter-reset:s}
+.steps .card{position:relative;padding:20px 18px 18px}
+.steps .card::before{counter-increment:s;content:counter(s);position:absolute;top:-14px;left:16px;width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--pink),#ff6b3d);display:grid;place-items:center;font:800 16px 'Bricolage Grotesque',sans-serif}
+.steps h3{font-size:19px;margin:8px 0 6px}
+.steps p{color:var(--mut);font-size:14.5px;line-height:1.5}
+@media (max-width:900px){.steps{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.steps{grid-template-columns:1fr}}
+.roles{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px}
+.roles .card{padding:22px}.roles .ic{font-size:34px}.roles h3{font-size:20px;margin:8px 0}.roles p,.roles li{color:var(--mut);font-size:14.5px;line-height:1.55}
+.roles ul{padding-left:18px;margin-top:6px}
+@media (max-width:820px){.roles{grid-template-columns:1fr}}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:center;margin-top:24px}
+.split img{width:100%;border-radius:14px;border:1px solid var(--line);box-shadow:0 20px 60px #0009}
+.feat{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.feat div{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px}
+.feat b{display:block;margin-bottom:4px}.feat span{color:var(--mut);font-size:14px;line-height:1.45}
+@media (max-width:860px){.split{grid-template-columns:1fr}.feat{grid-template-columns:1fr}}
+table{width:100%;border-collapse:collapse;margin-top:18px;font-size:15px}
+th,td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--line)}
+th{color:var(--cyan);font-size:12.5px;letter-spacing:1px;text-transform:uppercase}
+td.y{color:var(--green);font-weight:700}td.e{color:var(--yel);font-weight:700}
+.tbl{overflow-x:auto}
+.ext{display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center}
+.ext img{width:110px;height:110px;border-radius:24px}
+.browsers{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.browsers a{text-decoration:none}
+@media (max-width:620px){.ext{grid-template-columns:1fr}}
+details.q{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:10px}
+details.q summary{font-weight:700;cursor:pointer;font-size:16px;list-style:none}
+details.q summary::after{content:'+';float:right;color:var(--cyan);font-weight:800}
+details.q[open] summary::after{content:'–'}
+details.q p{color:var(--mut);margin-top:10px;line-height:1.6}
+.final{text-align:center;padding:70px 0 30px}
+footer{border-top:1px solid var(--line);margin-top:40px;padding:24px 0;color:var(--mut);font-size:14px;display:flex;gap:18px;flex-wrap:wrap;justify-content:space-between}
+footer a{color:var(--mut)}
+</style>
+</head>
+<body>
+<a class="skip" href="#main" data-t="skip"></a>
+<nav><div class="in">
+  <a class="logo" href="/{{lang}}/"><img src="/img/logo.png" alt="" width="34" height="34">Meca <span class="grad">Bingo</span></a>
+  <div class="links"><a href="#how" data-t="navHow"></a><a href="#features" data-t="navFeatures"></a><a href="#music" data-t="navMusic"></a><a href="#extension" data-t="navExt"></a><a href="#faq" data-t="navFaq"></a></div>
+  <div class="langs" role="group" aria-label="Language">{{LANGS}}</div>
+  <a class="btn big" href="/host.html" data-t="ctaHost"></a>
+</div></nav>
+
+<main class="wrap" id="main">
+  <!-- HERO -->
+  <div class="hero">
+    <div>
+      <h1 data-t="heroTitle"></h1>
+      <p class="lead" data-t="heroLead"></p>
+      <div class="cta">
+        <a class="btn big" href="/host.html" data-t="ctaHostLong"></a>
+        <form class="join" id="joinForm"><input type="text" id="code" maxlength="5" autocomplete="off" aria-label="{{codePh}}" placeholder="{{codePh}}"><button class="btn cy" data-t="ctaJoin"></button></form>
+      </div>
+      <p class="free" data-t="heroFree"></p>
+    </div>
+    <div class="shots"><img class="tv" src="/img/host.jpg" alt="{{altHost}}" width="1280" height="800" fetchpriority="high"><img class="ph" src="/img/player.jpg" alt="{{altPlayer}}" width="390" height="760"></div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <h2 class="t" data-t="howTitle"></h2>
+    <p class="lead" data-t="howLead"></p>
+    <div class="steps">
+      <div class="card"><h3 data-t="s1t"></h3><p data-t="s1p"></p></div>
+      <div class="card"><h3 data-t="s2t"></h3><p data-t="s2p"></p></div>
+      <div class="card"><h3 data-t="s3t"></h3><p data-t="s3p"></p></div>
+      <div class="card"><h3 data-t="s4t"></h3><p data-t="s4p"></p></div>
+    </div>
+    <div class="roles">
+      <div class="card"><div class="ic">💻</div><h3 data-t="r1t"></h3><ul data-list="r1l"></ul></div>
+      <div class="card"><div class="ic">📱</div><h3 data-t="r2t"></h3><ul data-list="r2l"></ul></div>
+      <div class="card"><div class="ic">🎧</div><h3 data-t="r3t"></h3><ul data-list="r3l"></ul></div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features">
+    <h2 class="t" data-t="featTitle"></h2>
+    <p class="lead" data-t="featLead"></p>
+    <div class="split">
+      <div class="feat" id="feat"></div>
+      <img src="/img/moment.jpg" alt="{{altMoment}}" width="1280" height="800" loading="lazy">
+    </div>
+    <h3 style="font-size:24px;margin:44px 0 6px" data-t="needTitle"></h3>
+    <p class="lead" data-t="needLead"></p>
+    <div class="tbl"><table><thead><tr><th data-t="thPlayers"></th><th data-t="thEs"></th><th data-t="thUs"></th></tr></thead>
+      <tbody><tr><td>≤ 4</td><td>28</td><td>48</td></tr><tr><td>≤ 8</td><td>31</td><td>50</td></tr><tr><td>≤ 12</td><td>34</td><td>52</td></tr><tr><td>≤ 20</td><td>36</td><td>55</td></tr><tr><td>≤ 30</td><td>38</td><td>58</td></tr></tbody></table></div>
+  </section>
+
+  <!-- MUSIC -->
+  <section id="music">
+    <h2 class="t" data-t="musicTitle"></h2>
+    <p class="lead" data-t="musicLead"></p>
+    <div class="tbl"><table><thead><tr><th data-t="thProv"></th><th data-t="thImport"></th><th data-t="thAuto"></th></tr></thead>
+      <tbody id="provRows"></tbody></table></div>
+  </section>
+
+  <!-- EXTENSION -->
+  <section id="extension">
+    <div class="card ext">
+      <img src="/img/logo.png" alt="" width="110" height="110" loading="lazy">
+      <div><h2 class="t" style="font-size:clamp(26px,3.4vw,36px)" data-t="extTitle"></h2><p class="lead" data-t="extLead"></p><ul data-list="extList" class="lead" style="margin-top:10px;padding-left:20px;line-height:1.7"></ul>
+        <div class="browsers"><a class="btn cy" href="/extension.html" data-t="extChrome"></a><a class="btn" href="/extension.html" data-t="extFirefox"></a><a class="btn" href="/extension.html" data-t="extSafari"></a></div></div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <h2 class="t" data-t="faqTitle"></h2>
+    <div id="faqList" style="margin-top:20px"></div>
+  </section>
+
+  <div class="final"><h2 class="t" data-t="finalTitle"></h2><p class="lead" style="margin:0 auto 22px" data-t="finalLead"></p><a class="btn big" href="/host.html" data-t="ctaHostLong" style="text-decoration:none"></a></div>
+
+  <footer style="line-height:1.6"><span>© Meca Bingo · <span data-t="fTm"></span></span><span><a href="/privacy.html" data-t="fPrivacy"></a> · <a href="/extension.html" data-t="fExt"></a> · <a href="https://github.com/oscarOficial/meca-bingo">GitHub</a></span></footer>
+</main>
+
+<script>
+try { localStorage.setItem('meca-lang', JSON.stringify('{{lang}}')); } catch (e) {}
+document.getElementById('joinForm').onsubmit = e => { e.preventDefault(); const c = document.getElementById('code').value.trim().toUpperCase(); if (c.length === 5) location.href = '/play.html?r=' + c; };
+</script>
+</body>
+</html>
