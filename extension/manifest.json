@@ -2,9 +2,9 @@
   "manifest_version": 3,
   "name": "Meca Bingo Sync",
   "short_name": "Meca Bingo",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Companion for Meca Bingo: imports Amazon Music playlists, marks the song that is playing and lets the host control the music.",
-  "homepage_url": "https://mecabingo.com/",
+  "homepage_url": "https://mecabingo.oscasais.es/",
   "icons": {
     "16": "icons/icon16.png",
     "32": "icons/icon32.png",
@@ -35,8 +35,7 @@
     "https://music.amazon.fr/*",
     "https://music.amazon.it/*",
     "https://open.spotify.com/*",
-    "https://mecabingo.com/*",
-    "https://www.mecabingo.com/*",
+    "https://mecabingo.oscasais.es/*",
     "https://meca-bingo.oscasais.workers.dev/*"
   ],
   "content_scripts": [
@@ -73,8 +72,7 @@
     },
     {
       "matches": [
-        "https://mecabingo.com/*",
-        "https://www.mecabingo.com/*",
+        "https://mecabingo.oscasais.es/*",
         "https://meca-bingo.oscasais.workers.dev/*"
       ],
       "js": [

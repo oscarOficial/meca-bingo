@@ -1,7 +1,7 @@
 // Connects the Meca Bingo host page with the music player tab.
 const AMAZON = ['https://music.amazon.es/*', 'https://music.amazon.com/*', 'https://music.amazon.co.uk/*', 'https://music.amazon.de/*', 'https://music.amazon.fr/*', 'https://music.amazon.it/*'];
 const PLAYERS = [...AMAZON, 'https://open.spotify.com/*'];
-const SITE = ['https://mecabingo.com/*', 'https://www.mecabingo.com/*', 'https://meca-bingo.oscasais.workers.dev/*'];
+const SITE = ['https://mecabingo.oscasais.es/*', 'https://meca-bingo.oscasais.workers.dev/*'];
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 async function siteTabs() { return chrome.tabs.query({ url: SITE }); }

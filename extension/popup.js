@@ -1,5 +1,5 @@
 function setStatus(id, cls, text) { const e = document.getElementById(id); e.className = cls; e.textContent = text; }
-const SITE = ['https://mecabingo.com/*', 'https://www.mecabingo.com/*', 'https://meca-bingo.oscasais.workers.dev/*'];
+const SITE = ['https://mecabingo.oscasais.es/*', 'https://meca-bingo.oscasais.workers.dev/*'];
 async function draw() {
   const s = await chrome.runtime.sendMessage({ type: 'mb-getstate' }).catch(() => null);
   if (!s || !s.player) setStatus('player', 'no', 'No Amazon Music or Spotify tab open');
