@@ -4,3 +4,5 @@ dist/
 node_modules/
 ux-report/
 .dev.vars
+.worktrees/
+factory/jobs/
