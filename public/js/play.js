@@ -19,6 +19,14 @@
     $('tCode').textContent = t.code; $('tJoin').textContent = t.join; $('tName').textContent = t.yourName; $('nameIn').placeholder = t.namePh; $('tGo').textContent = t.letsGo; $('hint').textContent = t.tapToMark; $('tRotate').textContent = t.rotate; $('rotateAnyway').textContent = t.rotateAnyway; $('resBack').textContent = t.backToCard;
   }
   // prize names and shapes come from the host; very old hosts sent 'line' / 'two' / 'bingo'
+  // rules: shown the first time on this phone, and from the ❓ button
+  function showHelp() {
+    $('helpTitle').textContent = t.playerHelpTitle; $('helpOk').textContent = t.gotIt;
+    $('helpRules').innerHTML = t.rules.map(x => `<li>${esc(x)}</li>`).join('');
+    const names = (state.prizes || []).map(p => p.name);
+    $('helpPrizes').textContent = names.length ? t.rulesPrizes + ' ' + names.join(' → ') : '';
+    $('help').classList.add('on');
+  }
   const prizeLabel = p => (state.prizes && state.prizes[p] && state.prizes[p].name) || I18N.prizeName(t, p);
   const hasPrize = () => state.prize !== null && state.prize !== undefined;
 
@@ -114,6 +122,8 @@
       if (!P.card || P.card.no !== m.card.no || JSON.stringify(P.card.cells) !== JSON.stringify(m.card.cells)) P = { card: m.card, marks: [] };
       P.rules = m.rules || {};
       store.set(K(), P); state = m; show('play'); drawCard(); drawState();
+      $('helpBtn').classList.remove('hidden');
+      if (!store.get('meca-help-seen')) { store.set('meca-help-seen', 1); showHelp(); }
     } else if (m.t === 'state') {
       const before = JSON.stringify(state.winners || {});
       state = { ...state, ...m }; drawState();
@@ -150,6 +160,7 @@
   };
   $('callBtn').onclick = () => { if (!connected || !hasPrize()) return; busy = true; drawState(); net.send({ t: 'claim', dev, prize: state.prize, marks: P.marks }); setTimeout(() => { busy = false; drawState(); }, 6000); };
   $('res').onclick = () => $('res').classList.remove('on');
+  $('helpBtn').onclick = showHelp; $('helpOk').onclick = () => $('help').classList.remove('on');
   $('rotateAnyway').onclick = () => { rotateDismissed = true; drawCard(); };
   $('codeForm').onsubmit = e => { e.preventDefault(); const c = $('codeIn').value.trim().toUpperCase(); if (c.length === 5) { code = c; history.replaceState(null, '', '?r=' + c + (params.get('net') ? '&net=' + params.get('net') : '')); P = store.get(K()) || { card: null, marks: [] }; start(); } };
   $('nameForm').onsubmit = e => { e.preventDefault(); const n = $('nameIn').value.trim(); if (!n) return; name = n; store.set('meca-name', n); connect(); };

@@ -63,18 +63,19 @@ export async function handleStats(request, env) {
   // tidy up old rows now and then
   if (Math.random() < 0.2) await db.prepare('DELETE FROM events WHERE ts < ?').bind(Date.now() - KEEP_DAYS * 864e5).run();
 
-  const [totals, perDay, providers, imports, langs, countries, formats, players, claims, ended, ext] = await Promise.all([
+  const [totals, perDay, providers, imports, langs, countries, formats, players, claims, ended, ext, modes] = await Promise.all([
     q(`SELECT type, COUNT(*) n FROM events WHERE day >= ? GROUP BY type`, from),
     q(`SELECT day, type, COUNT(*) n FROM events WHERE day >= ? AND type IN ('game_created','player_joined') GROUP BY day, type ORDER BY day`, from),
     q(`SELECT ${J('provider')} k, COUNT(*) n FROM events WHERE day >= ? AND type = 'game_created' GROUP BY k ORDER BY n DESC`, from),
     q(`SELECT ${J('provider')} provider, ${J('ok')} ok, ${J('error')} error, COUNT(*) n FROM events WHERE day >= ? AND type = 'import' GROUP BY provider, ok, error ORDER BY n DESC`, from),
     q(`SELECT lang k, COUNT(*) n FROM events WHERE day >= ? AND type = 'game_created' GROUP BY k ORDER BY n DESC`, from),
     q(`SELECT country k, COUNT(*) n FROM events WHERE day >= ? AND type = 'game_created' GROUP BY k ORDER BY n DESC LIMIT 12`, from),
-    q(`SELECT ${J('fmt')} || CASE WHEN ${J('vertical')} THEN ' + vertical' ELSE '' END k, COUNT(*) n FROM events WHERE day >= ? AND type = 'game_created' GROUP BY k ORDER BY n DESC`, from),
+    q(`SELECT ${J('fmt')} k, COUNT(*) n FROM events WHERE day >= ? AND type = 'game_created' GROUP BY k ORDER BY n DESC`, from),
     q(`SELECT AVG(${J('players')}) avgPlayers, MAX(${J('players')}) maxPlayers, AVG(${J('songs')}) avgSongs, AVG(${J('minutes')}) avgMinutes, COUNT(*) n FROM events WHERE day >= ? AND type = 'game_ended' AND ${J('players')} > 0`, from),
     q(`SELECT ${J('prize')} prize, ${J('ok')} ok, ${J('reason')} reason, COUNT(*) n, AVG(${J('songs')}) avgSongs FROM events WHERE day >= ? AND type = 'claim' GROUP BY prize, ok, reason ORDER BY prize, n DESC`, from),
     q(`SELECT COUNT(*) n FROM events WHERE day >= ? AND type = 'game_ended'`, from),
     q(`SELECT ${J('ext')} k, COUNT(*) n FROM events WHERE day >= ? AND type = 'game_created' GROUP BY k`, from),
+    q(`SELECT COALESCE(${J('mode')}, 'manual') k, COUNT(*) n FROM events WHERE day >= ? AND type = 'game_created' GROUP BY k ORDER BY n DESC`, from),
   ]);
-  return json({ days, from, totals, perDay, providers, imports, langs, countries, formats, players: players[0] || {}, claims, ended: (ended[0] || {}).n || 0, ext });
+  return json({ days, from, totals, perDay, providers, imports, langs, countries, formats, players: players[0] || {}, claims, ended: (ended[0] || {}).n || 0, ext, modes });
 }

@@ -151,6 +151,14 @@
     "More players need more songs, so not everyone wins at once: about 28–38 songs for the 3×9 card and 48–58 for the 5×5, depending on the number of players. If your playlist is short, the app tells you how many players it can take."
    ],
    [
+    "Can the host play too?",
+    "Yes, in automatic mode: the extension marks the songs and the host never sees their names, so the host can join from a phone like everyone else. In manual mode the host marks the songs and sees the names, so the host shouldn't play."
+   ],
+   [
+    "Can I host from my phone?",
+    "Yes, in manual mode: the music can come from any device and you tap each song as it plays. Automatic mode needs a computer, because the extension only works in a computer browser. Keep the bingo page open on your phone during the game."
+   ],
+   [
     "How are calls checked?",
     "Every marked song must have played, and the marks must complete the prize. Otherwise the host screen shows NOPE and the player sees which song was wrong."
    ],
@@ -160,7 +168,7 @@
    ],
    [
     "Do I need the extension?",
-    "Only for Amazon Music playlists, or if you want songs to be marked automatically (playing from the Spotify, Amazon Music, Deezer, YouTube Music or Apple Music web player in the same computer). Without it, the host marks the song that is playing with two taps."
+    "Only for automatic mode (songs marked by themselves, host can play) and to import Amazon Music playlists. Manual mode needs nothing."
    ],
    [
     "Do I need a license to play music in public?",
@@ -232,7 +240,26 @@
     "Your shape",
     "Draw it yourself"
    ]
-  }
+  },
+  "navWays": "Two ways to play",
+  "waysTitle": "Two ways to play",
+  "waysLead": "Choose it when you create the game, depending on where the music comes from.",
+  "wayAutoT": "🎧 Automatic",
+  "wayAutoP": "The music plays in the host's computer browser and the free extension marks every song by itself.",
+  "wayAutoL": [
+   "🎵 Spotify, Amazon Music, Deezer, YouTube Music or Apple Music web player",
+   "🔊 It can sound through a speaker or the TV connected to the computer",
+   "🙋 The host plays too: nobody sees the song names",
+   "💻 Computer with Chrome, Edge or Firefox"
+  ],
+  "wayManT": "✋ Manual",
+  "wayManP": "The music plays from anywhere and the host taps each song on the screen when it plays.",
+  "wayManL": [
+   "🎵 Any app or device: phone, speaker, TV, records…",
+   "✋ The host marks the songs, so the host doesn't play",
+   "📱 Works on a computer, tablet or phone",
+   "🧩 No extension needed"
+  ]
  },
  "es": {
   "navHow": "Cómo funciona",
@@ -386,6 +413,14 @@
     "Más jugadores necesitan más canciones, para que no gane todo el mundo a la vez: unas 28–38 canciones con el cartón 3×9 y 48–58 con el 5×5, según el número de jugadores. Si tu playlist es corta, la app te dice para cuántos jugadores da."
    ],
    [
+    "¿Puede jugar el presentador?",
+    "Sí, en modo automático: la extensión marca las canciones y el presentador nunca ve los títulos, así que puede unirse desde su móvil como los demás. En modo manual el presentador marca las canciones y ve los títulos, así que no debería jugar."
+   ],
+   [
+    "¿Puedo ser el presentador desde el móvil?",
+    "Sí, en modo manual: la música puede salir de cualquier aparato y tú tocas cada canción cuando suena. El modo automático necesita un ordenador, porque la extensión solo funciona en el navegador del ordenador. Mantén la página del bingo abierta en el móvil durante la partida."
+   ],
+   [
     "¿Cómo se comprueban los cantos?",
     "Todas las canciones marcadas tienen que haber sonado y completar el premio. Si no, la pantalla del presentador muestra NOPE y el jugador ve qué canción falló."
    ],
@@ -395,7 +430,7 @@
    ],
    [
     "¿Necesito la extensión?",
-    "Solo para playlists de Amazon Music o si quieres que las canciones se marquen solas (con la música sonando en el reproductor web de Spotify, Amazon Music, Deezer, YouTube Music o Apple Music en el mismo ordenador). Sin ella, el presentador marca la canción que suena con dos toques."
+    "Solo para el modo automático (las canciones se marcan solas y el presentador puede jugar) y para importar playlists de Amazon Music. El modo manual no necesita nada."
    ],
    [
     "¿Hace falta licencia para poner música en público?",
@@ -467,6 +502,25 @@
     "Tu figura",
     "Dibújala tú"
    ]
-  }
+  },
+  "navWays": "Dos formas de jugar",
+  "waysTitle": "Dos formas de jugar",
+  "waysLead": "Se elige al crear la partida, según de dónde salga la música.",
+  "wayAutoT": "🎧 Automático",
+  "wayAutoP": "La música suena en el navegador del ordenador del presentador y la extensión gratuita marca sola cada canción.",
+  "wayAutoL": [
+   "🎵 Reproductor web de Spotify, Amazon Music, Deezer, YouTube Music o Apple Music",
+   "🔊 Puede sonar por un altavoz o la tele conectados al ordenador",
+   "🙋 El presentador también juega: nadie ve los títulos",
+   "💻 Ordenador con Chrome, Edge o Firefox"
+  ],
+  "wayManT": "✋ Manual",
+  "wayManP": "La música suena desde cualquier sitio y el presentador toca en la pantalla cada canción cuando suena.",
+  "wayManL": [
+   "🎵 Cualquier app o aparato: móvil, altavoz, tele, discos…",
+   "✋ El presentador marca las canciones, así que no juega",
+   "📱 Funciona en ordenador, tablet o móvil",
+   "🧩 Sin extensión"
+  ]
  }
 }

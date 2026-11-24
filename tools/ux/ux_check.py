@@ -111,11 +111,25 @@ def run():
                     w, h = DEVICES[dev]; host.set_viewport_size({'width': w, 'height': h}); time.sleep(0.2)
                     shot(host, f'host-setup-{dev}', full=True); page_checks(host, f'host setup ({dev})')
                 host.set_viewport_size({'width': 1366, 'height': 850})
+            if tag == 'es':
+                host.click('#modePick [data-mode="auto"]'); time.sleep(0.2)
+                check('auto mode without extension shows how to get it', host.is_visible('#extWarn'))
+                w, h = DEVICES['phone-portrait']; host.set_viewport_size({'width': w, 'height': h}); time.sleep(0.2)
+                shot(host, 'host-modes-phone', full=True); page_checks(host, 'host modes (phone-portrait)')
+                host.set_viewport_size({'width': 1366, 'height': 850})
+                host.click('#modePick [data-mode="manual"]')
             host.click('#create'); time.sleep(0.6)
+            if tag == 'es':
+                check('game screen says the mode', 'manual' in host.inner_text('#modeBanner').lower())
+                host.click('#helpBtn'); time.sleep(0.2); shot(host, 'host-help-desktop'); check('host rules help opens', host.is_visible('#help')); host.click('#helpOk')
             code = host.inner_text('#codeBig')
             player = ctx.new_page()
             player.goto(f'{base}/play.html?r={code}&net=local')
-            player.evaluate("localStorage.removeItem('meca-dev'); localStorage.setItem('meca-name', JSON.stringify('Ana'))"); player.reload(); time.sleep(1)
+            player.evaluate("localStorage.removeItem('meca-dev'); localStorage.setItem('meca-name', JSON.stringify('Ana'))" + ("" if tag == 'es' else "; localStorage.setItem('meca-help-seen', '1')")); player.reload(); time.sleep(1)
+            if tag == 'es':
+                check('player: rules shown the first time', player.is_visible('#help'))
+                player.set_viewport_size({'width': 375, 'height': 740}); time.sleep(0.5); shot(player, 'player-help-phone'); page_checks(player, 'player help (phone)')
+                player.click('#helpOk'); time.sleep(0.2)
             player.click('.cell[data-i] >> nth=0'); player.click('.cell[data-i] >> nth=2')
             for dev, (w, h) in DEVICES.items():
                 if tag != 'es' and dev in ('tablet', 'desktop'): continue

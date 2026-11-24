@@ -81,6 +81,10 @@ td.y{color:var(--green);font-weight:700}td.e{color:var(--yel);font-weight:700}
 .mode .pon{fill:var(--pink)}.mode .poff{fill:#ffffff3a}.mode .pgap{fill:#ffffff0d}.mode svg.es9{height:40px;margin:12px auto 22px;max-width:100%}
 .lead.small{font-size:15px;margin-top:12px}.lead a{color:var(--cyan)}
 @media (max-width:560px){.prow{flex-direction:column}}
+.ways{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:22px}
+.way{padding:22px}.way h3{font-size:22px;margin-bottom:6px}.way p{color:var(--mut);line-height:1.55}
+.way ul{list-style:none;margin-top:12px;display:flex;flex-direction:column;gap:6px;font-size:15px}
+@media (max-width:760px){.ways{grid-template-columns:1fr}}
 details.q{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:10px}
 details.q summary{font-weight:700;cursor:pointer;font-size:16px;list-style:none}
 details.q summary::after{content:'+';float:right;color:var(--cyan);font-weight:800}
@@ -95,7 +99,7 @@ footer a{color:var(--mut)}
 <a class="skip" href="#main" data-t="skip"></a>
 <nav><div class="in">
   <a class="logo" href="/{{lang}}/"><img src="/img/logo.png" alt="" width="34" height="34">Meca <span class="grad">Bingo</span></a>
-  <div class="links"><a href="#how" data-t="navHow"></a><a href="#modes" data-t="navModes"></a><a href="#music" data-t="navMusic"></a><a href="#faq" data-t="navFaq"></a></div>
+  <div class="links"><a href="#how" data-t="navHow"></a><a href="#ways" data-t="navWays"></a><a href="#modes" data-t="navModes"></a><a href="#music" data-t="navMusic"></a><a href="#faq" data-t="navFaq"></a></div>
   <div class="langs" role="group" aria-label="Language">{{LANGS}}</div>
   <a class="btn big" href="/host.html" data-t="ctaHost"></a>
 </div></nav>
@@ -124,6 +128,16 @@ footer a{color:var(--mut)}
       <div class="card"><h3 data-t="s2t"></h3><p data-t="s2p"></p></div>
       <div class="card"><h3 data-t="s3t"></h3><p data-t="s3p"></p></div>
       <div class="card"><h3 data-t="s4t"></h3><p data-t="s4p"></p></div>
+    </div>
+  </section>
+
+  <!-- TWO WAYS TO PLAY -->
+  <section id="ways">
+    <h2 class="t" data-t="waysTitle"></h2>
+    <p class="lead" data-t="waysLead"></p>
+    <div class="ways">
+      <div class="card way"><h3 data-t="wayAutoT"></h3><p data-t="wayAutoP"></p><ul data-list="wayAutoL"></ul></div>
+      <div class="card way"><h3 data-t="wayManT"></h3><p data-t="wayManP"></p><ul data-list="wayManL"></ul></div>
     </div>
   </section>
 

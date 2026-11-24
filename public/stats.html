@@ -73,7 +73,7 @@ td.n{text-align:right;font-variant-numeric:tabular-nums}
       <div class="card"><h2>Servicio de música</h2><div class="sub">Partidas creadas</div><div class="bars" id="providers"></div></div>
       <div class="card"><h2>Importar playlists</h2><div class="sub">Correctas y fallidas por servicio: los fallos dicen qué arreglar</div><div id="imports"></div></div>
       <div class="card"><h2>Cantos</h2><div class="sub">Válidos y fallidos por premio, y canciones de media hasta el canto</div><div id="claims"></div></div>
-      <div class="card"><h2>Reglas y extensión</h2><div class="sub">Partidas creadas</div><div class="bars" id="formats"></div><div style="height:14px"></div><div class="bars" id="ext"></div></div>
+      <div class="card"><h2>Modo, cartón y extensión</h2><div class="sub">Partidas creadas</div><div class="bars" id="modes"></div><div style="height:14px"></div><div class="bars" id="formats"></div><div style="height:14px"></div><div class="bars" id="ext"></div></div>
       <div class="card"><h2>Idioma</h2><div class="sub">Partidas creadas</div><div class="bars" id="langs"></div></div>
       <div class="card"><h2>País</h2><div class="sub">Partidas creadas (según Cloudflare)</div><div class="bars" id="countries"></div></div>
     </div>
@@ -124,6 +124,7 @@ td.n{text-align:right;font-variant-numeric:tabular-nums}
     daily($('pDays'), $('pAxis'), $('pSub'), s.perDay, 'player_joined', s.from, 'jugadores');
     bars($('providers'), s.providers);
     bars($('formats'), s.formats, k => String(k || '—').replace(/^es/, 'Cartón 3×9').replace(/^us/, 'Cartón 5×5').replace(' + vertical', ' + verticales'));
+    bars($('modes'), s.modes || [], k => k === 'auto' ? '🎧 Automático' : '✋ Manual');
     bars($('ext'), s.ext.map(r => ({ k: r.k ? 'Con extensión' : 'Sin extensión', n: r.n })), k => k);
     bars($('langs'), s.langs, k => LANGS[k] || k || '—');
     bars($('countries'), s.countries, k => k || '—');

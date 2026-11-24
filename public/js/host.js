@@ -42,7 +42,7 @@
   window.addEventListener('message', e => {
     const m = e.data; if (e.source !== window || !m || !m.__mbExt) return;
     if (m.id && extWait[m.id]) { const f = extWait[m.id]; delete extWait[m.id]; f(m); }
-    if (m.type === 'ready') { EXT.on = true; EXT.version = m.version; drawExt(); if (S.phase === 'game') window.postMessage({ __mbPage: true, type: 'getState', id: 'st' }, '*'); }
+    if (m.type === 'ready') { EXT.on = true; EXT.version = m.version; drawExt(); if (S.phase !== 'game') drawMode(); else drawGame(); if (S.phase === 'game') window.postMessage({ __mbPage: true, type: 'getState', id: 'st' }, '*'); }
     else if (m.type === 'state') { EXT.playing = !!m.playing; if (m.player !== undefined) EXT.player = m.player; drawExt(); }
     else if (m.type === 'track' && S.phase === 'game') {
       const i = findTrack(m.title, m.artist);
@@ -85,6 +85,9 @@
     set('tPasteTitle', t.pasteTitle); set('tPasteSub', t.pasteSub); $('plUrl').placeholder = t.pastePh; set('importBtn', t.import); set('tWorksWith', t.worksWith);
     set('tHowImport', t.howImport); $('importInfo').innerHTML = t.importInfo.map(x => `<li>${esc(x)}</li>`).join(''); set('extLink', t.getExt);
     set('tOrPaste', t.orPaste); set('useList', t.useList); set('plChange', '↺ ' + t.change); set('tSongList', t.songList || t.songs);
+    set('tModeTitle', t.modeTitle); set('tModeAuto', '🎧 ' + t.modeAuto); set('tModeManual', '✋ ' + t.modeManual); set('tModeAutoDesc', t.modeAutoDesc); set('tModeManualDesc', t.modeManualDesc);
+    $('modeAutoFacts').innerHTML = t.modeAutoFacts.map(x => `<li>${esc(x)}</li>`).join(''); $('modeManualFacts').innerHTML = t.modeManualFacts.map(x => `<li>${esc(x)}</li>`).join('');
+    set('tExtMissing', t.extMissing); set('getExtBtn', t.getExtBtn + ' →'); set('tSteps', t.stepsTitle); set('helpTitle', t.howToPlay); set('helpOk', t.gotIt); $('helpBtn').title = t.howToPlay; $('helpBtn').setAttribute('aria-label', t.howToPlay);
     set('tCard', t.cardType); set('tFree', t.freeCenter); set('tFreeHint', t.freeCenterHint);
     $('fmt').children[0].innerHTML = `${cardPic('es')}<span><b>${esc(t.cardEsShort)}</b><small>${esc(t.cardEsDesc)}</small></span>`;
     $('fmt').children[1].innerHTML = `${cardPic('us')}<span><b>${esc(t.cardUsShort)}</b><small>${esc(t.cardUsDesc)}</small></span>`;
@@ -134,6 +137,23 @@
     }
     drawPrizes();
     $('create').disabled = !(ok && c.prizes.length);
+    drawMode();
+  }
+  // automatic (extension marks the songs, host can play) or manual (host marks, doesn't play)
+  const mode = () => S.cfg.mode || (EXT.on ? 'auto' : 'manual');
+  function drawMode() {
+    if (!$('modePick')) return;
+    const m = mode();
+    [...$('modePick').children].forEach(b => b.setAttribute('aria-pressed', b.dataset.mode === m));
+    const st = $('extState'); st.textContent = EXT.on ? '✓ ' + t.extReady : '🧩 ' + t.getExtBtn; st.className = 'pill ' + (EXT.on ? 'ok' : 'warn');
+    $('extWarn').classList.toggle('hidden', !(m === 'auto' && !EXT.on));
+    $('stepsList').innerHTML = (m === 'auto' ? t.stepsAuto : t.stepsManual).map(x => `<li>${esc(x)}</li>`).join('');
+  }
+  function showHelp() {
+    $('helpRules').innerHTML = t.rules.map(x => `<li>${esc(x)}</li>`).join('');
+    const names = (S.cfg.prizes || []).map((_, k) => prizeTitle(k));
+    $('helpPrizes').textContent = names.length ? t.rulesPrizes + ' ' + names.join(' → ') : '';
+    $('help').classList.add('on');
   }
   // ---- prizes: cards with the shape, how soon it is usually won and warnings ----
   let est = null, estKey = '', estT = null;
@@ -306,13 +326,13 @@
     readMsgs();
     const c = S.cfg, code = MB.roomCode();
     const max = Math.max(1, Math.min(MB.MAX_PLAYERS, +c.maxPlayers || 30));
-    S = { ...S, phase: 'game', code, seed: code + Date.now(), started: Date.now(),
+    S = { ...S, phase: 'game', mode: mode(), code, seed: code + Date.now(), started: Date.now(),
       cards: MB.makeCards(S.playlist.tracks.length, max, c.fmt, code + Date.now(), { freeCenter: c.fmt === 'us' && c.freeCenter }),
       players: {}, played: [], awarded: {}, claims: [] };
     save(); startGame();
     STATS.track('game_created', { provider: (S.playlist && S.playlist.provider) || 'unknown', songs: S.playlist.tracks.length, fmt: c.fmt,
       prizes: c.prizes.map(p => p.preset || 'custom').join('+'), nPrizes: c.prizes.length, freeCenter: !!c.freeCenter, clip: +c.clip || 0, maxPlayers: max,
-      photos: photos.length, ext: EXT.on, extVersion: EXT.version || '' });
+      photos: photos.length, mode: S.mode, ext: EXT.on, extVersion: EXT.version || '' });
   }
   const enabledPrizes = () => S.cfg.prizes.map((_, k) => k);
   // a prize stays open for ties until the next song plays after the first winner
@@ -381,6 +401,9 @@
     $('chips').innerHTML = names.length ? names.map(p => `<span class="pill">${esc(p.name)} · #${p.card + 1}</span>`).join('') : `<span class="mut">${esc(t.noPlayers)}</span>`;
     const cur = currentPrize();
     $('prizeNow').innerHTML = cur !== null ? `${esc(t.playingFor)} <b>${esc(prizeLabel(cur))}</b>${PATUI.html(S.cfg.fmt, S.cfg.prizes[cur].pat, { free: S.cfg.fmt === 'us' && S.cfg.freeCenter })}` : `🎉 ${esc(t.allPrizesDone)}`;
+    const md = S.mode || 'manual', mb = $('modeBanner');
+    mb.className = 'modebanner ' + (md === 'auto' && !EXT.on ? 'warn' : md);
+    mb.textContent = md === 'auto' ? (EXT.on ? t.autoBanner : t.autoNoExt) : t.manualBanner;
     $('nowLbl').textContent = t.played(`${P.length} / ${N}`);
     $('nowTitle').textContent = P.length ? `🎵 ${t.songN(P.length)}` : t.waitingFirst;
     $('nowSub').textContent = P.length ? t.songHidden : '';
@@ -472,6 +495,9 @@
   $('fs').onclick = toggleFullscreen;
   $('useList').onclick = () => { const tr = MB.parsePasted($('paste').value); if (!tr.length) return; S.playlist = { title: t.myList, provider: 'pasted', tracks: tr }; save(); drawSetup(); };
   $('fmt').onclick = e => { const b = e.target.closest('button'); if (!b || b.dataset.v === S.cfg.fmt) return; S.cfg.prizes = convertPrizes(S.cfg.prizes, S.cfg.fmt, b.dataset.v); S.cfg.fmt = b.dataset.v; save(); drawSetup(); };
+  $('modePick').onclick = e => { const b = e.target.closest('[data-mode]'); if (!b) return; S.cfg.mode = b.dataset.mode; save(); drawMode(); };
+  $('helpBtn').onclick = showHelp; $('helpOk').onclick = () => $('help').classList.remove('on');
+  $('help').onclick = e => { if (e.target === $('help')) $('help').classList.remove('on'); };
   $('freeCenter').onchange = e => { S.cfg.freeCenter = e.target.checked; save(); drawSetup(); };
   $('plChange').onclick = () => { S.playlist = null; save(); drawSetup(); setTimeout(() => $('plUrl').focus(), 50); };
   $('plForm').onsubmit = e => { e.preventDefault(); importPlaylist(); };
@@ -483,7 +509,8 @@
   $('photoIn').onchange = async e => { for (const f of e.target.files) { const d = await shrink(f); if (d) await addPhoto(d); } e.target.value = ''; drawThumbs(); drawReel(); };
   $('clearPhotos').onclick = clearPhotos;
   $('create').onclick = createGame;
-  $('unlock').onclick = () => { $('lock').classList.add('hidden'); $('logBody').classList.remove('hidden'); };
+  const openLog = () => { $('lock').classList.add('hidden'); $('logBody').classList.remove('hidden'); };
+  $('unlock').onclick = () => S.mode === 'auto' && EXT.on ? ask(t.showLog, t.autoUnlock, openLog) : openLog();
   $('relock').onclick = () => { $('lock').classList.remove('hidden'); $('logBody').classList.add('hidden'); q = ''; $('q').value = ''; drawGame(); };
   $('q').oninput = e => { q = e.target.value; drawGame(); };
   let relockT = null;
@@ -496,7 +523,7 @@
   $('mNo').onclick = () => $('modal').classList.remove('on');
   $('endBtn').onclick = () => ask(t.endGame, t.endConfirm, () => {
     STATS.track('game_ended', { songs: S.played.length, players: Object.keys(S.players || {}).length, minutes: Math.round((Date.now() - (S.started || Date.now())) / 60000),
-      prizesWon: Object.keys(S.awarded || {}).length, claims: (S.claims || []).length, ext: EXT.on, provider: (S.playlist && S.playlist.provider) || 'unknown', fmt: S.cfg.fmt });
+      prizesWon: Object.keys(S.awarded || {}).length, mode: S.mode || 'manual', claims: (S.claims || []).length, ext: EXT.on, provider: (S.playlist && S.playlist.provider) || 'unknown', fmt: S.cfg.fmt });
     net && net.broadcast({ t: 'over' }); setTimeout(() => { net && net.close(); net = null; }, 500);
     S = { phase: 'setup', cfg: S.cfg, playlist: S.playlist, msgs: S.msgs }; save();
     $('game').classList.add('hidden'); $('setup').classList.remove('hidden'); document.body.classList.remove('ingame'); drawSetup(); drawExt();

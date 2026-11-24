@@ -60,7 +60,7 @@
 </head>
 <body>
 <div class="wrap">
-  <div class="head"><h1>Meca <span class="grad">Bingo</span></h1><span class="status pill" id="status"></span></div>
+  <div class="head"><h1>Meca <span class="grad">Bingo</span></h1><span class="row" style="gap:6px;flex-wrap:nowrap"><button class="btn hidden" id="helpBtn" type="button" style="min-height:40px;min-width:40px;padding:6px 10px">❓</button><span class="status pill" id="status"></span></span></div>
 
   <section id="enter" class="hello hidden">
     <h2 id="tCode"></h2>
@@ -83,6 +83,7 @@
   <section id="msg" class="hello hidden"><h2 id="msgText"></h2></section>
 </div>
 <div class="callbar hidden" id="callbar"><button class="btn big" id="callBtn"></button></div>
+<div class="modal" id="help"><div><h3 id="helpTitle"></h3><ol id="helpRules" style="margin:10px 0 10px 20px;line-height:1.55"></ol><p class="mut" id="helpPrizes" style="margin-bottom:12px"></p><button class="btn big" id="helpOk" type="button" style="width:100%"></button></div></div>
 <div class="res" id="res"><h2 id="resT"></h2><p class="mut" id="resS" style="font-size:16px"></p><button class="btn" id="resBack" style="min-height:48px;margin-top:10px"></button></div>
 <canvas id="fx"></canvas>
 <div class="toast" id="toast"></div>
