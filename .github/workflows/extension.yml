@@ -79,7 +79,8 @@ jobs:
           git add extension public/download
           git commit -m "Extension v$V"
           git tag "ext-v$V"
-          git push origin HEAD:main --follow-tags
+          # push the tag by name: --follow-tags skips lightweight tags and the release then fails
+          git push origin HEAD:main "refs/tags/ext-v$V"
           gh release create "ext-v$V" public/download/meca-bingo-sync-chrome.zip public/download/meca-bingo-sync-firefox.zip public/download/meca-bingo-sync-safari.zip \
             --title "Meca Bingo Sync v$V" --generate-notes
       - name: Upload to the Chrome Web Store
