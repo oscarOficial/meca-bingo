@@ -352,7 +352,8 @@
   }
   function onMessage(cid, m, reply) {
     if (!m || !m.t) return;
-    if (m.t === 'join') {
+    if (m.t === 'peek') reply(publicState());   // a phone on the name screen asks for the skin and language
+    else if (m.t === 'join') {
       let p = S.players[m.dev];
       if (!p) {
         const used = new Set(Object.values(S.players).map(x => x.card));

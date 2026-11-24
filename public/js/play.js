@@ -125,7 +125,7 @@
       store.set(K(), P); state = m; show('play'); drawCard(); drawState();
       $('helpBtn').classList.remove('hidden');
       if (!store.get('meca-help-seen')) { store.set('meca-help-seen', 1); showHelp(); }
-    } else if (m.t === 'state') {
+    } else if (m.t === 'state' && joining) {   // a peek only brings the skin and language
       const before = JSON.stringify(state.winners || {});
       state = { ...state, ...m }; drawState();
       if (JSON.stringify(m.winners || {}) !== before) {
@@ -139,18 +139,20 @@
     } else if (m.t === 'full') { show('msg'); $('msgText').textContent = t.gameFull; }
     else if (m.t === 'over') { show('msg'); $('msgText').textContent = t.gameOver; $('callbar').classList.add('hidden'); store.del(K()); }
   }
+  // without a name yet the connection opens early and only peeks at the game (skin, language)
+  let joining = false, last = null;
+  function onStatus(s) {
+    last = s; connected = s === 'open'; setStatus(s);
+    if (s === 'open') net.send(joining ? { t: 'join', dev, name } : { t: 'peek' });
+    if (joining && s === 'notfound' && !P.card) { show('msg'); $('msgText').textContent = t.notFound; }
+    drawState();
+  }
+  const open = () => { if (!net) net = NET.joinRoom(code, { onMessage, onStatus }); };
   function connect() {
+    joining = true;
     show(P.card ? 'play' : 'msg'); if (!P.card) $('msgText').textContent = t.connecting;
     if (P.card) { drawCard(); drawState(); }
-    net = NET.joinRoom(code, {
-      onMessage,
-      onStatus: s => {
-        connected = s === 'open'; setStatus(s);
-        if (s === 'open') net.send({ t: 'join', dev, name });
-        if (s === 'notfound' && !P.card) { show('msg'); $('msgText').textContent = t.notFound; }
-        drawState();
-      }
-    });
+    if (net) { if (last) onStatus(last); } else open();
   }
 
   $('board').onclick = e => {
@@ -168,7 +170,7 @@
 
   function start() {
     if (!code) { show('enter'); return; }
-    if (!name) { show('name'); $('nameIn').focus(); return; }
+    if (!name) { show('name'); $('nameIn').focus(); open(); return; }
     connect();
   }
   texts(); setStatus('connecting'); start();
