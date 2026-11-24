@@ -148,6 +148,15 @@ def run():
                 player.set_viewport_size({'width': 375, 'height': 740})
                 player.click('#callBtn'); time.sleep(0.8)
                 shot(player, 'player-result-phone'); host.set_viewport_size({'width': 1366, 'height': 850}); time.sleep(0.2); shot(host, 'host-call-desktop')
+                # a new phone (no name yet, its own other skin): the name screen follows the host's skin
+                hs = host.evaluate('document.documentElement.dataset.skin')
+                own = next(k for k in ('verbena', 'pista') if k != hs)
+                fresh = ctx.new_page(); fresh.set_viewport_size({'width': 375, 'height': 740})
+                fresh.add_init_script(f"localStorage.setItem('meca-skin', {json.dumps(own)}); localStorage.removeItem('meca-name')")
+                fresh.goto(f'{base}/play.html?r={code}&net=local'); time.sleep(1)
+                check('player name screen uses the host\'s skin', fresh.is_visible('#name') and fresh.evaluate('document.documentElement.dataset.skin') == hs, f"{fresh.evaluate('document.documentElement.dataset.skin')} vs host {hs}")
+                check('player name screen keeps the phone\'s own saved skin', fresh.evaluate("localStorage.getItem('meca-skin')") == own)
+                shot(fresh, 'player-name-phone'); page_checks(fresh, 'player name (phone)'); fresh.close()
             ctx.close()
         for lang in ('es', 'en'):
             for dev in (('phone-portrait', 'phone-small', 'tablet', 'desktop') if lang == 'es' else ('phone-small', 'desktop')):
