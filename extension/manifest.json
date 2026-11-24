@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Meca Bingo Sync",
   "short_name": "Meca Bingo",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "default_locale": "en",
   "description": "__MSG_extDescription__",
   "homepage_url": "https://mecabingo.oscasais.es/",
