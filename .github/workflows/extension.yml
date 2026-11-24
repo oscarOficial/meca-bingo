@@ -6,7 +6,7 @@ name: Extension
 # To release a new version: Actions → Extension → Run workflow → choose patch / minor / major.
 # It raises the version, commits the new packages (public/download/*.zip), tags ext-vX.Y.Z,
 # creates a GitHub Release with the three zips and, if the store secrets are set, uploads
-# the new version to the Chrome Web Store and Firefox Add-ons. See extension/RELEASING.md.
+# the new version to the Chrome Web Store, Firefox Add-ons and Microsoft Edge Add-ons. See extension/RELEASING.md.
 on:
   push:
     branches: [main]
@@ -21,7 +21,7 @@ on:
         options: [patch, minor, major]
         default: patch
       publish:
-        description: 'Upload to the Chrome Web Store and Firefox Add-ons'
+        description: 'Upload to the Chrome Web Store, Firefox Add-ons and Edge Add-ons'
         type: boolean
         default: true
 
@@ -56,6 +56,9 @@ jobs:
       CWS_REFRESH_TOKEN: ${{ secrets.CWS_REFRESH_TOKEN }}
       AMO_JWT_ISSUER: ${{ secrets.AMO_JWT_ISSUER }}
       AMO_JWT_SECRET: ${{ secrets.AMO_JWT_SECRET }}
+      EDGE_PRODUCT_ID: ${{ secrets.EDGE_PRODUCT_ID }}
+      EDGE_CLIENT_ID: ${{ secrets.EDGE_CLIENT_ID }}
+      EDGE_API_KEY: ${{ secrets.EDGE_API_KEY }}
       GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
@@ -90,6 +93,9 @@ jobs:
         run: |
           npx -y web-ext@8 sign --source-dir dist/firefox --channel listed \
             --api-key "$AMO_JWT_ISSUER" --api-secret "$AMO_JWT_SECRET" --approval-timeout 0
+      - name: Upload to Microsoft Edge Add-ons
+        if: inputs.publish && env.EDGE_API_KEY != ''
+        run: python3 tools/ext/edge_publish.py public/download/meca-bingo-sync-chrome.zip
       - name: Summary
         run: |
           {
@@ -97,5 +103,6 @@ jobs:
             echo "- GitHub Release: ext-v${{ steps.v.outputs.version }}"
             if [ -n "$CWS_REFRESH_TOKEN" ] && [ "${{ inputs.publish }}" = "true" ]; then echo "- Chrome Web Store: uploaded (in review)"; else echo "- Chrome Web Store: not uploaded (no secrets or publish off), upload meca-bingo-sync-chrome.zip by hand"; fi
             if [ -n "$AMO_JWT_SECRET" ] && [ "${{ inputs.publish }}" = "true" ]; then echo "- Firefox Add-ons: uploaded (in review)"; else echo "- Firefox Add-ons: not uploaded, upload meca-bingo-sync-firefox.zip by hand"; fi
+            if [ -n "$EDGE_API_KEY" ] && [ "${{ inputs.publish }}" = "true" ]; then echo "- Edge Add-ons: uploaded (in review)"; else echo "- Edge Add-ons: not uploaded, upload meca-bingo-sync-chrome.zip by hand"; fi
             echo "- Safari: needs a Mac with Xcode, see extension/RELEASING.md"
           } >> "$GITHUB_STEP_SUMMARY"

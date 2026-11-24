@@ -6,7 +6,9 @@ Chrome upload file: `public/download/meca-bingo-sync-chrome.zip`.
 ## 1. Developer account (once)
 1. Go to https://chrome.google.com/webstore/devconsole with the Google account that will own the extension.
 2. Accept the agreement and pay the one-time US$5 registration fee.
-3. Verify the contact email.
+3. **Settings** (left menu of the items list, not inside the item): set the publisher contact email
+   (`contact@oscasais.es`) and verify it from the email Google sends. Without a verified contact email
+   the item cannot be submitted.
 
 ## 2. New item
 **Items → New item → upload `meca-bingo-sync.zip`.**
@@ -136,9 +138,13 @@ Chrome upload file: `public/download/meca-bingo-sync-chrome.zip`.
 - **Icon:** `icons/icon128.png`
 - **Screenshots (1280×800):** `store-assets/2-host.png`, `3-players.png`, `4-photo-moment.png`, `1-import.png`
 - **Small promo tile (440×280):** `store-assets/promo-440x280.png`
-- **Homepage:** https://mecabingo.oscasais.es/
+- **Official website:** leave it on **None**. It only accepts sites verified in Google Search Console;
+  anything else fails with "The official website is not valid". (To use it, verify `mecabingo.oscasais.es`
+  in Search Console with a DNS TXT record in Cloudflare first.)
+- **Homepage URL:** https://mecabingo.oscasais.es/
 - **Support:** info@mecabingo.oscasais.es (support email) · https://github.com/oscarOficial/meca-bingo/issues (support site)
-- **Developer contact email (both stores):** info@mecabingo.oscasais.es
+- **Publisher contact email (Chrome, Settings page):** contact@oscasais.es (verified)
+- **Support email shown on the listings (Firefox):** info@mecabingo.oscasais.es
 
 ### Privacy practices
 - **Single purpose:** Connect the Meca Bingo host page with the music player tab (Spotify, Amazon Music, Deezer, YouTube Music or Apple Music web player) to import the playlist, mark the song that is playing and control playback.

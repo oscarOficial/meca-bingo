@@ -22,7 +22,7 @@ GitHub → **Actions → Extension → Run workflow** → choose:
 
 The workflow tests the extension, raises the version, commits the new zips (the website's
 download links update with the next deploy), tags `ext-vX.Y.Z`, creates a GitHub Release with
-the three zips and, if the secrets below are set, uploads the version to the stores. The stores
+the three zips and, if the secrets below are set, uploads the version to Chrome, Firefox and Edge. The stores
 still review it before users get it (hours to a few days).
 
 Locally: `python3 tools/build_extension.py --bump minor` (or `--version 1.2.0`).
@@ -39,6 +39,15 @@ Without them the release still happens; you upload the zips to the stores by han
 
 **Firefox Add-ons**
 - `AMO_JWT_ISSUER`, `AMO_JWT_SECRET`: https://addons.mozilla.org/developers/addon/api/key/
+
+**Microsoft Edge Add-ons** (same package as Chrome; script: `tools/ext/edge_publish.py`)
+- `EDGE_PRODUCT_ID`: the Product ID in Partner Center → Edge → the extension → Extension overview
+  (`3c0b9cab-356c-4849-8f09-18d5f439349f`).
+- `EDGE_CLIENT_ID`, `EDGE_API_KEY`: Partner Center → Edge → **Publish API** → Create API credentials.
+  The API key expires (the page shows the date): create a new one and update the secret before then.
+
+Before running a release, wait until the previous version has finished review in each store: Chrome
+refuses an upload while a version is still pending.
 
 **Safari** needs a Mac: `xcrun safari-web-extension-converter dist/safari`, then build and
 upload from Xcode (Apple Developer Program, 99 USD/year). It cannot run in this workflow
