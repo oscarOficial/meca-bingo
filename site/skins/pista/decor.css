@@ -1,0 +1,23 @@
+/* Landing art direction for Pista. `:skin` becomes html[data-skin=pista] when built. */
+:skin .hero h1{font-size:clamp(28px,3.4vw,40px);line-height:1.15}
+:skin .steps .card:nth-child(4n+1),:skin .roles .card:nth-child(3n+1){border-color:var(--accent)}
+:skin .steps .card:nth-child(4n+2),:skin .roles .card:nth-child(3n+2){border-color:var(--selected)}
+:skin .steps .card:nth-child(4n+3),:skin .roles .card:nth-child(3n){border-color:var(--highlight)}
+:skin .steps .card:nth-child(4n){border-color:var(--_violet)}
+:skin .steps .card::before{font-family:var(--font-sign);font-weight:400}
+:skin .final{background:var(--highlight);color:#0e0b1f;border-radius:12px;padding:44px 24px;margin-top:60px}
+:skin .final .lead{color:#2a2448}
+:skin .final .btn.big{background:#0e0b1f;color:var(--highlight);box-shadow:none}
+
+/* disco ball and the MECA BINGO neon sign over the landing title */
+:skin .ball{display:block;position:relative;width:92px;height:92px;margin:40px 0 18px 4px}
+:skin .ball::before{content:'';position:absolute;left:45px;top:-44px;width:2px;height:44px;background:#ada7cc}
+:skin .ball i{display:block;width:92px;height:92px;border-radius:50%;background-color:#b9b6cc;background-image:repeating-linear-gradient(90deg,#0e0b1f8c 0 2px,transparent 2px 12px),repeating-linear-gradient(0deg,#0e0b1f8c 0 2px,transparent 2px 12px),radial-gradient(circle at 35% 30%,#fff 0 10%,#d9d6e8 22%,#6e6891 70%,#2a2545 100%);box-shadow:0 0 40px #ffffff40;animation:ballspin 4s linear infinite}
+:skin .ball b{position:absolute;width:18px;height:18px;background:linear-gradient(var(--c),var(--c)) center/2px 100% no-repeat,linear-gradient(var(--c),var(--c)) center/100% 2px no-repeat;animation:twinkle 1.6s ease-in-out infinite}
+:skin .ball b:nth-of-type(1){--c:#ffe45c;right:-20px;top:4px}
+:skin .ball b:nth-of-type(2){--c:#2de2e6;left:-22px;bottom:10px;width:13px;height:13px;animation-duration:2.1s}
+:skin .neon{display:block;font:400 clamp(52px,7.4vw,96px)/.95 var(--font-sign);color:var(--accent);text-shadow:var(--_glow-pink);margin-bottom:14px}
+:skin .neon span{color:var(--highlight);text-shadow:var(--_glow-yel)}
+@keyframes ballspin{to{background-position:72px 0,0 0,0 0}}
+@keyframes twinkle{0%,100%{opacity:.25}50%{opacity:1}}
+@media (max-width:860px){:skin .ball{display:none}}

@@ -1,0 +1,5 @@
+{
+ "_help": "Skins shown in 'Pick your mood', in this order. 'default' is the look before anyone chooses. To hide a skin, remove it from 'order' (its folder can stay). Then run: python3 tools/site/build_skins.py",
+ "default": "pista",
+ "order": ["pista", "verbena", "feria", "mesa", "clasico"]
+}

@@ -1,0 +1,6 @@
+{
+ "name": {"en": "Classic", "es": "Clásico", "fr": "Classique", "de": "Klassisch", "it": "Classico", "nl": "Klassiek", "pl": "Klasyczny", "sk": "Klasický"},
+ "description": {"en": "The original Meca Bingo", "es": "El Meca Bingo de siempre", "fr": "Le Meca Bingo d’origine", "de": "Das Original-Meca-Bingo", "it": "Il Meca Bingo di sempre", "nl": "De originele Meca Bingo", "pl": "Oryginalne Meca Bingo", "sk": "Pôvodné Meca Bingo"},
+ "themeColor": "#0d0b1a",
+ "fonts": []
+}

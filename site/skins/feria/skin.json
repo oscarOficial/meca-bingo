@@ -1,0 +1,10 @@
+{
+ "name": {"en": "Flamenco fair", "es": "Feria flamenca", "fr": "Feria flamenca", "de": "Flamenco-Fest", "it": "Festa flamenca", "nl": "Flamencofeest", "pl": "Fiesta flamenco", "sk": "Flamenková slávnosť"},
+ "description": {"en": "Polka dots, ruffles and lanterns", "es": "Lunares, volantes y farolillos", "fr": "Pois, volants et lampions", "de": "Punkte, Volants und Lampions", "it": "Pois, volant e lanterne", "nl": "Stippen, volants en lampionnen", "pl": "Grochy, falbany i lampiony", "sk": "Bodky, volány a lampióny"},
+ "themeColor": "#fff6ec",
+ "colorScheme": "light",
+ "fonts": [
+  {"family": "Abril Fatface", "weight": "400", "file": "abril-fatface-latin-400-normal.woff2"},
+  {"family": "DM Sans", "weight": "100 1000", "file": "dm-sans-latin-wght-normal.woff2"}
+ ]
+}

@@ -1,0 +1,12 @@
+{
+ "name": {"en": "Street party", "es": "Verbena", "fr": "Bal populaire", "de": "Straßenfest", "it": "Festa di paese", "nl": "Buurtfeest", "pl": "Potańcówka", "sk": "Ľudová zábava"},
+ "description": {"en": "Paper card and red stamp", "es": "Papel y sello rojo", "fr": "Papier et tampon rouge", "de": "Papier und roter Stempel", "it": "Carta e timbro rosso", "nl": "Papier en rode stempel", "pl": "Papier i czerwona pieczątka", "sk": "Papier a červená pečiatka"},
+ "themeColor": "#f3ebdd",
+ "colorScheme": "light",
+ "fonts": [
+  {"family": "Alfa Slab One", "weight": "400", "file": "alfa-slab-one-latin-400-normal.woff2"},
+  {"family": "Work Sans", "weight": "400", "file": "work-sans-latin-400-normal.woff2"},
+  {"family": "Work Sans", "weight": "500", "file": "work-sans-latin-500-normal.woff2"},
+  {"family": "Work Sans", "weight": "600", "file": "work-sans-latin-600-normal.woff2"}
+ ]
+}

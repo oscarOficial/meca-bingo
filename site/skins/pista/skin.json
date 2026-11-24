@@ -1,0 +1,40 @@
+{
+ "name": {
+  "en": "Dance floor",
+  "es": "Pista de baile",
+  "fr": "Piste de danse",
+  "de": "Tanzfläche",
+  "it": "Pista da ballo",
+  "nl": "Dansvloer",
+  "pl": "Parkiet",
+  "sk": "Tanečný parket"
+ },
+ "description": {
+  "en": "Neon lights and a mirror ball",
+  "es": "Luces de neón y bola de espejos",
+  "fr": "Néons et boule à facettes",
+  "de": "Neonlicht und Discokugel",
+  "it": "Luci al neon e palla stroboscopica",
+  "nl": "Neonlicht en een discobal",
+  "pl": "Neony i kula dyskotekowa",
+  "sk": "Neóny a disko guľa"
+ },
+ "themeColor": "#0e0b1f",
+ "fonts": [
+  {
+   "family": "Monoton",
+   "weight": "400",
+   "file": "monoton-latin-400-normal.woff2"
+  },
+  {
+   "family": "Audiowide",
+   "weight": "400",
+   "file": "audiowide-latin-400-normal.woff2"
+  },
+  {
+   "family": "Outfit",
+   "weight": "100 900",
+   "file": "outfit-latin-wght-normal.woff2"
+  }
+ ]
+}

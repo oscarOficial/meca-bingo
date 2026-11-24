@@ -1,0 +1,27 @@
+/* Verbena: paper card, bottle green, red rubber stamp. Declarations only (see ../README.md). */
+--page:#f3ebdd;--surface:#fffbf2;--surface-2:#f3ebdd;--border:#d9ccb4;--paper:#fffbf2;
+--text:#2a2520;--text-muted:#54493e;
+--accent:#9a3119;--selected:#174a3a;--highlight:#e3a72f;--success:#2e7d4f;
+--text-highlight:#9a3119;--text-accent:#174a3a;--text-success:#1e6b40;--text-danger:#9a3119;
+--on-selected:#f3ebdd;--on-highlight:#2a2520;--on-success:#fff;--on-accent:#fff;
+--accent-fill:#9a3119;
+--tint:#2a25200d;--tint-strong:#2a252030;--scrim:#f3ebddf2;
+--now-bg:#fffbf2;--moment-bg:radial-gradient(circle at 50% 40%,#f3ebddf5,#e6dac4fc 70%);
+--page-image:none;
+
+/* type: Alfa Slab One titles, Work Sans text */
+--font-display:'Alfa Slab One',Georgia,serif;--font-body:'Work Sans',Inter,system-ui,sans-serif;
+--heading-weight:400;--heading-tracking:0;--heading-color:var(--selected);--h3-font:var(--font-body);--h3-weight:600;
+--brand-bg:none;--brand-clip:border-box;--brand-color:currentColor;
+
+/* shapes: printed paper, soft shadows instead of outlines */
+--border-w:1.5px;--btn-radius:4px;
+--card-radius:4px;--card-border:0;--card-shadow:0 1px 0 #d9ccb4,0 14px 32px #2a252019;
+--modal-radius:4px;
+--pill-border:var(--border-w) solid var(--selected);--pill-text:var(--selected);
+
+/* the card: ruled paper squares; a marked song gets a red rubber stamp */
+--cell-radius:0;--cell-border:#e2d6c1;--cell-gap-bg:var(--surface);--cell-gap-border:1px dashed #e2d6c1;
+--cell-on-bg:#fffbf2;--cell-on-text:var(--text);--cell-on-muted:var(--text-muted);--cell-on-border:#e2d6c1;--cell-on-shadow:0 0 #0000;
+--mark:block;--mark-border:3px solid #9a3119;--mark-widths:3px 3px 2px 4px;
+font-synthesis:none;

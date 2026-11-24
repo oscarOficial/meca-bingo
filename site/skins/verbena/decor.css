@@ -1,0 +1,12 @@
+/* Landing art direction for Verbena. `:skin` becomes html[data-skin=verbena] when built. */
+:skin .steps .card{background:none;box-shadow:none;border:0;border-top:2px dashed #cbb99a;border-radius:0;padding:26px 4px 8px}
+:skin .steps .card::before{content:'0' counter(s);background:none;color:var(--accent);font:400 34px var(--font-display);width:auto;height:auto;top:-6px;left:4px}
+:skin #how,:skin #mood{border-top:2px dashed #cbb99a;margin-top:40px}
+:skin .final{background:var(--selected);color:var(--page);border-radius:4px;padding:44px 24px;margin-top:60px}
+:skin .final h2{color:var(--page)}
+:skin .final .lead{color:#e9e1d2}
+:skin .final .btn.big{background:var(--highlight);color:#2a2520}
+/* green ribbon on top of the landing and the "I've got that one!" sticker */
+:skin .topband{display:block;background:#174a3a;color:#f3ebdd;text-align:center;font:500 13.5px var(--font-body);letter-spacing:1.5px;text-transform:uppercase;padding:9px 16px}
+:skin .sticker{display:flex;position:absolute;top:-30px;right:-8px;z-index:2;width:104px;height:104px;border-radius:50%;background:#e3a72f;color:#2a2520;align-items:center;justify-content:center;text-align:center;font:400 17px/1.05 var(--font-display);padding:10px;transform:rotate(10deg);box-shadow:0 8px 20px #2a252033}
+:skin .shots .tv{transform:rotate(1deg)}

@@ -1,0 +1,29 @@
+/* Feria flamenca: polka dots, ruffles and paper lanterns. Declarations only (see ../README.md). */
+--page:#fff6ec;--surface:#ffffff;--surface-2:#fff6ec;--border:#e4d3c3;--paper:#fff6ec;
+--text:#1a1414;--text-muted:#5a4a44;
+--accent:#9c0e25;--selected:#1a1414;--highlight:#e9b44c;--success:#0a5440;
+--text-highlight:#9c0e25;--text-accent:#9c0e25;--text-success:#0a5440;--text-danger:#9c0e25;
+--on-selected:#fff6ec;--on-highlight:#1a1414;--on-success:#fff6ec;--on-accent:#fff6ec;
+--accent-fill:#9c0e25;
+--tint:#1a14140d;--tint-strong:#1a141430;--scrim:#fff6ecf2;
+--now-bg:#fff;--moment-bg:radial-gradient(circle at 50% 40%,#fff6ecf5,#f3e2cefc 70%);
+/* faint polka dots on every page */
+--page-image:radial-gradient(circle,#9c0e2512 0 7px,transparent 8px),radial-gradient(circle,#9c0e2512 0 7px,transparent 8px);
+--page-image-size:64px 64px;--page-image-pos:0 0,32px 32px;--page-image-attach:scroll;
+--_lunares:radial-gradient(circle,#fff6ec 0 9px,transparent 10px) 0 0/64px 64px,radial-gradient(circle,#fff6ec 0 9px,transparent 10px) 32px 32px/64px 64px,#9c0e25;
+
+/* type: Abril Fatface titles, DM Sans text */
+--font-display:'Abril Fatface',Georgia,serif;--font-body:'DM Sans',Inter,system-ui,sans-serif;
+--heading-weight:400;--heading-tracking:0;--heading-color:var(--accent);--h3-font:var(--font-body);--h3-weight:700;
+--brand-bg:none;--brand-clip:border-box;--brand-color:currentColor;
+
+/* shapes */
+--border-w:1.5px;--btn-radius:999px;
+--card-radius:6px;--card-border:0;--card-shadow:0 1px 0 #e4d3c3,0 10px 26px #1a141412;
+--modal-radius:6px;
+
+/* the card: black frame, cream squares, every marked song is a red polka dot */
+--board-bg:#1a1414;--board-pad:10px;--board-radius:6px;--board-label:#e9dccb;
+--cell-bg:#fff6ec;--cell-text:#1a1414;--cell-muted:#5a4a44;--cell-border-w:0px;--cell-radius:4px;--cell-gap-bg:#2a2220;--cell-gap-border:0;
+--cell-on-bg:radial-gradient(circle,#9c0e25 0 68%,#fff6ec 69%);--cell-on-text:#fff6ec;--cell-on-shadow:0 0 #0000;
+font-synthesis:none;

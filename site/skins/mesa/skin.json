@@ -1,0 +1,7 @@
+{
+ "name": {"en": "Board game", "es": "Juego de mesa", "fr": "Jeu de société", "de": "Brettspiel", "it": "Gioco da tavolo", "nl": "Bordspel", "pl": "Gra planszowa", "sk": "Spoločenská hra"},
+ "description": {"en": "Cobalt and lime, like a game box", "es": "Cobalto y lima, como una caja de juego", "fr": "Cobalt et citron vert, comme une boîte de jeu", "de": "Kobalt und Limette wie eine Spieleschachtel", "it": "Cobalto e lime, come una scatola di gioco", "nl": "Kobalt en limoen, zoals een spellendoos", "pl": "Kobalt i limonka jak pudełko z grą", "sk": "Kobalt a limetka ako krabica hry"},
+ "themeColor": "#ede7ff",
+ "colorScheme": "light",
+ "fonts": []
+}

@@ -17,9 +17,8 @@ from PIL import Image
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 PUB = os.path.join(ROOT, 'public')
 UX = os.path.join(ROOT, 'tools', 'ux')
-SKIN_JS = open(os.path.join(PUB, 'js', 'skin.js'), encoding='utf-8').read()
-DEFAULT = re.search(r"DEF = '(\w+)'", SKIN_JS).group(1)
-SKINS = re.findall(r"^\s{4}(\w+): \{ en:", SKIN_JS, re.M)
+INDEX = json.load(open(os.path.join(ROOT, 'site', 'skins', 'skins.json'), encoding='utf-8'))
+DEFAULT, SKINS = INDEX['default'], INDEX['order']
 SONGS = open(os.path.join(UX, 'songs.txt'), encoding='utf-8').read()
 PORT = 8098
 

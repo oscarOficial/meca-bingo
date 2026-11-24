@@ -29,7 +29,7 @@ LINE / 2 LINES / BINGO. The host's screen checks every call automatically.
 | Players | Up to 30 |
 | Photos & messages | Any number of photos (kept only in the host's browser) and three lists of messages |
 | Language | English, Spanish, French, German, Italian, Dutch (also for Flemish), Polish, Slovak. App texts in `js/i18n.js`, landing texts in `site/landing.i18n.json` |
-| Look ("Pick your mood") | Five skins: Dance floor (default), Street party, Flamenco fair, Board game, Classic. The host's skin is sent to every player. Skins live in `css/skins.css` + `js/skin.js`; `python3 tools/site/screenshots.py` remakes the landing screenshots of each skin |
+| Look ("Pick your mood") | Five skins: Dance floor (default), Street party, Flamenco fair, Board game, Classic. The host's skin is sent to every player. One folder per skin in `site/skins/` (how to add, change, hide or remove one: `site/skins/README.md`); `python3 tools/site/build_skins.py` builds them, `python3 tools/site/screenshots.py` remakes their screenshots |
 
 Songs and players go together (from simulations: first-line ties ≤ 20 %, full-card ties ≤ 25 %):
 

@@ -1,0 +1,29 @@
+/* Juego de mesa: cobalt and lime on lavender, thick outlines and hard shadows. Declarations only. */
+--page:#ede7ff;--surface:#ffffff;--surface-2:#f7f4ff;--border:#111111;--paper:#ffffff;
+--text:#111111;--text-muted:#3f3b4f;
+--accent:#ff8ad8;--selected:#2232c2;--highlight:#c6f432;--success:#3dbe6e;
+--text-highlight:#2232c2;--text-accent:#2232c2;--text-success:#1d7a3e;--text-danger:#b8321a;
+--on-selected:#fff;--on-highlight:#111;--on-success:#111;--on-accent:#fff;
+--accent-fill:#2232c2;
+--tint:#1111110f;--tint-strong:#11111333;--scrim:#ede7fff2;
+--now-bg:#c6f432;--moment-bg:radial-gradient(circle at 50% 40%,#ede7fff5,#d9d0fbfc 70%);
+--page-image:none;
+
+/* type: Bricolage Grotesque everywhere */
+--font-display:'Bricolage Grotesque',Inter,sans-serif;--font-body:'Bricolage Grotesque',Inter,system-ui,sans-serif;
+--body-weight:500;
+/* "Bingo" in the logo is a lime tile */
+--brand-bg:#c6f432;--brand-clip:border-box;--brand-color:#111;--brand-border:3px solid #111;--brand-pad:0 8px;--brand-radius:12px;--brand-display:inline-block;--brand-rotate:-2deg;
+
+/* shapes: 3px outlines and hard offset shadows; buttons press down */
+--border-w:3px;
+--btn-radius:14px;--btn-border-color:#111;--btn-shadow:4px 4px 0 #111;--btn-shadow-press:2px 2px 0 #111;--btn-press:translate(2px,2px);
+--btn-big-border:3px solid #111;--btn-cy-border:3px solid #111;
+--card-radius:18px;--card-shadow:6px 6px 0 #111;
+--modal-shadow:8px 8px 0 #111;
+--pill-border:2px solid #111;--selected-border:2px solid #111;
+
+/* the card sits on a cobalt game board; marked songs get a lime counter */
+--board-bg:#2232c2;--board-border:3px solid #111;--board-radius:20px;--board-pad:10px;--board-shadow:6px 6px 0 #111;--board-label:#fff;
+--cell-bg:#fff;--cell-text:#111;--cell-border:#111;--cell-gap-bg:#3a49d4;--cell-gap-border:3px solid #111;
+--cell-on-bg:radial-gradient(circle,#c6f432 0 29%,#111 30% 34%,#fff 35%);--cell-on-text:#111;--cell-on-border:#111;--cell-on-shadow:inset 0 -4px 0 #0000001f;
