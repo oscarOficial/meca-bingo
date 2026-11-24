@@ -4,3 +4,17 @@
 @font-face{font-family:'Inter';font-style:normal;font-weight:600;font-display:swap;src:url(../fonts/inter-latin-600-normal.woff2) format('woff2')}
 @font-face{font-family:'Inter';font-style:normal;font-weight:700;font-display:swap;src:url(../fonts/inter-latin-700-normal.woff2) format('woff2')}
 @font-face{font-family:'Bricolage Grotesque';font-style:normal;font-weight:800;font-display:swap;src:url(../fonts/bricolage-grotesque-latin-800-normal.woff2) format('woff2')}
+@font-face{font-family:'Bricolage Grotesque';font-style:normal;font-weight:500;font-display:swap;src:url(../fonts/bricolage-grotesque-latin-500-normal.woff2) format('woff2')}
+/* Skin fonts (css/skins.css). Each file is only downloaded when its skin is on. */
+/* "Pista de baile" (the default) */
+@font-face{font-family:'Monoton';font-style:normal;font-weight:400;font-display:swap;src:url(../fonts/monoton-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:'Audiowide';font-style:normal;font-weight:400;font-display:swap;src:url(../fonts/audiowide-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:'Outfit';font-style:normal;font-weight:100 900;font-display:swap;src:url(../fonts/outfit-latin-wght-normal.woff2) format('woff2')}
+/* "Verbena" */
+@font-face{font-family:'Alfa Slab One';font-style:normal;font-weight:400;font-display:swap;src:url(../fonts/alfa-slab-one-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:'Work Sans';font-style:normal;font-weight:400;font-display:swap;src:url(../fonts/work-sans-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:'Work Sans';font-style:normal;font-weight:500;font-display:swap;src:url(../fonts/work-sans-latin-500-normal.woff2) format('woff2')}
+@font-face{font-family:'Work Sans';font-style:normal;font-weight:600;font-display:swap;src:url(../fonts/work-sans-latin-600-normal.woff2) format('woff2')}
+/* "Feria flamenca" */
+@font-face{font-family:'Abril Fatface';font-style:normal;font-weight:400;font-display:swap;src:url(../fonts/abril-fatface-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:'DM Sans';font-style:normal;font-weight:100 1000;font-display:swap;src:url(../fonts/dm-sans-latin-wght-normal.woff2) format('woff2')}

@@ -9,52 +9,54 @@
 <link rel="icon" href="favicon.png">
 <link rel="stylesheet" href="css/fonts.css">
 <link rel="stylesheet" href="css/app.css">
+<link rel="stylesheet" href="css/skins.css">
+<script src="js/skin.js"></script>
 <style>
 .wrap{max-width:720px;padding:14px 10px calc(120px + env(safe-area-inset-bottom))}
 .head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px}
 .head h1{font-size:22px}
 .status{font-size:12.5px}
-.prize{text-align:center;margin-bottom:10px;font:800 18px 'Bricolage Grotesque',sans-serif}.prize b{color:var(--yel)}
+.prize{text-align:center;margin-bottom:10px;font:800 18px var(--f-disp)}.prize b{color:var(--hi)}
 .prize{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:nowrap}
 .prize .patpic svg{height:40px;width:auto}.prize .patpic .es9{height:26px}
-.cell.free{background:var(--yel);color:#1a1630;cursor:default;font-size:24px;border-color:transparent}
+.cell.free{background:var(--yel);color:var(--on-yel);cursor:default;font-size:24px;border-color:transparent}
 .board{--cellH:72px;display:grid;gap:5px;user-select:none;-webkit-user-select:none}
 .board.es{grid-template-columns:repeat(9,minmax(0,1fr))}
 .board.us{grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
 .board.rows{display:flex;flex-direction:column;gap:8px}
 .board.rows .line{display:flex;gap:6px;align-items:stretch}
-.board.rows .ln{width:14px;flex:none;display:grid;place-items:center;font:800 12px 'Bricolage Grotesque',sans-serif;color:var(--mut)}
+.board.rows .ln{width:14px;flex:none;display:grid;place-items:center;font:800 12px var(--f-disp);color:var(--mut)}
 .board.rows .lgrid{flex:1;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
-.cell{height:var(--cellH);border-radius:10px;background:var(--panel);border:1px solid var(--line);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:3px;text-align:center;padding:4px 3px;overflow:hidden;cursor:pointer;transition:transform .12s,background .15s;font-size:14px;line-height:1.12;-webkit-tap-highlight-color:transparent}
+.cell{height:var(--cellH);border-radius:10px;background:var(--panel);border:var(--bw) solid var(--line);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:3px;text-align:center;padding:4px 3px;overflow:hidden;cursor:pointer;transition:transform .12s,background .15s;font-size:14px;line-height:1.12;-webkit-tap-highlight-color:transparent}
 .cell .tt{font-weight:700;overflow-wrap:normal;word-break:normal;max-width:100%}
 .cell .ar{font-weight:500;color:var(--mut);font-size:.78em;overflow-wrap:normal;max-width:100%}
 .cell.split .tt,.cell.split .ar{overflow-wrap:anywhere;word-break:break-word;hyphens:auto;-webkit-hyphens:auto}
 .cell.split .tt{word-break:break-all}
 .cell.tiny .ar{display:none}
 .cell.clip .tt{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:var(--clamp);line-clamp:var(--clamp);overflow:hidden}
-.cell.gap{background:repeating-linear-gradient(45deg,#ffffff07 0 6px,transparent 6px 12px);border:1px dashed #2e295080;cursor:default}
-.cell.on{background:linear-gradient(135deg,#c81d63,#d4461c);border-color:transparent;color:#fff;box-shadow:inset 0 0 0 2px #ffffffd9,0 4px 14px #ff3d9a44}
+.cell.gap{background:repeating-linear-gradient(45deg,var(--soft) 0 6px,transparent 6px 12px);border:1px dashed var(--line);cursor:default}
+.cell.on{background:var(--cell-on);border-color:transparent;color:var(--on-cell);box-shadow:var(--cell-on-sh)}
 .cell.wrong{animation:wrong .5s 3;box-shadow:inset 0 0 0 3px var(--yel)}
 @keyframes wrong{50%{transform:translateX(-4px)}}
-.rot{position:fixed;inset:0;z-index:8;background:#0d0b1af5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;padding:30px}
+.rot{position:fixed;inset:0;z-index:8;background:color-mix(in srgb,var(--bg) 96%,transparent);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;padding:30px}
 .rot .ic{font-size:64px;animation:rot 1.6s ease-in-out infinite}
 @keyframes rot{50%{transform:rotate(-90deg)}}
-.cell.on .ar{color:#fff;opacity:.9}
+.cell.on .ar{color:var(--on-cell);opacity:.9}
 .cell{position:relative}
 .cell:active:not(.gap){transform:scale(.94)}
-.callbar{position:fixed;left:0;right:0;bottom:0;padding:12px 14px calc(12px + env(safe-area-inset-bottom));background:linear-gradient(transparent,#0d0b1a 35%);display:flex;justify-content:center;z-index:5}
+.callbar{position:fixed;left:0;right:0;bottom:0;padding:12px 14px calc(12px + env(safe-area-inset-bottom));background:linear-gradient(transparent,var(--bg) 35%);display:flex;justify-content:center;z-index:5}
 .callbar .btn{width:min(520px,100%);font-size:20px;padding:16px}
 .hello{max-width:420px;margin:60px auto 0;text-align:center}
 .hello h2{font-size:28px;margin-bottom:14px}
-.res{position:fixed;inset:0;z-index:30;display:none;align-items:center;justify-content:center;flex-direction:column;gap:14px;background:#05030ce6;text-align:center;padding:24px}
+.res{position:fixed;inset:0;z-index:30;display:none;align-items:center;justify-content:center;flex-direction:column;gap:14px;background:var(--scrim);text-align:center;padding:24px}
 .res.on{display:flex}
 .res h2{font-size:clamp(34px,10vw,60px)}
-.res.ok h2{color:var(--green);animation:pop .6s cubic-bezier(.2,1.6,.4,1)}
-.res.no h2{color:var(--pink);animation:shake .5s}
+.res.ok h2{color:var(--ok-txt);animation:pop .6s cubic-bezier(.2,1.6,.4,1)}
+.res.no h2{color:var(--bad-txt);animation:shake .5s}
 @keyframes pop{0%{transform:scale(.3)}100%{transform:scale(1)}}
 @keyframes shake{20%,60%{transform:translateX(-10px)}40%,80%{transform:translateX(10px)}}
 @media (orientation:landscape) and (max-height:500px){.wrap{padding:6px 136px 10px 10px;max-width:none}.head{margin-bottom:4px}.head h1{font-size:18px}.prize{margin-bottom:4px;font-size:15px}#hint{display:none}
-.callbar{left:auto;top:0;right:0;bottom:0;width:128px;padding:10px 10px calc(10px + env(safe-area-inset-bottom)) 6px;align-items:center;background:linear-gradient(90deg,transparent,#0d0b1a 25%)}
+.callbar{left:auto;top:0;right:0;bottom:0;width:128px;padding:10px 10px calc(10px + env(safe-area-inset-bottom)) 6px;align-items:center;background:linear-gradient(90deg,transparent,var(--bg) 25%)}
 .callbar .btn{width:100%;white-space:normal;font-size:17px;padding:18px 8px;line-height:1.15}}
 </style>
 </head>

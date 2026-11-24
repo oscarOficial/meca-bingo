@@ -8,6 +8,7 @@ Exit code 1 if a check fails, so CI marks the commit.
     pip install playwright && python -m playwright install chromium
     python3 tools/ux/ux_check.py            # uses ./public, port 8099
     CHROME=/usr/bin/google-chrome python3 tools/ux/ux_check.py
+    SKIN=feria python3 tools/ux/ux_check.py   # check one skin (default: pista); report in ux-report/
 """
 import functools, http.server, json, os, sys, threading, time
 from playwright.sync_api import sync_playwright
@@ -75,6 +76,7 @@ def run():
         for fmt, vertical in (('es', False), ('es', True), ('us', False)):
             tag = f"{fmt}{'-vertical' if vertical else ''}"
             ctx = browser.new_context()
+            if os.environ.get('SKIN'): ctx.add_init_script(f"localStorage.setItem('meca-skin', {json.dumps(os.environ['SKIN'])})")
             host = ctx.new_page(); host.set_viewport_size({'width': 1366, 'height': 850})
             host.goto(base + '/host.html?net=local'); host.evaluate('localStorage.clear()'); host.reload(); time.sleep(0.6)
             if tag == 'es':

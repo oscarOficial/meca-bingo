@@ -5,6 +5,8 @@
   "navMusic": "Music",
   "navExt": "Extension",
   "navFaq": "FAQ",
+  "moodTitle": "Pick your mood",
+  "moodLead": "Choose how Meca Bingo looks. When you host, your players see the same look on their phones.",
   "ctaHost": "Host a game",
   "ctaHostLong": "Create a game →",
   "ctaJoin": "Join",
@@ -64,7 +66,7 @@
    ],
    [
     "💬 Your messages & language",
-    "Edit the captions for playing, valid and wrong calls. English and Spanish included."
+    "Edit the captions for playing, valid and wrong calls. In 8 languages."
    ]
   ],
   "needTitle": "How many songs do I need?",
@@ -259,7 +261,8 @@
    "✋ The host marks the songs, so the host doesn't play",
    "📱 Works on a computer, tablet or phone",
    "🧩 No extension needed"
-  ]
+  ],
+  "sticker": "I've got that one!"
  },
  "es": {
   "navHow": "Cómo funciona",
@@ -267,6 +270,8 @@
   "navMusic": "Música",
   "navExt": "Extensión",
   "navFaq": "Preguntas",
+  "moodTitle": "Escoge tu mood",
+  "moodLead": "Elige cómo se ve Meca Bingo. Si presentas tú, tus jugadores verán el mismo estilo en su móvil.",
   "ctaHost": "Crear partida",
   "ctaHostLong": "Crear una partida →",
   "ctaJoin": "Entrar",
@@ -326,7 +331,7 @@
    ],
    [
     "💬 Tus frases e idioma",
-    "Edita las frases de juego, premio válido y canto fallido. Incluye español e inglés."
+    "Edita las frases de juego, premio válido y canto fallido. En 8 idiomas."
    ]
   ],
   "needTitle": "¿Cuántas canciones necesito?",
@@ -521,6 +526,1597 @@
    "✋ El presentador marca las canciones, así que no juega",
    "📱 Funciona en ordenador, tablet o móvil",
    "🧩 Sin extensión"
-  ]
+  ],
+  "sticker": "¡Esa la tengo!"
+ },
+ "fr": {
+  "navHow": "Comment ça marche",
+  "navFeatures": "Fonctions",
+  "navMusic": "Musique",
+  "navExt": "Extension",
+  "navFaq": "FAQ",
+  "moodTitle": "Choisis ton mood",
+  "moodLead": "Choisis le look de Meca Bingo. Si tu animes, tes joueurs voient le même sur leur téléphone.",
+  "ctaHost": "Animer une partie",
+  "ctaHostLong": "Créer une partie →",
+  "ctaJoin": "Rejoindre",
+  "heroTitle": "Soirée bingo musical entre amis",
+  "heroLead": "Colle une playlist. Chaque ami reçoit un carton différent sur son téléphone, et l’écran de l’animateur vérifie chaque annonce.",
+  "heroFree": "Gratuit · sans compte · aucune appli à installer pour les joueurs · jusqu’à 30 joueurs",
+  "howTitle": "Comment ça marche",
+  "howLead": "Une personne anime sur un ordinateur ou la télé ; tous les autres jouent depuis leur téléphone.",
+  "s1t": "Colle une playlist",
+  "s1p": "De Spotify, Deezer, Apple Music, YouTube Music ou Amazon Music.",
+  "s2t": "Choisis les prix",
+  "s2p": "Ligne, deux lignes, coins, X, carton plein… ou dessine ta propre forme.",
+  "s3t": "Les amis scannent le QR",
+  "s3p": "Chaque téléphone reçoit un carton différent. Sans appli, sans compte.",
+  "s4t": "Écoutez et annoncez",
+  "s4p": "Les joueurs touchent ce qu’ils entendent et annoncent le prix ; l’écran de l’animateur dit VALABLE ou NOPE.",
+  "r1t": "L’animateur",
+  "r1l": [
+   "Ordinateur, tablette ou télé visible par tous",
+   "Coche la chanson qui passe (ou l’extension le fait)",
+   "Voit les annonces, les gagnants et le moment photo"
+  ],
+  "r2t": "Les joueurs",
+  "r2l": [
+   "N’importe quel téléphone avec un navigateur, sans appli",
+   "Touchent les chansons qu’ils reconnaissent",
+   "Un gros bouton pour annoncer le prix"
+  ],
+  "r3t": "La musique",
+  "r3l": [
+   "Passe depuis ton appli ou ton enceinte habituelle",
+   "Mets la playlist en aléatoire et profite",
+   "Les titres restent cachés sur l’écran de l’animateur"
+  ],
+  "featTitle": "À ta façon",
+  "featLead": "Chaque partie peut avoir son look et ses règles.",
+  "feats": [
+   [
+    "🃏 Deux types de carton",
+    "3×9 avec cases vides (15 chansons, comme le loto à 90 boules) ou 5×5 (25 chansons, comme le bingo à 75 boules)."
+   ],
+   [
+    "📏 Tes règles",
+    "Lignes horizontales seulement, ou verticales aussi (et diagonales sur le 5×5)."
+   ],
+   [
+    "🏆 Prix dans l’ordre",
+    "Ligne, deux lignes et carton plein : active ceux que tu veux."
+   ],
+   [
+    "⏱ Durée des chansons",
+    "Chansons entières ou 30 / 45 / 60 / 90 secondes pour une partie plus rapide."
+   ],
+   [
+    "📸 Moment photo",
+    "Après chaque chanson, une de tes photos remplit l’écran avec une légende drôle."
+   ],
+   [
+    "💬 Tes messages et ta langue",
+    "Modifie les légendes du jeu, des prix valables et des fausses annonces. En 8 langues."
+   ]
+  ],
+  "needTitle": "Combien de chansons me faut-il ?",
+  "needLead": "Plus il y a de joueurs, plus il faut de chansons, pour que tout le monde ne gagne pas en même temps. Si ta playlist est courte, l’appli te dit pour combien de joueurs elle suffit.",
+  "thPlayers": "Joueurs",
+  "thEs": "Carton 3×9",
+  "thUs": "Carton 5×5",
+  "musicTitle": "Marche avec ta musique",
+  "musicLead": "Les playlists publiques de ces services s’importent directement. Pour tout autre service : colle la liste des chansons.",
+  "thProv": "Service",
+  "thImport": "Importer la playlist",
+  "thAuto": "Cochage auto et lecture/pause depuis l’écran du bingo",
+  "prov": [
+   [
+    "Spotify",
+    "y",
+    "Directement (100 premières chansons)",
+    "e",
+    "Avec l’extension (lecteur web)"
+   ],
+   [
+    "Deezer",
+    "y",
+    "Directement",
+    "e",
+    "Avec l’extension (lecteur web)"
+   ],
+   [
+    "Apple Music",
+    "y",
+    "Directement",
+    "e",
+    "Avec l’extension (lecteur web)"
+   ],
+   [
+    "YouTube Music",
+    "y",
+    "Directement",
+    "e",
+    "Avec l’extension (lecteur web)"
+   ],
+   [
+    "Amazon Music",
+    "e",
+    "Avec l’extension",
+    "e",
+    "Avec l’extension (lecteur web)"
+   ],
+   [
+    "Tout autre",
+    "y",
+    "Colle la liste des chansons",
+    "",
+    "—"
+   ]
+  ],
+  "extTitle": "Meca Bingo Sync (facultatif)",
+  "extLead": "Une extension de navigateur pour l’ordinateur de l’animateur, pour que la soirée roule toute seule :",
+  "extList": [
+   "Coche chaque chanson automatiquement quand elle passe",
+   "Lecture, pause, suivante et précédente sur l’écran du bingo",
+   "Marche avec les lecteurs web de Spotify, Amazon Music, Deezer, YouTube Music et Apple Music",
+   "Amazon Music : importe la playlist et START lance la manche en aléatoire"
+  ],
+  "extChrome": "Chrome / Edge",
+  "extFirefox": "Firefox",
+  "extSafari": "Safari (bientôt)",
+  "faqTitle": "Questions",
+  "faq": [
+   [
+    "C’est gratuit ?",
+    "Oui. Sans compte, sans pub, sans pistage."
+   ],
+   [
+    "Les joueurs ont-ils besoin d’une appli ou d’un compte ?",
+    "Non. Ils scannent le QR ou tapent le code de 5 lettres dans le navigateur de n’importe quel téléphone et écrivent leur prénom."
+   ],
+   [
+    "Deux joueurs peuvent-ils avoir le même carton ?",
+    "Non. Chaque téléphone reçoit un carton différent, et le garde s’il recharge la page."
+   ],
+   [
+    "Combien de chansons me faut-il ?",
+    "Plus il y a de joueurs, plus il faut de chansons, pour que tout le monde ne gagne pas en même temps : environ 28 à 38 chansons pour le carton 3×9 et 48 à 58 pour le 5×5, selon le nombre de joueurs. Si ta playlist est courte, l’appli te dit pour combien de joueurs elle suffit."
+   ],
+   [
+    "L’animateur peut-il jouer aussi ?",
+    "Oui, en mode automatique : l’extension coche les chansons et l’animateur ne voit jamais les titres, il peut donc rejoindre la partie depuis son téléphone comme tout le monde. En mode manuel, l’animateur coche les chansons et voit les titres, donc il ne devrait pas jouer."
+   ],
+   [
+    "Puis-je animer depuis mon téléphone ?",
+    "Oui, en mode manuel : la musique peut venir de n’importe quel appareil et tu touches chaque chanson quand elle passe. Le mode automatique demande un ordinateur, car l’extension ne marche que dans un navigateur d’ordinateur. Garde la page du bingo ouverte sur ton téléphone pendant la partie."
+   ],
+   [
+    "Comment les annonces sont-elles vérifiées ?",
+    "Chaque chanson cochée doit être passée, et les cases doivent compléter le prix. Sinon, l’écran de l’animateur affiche NOPE et le joueur voit quelle chanson était fausse."
+   ],
+   [
+    "Où sont nos données ?",
+    "Tout reste dans le navigateur de l’animateur ; les téléphones s’y connectent directement. Vos photos ne quittent jamais l’ordinateur de l’animateur."
+   ],
+   [
+    "Ai-je besoin de l’extension ?",
+    "Seulement pour le mode automatique (chansons cochées toutes seules, l’animateur peut jouer) et pour importer des playlists Amazon Music. Le mode manuel ne demande rien."
+   ],
+   [
+    "Faut-il une licence pour passer de la musique en public ?",
+    "Les comptes de streaming sont à usage personnel. Pour les bars ou les événements publics, renseigne-toi sur les règles de licence musicale de ton pays."
+   ],
+   [
+    "Comment vous contacter ?",
+    "Écris à info@mecabingo.oscasais.es. Idées, bugs et questions sont les bienvenus."
+   ]
+  ],
+  "finalTitle": "Prêts pour ce soir ?",
+  "finalLead": "Crée une partie en deux minutes et partage le QR avec tes amis.",
+  "fPrivacy": "Confidentialité",
+  "fTm": "Sans lien avec Spotify, Amazon, Apple, Deezer ou YouTube. Nous n’hébergeons ni ne diffusons de musique.",
+  "fExt": "Extension",
+  "altHost": "Écran de l’animateur avec code, QR et compteur de chansons",
+  "altPlayer": "Carton d’un joueur sur un téléphone",
+  "altMoment": "Moment photo avec une photo de groupe et une légende",
+  "metaTitle": "Bingo musical entre amis : bingo musical en ligne gratuit · Meca Bingo",
+  "metaDesc": "Transforme une playlist Spotify, Apple Music, Deezer ou YouTube Music en soirée bingo musical. Un carton unique sur chaque téléphone. Gratuit, sans compte.",
+  "ogDesc": "Transforme n’importe quelle playlist publique en soirée bingo musical. Un carton unique sur chaque téléphone. Gratuit, sans compte.",
+  "langName": "Français",
+  "codePh": "CODE",
+  "skip": "Aller au contenu",
+  "pasteLabel": "Colle le lien d’une playlist publique",
+  "pastePh": "open.spotify.com/playlist/…",
+  "pasteBtn": "Continuer →",
+  "haveCode": "Invité ? Entre le code :",
+  "navModes": "Modes de jeu",
+  "modesTitle": "Joue à ta façon",
+  "modesLead": "Choisis ce qui compte comme ligne et comme bingo : touche une forme, ou dessine la tienne. L’appli te dit vers quelle chanson chaque prix sera gagné.",
+  "extShort": "Amazon Music, le cochage automatique et la lecture/pause depuis l’écran du bingo nécessitent l’extension de navigateur gratuite.",
+  "extMore": "Installer l’extension →",
+  "ctaPaste": "Colle ta playlist ↑",
+  "modes": {
+   "line": [
+    "Ligne",
+    "N’importe quelle ligne"
+   ],
+   "two": [
+    "Deux lignes",
+    "Deux lignes au choix"
+   ],
+   "corners": [
+    "Quatre coins",
+    "Les 4 coins"
+   ],
+   "x": [
+    "X",
+    "Les deux diagonales"
+   ],
+   "stamp": [
+    "Timbre",
+    "Un carré 2×2 dans un coin"
+   ],
+   "frame": [
+    "Cadre",
+    "Tous les bords"
+   ],
+   "diamond": [
+    "Losange",
+    "Un losange"
+   ],
+   "full": [
+    "Bingo",
+    "Tout le carton"
+   ],
+   "custom": [
+    "Ta forme",
+    "Dessine-la toi-même"
+   ]
+  },
+  "navWays": "Deux façons de jouer",
+  "waysTitle": "Deux façons de jouer",
+  "waysLead": "Tu choisis en créant la partie, selon d’où vient la musique.",
+  "wayAutoT": "🎧 Automatique",
+  "wayAutoP": "La musique joue dans le navigateur de l’ordinateur de l’animateur et l’extension gratuite coche chaque chanson toute seule.",
+  "wayAutoL": [
+   "🎵 Lecteur web Spotify, Amazon Music, Deezer, YouTube Music ou Apple Music",
+   "🔊 Le son peut sortir d’une enceinte ou de la télé branchée à l’ordinateur",
+   "🙋 L’animateur joue aussi : personne ne voit les titres",
+   "💻 Ordinateur avec Chrome, Edge ou Firefox"
+  ],
+  "wayManT": "✋ Manuel",
+  "wayManP": "La musique joue depuis n’importe où et l’animateur touche chaque chanson à l’écran quand elle passe.",
+  "wayManL": [
+   "🎵 N’importe quelle appli ou appareil : téléphone, enceinte, télé, vinyles…",
+   "✋ L’animateur coche les chansons, donc il ne joue pas",
+   "📱 Marche sur ordinateur, tablette ou téléphone",
+   "🧩 Aucune extension nécessaire"
+  ],
+  "sticker": "Je l’ai !"
+ },
+ "de": {
+  "navHow": "So funktioniert’s",
+  "navFeatures": "Funktionen",
+  "navMusic": "Musik",
+  "navExt": "Erweiterung",
+  "navFaq": "FAQ",
+  "moodTitle": "Wähl deinen Mood",
+  "moodLead": "Such dir aus, wie Meca Bingo aussieht. Wenn du das Spiel leitest, sehen deine Mitspieler denselben Look auf ihrem Handy.",
+  "ctaHost": "Spiel leiten",
+  "ctaHostLong": "Spiel erstellen →",
+  "ctaJoin": "Beitreten",
+  "heroTitle": "Musikbingo-Abend mit deinen Freunden",
+  "heroLead": "Füge eine Playlist ein. Alle Freunde bekommen eine andere Karte aufs Handy, und der Bildschirm der Spielleitung prüft jeden Ruf.",
+  "heroFree": "Kostenlos · ohne Konto · keine App für die Spieler · bis zu 30 Spieler",
+  "howTitle": "So funktioniert’s",
+  "howLead": "Eine Person leitet das Spiel am Laptop oder Fernseher; alle anderen spielen mit dem Handy.",
+  "s1t": "Playlist einfügen",
+  "s1p": "Von Spotify, Deezer, Apple Music, YouTube Music oder Amazon Music.",
+  "s2t": "Preise wählen",
+  "s2p": "Reihe, zwei Reihen, Ecken, X, volle Karte… oder zeichne deine eigene Form.",
+  "s3t": "Freunde scannen den QR-Code",
+  "s3p": "Jedes Handy bekommt eine andere Karte. Ohne App, ohne Konto.",
+  "s4t": "Hören und rufen",
+  "s4p": "Die Spieler tippen an, was sie hören, und rufen den Preis; der Bildschirm der Spielleitung sagt GÜLTIG oder NOPE.",
+  "r1t": "Die Spielleitung",
+  "r1l": [
+   "Laptop, Tablet oder ein Fernseher, den alle sehen",
+   "Markiert den laufenden Song (oder die Erweiterung macht das)",
+   "Sieht Rufe, Gewinner und den Fotomoment"
+  ],
+  "r2t": "Die Spieler",
+  "r2l": [
+   "Jedes Handy mit Browser, ohne App",
+   "Tippen die Songs an, die sie erkennen",
+   "Ein großer Knopf, um den Preis zu rufen"
+  ],
+  "r3t": "Die Musik",
+  "r3l": [
+   "Läuft aus deiner gewohnten App oder Box",
+   "Playlist auf Zufall stellen und genießen",
+   "Die Songtitel bleiben auf dem Bildschirm der Spielleitung versteckt"
+  ],
+  "featTitle": "Mach es zu deinem Spiel",
+  "featLead": "Jedes Spiel kann anders aussehen und anders laufen.",
+  "feats": [
+   [
+    "🃏 Zwei Kartentypen",
+    "3×9 mit Lücken (15 Songs, wie Bingo mit 90 Kugeln) oder 5×5 (25 Songs, wie Bingo mit 75 Kugeln)."
+   ],
+   [
+    "📏 Deine Regeln",
+    "Nur waagerechte Reihen oder auch senkrechte (und Diagonalen bei 5×5)."
+   ],
+   [
+    "🏆 Preise der Reihe nach",
+    "Reihe, zwei Reihen und volle Karte: schalte die ein, die du willst."
+   ],
+   [
+    "⏱ Songlänge",
+    "Ganze Songs oder 30 / 45 / 60 / 90 Sekunden für ein schnelleres Spiel."
+   ],
+   [
+    "📸 Fotomoment",
+    "Nach jedem Song füllt eines deiner Fotos den Bildschirm, mit einem lustigen Spruch."
+   ],
+   [
+    "💬 Deine Nachrichten und Sprache",
+    "Bearbeite die Sprüche fürs Spiel, für gültige und falsche Rufe. In 8 Sprachen."
+   ]
+  ],
+  "needTitle": "Wie viele Songs brauche ich?",
+  "needLead": "Mehr Spieler brauchen mehr Songs, damit nicht alle gleichzeitig gewinnen. Ist deine Playlist kurz, sagt dir die App, für wie viele Spieler sie reicht.",
+  "thPlayers": "Spieler",
+  "thEs": "3×9-Karte",
+  "thUs": "5×5-Karte",
+  "musicTitle": "Geht mit deiner Musik",
+  "musicLead": "Öffentliche Playlists dieser Dienste werden direkt importiert. Jeder andere Dienst: Füge die Songliste ein.",
+  "thProv": "Dienst",
+  "thImport": "Playlist importieren",
+  "thAuto": "Automatisch markieren & Play/Pause vom Bingo-Bildschirm",
+  "prov": [
+   [
+    "Spotify",
+    "y",
+    "Direkt (erste 100 Songs)",
+    "e",
+    "Mit der Erweiterung (Web-Player)"
+   ],
+   [
+    "Deezer",
+    "y",
+    "Direkt",
+    "e",
+    "Mit der Erweiterung (Web-Player)"
+   ],
+   [
+    "Apple Music",
+    "y",
+    "Direkt",
+    "e",
+    "Mit der Erweiterung (Web-Player)"
+   ],
+   [
+    "YouTube Music",
+    "y",
+    "Direkt",
+    "e",
+    "Mit der Erweiterung (Web-Player)"
+   ],
+   [
+    "Amazon Music",
+    "e",
+    "Mit der Erweiterung",
+    "e",
+    "Mit der Erweiterung (Web-Player)"
+   ],
+   [
+    "Alle anderen",
+    "y",
+    "Songliste einfügen",
+    "",
+    "—"
+   ]
+  ],
+  "extTitle": "Meca Bingo Sync (optional)",
+  "extLead": "Eine Browser-Erweiterung für den Computer der Spielleitung, damit der Abend von selbst läuft:",
+  "extList": [
+   "Markiert jeden Song automatisch, wenn er läuft",
+   "Play, Pause, Weiter und Zurück auf dem Bingo-Bildschirm",
+   "Geht mit den Web-Playern von Spotify, Amazon Music, Deezer, YouTube Music und Apple Music",
+   "Amazon Music: importiert die Playlist, und START spielt die Runde im Zufallsmodus"
+  ],
+  "extChrome": "Chrome / Edge",
+  "extFirefox": "Firefox",
+  "extSafari": "Safari (bald)",
+  "faqTitle": "Fragen",
+  "faq": [
+   [
+    "Ist es kostenlos?",
+    "Ja. Ohne Konto, ohne Werbung, ohne Tracking."
+   ],
+   [
+    "Brauchen die Spieler eine App oder ein Konto?",
+    "Nein. Sie scannen den QR-Code oder tippen den 5-stelligen Code in den Browser eines beliebigen Handys und schreiben ihren Namen."
+   ],
+   [
+    "Können zwei Spieler dieselbe Karte bekommen?",
+    "Nein. Jedes Handy bekommt eine andere Karte und behält sie, auch wenn die Seite neu lädt."
+   ],
+   [
+    "Wie viele Songs brauche ich?",
+    "Mehr Spieler brauchen mehr Songs, damit nicht alle gleichzeitig gewinnen: etwa 28–38 Songs für die 3×9-Karte und 48–58 für die 5×5-Karte, je nach Spielerzahl. Ist deine Playlist kurz, sagt dir die App, für wie viele Spieler sie reicht."
+   ],
+   [
+    "Kann die Spielleitung mitspielen?",
+    "Ja, im automatischen Modus: Die Erweiterung markiert die Songs und die Spielleitung sieht nie die Titel, kann also wie alle anderen mit dem Handy mitspielen. Im manuellen Modus markiert die Spielleitung die Songs und sieht die Titel, sollte also nicht mitspielen."
+   ],
+   [
+    "Kann ich das Spiel vom Handy aus leiten?",
+    "Ja, im manuellen Modus: Die Musik kann von jedem Gerät kommen und du tippst jeden Song an, wenn er läuft. Der automatische Modus braucht einen Computer, weil die Erweiterung nur in einem Computer-Browser läuft. Lass die Bingo-Seite während des Spiels auf deinem Handy offen."
+   ],
+   [
+    "Wie werden die Rufe geprüft?",
+    "Jeder markierte Song muss gelaufen sein, und die Markierungen müssen den Preis vervollständigen. Sonst zeigt der Bildschirm der Spielleitung NOPE und der Spieler sieht, welcher Song falsch war."
+   ],
+   [
+    "Wo sind unsere Daten?",
+    "Alles bleibt im Browser der Spielleitung; die Handys verbinden sich direkt damit. Eure Fotos verlassen nie den Computer der Spielleitung."
+   ],
+   [
+    "Brauche ich die Erweiterung?",
+    "Nur für den automatischen Modus (Songs markieren sich selbst, die Spielleitung kann mitspielen) und zum Importieren von Amazon-Music-Playlists. Der manuelle Modus braucht nichts."
+   ],
+   [
+    "Brauche ich eine Lizenz, um öffentlich Musik zu spielen?",
+    "Streaming-Konten sind für den privaten Gebrauch. Für Bars oder öffentliche Veranstaltungen informiere dich über die Musiklizenzregeln deines Landes."
+   ],
+   [
+    "Wie kann ich euch erreichen?",
+    "Schreib an info@mecabingo.oscasais.es. Ideen, Fehler und Fragen sind willkommen."
+   ]
+  ],
+  "finalTitle": "Bereit für heute Abend?",
+  "finalLead": "Erstelle in zwei Minuten ein Spiel und teile den QR-Code mit deinen Freunden.",
+  "fPrivacy": "Datenschutz",
+  "fTm": "Nicht verbunden mit Spotify, Amazon, Apple, Deezer oder YouTube. Wir hosten oder streamen keine Musik.",
+  "fExt": "Erweiterung",
+  "altHost": "Bildschirm der Spielleitung mit Code, QR-Code und Songzähler",
+  "altPlayer": "Spielerkarte auf einem Handy",
+  "altMoment": "Fotomoment mit Gruppenfoto und Spruch",
+  "metaTitle": "Musikbingo mit Freunden: kostenloses Online-Musikbingo · Meca Bingo",
+  "metaDesc": "Mach aus einer Spotify-, Apple-Music-, Deezer- oder YouTube-Music-Playlist einen Musikbingo-Abend. Eine eigene Karte auf jedem Handy. Kostenlos, ohne Konto.",
+  "ogDesc": "Mach aus jeder öffentlichen Playlist einen Musikbingo-Abend. Eigene Karten auf jedem Handy. Kostenlos, ohne Konto.",
+  "langName": "Deutsch",
+  "codePh": "CODE",
+  "skip": "Zum Inhalt springen",
+  "pasteLabel": "Füge den Link einer öffentlichen Playlist ein",
+  "pastePh": "open.spotify.com/playlist/…",
+  "pasteBtn": "Weiter →",
+  "haveCode": "Eingeladen? Gib den Code ein:",
+  "navModes": "Spielmodi",
+  "modesTitle": "Spiel, wie du willst",
+  "modesLead": "Leg fest, was als Reihe und als Bingo zählt: Tipp eine Form an oder zeichne deine eigene. Die App sagt dir, um welchen Song herum jeder Preis gewonnen wird.",
+  "extShort": "Amazon Music, automatisches Markieren und Play/Pause vom Bingo-Bildschirm brauchen die kostenlose Browser-Erweiterung.",
+  "extMore": "Erweiterung holen →",
+  "ctaPaste": "Füge deine Playlist ein ↑",
+  "modes": {
+   "line": [
+    "Reihe",
+    "Jede Reihe"
+   ],
+   "two": [
+    "Zwei Reihen",
+    "Zwei beliebige Reihen"
+   ],
+   "corners": [
+    "Vier Ecken",
+    "Die 4 Ecken"
+   ],
+   "x": [
+    "X",
+    "Beide Diagonalen"
+   ],
+   "stamp": [
+    "Briefmarke",
+    "Ein 2×2-Quadrat in einer Ecke"
+   ],
+   "frame": [
+    "Rahmen",
+    "Alle Ränder"
+   ],
+   "diamond": [
+    "Raute",
+    "Eine Raute"
+   ],
+   "full": [
+    "Bingo",
+    "Die ganze Karte"
+   ],
+   "custom": [
+    "Deine Form",
+    "Zeichne sie selbst"
+   ]
+  },
+  "navWays": "Zwei Arten zu spielen",
+  "waysTitle": "Zwei Arten zu spielen",
+  "waysLead": "Du wählst beim Erstellen des Spiels, je nachdem, woher die Musik kommt.",
+  "wayAutoT": "🎧 Automatisch",
+  "wayAutoP": "Die Musik läuft im Browser am Computer der Spielleitung, und die kostenlose Erweiterung markiert jeden Song von selbst.",
+  "wayAutoL": [
+   "🎵 Web-Player von Spotify, Amazon Music, Deezer, YouTube Music oder Apple Music",
+   "🔊 Sie kann über eine Box oder den Fernseher am Computer laufen",
+   "🙋 Die Spielleitung spielt mit: Niemand sieht die Songtitel",
+   "💻 Computer mit Chrome, Edge oder Firefox"
+  ],
+  "wayManT": "✋ Manuell",
+  "wayManP": "Die Musik läuft von überall, und die Spielleitung tippt jeden Song auf dem Bildschirm an, wenn er läuft.",
+  "wayManL": [
+   "🎵 Jede App und jedes Gerät: Handy, Box, Fernseher, Schallplatten…",
+   "✋ Die Spielleitung markiert die Songs, spielt also nicht mit",
+   "📱 Läuft auf Computer, Tablet oder Handy",
+   "🧩 Keine Erweiterung nötig"
+  ],
+  "sticker": "Hab ich!"
+ },
+ "it": {
+  "navHow": "Come funziona",
+  "navFeatures": "Funzioni",
+  "navMusic": "Musica",
+  "navExt": "Estensione",
+  "navFaq": "FAQ",
+  "moodTitle": "Scegli il tuo mood",
+  "moodLead": "Scegli lo stile di Meca Bingo. Se presenti tu, i tuoi giocatori vedono lo stesso stile sul telefono.",
+  "ctaHost": "Presenta una partita",
+  "ctaHostLong": "Crea una partita →",
+  "ctaJoin": "Entra",
+  "heroTitle": "Serata di tombola musicale con gli amici",
+  "heroLead": "Incolla una playlist. Ogni amico riceve una cartella diversa sul telefono, e lo schermo di chi presenta controlla ogni chiamata.",
+  "heroFree": "Gratis · senza account · nessuna app da installare per i giocatori · fino a 30 giocatori",
+  "howTitle": "Come funziona",
+  "howLead": "Una persona presenta da un portatile o dalla TV; tutti gli altri giocano dal telefono.",
+  "s1t": "Incolla una playlist",
+  "s1p": "Da Spotify, Deezer, Apple Music, YouTube Music o Amazon Music.",
+  "s2t": "Scegli i premi",
+  "s2p": "Linea, due linee, angoli, X, cartella piena… o disegna la tua figura.",
+  "s3t": "Gli amici scansionano il QR",
+  "s3p": "Ogni telefono riceve una cartella diversa. Senza app né account.",
+  "s4t": "Ascolta e chiama",
+  "s4p": "I giocatori toccano ciò che sentono e chiamano il premio; lo schermo di chi presenta dice VALIDO o NOPE.",
+  "r1t": "Chi presenta",
+  "r1l": [
+   "Portatile, tablet o una TV che vedono tutti",
+   "Segna la canzone che suona (o lo fa l’estensione)",
+   "Vede chiamate, vincitori e il momento foto"
+  ],
+  "r2t": "I giocatori",
+  "r2l": [
+   "Qualsiasi telefono con un browser, senza app",
+   "Toccano le canzoni che riconoscono",
+   "Un grande pulsante per chiamare il premio"
+  ],
+  "r3t": "La musica",
+  "r3l": [
+   "Suona dalla tua app o cassa di sempre",
+   "Metti la playlist in ordine casuale e goditela",
+   "I titoli restano nascosti sullo schermo di chi presenta"
+  ],
+  "featTitle": "Falla tua",
+  "featLead": "Ogni partita può avere un aspetto e regole diverse.",
+  "feats": [
+   [
+    "🃏 Due tipi di cartella",
+    "3×9 con spazi vuoti (15 canzoni, come la tombola a 90 numeri) o 5×5 (25 canzoni, come il bingo a 75 numeri)."
+   ],
+   [
+    "📏 Le tue regole",
+    "Solo linee orizzontali, o anche verticali (e diagonali sulla 5×5)."
+   ],
+   [
+    "🏆 Premi in ordine",
+    "Linea, due linee e tombola: attiva quelli che vuoi."
+   ],
+   [
+    "⏱ Durata delle canzoni",
+    "Canzoni intere o 30 / 45 / 60 / 90 secondi per una partita più veloce."
+   ],
+   [
+    "📸 Momento foto",
+    "Dopo ogni canzone una delle tue foto riempie lo schermo con una didascalia divertente."
+   ],
+   [
+    "💬 I tuoi messaggi e la tua lingua",
+    "Modifica le didascalie per il gioco, i premi validi e le chiamate sbagliate. In 8 lingue."
+   ]
+  ],
+  "needTitle": "Quante canzoni mi servono?",
+  "needLead": "Più giocatori servono più canzoni, così non vincono tutti nello stesso momento. Se la tua playlist è corta, l’app ti dice per quanti giocatori basta.",
+  "thPlayers": "Giocatori",
+  "thEs": "Cartella 3×9",
+  "thUs": "Cartella 5×5",
+  "musicTitle": "Funziona con la tua musica",
+  "musicLead": "Le playlist pubbliche di questi servizi si importano direttamente. Qualsiasi altro servizio: incolla la lista delle canzoni.",
+  "thProv": "Servizio",
+  "thImport": "Importa la playlist",
+  "thAuto": "Segna da sola e play/pausa dallo schermo della tombola",
+  "prov": [
+   [
+    "Spotify",
+    "y",
+    "Direttamente (prime 100 canzoni)",
+    "e",
+    "Con l’estensione (web player)"
+   ],
+   [
+    "Deezer",
+    "y",
+    "Direttamente",
+    "e",
+    "Con l’estensione (web player)"
+   ],
+   [
+    "Apple Music",
+    "y",
+    "Direttamente",
+    "e",
+    "Con l’estensione (web player)"
+   ],
+   [
+    "YouTube Music",
+    "y",
+    "Direttamente",
+    "e",
+    "Con l’estensione (web player)"
+   ],
+   [
+    "Amazon Music",
+    "e",
+    "Con l’estensione",
+    "e",
+    "Con l’estensione (web player)"
+   ],
+   [
+    "Qualsiasi altro",
+    "y",
+    "Incolla la lista delle canzoni",
+    "",
+    "—"
+   ]
+  ],
+  "extTitle": "Meca Bingo Sync (facoltativa)",
+  "extLead": "Un’estensione del browser per il computer di chi presenta, che fa andare la serata da sola:",
+  "extList": [
+   "Segna ogni canzone automaticamente mentre suona",
+   "Play, pausa, avanti e indietro sullo schermo della tombola",
+   "Funziona con i web player di Spotify, Amazon Music, Deezer, YouTube Music e Apple Music",
+   "Amazon Music: importa la playlist e START fa partire il turno in ordine casuale"
+  ],
+  "extChrome": "Chrome / Edge",
+  "extFirefox": "Firefox",
+  "extSafari": "Safari (presto)",
+  "faqTitle": "Domande",
+  "faq": [
+   [
+    "È gratis?",
+    "Sì. Senza account, senza pubblicità, senza tracciamento."
+   ],
+   [
+    "I giocatori hanno bisogno di un’app o di un account?",
+    "No. Scansionano il QR o scrivono il codice di 5 lettere nel browser di qualsiasi telefono e mettono il loro nome."
+   ],
+   [
+    "Due giocatori possono avere la stessa cartella?",
+    "No. Ogni telefono riceve una cartella diversa e la tiene anche se ricarica la pagina."
+   ],
+   [
+    "Quante canzoni mi servono?",
+    "Più giocatori servono più canzoni, così non vincono tutti insieme: circa 28–38 canzoni per la cartella 3×9 e 48–58 per la 5×5, a seconda del numero di giocatori. Se la tua playlist è corta, l’app ti dice per quanti giocatori basta."
+   ],
+   [
+    "Chi presenta può giocare?",
+    "Sì, in modo automatico: l’estensione segna le canzoni e chi presenta non vede mai i titoli, quindi può entrare dal telefono come tutti gli altri. In modo manuale chi presenta segna le canzoni e vede i titoli, quindi non dovrebbe giocare."
+   ],
+   [
+    "Posso presentare dal telefono?",
+    "Sì, in modo manuale: la musica può arrivare da qualsiasi dispositivo e tocchi ogni canzone quando suona. Il modo automatico richiede un computer, perché l’estensione funziona solo nel browser di un computer. Tieni aperta la pagina della tombola sul telefono durante la partita."
+   ],
+   [
+    "Come si controllano le chiamate?",
+    "Ogni canzone segnata deve essere già suonata e i segni devono completare il premio. Altrimenti lo schermo di chi presenta mostra NOPE e il giocatore vede quale canzone era sbagliata."
+   ],
+   [
+    "Dove sono i nostri dati?",
+    "Tutto resta nel browser di chi presenta; i telefoni si collegano direttamente a lui. Le vostre foto non lasciano mai il computer di chi presenta."
+   ],
+   [
+    "Mi serve l’estensione?",
+    "Solo per il modo automatico (canzoni segnate da sole, chi presenta può giocare) e per importare playlist di Amazon Music. Il modo manuale non richiede niente."
+   ],
+   [
+    "Serve una licenza per mettere musica in pubblico?",
+    "Gli account di streaming sono per uso personale. Per bar o eventi pubblici, controlla le regole sulle licenze musicali del tuo paese."
+   ],
+   [
+    "Come vi contatto?",
+    "Scrivi a info@mecabingo.oscasais.es. Idee, errori e domande sono benvenuti."
+   ]
+  ],
+  "finalTitle": "Pronti per stasera?",
+  "finalLead": "Crea una partita in due minuti e condividi il QR con i tuoi amici.",
+  "fPrivacy": "Privacy",
+  "fTm": "Non affiliato a Spotify, Amazon, Apple, Deezer o YouTube. Non ospitiamo né trasmettiamo musica.",
+  "fExt": "Estensione",
+  "altHost": "Schermo di chi presenta con codice, QR e contatore delle canzoni",
+  "altPlayer": "Cartella di un giocatore su un telefono",
+  "altMoment": "Momento foto con una foto di gruppo e una didascalia",
+  "metaTitle": "Tombola musicale con gli amici: bingo musicale gratis · Meca Bingo",
+  "metaDesc": "Trasforma una playlist di Spotify, Apple Music, Deezer o YouTube Music in una tombola musicale. Una cartella unica su ogni telefono. Gratis, senza account.",
+  "ogDesc": "Trasforma qualsiasi playlist pubblica in una serata di tombola musicale. Cartelle uniche su ogni telefono. Gratis, senza account.",
+  "langName": "Italiano",
+  "codePh": "CODICE",
+  "skip": "Vai al contenuto",
+  "pasteLabel": "Incolla il link di una playlist pubblica",
+  "pastePh": "open.spotify.com/playlist/…",
+  "pasteBtn": "Continua →",
+  "haveCode": "Ti hanno invitato? Inserisci il codice:",
+  "navModes": "Modi di gioco",
+  "modesTitle": "Gioca a modo tuo",
+  "modesLead": "Scegli cosa conta come linea e come tombola: tocca una figura o disegna la tua. L’app ti dice verso quale canzone si vincerà ogni premio.",
+  "extShort": "Amazon Music, la segnatura automatica e play/pausa dallo schermo della tombola richiedono l’estensione gratuita del browser.",
+  "extMore": "Scarica l’estensione →",
+  "ctaPaste": "Incolla la tua playlist ↑",
+  "modes": {
+   "line": [
+    "Linea",
+    "Qualsiasi riga"
+   ],
+   "two": [
+    "Due linee",
+    "Due righe qualsiasi"
+   ],
+   "corners": [
+    "Quattro angoli",
+    "I 4 angoli"
+   ],
+   "x": [
+    "X",
+    "Entrambe le diagonali"
+   ],
+   "stamp": [
+    "Francobollo",
+    "Un quadrato 2×2 in un angolo"
+   ],
+   "frame": [
+    "Cornice",
+    "Tutti i bordi"
+   ],
+   "diamond": [
+    "Rombo",
+    "Un rombo"
+   ],
+   "full": [
+    "Tombola",
+    "Tutta la cartella"
+   ],
+   "custom": [
+    "La tua figura",
+    "Disegnala tu"
+   ]
+  },
+  "navWays": "Due modi di giocare",
+  "waysTitle": "Due modi di giocare",
+  "waysLead": "Lo scegli quando crei la partita, a seconda di da dove arriva la musica.",
+  "wayAutoT": "🎧 Automatico",
+  "wayAutoP": "La musica suona nel browser del computer di chi presenta e l’estensione gratuita segna ogni canzone da sola.",
+  "wayAutoL": [
+   "🎵 Web player di Spotify, Amazon Music, Deezer, YouTube Music o Apple Music",
+   "🔊 Può suonare da una cassa o dalla TV collegata al computer",
+   "🙋 Anche chi presenta gioca: nessuno vede i titoli",
+   "💻 Computer con Chrome, Edge o Firefox"
+  ],
+  "wayManT": "✋ Manuale",
+  "wayManP": "La musica suona da dove vuoi e chi presenta tocca ogni canzone sullo schermo quando suona.",
+  "wayManL": [
+   "🎵 Qualsiasi app o dispositivo: telefono, cassa, TV, vinili…",
+   "✋ Chi presenta segna le canzoni, quindi non gioca",
+   "📱 Funziona su computer, tablet o telefono",
+   "🧩 Nessuna estensione necessaria"
+  ],
+  "sticker": "Ce l’ho!"
+ },
+ "nl": {
+  "navHow": "Hoe het werkt",
+  "navFeatures": "Functies",
+  "navMusic": "Muziek",
+  "navExt": "Extensie",
+  "navFaq": "FAQ",
+  "moodTitle": "Kies je mood",
+  "moodLead": "Kies hoe Meca Bingo eruitziet. Leid jij het spel, dan zien je spelers dezelfde stijl op hun telefoon.",
+  "ctaHost": "Een spel leiden",
+  "ctaHostLong": "Spel aanmaken →",
+  "ctaJoin": "Meedoen",
+  "heroTitle": "Muziekbingo-avond met je vrienden",
+  "heroLead": "Plak een playlist. Elke vriend krijgt een andere kaart op zijn telefoon, en het scherm van de spelleider controleert elke roep.",
+  "heroFree": "Gratis · geen account · geen app nodig voor de spelers · tot 30 spelers",
+  "howTitle": "Hoe het werkt",
+  "howLead": "Eén persoon leidt het spel op een laptop of tv; de rest speelt met de telefoon.",
+  "s1t": "Plak een playlist",
+  "s1p": "Van Spotify, Deezer, Apple Music, YouTube Music of Amazon Music.",
+  "s2t": "Kies de prijzen",
+  "s2p": "Rij, twee rijen, hoeken, X, volle kaart… of teken je eigen vorm.",
+  "s3t": "Vrienden scannen de QR-code",
+  "s3p": "Elke telefoon krijgt een andere kaart. Geen app, geen account.",
+  "s4t": "Luister en roep",
+  "s4p": "Spelers tikken aan wat ze horen en roepen de prijs; het scherm van de spelleider zegt GELDIG of NOPE.",
+  "r1t": "De spelleider",
+  "r1l": [
+   "Laptop, tablet of een tv die iedereen ziet",
+   "Vinkt het nummer aan dat speelt (of de extensie doet het)",
+   "Ziet de roepen, de winnaars en het fotomoment"
+  ],
+  "r2t": "De spelers",
+  "r2l": [
+   "Elke telefoon met een browser, geen app",
+   "Tikken de nummers aan die ze herkennen",
+   "Eén grote knop om de prijs te roepen"
+  ],
+  "r3t": "De muziek",
+  "r3l": [
+   "Speelt vanuit je vertrouwde app of speaker",
+   "Zet de playlist op shuffle en geniet",
+   "De titels blijven verborgen op het scherm van de spelleider"
+  ],
+  "featTitle": "Maak het van jou",
+  "featLead": "Elk spel kan er anders uitzien en anders verlopen.",
+  "feats": [
+   [
+    "🃏 Twee soorten kaarten",
+    "3×9 met lege vakjes (15 nummers, zoals bingo met 90 ballen) of 5×5 (25 nummers, zoals bingo met 75 ballen)."
+   ],
+   [
+    "📏 Jouw regels",
+    "Alleen horizontale rijen, of ook verticale (en diagonalen op de 5×5)."
+   ],
+   [
+    "🏆 Prijzen op volgorde",
+    "Rij, twee rijen en volle kaart: zet aan wat je wilt."
+   ],
+   [
+    "⏱ Lengte van de nummers",
+    "Hele nummers of 30 / 45 / 60 / 90 seconden voor een sneller spel."
+   ],
+   [
+    "📸 Fotomoment",
+    "Na elk nummer vult een van je foto’s het scherm, met een grappig onderschrift."
+   ],
+   [
+    "💬 Jouw berichten en taal",
+    "Pas de onderschriften aan voor het spel, geldige en foute roepen. In 8 talen."
+   ]
+  ],
+  "needTitle": "Hoeveel nummers heb ik nodig?",
+  "needLead": "Meer spelers hebben meer nummers nodig, zodat niet iedereen tegelijk wint. Is je playlist kort, dan zegt de app voor hoeveel spelers hij genoeg is.",
+  "thPlayers": "Spelers",
+  "thEs": "3×9-kaart",
+  "thUs": "5×5-kaart",
+  "musicTitle": "Werkt met jouw muziek",
+  "musicLead": "Openbare playlists van deze diensten worden direct geïmporteerd. Elke andere dienst: plak de lijst met nummers.",
+  "thProv": "Dienst",
+  "thImport": "Playlist importeren",
+  "thAuto": "Automatisch aanvinken & play/pauze vanaf het bingoscherm",
+  "prov": [
+   [
+    "Spotify",
+    "y",
+    "Direct (eerste 100 nummers)",
+    "e",
+    "Met de extensie (webspeler)"
+   ],
+   [
+    "Deezer",
+    "y",
+    "Direct",
+    "e",
+    "Met de extensie (webspeler)"
+   ],
+   [
+    "Apple Music",
+    "y",
+    "Direct",
+    "e",
+    "Met de extensie (webspeler)"
+   ],
+   [
+    "YouTube Music",
+    "y",
+    "Direct",
+    "e",
+    "Met de extensie (webspeler)"
+   ],
+   [
+    "Amazon Music",
+    "e",
+    "Met de extensie",
+    "e",
+    "Met de extensie (webspeler)"
+   ],
+   [
+    "Alle andere",
+    "y",
+    "Plak de lijst met nummers",
+    "",
+    "—"
+   ]
+  ],
+  "extTitle": "Meca Bingo Sync (optioneel)",
+  "extLead": "Een browserextensie voor de computer van de spelleider, zodat de avond vanzelf loopt:",
+  "extList": [
+   "Vinkt elk nummer automatisch aan als het speelt",
+   "Afspelen, pauze, volgende en vorige op het bingoscherm",
+   "Werkt met de webspelers van Spotify, Amazon Music, Deezer, YouTube Music en Apple Music",
+   "Amazon Music: importeert de playlist en START speelt de ronde in willekeurige volgorde"
+  ],
+  "extChrome": "Chrome / Edge",
+  "extFirefox": "Firefox",
+  "extSafari": "Safari (binnenkort)",
+  "faqTitle": "Vragen",
+  "faq": [
+   [
+    "Is het gratis?",
+    "Ja. Geen account, geen advertenties, geen tracking."
+   ],
+   [
+    "Hebben spelers een app of account nodig?",
+    "Nee. Ze scannen de QR-code of typen de code van 5 letters in de browser van een willekeurige telefoon en vullen hun naam in."
+   ],
+   [
+    "Kunnen twee spelers dezelfde kaart krijgen?",
+    "Nee. Elke telefoon krijgt een andere kaart en houdt die ook als de pagina herlaadt."
+   ],
+   [
+    "Hoeveel nummers heb ik nodig?",
+    "Meer spelers hebben meer nummers nodig, zodat niet iedereen tegelijk wint: ongeveer 28–38 nummers voor de 3×9-kaart en 48–58 voor de 5×5, afhankelijk van het aantal spelers. Is je playlist kort, dan zegt de app voor hoeveel spelers hij genoeg is."
+   ],
+   [
+    "Kan de spelleider ook meespelen?",
+    "Ja, in de automatische modus: de extensie vinkt de nummers aan en de spelleider ziet nooit de titels, dus kan hij net als iedereen meedoen met zijn telefoon. In de handmatige modus vinkt de spelleider de nummers aan en ziet hij de titels, dus kan hij beter niet meespelen."
+   ],
+   [
+    "Kan ik het spel leiden vanaf mijn telefoon?",
+    "Ja, in de handmatige modus: de muziek kan van elk apparaat komen en je tikt elk nummer aan als het speelt. De automatische modus heeft een computer nodig, omdat de extensie alleen in een computerbrowser werkt. Houd de bingopagina tijdens het spel open op je telefoon."
+   ],
+   [
+    "Hoe worden de roepen gecontroleerd?",
+    "Elk aangevinkt nummer moet al gespeeld hebben, en de vinkjes moeten de prijs compleet maken. Anders toont het scherm van de spelleider NOPE en ziet de speler welk nummer fout was."
+   ],
+   [
+    "Waar staan onze gegevens?",
+    "Alles blijft in de browser van de spelleider; de telefoons maken er rechtstreeks verbinding mee. Jullie foto’s verlaten nooit de computer van de spelleider."
+   ],
+   [
+    "Heb ik de extensie nodig?",
+    "Alleen voor de automatische modus (nummers worden vanzelf aangevinkt, de spelleider kan meespelen) en om playlists van Amazon Music te importeren. De handmatige modus heeft niets nodig."
+   ],
+   [
+    "Heb ik een licentie nodig om in het openbaar muziek te draaien?",
+    "Streamingaccounts zijn voor persoonlijk gebruik. Voor cafés of openbare evenementen: bekijk de regels voor muzieklicenties in je land."
+   ],
+   [
+    "Hoe kan ik contact met jullie opnemen?",
+    "Mail naar info@mecabingo.oscasais.es. Ideeën, bugs en vragen zijn welkom."
+   ]
+  ],
+  "finalTitle": "Klaar voor vanavond?",
+  "finalLead": "Maak in twee minuten een spel aan en deel de QR-code met je vrienden.",
+  "fPrivacy": "Privacy",
+  "fTm": "Niet verbonden aan Spotify, Amazon, Apple, Deezer of YouTube. We hosten of streamen geen muziek.",
+  "fExt": "Extensie",
+  "altHost": "Scherm van de spelleider met code, QR-code en nummerteller",
+  "altPlayer": "Kaart van een speler op een telefoon",
+  "altMoment": "Fotomoment met een groepsfoto en een onderschrift",
+  "metaTitle": "Muziekbingo met vrienden: gratis online muziekbingo · Meca Bingo",
+  "metaDesc": "Maak van een Spotify-, Apple Music-, Deezer- of YouTube Music-playlist een muziekbingo-avond. Een unieke kaart op elke telefoon. Gratis, geen account.",
+  "ogDesc": "Maak van elke openbare playlist een muziekbingo-avond. Unieke kaarten op elke telefoon. Gratis, geen account.",
+  "langName": "Nederlands",
+  "codePh": "CODE",
+  "skip": "Naar de inhoud",
+  "pasteLabel": "Plak de link van een openbare playlist",
+  "pastePh": "open.spotify.com/playlist/…",
+  "pasteBtn": "Verder →",
+  "haveCode": "Uitgenodigd? Vul de code in:",
+  "navModes": "Spelvormen",
+  "modesTitle": "Speel het op jouw manier",
+  "modesLead": "Kies wat telt als rij en als bingo: tik op een vorm, of teken je eigen vorm. De app zegt rond welk nummer elke prijs gewonnen wordt.",
+  "extShort": "Amazon Music, automatisch aanvinken en play/pauze vanaf het bingoscherm hebben de gratis browserextensie nodig.",
+  "extMore": "Download de extensie →",
+  "ctaPaste": "Plak je playlist ↑",
+  "modes": {
+   "line": [
+    "Rij",
+    "Elke rij"
+   ],
+   "two": [
+    "Twee rijen",
+    "Twee willekeurige rijen"
+   ],
+   "corners": [
+    "Vier hoeken",
+    "De 4 hoeken"
+   ],
+   "x": [
+    "X",
+    "Beide diagonalen"
+   ],
+   "stamp": [
+    "Postzegel",
+    "Een vierkant van 2×2 in een hoek"
+   ],
+   "frame": [
+    "Kader",
+    "Alle randen"
+   ],
+   "diamond": [
+    "Ruit",
+    "Een ruit"
+   ],
+   "full": [
+    "Bingo",
+    "De hele kaart"
+   ],
+   "custom": [
+    "Jouw vorm",
+    "Teken hem zelf"
+   ]
+  },
+  "navWays": "Twee manieren van spelen",
+  "waysTitle": "Twee manieren van spelen",
+  "waysLead": "Je kiest het als je het spel aanmaakt, afhankelijk van waar de muziek vandaan komt.",
+  "wayAutoT": "🎧 Automatisch",
+  "wayAutoP": "De muziek speelt in de browser van de computer van de spelleider en de gratis extensie vinkt elk nummer vanzelf aan.",
+  "wayAutoL": [
+   "🎵 Webspeler van Spotify, Amazon Music, Deezer, YouTube Music of Apple Music",
+   "🔊 Het geluid kan via een speaker of de tv aan de computer",
+   "🙋 De spelleider speelt mee: niemand ziet de titels",
+   "💻 Computer met Chrome, Edge of Firefox"
+  ],
+  "wayManT": "✋ Handmatig",
+  "wayManP": "De muziek speelt van waar dan ook en de spelleider tikt elk nummer op het scherm aan als het speelt.",
+  "wayManL": [
+   "🎵 Elke app of elk apparaat: telefoon, speaker, tv, platen…",
+   "✋ De spelleider vinkt de nummers aan, dus speelt niet mee",
+   "📱 Werkt op computer, tablet of telefoon",
+   "🧩 Geen extensie nodig"
+  ],
+  "sticker": "Die heb ik!"
+ },
+ "pl": {
+  "navHow": "Jak to działa",
+  "navFeatures": "Funkcje",
+  "navMusic": "Muzyka",
+  "navExt": "Rozszerzenie",
+  "navFaq": "FAQ",
+  "moodTitle": "Wybierz swój mood",
+  "moodLead": "Wybierz, jak wygląda Meca Bingo. Jeśli prowadzisz grę, gracze zobaczą ten sam styl na swoich telefonach.",
+  "ctaHost": "Prowadź grę",
+  "ctaHostLong": "Utwórz grę →",
+  "ctaJoin": "Dołącz",
+  "heroTitle": "Wieczór muzycznego bingo ze znajomymi",
+  "heroLead": "Wklej playlistę. Każdy znajomy dostaje na telefon inny kupon, a ekran prowadzącego sprawdza każde zgłoszenie.",
+  "heroFree": "Za darmo · bez konta · gracze nie instalują aplikacji · do 30 graczy",
+  "howTitle": "Jak to działa",
+  "howLead": "Jedna osoba prowadzi grę na laptopie lub telewizorze; reszta gra na telefonach.",
+  "s1t": "Wklej playlistę",
+  "s1p": "Ze Spotify, Deezer, Apple Music, YouTube Music lub Amazon Music.",
+  "s2t": "Wybierz nagrody",
+  "s2p": "Linia, dwie linie, rogi, X, pełny kupon… albo narysuj własny kształt.",
+  "s3t": "Znajomi skanują kod QR",
+  "s3p": "Każdy telefon dostaje inny kupon. Bez aplikacji i bez konta.",
+  "s4t": "Słuchaj i zgłaszaj",
+  "s4p": "Gracze stukają to, co słyszą, i zgłaszają nagrodę; ekran prowadzącego mówi WAŻNE albo NOPE.",
+  "r1t": "Prowadzący",
+  "r1l": [
+   "Laptop, tablet lub telewizor, który widzą wszyscy",
+   "Zaznacza piosenkę, która leci (albo robi to rozszerzenie)",
+   "Widzi zgłoszenia, zwycięzców i chwilę na zdjęcie"
+  ],
+  "r2t": "Gracze",
+  "r2l": [
+   "Dowolny telefon z przeglądarką, bez aplikacji",
+   "Stukają piosenki, które rozpoznają",
+   "Jeden duży przycisk do zgłoszenia nagrody"
+  ],
+  "r3t": "Muzyka",
+  "r3l": [
+   "Gra z twojej zwykłej aplikacji lub głośnika",
+   "Włącz playlistę losowo i baw się",
+   "Tytuły zostają ukryte na ekranie prowadzącego"
+  ],
+  "featTitle": "Po twojemu",
+  "featLead": "Każda gra może wyglądać i toczyć się inaczej.",
+  "feats": [
+   [
+    "🃏 Dwa rodzaje kuponów",
+    "3×9 z pustymi polami (15 piosenek, jak bingo na 90 kul) albo 5×5 (25 piosenek, jak bingo na 75 kul)."
+   ],
+   [
+    "📏 Twoje zasady",
+    "Tylko poziome linie albo też pionowe (i przekątne na 5×5)."
+   ],
+   [
+    "🏆 Nagrody po kolei",
+    "Linia, dwie linie i pełny kupon: włącz te, które chcesz."
+   ],
+   [
+    "⏱ Długość piosenek",
+    "Całe piosenki albo 30 / 45 / 60 / 90 sekund, żeby gra szła szybciej."
+   ],
+   [
+    "📸 Chwila na zdjęcie",
+    "Po każdej piosence jedno z twoich zdjęć wypełnia ekran z zabawnym podpisem."
+   ],
+   [
+    "💬 Twoje wiadomości i język",
+    "Zmień podpisy do gry, ważnych nagród i błędnych zgłoszeń. W 8 językach."
+   ]
+  ],
+  "needTitle": "Ile piosenek potrzebuję?",
+  "needLead": "Więcej graczy potrzebuje więcej piosenek, żeby nie wszyscy wygrywali naraz. Jeśli twoja playlista jest krótka, aplikacja powie ci, dla ilu graczy wystarczy.",
+  "thPlayers": "Gracze",
+  "thEs": "Kupon 3×9",
+  "thUs": "Kupon 5×5",
+  "musicTitle": "Działa z twoją muzyką",
+  "musicLead": "Publiczne playlisty z tych serwisów importują się bezpośrednio. Każdy inny serwis: wklej listę piosenek.",
+  "thProv": "Serwis",
+  "thImport": "Import playlisty",
+  "thAuto": "Automatyczne zaznaczanie i play/pauza z ekranu bingo",
+  "prov": [
+   [
+    "Spotify",
+    "y",
+    "Bezpośrednio (pierwsze 100 piosenek)",
+    "e",
+    "Z rozszerzeniem (odtwarzacz webowy)"
+   ],
+   [
+    "Deezer",
+    "y",
+    "Bezpośrednio",
+    "e",
+    "Z rozszerzeniem (odtwarzacz webowy)"
+   ],
+   [
+    "Apple Music",
+    "y",
+    "Bezpośrednio",
+    "e",
+    "Z rozszerzeniem (odtwarzacz webowy)"
+   ],
+   [
+    "YouTube Music",
+    "y",
+    "Bezpośrednio",
+    "e",
+    "Z rozszerzeniem (odtwarzacz webowy)"
+   ],
+   [
+    "Amazon Music",
+    "e",
+    "Z rozszerzeniem",
+    "e",
+    "Z rozszerzeniem (odtwarzacz webowy)"
+   ],
+   [
+    "Każdy inny",
+    "y",
+    "Wklej listę piosenek",
+    "",
+    "—"
+   ]
+  ],
+  "extTitle": "Meca Bingo Sync (opcjonalnie)",
+  "extLead": "Rozszerzenie przeglądarki na komputer prowadzącego, dzięki któremu wieczór toczy się sam:",
+  "extList": [
+   "Automatycznie zaznacza każdą piosenkę, kiedy leci",
+   "Odtwarzanie, pauza, następna i poprzednia na ekranie bingo",
+   "Działa z odtwarzaczami webowymi Spotify, Amazon Music, Deezer, YouTube Music i Apple Music",
+   "Amazon Music: importuje playlistę, a START puszcza rundę losowo"
+  ],
+  "extChrome": "Chrome / Edge",
+  "extFirefox": "Firefox",
+  "extSafari": "Safari (wkrótce)",
+  "faqTitle": "Pytania",
+  "faq": [
+   [
+    "Czy to jest darmowe?",
+    "Tak. Bez konta, bez reklam, bez śledzenia."
+   ],
+   [
+    "Czy gracze potrzebują aplikacji albo konta?",
+    "Nie. Skanują kod QR albo wpisują 5-literowy kod w przeglądarce dowolnego telefonu i podają swoje imię."
+   ],
+   [
+    "Czy dwóch graczy może dostać ten sam kupon?",
+    "Nie. Każdy telefon dostaje inny kupon i zachowuje go nawet po odświeżeniu strony."
+   ],
+   [
+    "Ile piosenek potrzebuję?",
+    "Więcej graczy potrzebuje więcej piosenek, żeby nie wszyscy wygrywali naraz: około 28–38 piosenek dla kuponu 3×9 i 48–58 dla 5×5, zależnie od liczby graczy. Jeśli twoja playlista jest krótka, aplikacja powie ci, dla ilu graczy wystarczy."
+   ],
+   [
+    "Czy prowadzący też może grać?",
+    "Tak, w trybie automatycznym: rozszerzenie zaznacza piosenki, a prowadzący nigdy nie widzi tytułów, więc może dołączyć z telefonu jak wszyscy. W trybie ręcznym prowadzący zaznacza piosenki i widzi tytuły, więc nie powinien grać."
+   ],
+   [
+    "Czy mogę prowadzić grę z telefonu?",
+    "Tak, w trybie ręcznym: muzyka może lecieć z dowolnego urządzenia, a ty stukasz każdą piosenkę, kiedy leci. Tryb automatyczny wymaga komputera, bo rozszerzenie działa tylko w przeglądarce na komputerze. Podczas gry trzymaj stronę bingo otwartą na telefonie."
+   ],
+   [
+    "Jak sprawdzane są zgłoszenia?",
+    "Każda zaznaczona piosenka musiała już lecieć, a zaznaczenia muszą tworzyć nagrodę. W przeciwnym razie ekran prowadzącego pokazuje NOPE, a gracz widzi, która piosenka była błędna."
+   ],
+   [
+    "Gdzie są nasze dane?",
+    "Wszystko zostaje w przeglądarce prowadzącego; telefony łączą się z nią bezpośrednio. Wasze zdjęcia nigdy nie opuszczają komputera prowadzącego."
+   ],
+   [
+    "Czy potrzebuję rozszerzenia?",
+    "Tylko do trybu automatycznego (piosenki zaznaczają się same, prowadzący może grać) i do importu playlist z Amazon Music. Tryb ręczny nie wymaga niczego."
+   ],
+   [
+    "Czy potrzebuję licencji, żeby puszczać muzykę publicznie?",
+    "Konta streamingowe są do użytku osobistego. W barach czy na imprezach publicznych sprawdź przepisy o licencjach muzycznych w twoim kraju."
+   ],
+   [
+    "Jak się z wami skontaktować?",
+    "Napisz na info@mecabingo.oscasais.es. Pomysły, błędy i pytania są mile widziane."
+   ]
+  ],
+  "finalTitle": "Gotowi na dzisiejszy wieczór?",
+  "finalLead": "Utwórz grę w dwie minuty i udostępnij kod QR znajomym.",
+  "fPrivacy": "Prywatność",
+  "fTm": "Nie jesteśmy powiązani ze Spotify, Amazon, Apple, Deezer ani YouTube. Nie hostujemy ani nie streamujemy muzyki.",
+  "fExt": "Rozszerzenie",
+  "altHost": "Ekran prowadzącego z kodem, kodem QR i licznikiem piosenek",
+  "altPlayer": "Kupon gracza na telefonie",
+  "altMoment": "Chwila na zdjęcie ze zdjęciem grupowym i podpisem",
+  "metaTitle": "Muzyczne bingo ze znajomymi: darmowe bingo online · Meca Bingo",
+  "metaDesc": "Zamień playlistę ze Spotify, Apple Music, Deezer lub YouTube Music w wieczór muzycznego bingo. Unikalny kupon na każdym telefonie. Za darmo, bez konta.",
+  "ogDesc": "Zamień dowolną publiczną playlistę w wieczór muzycznego bingo. Unikalne kupony na każdym telefonie. Za darmo, bez konta.",
+  "langName": "Polski",
+  "codePh": "KOD",
+  "skip": "Przejdź do treści",
+  "pasteLabel": "Wklej link do publicznej playlisty",
+  "pastePh": "open.spotify.com/playlist/…",
+  "pasteBtn": "Dalej →",
+  "haveCode": "Masz zaproszenie? Wpisz kod:",
+  "navModes": "Tryby gry",
+  "modesTitle": "Graj po swojemu",
+  "modesLead": "Wybierz, co liczy się jako linia, a co jako bingo: stuknij kształt albo narysuj własny. Aplikacja powie ci, około której piosenki padnie każda nagroda.",
+  "extShort": "Amazon Music, automatyczne zaznaczanie i play/pauza z ekranu bingo wymagają darmowego rozszerzenia przeglądarki.",
+  "extMore": "Pobierz rozszerzenie →",
+  "ctaPaste": "Wklej swoją playlistę ↑",
+  "modes": {
+   "line": [
+    "Linia",
+    "Dowolny rząd"
+   ],
+   "two": [
+    "Dwie linie",
+    "Dowolne dwa rzędy"
+   ],
+   "corners": [
+    "Cztery rogi",
+    "4 rogi"
+   ],
+   "x": [
+    "X",
+    "Obie przekątne"
+   ],
+   "stamp": [
+    "Znaczek",
+    "Kwadrat 2×2 w rogu"
+   ],
+   "frame": [
+    "Ramka",
+    "Wszystkie krawędzie"
+   ],
+   "diamond": [
+    "Romb",
+    "Romb"
+   ],
+   "full": [
+    "Bingo",
+    "Cały kupon"
+   ],
+   "custom": [
+    "Twój kształt",
+    "Narysuj go sam"
+   ]
+  },
+  "navWays": "Dwa sposoby gry",
+  "waysTitle": "Dwa sposoby gry",
+  "waysLead": "Wybierasz przy tworzeniu gry, zależnie od tego, skąd leci muzyka.",
+  "wayAutoT": "🎧 Automatycznie",
+  "wayAutoP": "Muzyka gra w przeglądarce na komputerze prowadzącego, a darmowe rozszerzenie samo zaznacza każdą piosenkę.",
+  "wayAutoL": [
+   "🎵 Odtwarzacz webowy Spotify, Amazon Music, Deezer, YouTube Music lub Apple Music",
+   "🔊 Dźwięk może iść przez głośnik lub telewizor podłączony do komputera",
+   "🙋 Prowadzący też gra: nikt nie widzi tytułów",
+   "💻 Komputer z Chrome, Edge lub Firefox"
+  ],
+  "wayManT": "✋ Ręcznie",
+  "wayManP": "Muzyka gra z dowolnego miejsca, a prowadzący stuka każdą piosenkę na ekranie, kiedy leci.",
+  "wayManL": [
+   "🎵 Dowolna aplikacja lub urządzenie: telefon, głośnik, telewizor, winyle…",
+   "✋ Prowadzący zaznacza piosenki, więc nie gra",
+   "📱 Działa na komputerze, tablecie i telefonie",
+   "🧩 Rozszerzenie niepotrzebne"
+  ],
+  "sticker": "Mam to!"
+ },
+ "sk": {
+  "navHow": "Ako to funguje",
+  "navFeatures": "Funkcie",
+  "navMusic": "Hudba",
+  "navExt": "Rozšírenie",
+  "navFaq": "FAQ",
+  "moodTitle": "Vyber si svoj mood",
+  "moodLead": "Vyber si, ako bude Meca Bingo vyzerať. Keď moderuješ ty, hráči uvidia rovnaký štýl na svojich mobiloch.",
+  "ctaHost": "Moderovať hru",
+  "ctaHostLong": "Vytvoriť hru →",
+  "ctaJoin": "Pridať sa",
+  "heroTitle": "Večer hudobného binga s kamarátmi",
+  "heroLead": "Vlož playlist. Každý kamarát dostane do mobilu iný tiket a obrazovka moderátora skontroluje každé ohlásenie.",
+  "heroFree": "Zadarmo · bez účtu · hráči nič neinštalujú · najviac 30 hráčov",
+  "howTitle": "Ako to funguje",
+  "howLead": "Jeden človek moderuje na notebooku alebo televízore; všetci ostatní hrajú z mobilu.",
+  "s1t": "Vlož playlist",
+  "s1p": "Zo Spotify, Deezer, Apple Music, YouTube Music alebo Amazon Music.",
+  "s2t": "Vyber výhry",
+  "s2p": "Rad, dva rady, rohy, X, plný tiket… alebo si nakresli vlastný tvar.",
+  "s3t": "Kamaráti naskenujú QR kód",
+  "s3p": "Každý mobil dostane iný tiket. Bez aplikácie, bez účtu.",
+  "s4t": "Počúvaj a ohlasuj",
+  "s4p": "Hráči ťukajú, čo počujú, a ohlásia výhru; obrazovka moderátora povie PLATÍ alebo NOPE.",
+  "r1t": "Moderátor",
+  "r1l": [
+   "Notebook, tablet alebo televízor, ktorý vidia všetci",
+   "Označí pesničku, ktorá hrá (alebo to spraví rozšírenie)",
+   "Vidí ohlásenia, víťazov a fotochvíľku"
+  ],
+  "r2t": "Hráči",
+  "r2l": [
+   "Akýkoľvek mobil s prehliadačom, bez aplikácie",
+   "Ťukajú pesničky, ktoré spoznajú",
+   "Jedno veľké tlačidlo na ohlásenie výhry"
+  ],
+  "r3t": "Hudba",
+  "r3l": [
+   "Hrá z tvojej obvyklej aplikácie alebo reproduktora",
+   "Pusti playlist náhodne a uži si to",
+   "Názvy pesničiek zostanú na obrazovke moderátora skryté"
+  ],
+  "featTitle": "Po tvojom",
+  "featLead": "Každá hra môže vyzerať aj prebiehať inak.",
+  "feats": [
+   [
+    "🃏 Dva typy tiketov",
+    "3×9 s prázdnymi políčkami (15 pesničiek, ako bingo s 90 guľami) alebo 5×5 (25 pesničiek, ako bingo so 75 guľami)."
+   ],
+   [
+    "📏 Tvoje pravidlá",
+    "Iba vodorovné rady, alebo aj zvislé (a uhlopriečky na 5×5)."
+   ],
+   [
+    "🏆 Výhry v poradí",
+    "Rad, dva rady a plný tiket: zapni tie, ktoré chceš."
+   ],
+   [
+    "⏱ Dĺžka pesničiek",
+    "Celé pesničky alebo 30 / 45 / 60 / 90 sekúnd pre rýchlejšiu hru."
+   ],
+   [
+    "📸 Fotochvíľka",
+    "Po každej pesničke vyplní obrazovku jedna z tvojich fotiek s vtipným popisom."
+   ],
+   [
+    "💬 Tvoje správy a jazyk",
+    "Uprav popisy počas hry, pri platných výhrach a zlých ohláseniach. V 8 jazykoch."
+   ]
+  ],
+  "needTitle": "Koľko pesničiek potrebujem?",
+  "needLead": "Viac hráčov potrebuje viac pesničiek, aby nevyhrali všetci naraz. Ak je tvoj playlist krátky, aplikácia ti povie, pre koľko hráčov stačí.",
+  "thPlayers": "Hráči",
+  "thEs": "Tiket 3×9",
+  "thUs": "Tiket 5×5",
+  "musicTitle": "Funguje s tvojou hudbou",
+  "musicLead": "Verejné playlisty z týchto služieb sa importujú priamo. Akákoľvek iná služba: vlož zoznam pesničiek.",
+  "thProv": "Služba",
+  "thImport": "Import playlistu",
+  "thAuto": "Automatické označovanie a play/pauza z obrazovky binga",
+  "prov": [
+   [
+    "Spotify",
+    "y",
+    "Priamo (prvých 100 pesničiek)",
+    "e",
+    "S rozšírením (webový prehrávač)"
+   ],
+   [
+    "Deezer",
+    "y",
+    "Priamo",
+    "e",
+    "S rozšírením (webový prehrávač)"
+   ],
+   [
+    "Apple Music",
+    "y",
+    "Priamo",
+    "e",
+    "S rozšírením (webový prehrávač)"
+   ],
+   [
+    "YouTube Music",
+    "y",
+    "Priamo",
+    "e",
+    "S rozšírením (webový prehrávač)"
+   ],
+   [
+    "Amazon Music",
+    "e",
+    "S rozšírením",
+    "e",
+    "S rozšírením (webový prehrávač)"
+   ],
+   [
+    "Akákoľvek iná",
+    "y",
+    "Vlož zoznam pesničiek",
+    "",
+    "—"
+   ]
+  ],
+  "extTitle": "Meca Bingo Sync (voliteľné)",
+  "extLead": "Rozšírenie prehliadača pre počítač moderátora, vďaka ktorému večer beží sám:",
+  "extList": [
+   "Automaticky označí každú pesničku, keď hrá",
+   "Prehrať, pauza, ďalšia a predchádzajúca na obrazovke binga",
+   "Funguje s webovými prehrávačmi Spotify, Amazon Music, Deezer, YouTube Music a Apple Music",
+   "Amazon Music: importuje playlist a START pustí kolo náhodne"
+  ],
+  "extChrome": "Chrome / Edge",
+  "extFirefox": "Firefox",
+  "extSafari": "Safari (čoskoro)",
+  "faqTitle": "Otázky",
+  "faq": [
+   [
+    "Je to zadarmo?",
+    "Áno. Bez účtu, bez reklám, bez sledovania."
+   ],
+   [
+    "Potrebujú hráči aplikáciu alebo účet?",
+    "Nie. Naskenujú QR kód alebo napíšu 5-písmenový kód do prehliadača v akomkoľvek mobile a zadajú svoje meno."
+   ],
+   [
+    "Môžu dvaja hráči dostať rovnaký tiket?",
+    "Nie. Každý mobil dostane iný tiket a ponechá si ho, aj keď sa stránka znova načíta."
+   ],
+   [
+    "Koľko pesničiek potrebujem?",
+    "Viac hráčov potrebuje viac pesničiek, aby nevyhrali všetci naraz: asi 28–38 pesničiek pre tiket 3×9 a 48–58 pre 5×5, podľa počtu hráčov. Ak je tvoj playlist krátky, aplikácia ti povie, pre koľko hráčov stačí."
+   ],
+   [
+    "Môže moderátor hrať tiež?",
+    "Áno, v automatickom režime: rozšírenie označuje pesničky a moderátor nikdy nevidí ich názvy, takže sa môže pridať z mobilu ako všetci ostatní. V ručnom režime moderátor označuje pesničky a vidí ich názvy, takže by nemal hrať."
+   ],
+   [
+    "Môžem moderovať z mobilu?",
+    "Áno, v ručnom režime: hudba môže hrať z akéhokoľvek zariadenia a každú pesničku ťukneš, keď zaznie. Automatický režim potrebuje počítač, lebo rozšírenie funguje iba v prehliadači na počítači. Počas hry nechaj stránku binga otvorenú v mobile."
+   ],
+   [
+    "Ako sa kontrolujú ohlásenia?",
+    "Každá označená pesnička už musela hrať a označenia musia tvoriť výhru. Inak obrazovka moderátora ukáže NOPE a hráč uvidí, ktorá pesnička bola zlá."
+   ],
+   [
+    "Kde sú naše dáta?",
+    "Všetko zostáva v prehliadači moderátora; mobily sa k nemu pripájajú priamo. Vaše fotky nikdy neopustia počítač moderátora."
+   ],
+   [
+    "Potrebujem rozšírenie?",
+    "Iba pre automatický režim (pesničky sa označia samy, moderátor môže hrať) a na import playlistov z Amazon Music. Ručný režim nepotrebuje nič."
+   ],
+   [
+    "Potrebujem licenciu na púšťanie hudby na verejnosti?",
+    "Streamingové účty sú na osobné použitie. Pre bary alebo verejné podujatia si over pravidlá hudobných licencií vo svojej krajine."
+   ],
+   [
+    "Ako vás kontaktovať?",
+    "Napíš na info@mecabingo.oscasais.es. Nápady, chyby aj otázky sú vítané."
+   ]
+  ],
+  "finalTitle": "Pripravení na dnešný večer?",
+  "finalLead": "Vytvor hru za dve minúty a zdieľaj QR kód s kamarátmi.",
+  "fPrivacy": "Súkromie",
+  "fTm": "Nie sme spojení so Spotify, Amazon, Apple, Deezer ani YouTube. Hudbu nehostujeme ani nestreamujeme.",
+  "fExt": "Rozšírenie",
+  "altHost": "Obrazovka moderátora s kódom, QR kódom a počítadlom pesničiek",
+  "altPlayer": "Tiket hráča v mobile",
+  "altMoment": "Fotochvíľka so skupinovou fotkou a popisom",
+  "metaTitle": "Hudobné bingo s kamarátmi: hudobné bingo online zadarmo · Meca Bingo",
+  "metaDesc": "Sprav z playlistu zo Spotify, Apple Music, Deezer alebo YouTube Music večer hudobného binga. Jedinečný tiket v každom mobile. Zadarmo, bez účtu.",
+  "ogDesc": "Sprav z hocijakého verejného playlistu večer hudobného binga. Jedinečné tikety v každom mobile. Zadarmo, bez účtu.",
+  "langName": "Slovenčina",
+  "codePh": "KÓD",
+  "skip": "Preskočiť na obsah",
+  "pasteLabel": "Vlož odkaz na verejný playlist",
+  "pastePh": "open.spotify.com/playlist/…",
+  "pasteBtn": "Pokračovať →",
+  "haveCode": "Máš pozvánku? Zadaj kód:",
+  "navModes": "Herné režimy",
+  "modesTitle": "Hraj po svojom",
+  "modesLead": "Vyber, čo sa počíta ako rad a čo ako bingo: ťukni na tvar alebo si nakresli vlastný. Aplikácia ti povie, okolo ktorej pesničky padne každá výhra.",
+  "extShort": "Amazon Music, automatické označovanie a play/pauza z obrazovky binga potrebujú bezplatné rozšírenie prehliadača.",
+  "extMore": "Získať rozšírenie →",
+  "ctaPaste": "Vlož svoj playlist ↑",
+  "modes": {
+   "line": [
+    "Rad",
+    "Ľubovoľný rad"
+   ],
+   "two": [
+    "Dva rady",
+    "Ľubovoľné dva rady"
+   ],
+   "corners": [
+    "Štyri rohy",
+    "Štyri rohy"
+   ],
+   "x": [
+    "X",
+    "Obe uhlopriečky"
+   ],
+   "stamp": [
+    "Známka",
+    "Štvorec 2×2 v rohu"
+   ],
+   "frame": [
+    "Rámik",
+    "Všetky okraje"
+   ],
+   "diamond": [
+    "Kosoštvorec",
+    "Kosoštvorec"
+   ],
+   "full": [
+    "Bingo",
+    "Celý tiket"
+   ],
+   "custom": [
+    "Tvoj tvar",
+    "Nakresli si ho sám"
+   ]
+  },
+  "navWays": "Dva spôsoby hry",
+  "waysTitle": "Dva spôsoby hry",
+  "waysLead": "Vyberieš si pri vytváraní hry, podľa toho, odkiaľ hrá hudba.",
+  "wayAutoT": "🎧 Automaticky",
+  "wayAutoP": "Hudba hrá v prehliadači na počítači moderátora a bezplatné rozšírenie samo označí každú pesničku.",
+  "wayAutoL": [
+   "🎵 Webový prehrávač Spotify, Amazon Music, Deezer, YouTube Music alebo Apple Music",
+   "🔊 Môže hrať cez reproduktor alebo televízor pripojený k počítaču",
+   "🙋 Moderátor hrá tiež: nikto nevidí názvy pesničiek",
+   "💻 Počítač s Chrome, Edge alebo Firefox"
+  ],
+  "wayManT": "✋ Ručne",
+  "wayManP": "Hudba hrá odkiaľkoľvek a moderátor ťukne každú pesničku na obrazovke, keď hrá.",
+  "wayManL": [
+   "🎵 Akákoľvek aplikácia či zariadenie: mobil, reproduktor, televízor, platne…",
+   "✋ Moderátor označuje pesničky, takže nehrá",
+   "📱 Funguje na počítači, tablete aj mobile",
+   "🧩 Rozšírenie netreba"
+  ],
+  "sticker": "Tú mám!"
  }
 }

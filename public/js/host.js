@@ -348,7 +348,7 @@
   function publicState() {
     const cur = currentPrize();
     const prizes = S.cfg.prizes.map((p, k) => ({ name: prizeTitle(k), pat: p.pat }));
-    return { t: 'state', lang, prize: cur, prizes, fmt: S.cfg.fmt, free: S.cfg.fmt === 'us' && !!S.cfg.freeCenter, winners: Object.fromEntries(Object.entries(S.awarded).map(([k, v]) => [k, v.names])), over: cur === null };
+    return { t: 'state', lang, skin: window.Skin ? Skin.get() : undefined, prize: cur, prizes, fmt: S.cfg.fmt, free: S.cfg.fmt === 'us' && !!S.cfg.freeCenter, winners: Object.fromEntries(Object.entries(S.awarded).map(([k, v]) => [k, v.names])), over: cur === null };
   }
   function onMessage(cid, m, reply) {
     if (!m || !m.t) return;
@@ -485,6 +485,7 @@
   function ask(title, text, fn) { $('mTitle').textContent = title; $('mText').textContent = text; $('mNo').textContent = t.cancel; $('mYes').textContent = t.confirm; $('modal').classList.add('on'); $('mYes').onclick = () => { $('modal').classList.remove('on'); fn(); }; }
 
   // ---------------- events ----------------
+  addEventListener('skinchange', () => { if (S.phase === 'game' && net) net.broadcast(publicState()); });
   $('lang').onchange = () => {
     const old = I18N.get(lang); lang = $('lang').value; store.set('meca-lang', lang);
     // switch the default messages too, unless the host already edited them

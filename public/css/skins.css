@@ -1,0 +1,214 @@
+/* Skins (themes), from the "Meca Bingo · 4 skins" design canvas. The default skin is "pista"
+   (js/skin.js); app.css :root holds the tokens of the original look, shown as "clasico".
+   A skin is chosen with <html data-skin="…"> (js/skin.js): it overrides tokens plus a few shape
+   rules and turns on its decorations. Add a skin = a block here + its name in js/skin.js.
+   Decorations (hidden unless their skin is on): .ball .neon (pista) · .topband .sticker (verbena)
+   · .faroles .volante (feria; js/skin.js adds .faroles to every page). */
+
+/* ======================= B · Disco 80 / Pista de baile (default) ======================= */
+html[data-skin=pista]{
+  --bg:#0e0b1f;--panel:#1a1533;--panel2:#241e42;--line:#3a3260;--txt:#f4f1ff;--mut:#ada7cc;
+  --pink:#ff8cc6;--cyan:#2de2e6;--yel:#ffe45c;--green:#3ef08a;--violet:#c3a3ff;--paper:#fbf8f1;
+  --hi:#ffe45c;--acc-txt:#2de2e6;--ok-txt:#3ef08a;--bad-txt:#ff8cc6;
+  --on-cy:#0e0b1f;--on-yel:#0e0b1f;--on-green:#0e0b1f;--on-hot:#0e0b1f;--on-cell:#0e0b1f;
+  --hot:#ff8cc6;--cell-on:var(--lit,#ff8cc6);--cell-on-sh:0 0 18px var(--lit,#ff8cc6);
+  --soft:#ffffff10;--soft2:#ffffff3a;--scrim:#0e0b1fee;--bw:2px;
+  --now-bg:linear-gradient(135deg,#2a1450,#0f2a40);--moment-bg:radial-gradient(circle at 50% 40%,#2a1450f5,#05030cfc 70%);
+  --bg-img:radial-gradient(circle at 15% -10%,#ff3ea52e 0,transparent 42%),radial-gradient(circle at 110% 10%,#2de2e624 0,transparent 40%);
+  --f-disp:'Audiowide','Bricolage Grotesque',sans-serif;--f-body:'Outfit',Inter,system-ui,sans-serif;--f-neon:'Monoton','Audiowide',sans-serif;
+  --glow-pink:0 0 18px #ff3ea5a6;--glow-yel:0 0 18px #ffe45c8c;--glow-cy:0 0 14px #2de2e673;
+  font-synthesis:none
+}
+/* type: Audiowide for titles, Outfit for small headings, Monoton only for the neon signs */
+html[data-skin=pista] h1,html[data-skin=pista] h2,html[data-skin=pista] .disp{font-weight:400;letter-spacing:0}
+html[data-skin=pista] h3{font-family:var(--f-body);font-weight:600;letter-spacing:0}
+html[data-skin=pista] .hero h1{font-size:clamp(28px,3.4vw,40px);line-height:1.15}
+html[data-skin=pista] .pastebox h2,html[data-skin=pista] .res h2{font-family:var(--f-neon);font-weight:400;color:var(--pink);text-shadow:var(--glow-pink)}
+html[data-skin=pista] .res.ok h2{color:var(--yel);text-shadow:var(--glow-yel)}
+html[data-skin=pista] nav .logo,html[data-skin=pista] .top h1,html[data-skin=pista] .head h1{color:var(--pink);text-shadow:var(--glow-pink)}
+html[data-skin=pista] .grad{background:none;color:var(--yel);text-shadow:var(--glow-yel)}
+html[data-skin=pista] label.lbl,html[data-skin=pista] th{font-family:var(--f-disp);font-weight:400;letter-spacing:2px}
+html[data-skin=pista] .btn{border-radius:8px;border-width:2px}
+html[data-skin=pista] .btn.big{box-shadow:0 0 24px #ff3ea599}
+html[data-skin=pista] .btn.cy{background:transparent;border:2px solid var(--cyan);color:var(--cyan);box-shadow:var(--glow-cy)}
+html[data-skin=pista] .card{border-radius:12px}
+html[data-skin=pista] .steps .card:nth-child(4n+1),html[data-skin=pista] .roles .card:nth-child(3n+1){border-color:var(--pink)}
+html[data-skin=pista] .steps .card:nth-child(4n+2),html[data-skin=pista] .roles .card:nth-child(3n+2){border-color:var(--cyan)}
+html[data-skin=pista] .steps .card:nth-child(4n+3),html[data-skin=pista] .roles .card:nth-child(3n){border-color:var(--yel)}
+html[data-skin=pista] .steps .card:nth-child(4n){border-color:var(--violet)}
+html[data-skin=pista] .steps .card::before{font-family:var(--f-neon);font-weight:400}
+html[data-skin=pista] .final{background:var(--yel);color:#0e0b1f;border-radius:12px;padding:44px 24px;margin-top:60px}
+html[data-skin=pista] .final .lead{color:#2a2448}
+html[data-skin=pista] .final .btn.big{background:#0e0b1f;color:var(--yel);box-shadow:none}
+/* every marked song lights up its tile in one of four neon colours */
+html[data-skin=pista] .cell:not(.on):not(.gap):not(.free){background:#241e42;border-color:#3a3260}
+html[data-skin=pista] .cell{--cell-on:var(--lit);--cell-on-sh:0 0 18px var(--lit)}
+html[data-skin=pista] .cell.on{border:2px solid var(--lit,#ff8cc6)}
+html[data-skin=pista] .cell:nth-child(4n+1){--lit:#ff8cc6}
+html[data-skin=pista] .cell:nth-child(4n+2){--lit:#2de2e6}
+html[data-skin=pista] .cell:nth-child(4n+3){--lit:#ffe45c}
+html[data-skin=pista] .cell:nth-child(4n){--lit:#c3a3ff}
+html[data-skin=pista] .cell.on .ar{opacity:.8}
+/* disco ball and the MECA BINGO neon sign over the landing title */
+.ball,.neon{display:none}
+html[data-skin=pista] .ball{display:block;position:relative;width:92px;height:92px;margin:40px 0 18px 4px}
+html[data-skin=pista] .ball::before{content:'';position:absolute;left:45px;top:-44px;width:2px;height:44px;background:#ada7cc}
+html[data-skin=pista] .ball i{display:block;width:92px;height:92px;border-radius:50%;background-color:#b9b6cc;background-image:repeating-linear-gradient(90deg,#0e0b1f8c 0 2px,transparent 2px 12px),repeating-linear-gradient(0deg,#0e0b1f8c 0 2px,transparent 2px 12px),radial-gradient(circle at 35% 30%,#fff 0 10%,#d9d6e8 22%,#6e6891 70%,#2a2545 100%);box-shadow:0 0 40px #ffffff40;animation:ballspin 4s linear infinite}
+html[data-skin=pista] .ball b{position:absolute;width:18px;height:18px;background:linear-gradient(var(--c),var(--c)) center/2px 100% no-repeat,linear-gradient(var(--c),var(--c)) center/100% 2px no-repeat;animation:twinkle 1.6s ease-in-out infinite}
+html[data-skin=pista] .ball b:nth-of-type(1){--c:#ffe45c;right:-20px;top:4px}
+html[data-skin=pista] .ball b:nth-of-type(2){--c:#2de2e6;left:-22px;bottom:10px;width:13px;height:13px;animation-duration:2.1s}
+html[data-skin=pista] .neon{display:block;font:400 clamp(52px,7.4vw,96px)/.95 var(--f-neon);color:var(--pink);text-shadow:var(--glow-pink);margin-bottom:14px}
+html[data-skin=pista] .neon span{color:var(--yel);text-shadow:var(--glow-yel)}
+@keyframes ballspin{to{background-position:72px 0,0 0,0 0}}
+@keyframes twinkle{0%,100%{opacity:.25}50%{opacity:1}}
+@media (max-width:860px){html[data-skin=pista] .ball{display:none}}
+
+/* ======================= A · Verbena: paper card, bottle green, red stamp ======================= */
+html[data-skin=verbena]{
+  --bg:#f3ebdd;--panel:#fffbf2;--panel2:#f3ebdd;--line:#d9ccb4;--txt:#2a2520;--mut:#54493e;
+  --pink:#9a3119;--cyan:#174a3a;--yel:#e3a72f;--green:#2e7d4f;--paper:#fffbf2;
+  --hi:#9a3119;--acc-txt:#174a3a;--ok-txt:#1e6b40;--bad-txt:#9a3119;
+  --on-cy:#f3ebdd;--on-yel:#2a2520;--on-green:#fff;--on-hot:#fff;--on-cell:var(--txt);
+  --hot:#9a3119;--cell-on:#fffbf2;--cell-on-sh:none;
+  --soft:#2a25200d;--soft2:#2a252030;--scrim:#f3ebddf2;--bw:1.5px;
+  --now-bg:#fffbf2;--moment-bg:radial-gradient(circle at 50% 40%,#f3ebddf5,#e6dac4fc 70%);
+  --bg-img:none;
+  --f-disp:'Alfa Slab One',Georgia,serif;--f-body:'Work Sans',Inter,system-ui,sans-serif;
+  font-synthesis:none;color-scheme:light
+}
+html[data-skin=verbena] h1,html[data-skin=verbena] h2,html[data-skin=verbena] .disp{font-weight:400;letter-spacing:0;color:var(--cyan)}
+html[data-skin=verbena] h3{font-family:var(--f-body);font-weight:600;letter-spacing:0}
+html[data-skin=verbena] .grad{background:none;color:inherit}
+html[data-skin=verbena] .btn{border-radius:4px}
+html[data-skin=verbena] .card{border-radius:4px;border:0;box-shadow:0 1px 0 #d9ccb4,0 14px 32px #2a252019}
+html[data-skin=verbena] .modal>div{border-radius:4px}
+html[data-skin=verbena] .pill{border-color:var(--cyan);color:var(--cyan)}
+/* steps: big red numbers, dashed rules, no boxes */
+html[data-skin=verbena] .steps .card{background:none;box-shadow:none;border-top:2px dashed #cbb99a;border-radius:0;padding:26px 4px 8px}
+html[data-skin=verbena] .steps .card::before{content:'0' counter(s);background:none;color:var(--pink);font:400 34px var(--f-disp);width:auto;height:auto;top:-6px;left:4px}
+html[data-skin=verbena] #how,html[data-skin=verbena] #mood{border-top:2px dashed #cbb99a;margin-top:40px}
+html[data-skin=verbena] .final{background:var(--cyan);color:var(--bg);border-radius:4px;padding:44px 24px;margin-top:60px}
+html[data-skin=verbena] .final h2{color:var(--bg)}
+html[data-skin=verbena] .final .lead{color:#e9e1d2}
+html[data-skin=verbena] .final .btn.big{background:var(--yel);color:#2a2520}
+/* the card is a paper sheet with ruled squares; a marked song gets a red rubber stamp */
+html[data-skin=verbena] .cell{border-radius:0;background:#fffbf2;border-color:#e2d6c1;color:var(--txt)}
+html[data-skin=verbena] .cell.on{background:#fffbf2;color:var(--txt);border-color:#e2d6c1}
+html[data-skin=verbena] .cell.on::after{content:'';position:absolute;left:50%;top:50%;width:min(88%,calc(var(--cellH,72px) - 8px));aspect-ratio:1;border-radius:50%;border:3px solid #9a3119;transform:translate(-50%,-50%);opacity:.85;pointer-events:none;border-left-width:4px;border-bottom-width:2px}
+html[data-skin=verbena] .cell.on .ar{color:var(--mut)}
+/* green ribbon on top of the landing and the "I've got that one!" sticker */
+.topband,.sticker{display:none}
+html[data-skin=verbena] .topband{display:block;background:#174a3a;color:#f3ebdd;text-align:center;font:500 13.5px var(--f-body);letter-spacing:1.5px;text-transform:uppercase;padding:9px 16px}
+html[data-skin=verbena] .sticker{display:flex;position:absolute;top:-30px;right:-8px;z-index:2;width:104px;height:104px;border-radius:50%;background:#e3a72f;color:#2a2520;align-items:center;justify-content:center;text-align:center;font:400 17px/1.05 var(--f-disp);padding:10px;transform:rotate(10deg);box-shadow:0 8px 20px #2a252033}
+html[data-skin=verbena] .shots .tv{transform:rotate(1deg)}
+
+/* ======================= D · Feria flamenca: lunares, volantes y farolillos ======================= */
+html[data-skin=feria]{
+  --bg:#fff6ec;--panel:#ffffff;--panel2:#fff6ec;--line:#e4d3c3;--txt:#1a1414;--mut:#5a4a44;
+  --pink:#9c0e25;--cyan:#1a1414;--yel:#e9b44c;--green:#0a5440;--paper:#fff6ec;
+  --hi:#9c0e25;--acc-txt:#9c0e25;--ok-txt:#0a5440;--bad-txt:#9c0e25;
+  --on-cy:#fff6ec;--on-yel:#1a1414;--on-green:#fff6ec;--on-hot:#fff6ec;--on-cell:#fff6ec;
+  --hot:#9c0e25;--cell-on:radial-gradient(circle,#9c0e25 0 68%,#fff6ec 69%);--cell-on-sh:none;
+  --soft:#1a14140d;--soft2:#1a141430;--scrim:#fff6ecf2;--bw:1.5px;
+  --now-bg:#fff;--moment-bg:radial-gradient(circle at 50% 40%,#fff6ecf5,#f3e2cefc 70%);
+  /* faint polka dots on every page */
+  --bg-img:radial-gradient(circle,#9c0e2512 0 7px,transparent 8px),radial-gradient(circle,#9c0e2512 0 7px,transparent 8px);
+  --f-disp:'Abril Fatface',Georgia,serif;--f-body:'DM Sans',Inter,system-ui,sans-serif;
+  --lunares:radial-gradient(circle,#fff6ec 0 9px,transparent 10px) 0 0/64px 64px,radial-gradient(circle,#fff6ec 0 9px,transparent 10px) 32px 32px/64px 64px,#9c0e25;
+  font-synthesis:none;color-scheme:light
+}
+html[data-skin=feria] body{background-size:64px 64px;background-position:0 0,32px 32px;background-attachment:scroll}
+html[data-skin=feria] h1,html[data-skin=feria] h2,html[data-skin=feria] .disp{font-weight:400;letter-spacing:0;color:var(--pink)}
+html[data-skin=feria] h3{font-family:var(--f-body);font-weight:700;letter-spacing:0}
+html[data-skin=feria] .grad{background:none;color:inherit}
+html[data-skin=feria] .btn{border-radius:999px}
+html[data-skin=feria] .card{border-radius:6px;border:0;box-shadow:0 1px 0 #e4d3c3,0 10px 26px #1a141412}
+html[data-skin=feria] .modal>div{border-radius:6px}
+/* steps: white cards with a coloured top edge and a round number, like the design */
+html[data-skin=feria] .steps .card{border-top:6px solid var(--k,#9c0e25)}
+html[data-skin=feria] .steps .card::before{background:var(--k,#9c0e25);color:var(--kt,#fff6ec);font:400 20px var(--f-disp);width:40px;height:40px;top:-20px}
+html[data-skin=feria] .steps .card:nth-child(4n+2){--k:#0a5440}
+html[data-skin=feria] .steps .card:nth-child(4n+3){--k:#e9b44c;--kt:#1a1414}
+html[data-skin=feria] .steps .card:nth-child(4n){--k:#1a1414}
+html[data-skin=feria] .final{background:var(--green);color:var(--bg);border-radius:6px;padding:44px 24px;margin-top:60px}
+html[data-skin=feria] .final h2{color:var(--bg)}
+html[data-skin=feria] .final .lead{color:#e3efe9}
+html[data-skin=feria] .final .btn.big{background:var(--yel);color:#1a1414}
+/* landing hero on a red polka-dot band, text on a red panel, ruffles under it */
+html[data-skin=feria] .hero{position:relative;isolation:isolate;padding-bottom:56px}
+html[data-skin=feria] .hero::before{content:'';position:absolute;z-index:-1;top:20px;bottom:0;left:calc(50% - 50vw);width:100vw;background:var(--lunares)}
+html[data-skin=feria] .hero>div:first-child{background:#9c0e25;color:#fff6ec;padding:28px 30px;border-radius:6px}
+html[data-skin=feria] .hero h1{color:#fff6ec}
+html[data-skin=feria] .hero .lead,html[data-skin=feria] .hero .plbl,html[data-skin=feria] .hero .join{color:#fff6ec}
+html[data-skin=feria] .hero .btn.big{background:#fff6ec;color:#9c0e25}
+html[data-skin=feria] .hero .btn.cy{background:#1a1414;color:#fff6ec}
+/* the card: black frame, cream squares, every marked song is a red polka dot */
+html[data-skin=feria] .board{background:#1a1414;padding:10px;border-radius:6px}
+html[data-skin=feria] .board.rows .ln{color:#e9dccb}
+html[data-skin=feria] .cell{border:0;border-radius:4px}
+html[data-skin=feria] .cell:not(.on):not(.gap):not(.free){background:#fff6ec;color:#1a1414}
+html[data-skin=feria] .cell .ar{color:#5a4a44}
+html[data-skin=feria] .cell.gap{background:#2a2220}
+html[data-skin=feria] .cell.on .ar{color:#fff6ec}
+/* string of swinging paper lanterns (js/skin.js adds it on top of every page) */
+.faroles,.volante{display:none}
+html[data-skin=feria] .faroles{display:flex;justify-content:space-around;position:relative;height:62px;padding:0 10px;overflow:hidden;pointer-events:none}
+html[data-skin=feria] .faroles::before{content:'';position:absolute;left:0;right:0;top:10px;height:2px;background:#1a1414}
+html[data-skin=feria] .faroles i{display:block;margin-top:10px;width:2px;height:12px;background:#1a1414;position:relative;transform-origin:top center;animation:mece 2.6s ease-in-out infinite}
+html[data-skin=feria] .faroles i::after{content:'';position:absolute;top:12px;left:-14px;width:30px;height:38px;border-radius:15px;border:2px solid #1a1414;box-sizing:border-box;background:var(--f,#9c0e25) repeating-linear-gradient(0deg,transparent 0 7px,#1a141459 7px 8px)}
+html[data-skin=feria] .faroles i:nth-child(4n+2){--f:#fff6ec}
+html[data-skin=feria] .faroles i:nth-child(4n+3){--f:#0a5440}
+html[data-skin=feria] .faroles i:nth-child(4n){--f:#e9b44c}
+html[data-skin=feria] .faroles i:nth-child(3n+2){animation-duration:3.1s}
+html[data-skin=feria] .faroles i:nth-child(3n){animation-duration:3.6s}
+html[data-skin=feria] .volante{display:block;height:46px;margin:0 calc(50% - 50vw);background:radial-gradient(circle at 24px 0,#9c0e25 0 24px,transparent 25px) 0 0/48px 28px repeat-x,radial-gradient(circle at 18px 0,#1a1414 0 18px,transparent 19px) 0 24px/36px 22px repeat-x}
+@keyframes mece{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+@media (max-width:560px){html[data-skin=feria] .faroles{height:50px}html[data-skin=feria] .faroles i:nth-child(n+9){display:none}}
+/* the player's phone: a shorter string so the card keeps its room */
+html[data-skin=feria] .faroles.small{height:44px}
+html[data-skin=feria] .faroles.small i{transform:scale(.8)}
+
+/* ======================= C · Juego de mesa: cobalt and lime, hard shadows ======================= */
+html[data-skin=mesa]{
+  --bg:#ede7ff;--panel:#ffffff;--panel2:#f7f4ff;--line:#111111;--txt:#111111;--mut:#3f3b4f;
+  --pink:#ff8ad8;--cyan:#2232c2;--yel:#c6f432;--green:#3dbe6e;--paper:#ffffff;
+  --hi:#2232c2;--acc-txt:#2232c2;--ok-txt:#1d7a3e;--bad-txt:#b8321a;
+  --on-cy:#fff;--on-yel:#111;--on-green:#111;--on-hot:#fff;--on-cell:#111;
+  --hot:#2232c2;--cell-on:radial-gradient(circle,#c6f432 0 29%,#111 30% 34%,#fff 35%);--cell-on-sh:inset 0 -4px 0 #0000001f;
+  --soft:#1111110f;--soft2:#11111333;--scrim:#ede7fff2;--bw:3px;
+  --now-bg:#c6f432;--moment-bg:radial-gradient(circle at 50% 40%,#ede7fff5,#d9d0fbfc 70%);
+  --bg-img:none;
+  --f-disp:'Bricolage Grotesque',Inter,sans-serif;--f-body:'Bricolage Grotesque',Inter,system-ui,sans-serif;
+  color-scheme:light
+}
+html[data-skin=mesa] body{font-weight:500}
+html[data-skin=mesa] .grad{background:#c6f432;color:#111;border:3px solid #111;border-radius:12px;padding:0 8px;display:inline-block;transform:rotate(-2deg)}
+html[data-skin=mesa] .btn{border:3px solid #111;border-radius:14px;box-shadow:4px 4px 0 #111}
+html[data-skin=mesa] .btn:active:not(:disabled){transform:translate(2px,2px);box-shadow:2px 2px 0 #111}
+html[data-skin=mesa] .btn.big,html[data-skin=mesa] .btn.cy{border:3px solid #111}
+html[data-skin=mesa] .card{border-radius:18px;box-shadow:6px 6px 0 #111}
+html[data-skin=mesa] .modal>div{box-shadow:8px 8px 0 #111}
+html[data-skin=mesa] .seg button.on,html[data-skin=mesa] .pill{border:2px solid #111}
+html[data-skin=mesa] .steps .card::before{content:counter(s);border-radius:8px;background:#c6f432;color:#111;border:2px solid #111}
+html[data-skin=mesa] .steps .card:nth-child(even)::before{background:#ff8ad8}
+html[data-skin=mesa] .final{background:#2232c2;color:#fff;border:3px solid #111;border-radius:22px;box-shadow:8px 8px 0 #111;padding:44px 24px;margin-top:60px}
+html[data-skin=mesa] .final h2{color:#fff}
+html[data-skin=mesa] .final .lead{color:#e3e6ff}
+html[data-skin=mesa] .final .btn.big{background:#c6f432;color:#111}
+/* the card sits on a cobalt game board; marked songs get a lime counter */
+html[data-skin=mesa] .board{background:#2232c2;border:3px solid #111;border-radius:20px;padding:10px;box-shadow:6px 6px 0 #111}
+html[data-skin=mesa] .board.rows .ln{color:#fff}
+html[data-skin=mesa] .cell{border:3px solid #111}
+html[data-skin=mesa] .cell:not(.on):not(.gap):not(.free){background:#fff;color:#111}
+html[data-skin=mesa] .cell.on{border-color:#111}
+html[data-skin=mesa] .cell.gap{background:#3a49d4;border-color:#111}
+
+/* ======================= "Pick your mood": the skin cards (js/skin.js) ======================= */
+.moods{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;max-width:1100px}
+.moods button{position:relative;display:flex;flex-direction:column;gap:4px;align-items:flex-start;text-align:left;padding:10px 10px 14px;border-radius:16px;border:2px solid var(--line);background:var(--panel2);color:var(--txt);cursor:pointer;font:inherit;min-height:44px}
+.moods button:hover,.moods button:focus-visible{border-color:var(--acc-txt)}
+.moods button[aria-pressed=true]{border-color:var(--acc-txt);box-shadow:0 0 0 2px var(--acc-txt)}
+.moods button[aria-pressed=true]::after{content:'✓';position:absolute;top:16px;right:16px;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--acc-txt);color:var(--bg);font-weight:800}
+.moods .mthumb{display:block;width:100%;aspect-ratio:4/3;border-radius:10px;overflow:hidden;margin-bottom:6px;background:var(--soft)}
+.moods .mthumb img{display:block;width:100%;height:auto;margin-top:-6%}
+.moods b{font-size:16px}.moods small{color:var(--mut);font-size:13px;line-height:1.35}

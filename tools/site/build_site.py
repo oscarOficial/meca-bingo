@@ -19,7 +19,7 @@ TEMPLATE = os.path.join(ROOT, 'site', 'landing.template.html')
 STRINGS = os.path.join(ROOT, 'site', 'landing.i18n.json')
 CONFIG = os.path.join(ROOT, 'site.config.json')
 DEFAULT = 'en'                         # x-default (search engines, unknown languages)
-OG_LOCALE = {'en': 'en_US', 'es': 'es_ES'}
+OG_LOCALE = {'en': 'en_US', 'es': 'es_ES', 'fr': 'fr_FR', 'de': 'de_DE', 'it': 'it_IT', 'nl': 'nl_NL', 'pl': 'pl_PL', 'sk': 'sk_SK'}
 esc = lambda s: html.escape(str(s), quote=True)
 
 
@@ -94,7 +94,7 @@ def render(lang, L, site):
     s = s.replace('{{SERVICES}}', ''.join(f'<span class="svc">{esc(n)}</span>' for n in SERVICES))
     s = s.replace('{{MODES}}', ''.join(f'<div class="mode">{pattern_svg(f, set(on), t["modes"][k][0])}<b>{esc(t["modes"][k][0])}</b><span>{esc(t["modes"][k][1])}</span></div>' for f, k, on in MODES))
     s = s.replace('{{LANGS}}', ''.join(
-        f'<a href="/{l}/" hreflang="{l}" lang="{l}"' + (' aria-current="page"' if l == lang else '') + f'>{l.upper()}</a>' for l in L))
+        f'<a href="/{l}/" hreflang="{l}" lang="{l}"' + (' aria-current="page"' if l == lang else '') + f'>{esc(L[l]["langName"])}</a>' for l in L))
     s = re.sub(r'\{\{(\w+)\}\}', lambda m: esc(lang if m.group(1) == 'lang' else t[m.group(1)]), s)
     # data-t="key": fill the element's text
     s = re.sub(r'(<(\w+)\b[^>]*\bdata-t="(\w+)"[^>]*>)(</\2>)', lambda m: m.group(1) + esc(t[m.group(3)]) + m.group(4), s)
