@@ -1,0 +1,53 @@
+{
+  "extDescription": {
+    "message": "Meca Bingo: marca la canción que suena en Spotify, Deezer, YouTube Music, Apple Music o Amazon Music y controla la música."
+  },
+  "actionTitle": {
+    "message": "Meca Bingo Sync"
+  },
+  "popupPlayer": {
+    "message": "Reproductor de música"
+  },
+  "popupSite": {
+    "message": "Meca Bingo"
+  },
+  "noPlayer": {
+    "message": "No hay ninguna pestaña de música abierta ($1)"
+  },
+  "playing": {
+    "message": "▶ Sonando"
+  },
+  "paused": {
+    "message": "⏸ En pausa"
+  },
+  "hostOpen": {
+    "message": "Página del presentador abierta"
+  },
+  "hostClosed": {
+    "message": "Página del presentador cerrada"
+  },
+  "openHost": {
+    "message": "Abre la página del presentador en"
+  },
+  "prev": {
+    "message": "Anterior"
+  },
+  "playPause": {
+    "message": "Reproducir / pausa"
+  },
+  "next": {
+    "message": "Siguiente"
+  },
+  "tapTitle": {
+    "message": "Toca para empezar la música"
+  },
+  "tapHint": {
+    "message": "El navegador necesita un toque antes de reproducir música"
+  },
+  "readingPlaylist": {
+    "message": "Leyendo la playlist…"
+  },
+  "startingMusic": {
+    "message": "Arrancando la música…"
+  }
+}

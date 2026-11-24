@@ -1,0 +1,53 @@
+{
+  "extDescription": {
+    "message": "Meca Bingo: označí pesničku, ktorá hrá v Spotify, Deezer, YouTube Music, Apple Music alebo Amazon Music, a ovláda hudbu."
+  },
+  "actionTitle": {
+    "message": "Meca Bingo Sync"
+  },
+  "popupPlayer": {
+    "message": "Hudobný prehrávač"
+  },
+  "popupSite": {
+    "message": "Meca Bingo"
+  },
+  "noPlayer": {
+    "message": "Nie je otvorená žiadna karta s hudbou ($1)"
+  },
+  "playing": {
+    "message": "▶ Hrá"
+  },
+  "paused": {
+    "message": "⏸ Pozastavené"
+  },
+  "hostOpen": {
+    "message": "Stránka moderátora je otvorená"
+  },
+  "hostClosed": {
+    "message": "Stránka moderátora nie je otvorená"
+  },
+  "openHost": {
+    "message": "Otvor stránku moderátora na"
+  },
+  "prev": {
+    "message": "Predchádzajúca"
+  },
+  "playPause": {
+    "message": "Prehrať / pauza"
+  },
+  "next": {
+    "message": "Ďalšia"
+  },
+  "tapTitle": {
+    "message": "Ťukni a spusti hudbu"
+  },
+  "tapHint": {
+    "message": "Prehliadač potrebuje jedno ťuknutie, kým môže hrať hudba"
+  },
+  "readingPlaylist": {
+    "message": "Čítam playlist…"
+  },
+  "startingMusic": {
+    "message": "Spúšťam hudbu…"
+  }
+}

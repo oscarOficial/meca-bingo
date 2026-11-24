@@ -1,0 +1,53 @@
+{
+  "extDescription": {
+    "message": "For Meca Bingo hosts: marks the song playing on Spotify, Deezer, YouTube Music, Apple Music or Amazon Music and controls the music."
+  },
+  "actionTitle": {
+    "message": "Meca Bingo Sync"
+  },
+  "popupPlayer": {
+    "message": "Music player"
+  },
+  "popupSite": {
+    "message": "Meca Bingo"
+  },
+  "noPlayer": {
+    "message": "No music player tab open ($1)"
+  },
+  "playing": {
+    "message": "▶ Playing"
+  },
+  "paused": {
+    "message": "⏸ Paused"
+  },
+  "hostOpen": {
+    "message": "Host page open"
+  },
+  "hostClosed": {
+    "message": "Host page not open"
+  },
+  "openHost": {
+    "message": "Open the host page at"
+  },
+  "prev": {
+    "message": "Previous"
+  },
+  "playPause": {
+    "message": "Play / pause"
+  },
+  "next": {
+    "message": "Next"
+  },
+  "tapTitle": {
+    "message": "Tap to start the music"
+  },
+  "tapHint": {
+    "message": "The browser needs one tap before music can play"
+  },
+  "readingPlaylist": {
+    "message": "Reading the playlist…"
+  },
+  "startingMusic": {
+    "message": "Starting the music…"
+  }
+}

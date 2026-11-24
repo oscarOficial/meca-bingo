@@ -1,0 +1,53 @@
+{
+  "extDescription": {
+    "message": "Meca Bingo: vinkt het nummer aan dat speelt op Spotify, Deezer, YouTube Music, Apple Music of Amazon Music en bedient de muziek."
+  },
+  "actionTitle": {
+    "message": "Meca Bingo Sync"
+  },
+  "popupPlayer": {
+    "message": "Muziekspeler"
+  },
+  "popupSite": {
+    "message": "Meca Bingo"
+  },
+  "noPlayer": {
+    "message": "Geen muziektabblad open ($1)"
+  },
+  "playing": {
+    "message": "▶ Speelt"
+  },
+  "paused": {
+    "message": "⏸ Gepauzeerd"
+  },
+  "hostOpen": {
+    "message": "Pagina van de spelleider open"
+  },
+  "hostClosed": {
+    "message": "Pagina van de spelleider niet open"
+  },
+  "openHost": {
+    "message": "Open de pagina van de spelleider op"
+  },
+  "prev": {
+    "message": "Vorige"
+  },
+  "playPause": {
+    "message": "Afspelen / pauze"
+  },
+  "next": {
+    "message": "Volgende"
+  },
+  "tapTitle": {
+    "message": "Tik om de muziek te starten"
+  },
+  "tapHint": {
+    "message": "De browser heeft één tik nodig voordat er muziek kan spelen"
+  },
+  "readingPlaylist": {
+    "message": "Playlist wordt gelezen…"
+  },
+  "startingMusic": {
+    "message": "Muziek wordt gestart…"
+  }
+}

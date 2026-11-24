@@ -1,0 +1,53 @@
+{
+  "extDescription": {
+    "message": "Meca Bingo: zaznacza piosenkę graną w Spotify, Deezer, YouTube Music, Apple Music lub Amazon Music i steruje muzyką."
+  },
+  "actionTitle": {
+    "message": "Meca Bingo Sync"
+  },
+  "popupPlayer": {
+    "message": "Odtwarzacz muzyki"
+  },
+  "popupSite": {
+    "message": "Meca Bingo"
+  },
+  "noPlayer": {
+    "message": "Brak otwartej karty z muzyką ($1)"
+  },
+  "playing": {
+    "message": "▶ Gra"
+  },
+  "paused": {
+    "message": "⏸ Pauza"
+  },
+  "hostOpen": {
+    "message": "Strona prowadzącego otwarta"
+  },
+  "hostClosed": {
+    "message": "Strona prowadzącego nieotwarta"
+  },
+  "openHost": {
+    "message": "Otwórz stronę prowadzącego na"
+  },
+  "prev": {
+    "message": "Poprzednia"
+  },
+  "playPause": {
+    "message": "Odtwórz / pauza"
+  },
+  "next": {
+    "message": "Następna"
+  },
+  "tapTitle": {
+    "message": "Dotknij, aby włączyć muzykę"
+  },
+  "tapHint": {
+    "message": "Przeglądarka potrzebuje jednego dotknięcia, zanim zagra muzykę"
+  },
+  "readingPlaylist": {
+    "message": "Czytam playlistę…"
+  },
+  "startingMusic": {
+    "message": "Włączam muzykę…"
+  }
+}

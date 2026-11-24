@@ -3,7 +3,8 @@
   "name": "Meca Bingo Sync",
   "short_name": "Meca Bingo",
   "version": "1.1.0",
-  "description": "Companion for Meca Bingo: marks the song that is playing on your music web player and lets the host control the music.",
+  "default_locale": "en",
+  "description": "__MSG_extDescription__",
   "homepage_url": "https://mecabingo.oscasais.es/",
   "icons": {
     "16": "icons/icon16.png",
@@ -12,7 +13,7 @@
     "128": "icons/icon128.png"
   },
   "action": {
-    "default_title": "Meca Bingo Sync",
+    "default_title": "__MSG_actionTitle__",
     "default_popup": "popup.html",
     "default_icon": {
       "16": "icons/icon16.png",

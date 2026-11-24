@@ -7,6 +7,7 @@
 (() => {
   const isAmazon = location.hostname.startsWith('music.amazon.');
   const root = document.documentElement;
+  const _ = k => chrome.i18n.getMessage(k);
   const send = m => chrome.runtime.sendMessage(m).catch(() => {});
 
   // ---------- cover: hides the page while the extension works in this tab ----------
@@ -98,7 +99,7 @@
       unpre(); cover('');
       const o = document.createElement('div');
       o.style.cssText = 'position:fixed;inset:0;z-index:2147483647;background:#0d0b1a;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;font:600 16px system-ui;cursor:pointer';
-      [['70px', '▶'], ['800 28px system-ui', 'Tap to start the music'], ['', 'The browser needs one tap before music can play · Toca para empezar']].forEach(([f, txt]) => { const e = document.createElement('div'); if (f.startsWith('800')) e.style.font = f; else if (f) e.style.fontSize = f; else e.style.opacity = '.7'; e.textContent = txt; o.appendChild(e); });
+      [['70px', '▶'], ['800 28px system-ui', _('tapTitle')], ['', _('tapHint')]].forEach(([f, txt]) => { const e = document.createElement('div'); if (f.startsWith('800')) e.style.font = f; else if (f) e.style.fontSize = f; else e.style.opacity = '.7'; e.textContent = txt; o.appendChild(e); });
       o.onclick = async () => { o.remove(); (document.querySelector('[data-testid*="Toolbar_Shuffle_Button"]') || btn).click(); res({ ok: !!(await waitFor(isPlaying, 5000)), tapped: true }); };
       root.appendChild(o);
       send({ type: 'mb-needtap' });
@@ -110,12 +111,12 @@
     if (msg.type === 'mb-status') { reply({ playing: isPlaying(), now: nowPlaying() }); return; }
     if (msg.type === 'mb-control') { control(msg.action).then(reply); return true; }
     if (msg.type === 'mb-import' && isAmazon) {
-      unpre(); cover('Reading playlist… · Leyendo la playlist…');
+      unpre(); cover(_('readingPlaylist'));
       readAmazonPlaylist().then(r => { uncover(); reply(r); }); return true;
     }
     if (msg.type === 'mb-start' && isAmazon) {
       const id = new URL(msg.url).pathname.split('/').pop();
-      unpre(); cover('Starting the music… · Arrancando la música…');
+      unpre(); cover(_('startingMusic'));
       if (!location.href.includes(id)) window.postMessage({ __mbGoto: true, path: new URL(msg.url).pathname }, '*');
       startShuffle(id).then(r => { setTimeout(uncover, 2500); reply(r); }); return true;
     }

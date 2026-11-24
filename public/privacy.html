@@ -13,6 +13,8 @@
 </head>
 <body>
 <div class="wrap">
+<p class="mut" id="langs" style="margin-top:14px"><a href="?lang=en" hreflang="en" lang="en" data-l="en" style="color:var(--text-accent)">English</a> · <a href="?lang=es" hreflang="es" lang="es" data-l="es" style="color:var(--text-accent)">Español</a> · <a href="?lang=fr" hreflang="fr" lang="fr" data-l="fr" style="color:var(--text-accent)">Français</a> · <a href="?lang=de" hreflang="de" lang="de" data-l="de" style="color:var(--text-accent)">Deutsch</a> · <a href="?lang=it" hreflang="it" lang="it" data-l="it" style="color:var(--text-accent)">Italiano</a> · <a href="?lang=nl" hreflang="nl" lang="nl" data-l="nl" style="color:var(--text-accent)">Nederlands</a> · <a href="?lang=pl" hreflang="pl" lang="pl" data-l="pl" style="color:var(--text-accent)">Polski</a> · <a href="?lang=sk" hreflang="sk" lang="sk" data-l="sk" style="color:var(--text-accent)">Slovenčina</a></p>
+<div id="doc">
 <h1>Privacy policy</h1>
 <p class="mut">Meca Bingo website and the Meca Bingo Sync browser extension · Last updated: 23 November 2026 (extension 1.1)</p>
 
@@ -44,5 +46,249 @@
 <h2>Contact</h2>
 <p>Questions or requests about your data: <a href="mailto:info@mecabingo.oscasais.es" style="color:var(--text-accent)">info@mecabingo.oscasais.es</a>. You can also open an issue at <a href="https://github.com/oscarOficial/meca-bingo/issues" style="color:var(--text-accent)">github.com/oscarOficial/meca-bingo</a>.</p>
 </div>
+</div>
+<template lang="es" data-title="Meca Bingo · Política de privacidad">
+<h1>Política de privacidad</h1>
+<p class="mut">Web de Meca Bingo y extensión de navegador Meca Bingo Sync · Última actualización: 23 de noviembre de 2026 (extensión 1.1)</p>
+<p class="mut"><i>Traducción del original en inglés; si hay diferencias, vale la versión en inglés.</i></p>
+
+<h2>Resumen</h2>
+<p>Meca Bingo no recoge, vende ni comparte datos personales. No hay cuentas, ni cookies, ni publicidad. Solo guardamos recuentos anónimos de visitas y de uso (ver abajo). Los datos de la partida se quedan en los navegadores de quienes juegan.</p>
+
+<h2>La web</h2>
+<ul>
+  <li><b>Datos de la partida</b> (playlist, cartones, canciones que han sonado, apodos de los jugadores, fotos y mensajes): se guardan solo en el navegador del presentador (localStorage e IndexedDB). Las fotos nunca salen del ordenador del presentador.</li>
+  <li><b>Los móviles de los jugadores</b> se conectan directamente al navegador del presentador (WebRTC). El servicio público de señalización PeerJS solo sirve para presentar los dos navegadores; los datos de la partida no pasan por él.</li>
+  <li><b>Estadísticas de uso anónimas:</b> la página del presentador envía a nuestro servidor unos pocos contadores anónimos para que veamos cómo se usa el juego y qué mejorar: que se ha creado una partida (servicio de música, número de canciones, tipo de cartón y reglas), que ha entrado un jugador, que se ha cantado un premio y si era válido, cómo ha ido una importación de playlist y la duración de una partida terminada. Guardamos el día, el país que indica Cloudflare y el idioma de la página. No guardamos direcciones IP, identificadores de dispositivo, apodos, nombres de playlists ni títulos de canciones, y nada se usa para publicidad. Los registros se borran pasados unos 13 meses.</li>
+  <li><b>Alojamiento:</b> la web la sirve Cloudflare. Como cualquier servidor web, Cloudflare trata tu dirección IP y los datos de tu navegador para entregar las páginas y protegerlas de abusos. No usamos cookies ni rastreadores publicitarios. Las visitas se cuentan con Cloudflare Web Analytics, que no usa cookies, huellas digitales (fingerprinting) ni seguimiento entre sitios. Las fuentes y los scripts se sirven desde nuestro propio dominio.</li>
+  <li><b>Servicio de conexión:</b> para conectar los móviles con el presentador, ambos navegadores contactan con el servidor de señalización de PeerJS (0.peerjs.com), que ve sus direcciones IP solo para eso.</li>
+  <li><b>Importar playlists:</b> cuando el presentador pega el enlace de una playlist pública, nuestro servidor lee esa página pública una vez para obtener los títulos y artistas de las canciones, y los devuelve. No se guarda nada.</li>
+</ul>
+
+<h2>La extensión Meca Bingo Sync</h2>
+<p>La extensión es opcional y solo la usa el presentador. Solo funciona en los reproductores web de Amazon Music, Spotify, Deezer, YouTube Music y Apple Music y en la web de Meca Bingo. Lo que hace:</p>
+<ul>
+  <li>lee los títulos y artistas de una playlist que el presentador pide importar, en la página de Amazon Music abierta en su propio navegador;</li>
+  <li>lee el título y el artista de la canción que está sonando y los envía a la página de Meca Bingo abierta en el mismo navegador, para marcar la canción en el bingo;</li>
+  <li>pulsa reproducir, pausa, siguiente y anterior en el reproductor de música cuando el presentador lo pide;</li>
+  <li>guarda unos pocos valores técnicos (qué pestaña es la de la música) en el almacenamiento de sesión del navegador, que se borra al cerrarlo.</li>
+</ul>
+<p>La extensión no lee contraseñas, cookies, historial de navegación ni ninguna otra web, no envía datos a ningún servidor y no usa código remoto.</p>
+
+<h2>Música y marcas</h2>
+<p>Meca Bingo no aloja, emite ni distribuye música: el presentador reproduce música desde su propia cuenta en un servicio de streaming, según las condiciones de ese servicio. Spotify, Amazon Music, Apple Music, Deezer y YouTube son marcas de sus respectivos dueños; Meca Bingo no está afiliado a ellos ni cuenta con su respaldo.</p>
+<h2>Contacto</h2>
+<p>Dudas o solicitudes sobre tus datos: <a href="mailto:info@mecabingo.oscasais.es" style="color:var(--text-accent)">info@mecabingo.oscasais.es</a>. También puedes abrir una incidencia en <a href="https://github.com/oscarOficial/meca-bingo/issues" style="color:var(--text-accent)">github.com/oscarOficial/meca-bingo</a>.</p>
+</template>
+<template lang="fr" data-title="Meca Bingo · Politique de confidentialité">
+<h1>Politique de confidentialité</h1>
+<p class="mut">Site Meca Bingo et extension de navigateur Meca Bingo Sync · Dernière mise à jour : 23 novembre 2026 (extension 1.1)</p>
+<p class="mut"><i>Traduction de l’original anglais ; en cas de différence, la version anglaise fait foi.</i></p>
+
+<h2>Résumé</h2>
+<p>Meca Bingo ne collecte, ne vend ni ne partage de données personnelles. Il n’y a ni compte, ni cookie, ni publicité. Nous gardons seulement des comptages anonymes de visites et d’utilisation (voir ci-dessous). Les données de la partie restent dans les navigateurs des personnes qui jouent.</p>
+
+<h2>Le site</h2>
+<ul>
+  <li><b>Données de la partie</b> (playlist, cartes, chansons jouées, pseudos des joueurs, photos et messages) : elles sont enregistrées uniquement dans le navigateur de l’animateur (localStorage et IndexedDB). Les photos ne quittent jamais l’ordinateur de l’animateur.</li>
+  <li><b>Les téléphones des joueurs</b> se connectent directement au navigateur de l’animateur (WebRTC). Le service public de signalisation PeerJS sert uniquement à mettre les deux navigateurs en relation ; les données de la partie n’y transitent pas.</li>
+  <li><b>Statistiques d’utilisation anonymes :</b> la page de l’animateur envoie à notre serveur quelques compteurs anonymes pour que nous voyions comment le jeu est utilisé et quoi améliorer : qu’une partie a été créée (service de musique, nombre de chansons, type de carte et règles), qu’un joueur a rejoint, qu’un gain a été annoncé et s’il était valable, comment s’est passé un import de playlist et la durée d’une partie terminée. Nous enregistrons le jour, le pays indiqué par Cloudflare et la langue de la page. Nous n’enregistrons ni adresse IP, ni identifiant d’appareil, ni pseudo, ni nom de playlist, ni titre de chanson, et rien n’est utilisé pour la publicité. Les enregistrements sont supprimés après environ 13 mois.</li>
+  <li><b>Hébergement :</b> le site est servi par Cloudflare. Comme tout serveur web, Cloudflare traite ton adresse IP et les informations de ton navigateur pour livrer les pages et les protéger contre les abus. Nous n’utilisons ni cookies ni traceurs publicitaires. Les visites sont comptées avec Cloudflare Web Analytics, qui n’utilise ni cookies, ni empreinte numérique (fingerprinting), ni suivi entre sites. Les polices et les scripts sont servis depuis notre propre domaine.</li>
+  <li><b>Service de connexion :</b> pour relier les téléphones à l’animateur, les deux navigateurs contactent le serveur de signalisation PeerJS (0.peerjs.com), qui voit leurs adresses IP uniquement dans ce but.</li>
+  <li><b>Import de playlist :</b> quand l’animateur colle le lien d’une playlist publique, notre serveur lit une fois cette page publique pour obtenir les titres et les artistes, puis les renvoie. Rien n’est enregistré.</li>
+</ul>
+
+<h2>L’extension Meca Bingo Sync</h2>
+<p>L’extension est facultative et seul l’animateur l’utilise. Elle fonctionne uniquement sur les lecteurs web d’Amazon Music, Spotify, Deezer, YouTube Music et Apple Music et sur le site Meca Bingo. Elle :</p>
+<ul>
+  <li>lit les titres et les artistes d’une playlist que l’animateur demande d’importer, sur la page Amazon Music ouverte dans son propre navigateur ;</li>
+  <li>lit le titre et l’artiste de la chanson en cours et les envoie à la page Meca Bingo ouverte dans le même navigateur, pour cocher la chanson sur le bingo ;</li>
+  <li>appuie sur lecture, pause, suivante et précédente dans le lecteur de musique quand l’animateur le demande ;</li>
+  <li>enregistre quelques valeurs techniques (quel onglet est celui de la musique) dans le stockage de session du navigateur, effacé à sa fermeture.</li>
+</ul>
+<p>L’extension ne lit ni mots de passe, ni cookies, ni historique de navigation, ni aucun autre site, n’envoie de données à aucun serveur et n’utilise pas de code distant.</p>
+
+<h2>Musique et marques</h2>
+<p>Meca Bingo n’héberge, ne diffuse ni ne distribue de musique : l’animateur joue la musique depuis son propre compte sur un service de streaming, selon les conditions de ce service. Spotify, Amazon Music, Apple Music, Deezer et YouTube sont des marques de leurs propriétaires ; Meca Bingo n’est ni affilié à eux ni approuvé par eux.</p>
+<h2>Contact</h2>
+<p>Questions ou demandes concernant tes données : <a href="mailto:info@mecabingo.oscasais.es" style="color:var(--text-accent)">info@mecabingo.oscasais.es</a>. Tu peux aussi ouvrir un ticket sur <a href="https://github.com/oscarOficial/meca-bingo/issues" style="color:var(--text-accent)">github.com/oscarOficial/meca-bingo</a>.</p>
+</template>
+<template lang="de" data-title="Meca Bingo · Datenschutzerklärung">
+<h1>Datenschutzerklärung</h1>
+<p class="mut">Website Meca Bingo und Browser-Erweiterung Meca Bingo Sync · Zuletzt aktualisiert: 23. November 2026 (Erweiterung 1.1)</p>
+<p class="mut"><i>Übersetzung des englischen Originals; bei Abweichungen gilt die englische Fassung.</i></p>
+
+<h2>Zusammenfassung</h2>
+<p>Meca Bingo sammelt, verkauft und teilt keine personenbezogenen Daten. Es gibt keine Konten, keine Cookies und keine Werbung. Wir speichern nur anonyme Besuchs- und Nutzungszahlen (siehe unten). Die Spieldaten bleiben in den Browsern der Mitspielenden.</p>
+
+<h2>Die Website</h2>
+<ul>
+  <li><b>Spieldaten</b> (Playlist, Karten, gespielte Songs, Spitznamen, Fotos und Nachrichten) werden nur im Browser der Spielleitung gespeichert (localStorage und IndexedDB). Fotos verlassen nie den Computer der Spielleitung.</li>
+  <li><b>Die Handys der Spieler</b> verbinden sich direkt mit dem Browser der Spielleitung (WebRTC). Der öffentliche Signalisierungsdienst PeerJS bringt die beiden Browser nur miteinander in Kontakt; Spieldaten laufen nicht über ihn.</li>
+  <li><b>Anonyme Nutzungsstatistik:</b> Die Seite der Spielleitung schickt einige anonyme Zähler an unseren Server, damit wir sehen, wie das Spiel genutzt wird und was wir verbessern können: dass ein Spiel erstellt wurde (Musikdienst, Anzahl der Songs, Kartentyp und Regeln), dass ein Spieler beigetreten ist, dass ein Gewinn gerufen wurde und ob er gültig war, wie ein Playlist-Import gelaufen ist und wie lange ein beendetes Spiel gedauert hat. Wir speichern den Tag, das von Cloudflare gemeldete Land und die Sprache der Seite. Wir speichern keine IP-Adressen, Geräte-IDs, Spitznamen, Playlist-Namen oder Songtitel, und nichts wird für Werbung genutzt. Die Einträge werden nach etwa 13 Monaten gelöscht.</li>
+  <li><b>Hosting:</b> Die Website wird von Cloudflare ausgeliefert. Wie jeder Webserver verarbeitet Cloudflare deine IP-Adresse und Browserdaten, um die Seiten auszuliefern und vor Missbrauch zu schützen. Wir verwenden keine Cookies und keine Werbe-Tracker. Besuche werden mit Cloudflare Web Analytics gezählt, das keine Cookies, kein Fingerprinting und kein seitenübergreifendes Tracking nutzt. Schriften und Skripte kommen von unserer eigenen Domain.</li>
+  <li><b>Verbindungsdienst:</b> Um die Handys mit der Spielleitung zu verbinden, kontaktieren beide Browser den PeerJS-Signalisierungsserver (0.peerjs.com), der ihre IP-Adressen nur zu diesem Zweck sieht.</li>
+  <li><b>Playlist-Import:</b> Wenn die Spielleitung den Link zu einer öffentlichen Playlist einfügt, liest unser Server diese öffentliche Seite einmal, um Songtitel und Interpreten zu erhalten, und gibt sie zurück. Es wird nichts gespeichert.</li>
+</ul>
+
+<h2>Die Erweiterung Meca Bingo Sync</h2>
+<p>Die Erweiterung ist optional und wird nur von der Spielleitung verwendet. Sie funktioniert nur auf den Web-Playern von Amazon Music, Spotify, Deezer, YouTube Music und Apple Music sowie auf der Meca-Bingo-Website. Sie:</p>
+<ul>
+  <li>liest die Titel und Interpreten einer Playlist, deren Import die Spielleitung anfordert, auf der Amazon-Music-Seite im eigenen Browser;</li>
+  <li>liest Titel und Interpret des gerade laufenden Songs und schickt sie an die Meca-Bingo-Seite im selben Browser, damit der Song im Bingo markiert wird;</li>
+  <li>drückt Play, Pause, Weiter und Zurück im Musik-Player, wenn die Spielleitung das möchte;</li>
+  <li>speichert einige technische Werte (welcher Tab der Musik-Tab ist) im Sitzungsspeicher des Browsers; sie werden beim Schließen des Browsers gelöscht.</li>
+</ul>
+<p>Die Erweiterung liest keine Passwörter, Cookies, keinen Browserverlauf und keine anderen Websites, sendet keine Daten an einen Server und verwendet keinen Remote-Code.</p>
+
+<h2>Musik und Marken</h2>
+<p>Meca Bingo hostet, streamt und verbreitet keine Musik: Die Spielleitung spielt Musik über ihr eigenes Konto bei einem Streamingdienst ab, zu dessen Bedingungen. Spotify, Amazon Music, Apple Music, Deezer und YouTube sind Marken ihrer jeweiligen Inhaber; Meca Bingo ist mit ihnen weder verbunden noch von ihnen unterstützt.</p>
+<h2>Kontakt</h2>
+<p>Fragen oder Anfragen zu deinen Daten: <a href="mailto:info@mecabingo.oscasais.es" style="color:var(--text-accent)">info@mecabingo.oscasais.es</a>. Du kannst auch ein Issue auf <a href="https://github.com/oscarOficial/meca-bingo/issues" style="color:var(--text-accent)">github.com/oscarOficial/meca-bingo</a> eröffnen.</p>
+</template>
+<template lang="it" data-title="Meca Bingo · Informativa sulla privacy">
+<h1>Informativa sulla privacy</h1>
+<p class="mut">Sito Meca Bingo ed estensione per browser Meca Bingo Sync · Ultimo aggiornamento: 23 novembre 2026 (estensione 1.1)</p>
+<p class="mut"><i>Traduzione dell’originale in inglese; in caso di differenze vale la versione inglese.</i></p>
+
+<h2>In breve</h2>
+<p>Meca Bingo non raccoglie, vende né condivide dati personali. Non ci sono account, cookie né pubblicità. Teniamo solo conteggi anonimi di visite e di utilizzo (vedi sotto). I dati della partita restano nei browser di chi gioca.</p>
+
+<h2>Il sito</h2>
+<ul>
+  <li><b>Dati della partita</b> (playlist, cartelle, canzoni suonate, soprannomi dei giocatori, foto e messaggi): sono salvati solo nel browser di chi presenta (localStorage e IndexedDB). Le foto non lasciano mai il computer di chi presenta.</li>
+  <li><b>I telefoni dei giocatori</b> si collegano direttamente al browser di chi presenta (WebRTC). Il servizio pubblico di segnalazione PeerJS serve solo a mettere in contatto i due browser; i dati della partita non passano da lì.</li>
+  <li><b>Statistiche d’uso anonime:</b> la pagina di chi presenta invia al nostro server alcuni contatori anonimi per capire come viene usato il gioco e cosa migliorare: che è stata creata una partita (servizio musicale, numero di canzoni, tipo di cartella e regole), che è entrato un giocatore, che è stato chiamato un premio e se era valido, com’è andata l’importazione di una playlist e la durata di una partita finita. Salviamo il giorno, il paese indicato da Cloudflare e la lingua della pagina. Non salviamo indirizzi IP, identificativi del dispositivo, soprannomi, nomi di playlist né titoli di canzoni, e niente viene usato per la pubblicità. I dati vengono cancellati dopo circa 13 mesi.</li>
+  <li><b>Hosting:</b> il sito è servito da Cloudflare. Come ogni server web, Cloudflare tratta il tuo indirizzo IP e i dati del browser per consegnare le pagine e proteggerle dagli abusi. Non usiamo cookie né tracker pubblicitari. Le visite sono contate con Cloudflare Web Analytics, che non usa cookie, fingerprinting né tracciamento tra siti. Font e script sono serviti dal nostro dominio.</li>
+  <li><b>Servizio di connessione:</b> per collegare i telefoni a chi presenta, entrambi i browser contattano il server di segnalazione PeerJS (0.peerjs.com), che vede i loro indirizzi IP solo a questo scopo.</li>
+  <li><b>Importazione di playlist:</b> quando chi presenta incolla il link di una playlist pubblica, il nostro server legge una volta quella pagina pubblica per ricavare titoli e artisti, e li restituisce. Non viene salvato nulla.</li>
+</ul>
+
+<h2>L’estensione Meca Bingo Sync</h2>
+<p>L’estensione è facoltativa e la usa solo chi presenta. Funziona solo sui web player di Amazon Music, Spotify, Deezer, YouTube Music e Apple Music e sul sito di Meca Bingo. L’estensione:</p>
+<ul>
+  <li>legge titoli e artisti di una playlist che chi presenta chiede di importare, sulla pagina di Amazon Music aperta nel proprio browser;</li>
+  <li>legge titolo e artista della canzone in riproduzione e li invia alla pagina di Meca Bingo aperta nello stesso browser, per segnare la canzone sulla cartella;</li>
+  <li>preme play, pausa, avanti e indietro nel lettore musicale quando chi presenta lo chiede;</li>
+  <li>salva alcuni valori tecnici (quale scheda è quella della musica) nella memoria di sessione del browser, cancellata alla chiusura.</li>
+</ul>
+<p>L’estensione non legge password, cookie, cronologia di navigazione né altri siti, non invia dati a nessun server e non usa codice remoto.</p>
+
+<h2>Musica e marchi</h2>
+<p>Meca Bingo non ospita, trasmette né distribuisce musica: chi presenta riproduce la musica dal proprio account su un servizio di streaming, secondo le condizioni di quel servizio. Spotify, Amazon Music, Apple Music, Deezer e YouTube sono marchi dei rispettivi proprietari; Meca Bingo non è affiliato a loro né da loro approvato.</p>
+<h2>Contatti</h2>
+<p>Domande o richieste sui tuoi dati: <a href="mailto:info@mecabingo.oscasais.es" style="color:var(--text-accent)">info@mecabingo.oscasais.es</a>. Puoi anche aprire una segnalazione su <a href="https://github.com/oscarOficial/meca-bingo/issues" style="color:var(--text-accent)">github.com/oscarOficial/meca-bingo</a>.</p>
+</template>
+<template lang="nl" data-title="Meca Bingo · Privacybeleid">
+<h1>Privacybeleid</h1>
+<p class="mut">Website Meca Bingo en browserextensie Meca Bingo Sync · Laatst bijgewerkt: 23 november 2026 (extensie 1.1)</p>
+<p class="mut"><i>Vertaling van het Engelse origineel; bij verschillen geldt de Engelse versie.</i></p>
+
+<h2>Samenvatting</h2>
+<p>Meca Bingo verzamelt, verkoopt en deelt geen persoonsgegevens. Er zijn geen accounts, geen cookies en geen advertenties. We houden alleen anonieme tellingen van bezoeken en gebruik bij (zie hieronder). Spelgegevens blijven in de browsers van de spelers.</p>
+
+<h2>De website</h2>
+<ul>
+  <li><b>Spelgegevens</b> (playlist, kaarten, gespeelde nummers, bijnamen van spelers, foto’s en berichten) worden alleen in de browser van de spelleider bewaard (localStorage en IndexedDB). Foto’s verlaten nooit de computer van de spelleider.</li>
+  <li><b>De telefoons van de spelers</b> maken rechtstreeks verbinding met de browser van de spelleider (WebRTC). De openbare signaleringsdienst PeerJS brengt de twee browsers alleen met elkaar in contact; spelgegevens gaan er niet doorheen.</li>
+  <li><b>Anonieme gebruiksstatistieken:</b> de pagina van de spelleider stuurt een paar anonieme tellers naar onze server, zodat we zien hoe het spel gebruikt wordt en wat beter kan: dat er een spel is aangemaakt (muziekdienst, aantal nummers, kaarttype en regels), dat een speler meedoet, dat een prijs is geroepen en of die geldig was, hoe een playlist-import ging en hoe lang een afgelopen spel duurde. We bewaren de dag, het land dat Cloudflare doorgeeft en de taal van de pagina. We bewaren geen IP-adressen, apparaat-ID’s, bijnamen, namen van playlists of titels van nummers, en niets wordt voor advertenties gebruikt. Gegevens worden na ongeveer 13 maanden verwijderd.</li>
+  <li><b>Hosting:</b> de site wordt geleverd door Cloudflare. Zoals elke webserver verwerkt Cloudflare je IP-adres en browsergegevens om de pagina’s te leveren en tegen misbruik te beschermen. We gebruiken geen cookies of advertentietrackers. Bezoeken worden geteld met Cloudflare Web Analytics, dat geen cookies, fingerprinting of tracking over sites heen gebruikt. Lettertypen en scripts komen van ons eigen domein.</li>
+  <li><b>Verbindingsdienst:</b> om de telefoons met de spelleider te verbinden, nemen beide browsers contact op met de signaleringsserver van PeerJS (0.peerjs.com), die hun IP-adressen alleen daarvoor ziet.</li>
+  <li><b>Playlist importeren:</b> als de spelleider een link naar een openbare playlist plakt, leest onze server die openbare pagina één keer om de titels en artiesten op te halen, en stuurt ze terug. Er wordt niets bewaard.</li>
+</ul>
+
+<h2>De extensie Meca Bingo Sync</h2>
+<p>De extensie is optioneel en wordt alleen door de spelleider gebruikt. Ze werkt alleen op de webspelers van Amazon Music, Spotify, Deezer, YouTube Music en Apple Music en op de website van Meca Bingo. Ze:</p>
+<ul>
+  <li>leest de titels en artiesten van een playlist die de spelleider wil importeren, op de Amazon Music-pagina in de eigen browser;</li>
+  <li>leest de titel en artiest van het nummer dat speelt en stuurt die naar de Meca Bingo-pagina in dezelfde browser, zodat het nummer op de bingo wordt aangevinkt;</li>
+  <li>drukt op afspelen, pauze, volgende en vorige in de muziekspeler als de spelleider daarom vraagt;</li>
+  <li>bewaart een paar technische waarden (welk tabblad het muziektabblad is) in de sessieopslag van de browser, die gewist wordt als de browser sluit.</li>
+</ul>
+<p>De extensie leest geen wachtwoorden, cookies, browsegeschiedenis of andere websites, stuurt geen gegevens naar een server en gebruikt geen externe code.</p>
+
+<h2>Muziek en merken</h2>
+<p>Meca Bingo host, streamt of verspreidt geen muziek: de spelleider speelt muziek af vanuit het eigen account bij een streamingdienst, volgens de voorwaarden van die dienst. Spotify, Amazon Music, Apple Music, Deezer en YouTube zijn merken van hun eigenaars; Meca Bingo is niet aan hen verbonden en wordt niet door hen ondersteund.</p>
+<h2>Contact</h2>
+<p>Vragen of verzoeken over je gegevens: <a href="mailto:info@mecabingo.oscasais.es" style="color:var(--text-accent)">info@mecabingo.oscasais.es</a>. Je kunt ook een issue openen op <a href="https://github.com/oscarOficial/meca-bingo/issues" style="color:var(--text-accent)">github.com/oscarOficial/meca-bingo</a>.</p>
+</template>
+<template lang="pl" data-title="Meca Bingo · Polityka prywatności">
+<h1>Polityka prywatności</h1>
+<p class="mut">Strona Meca Bingo i rozszerzenie przeglądarki Meca Bingo Sync · Ostatnia aktualizacja: 23 listopada 2026 (rozszerzenie 1.1)</p>
+<p class="mut"><i>Tłumaczenie angielskiego oryginału; w razie rozbieżności obowiązuje wersja angielska.</i></p>
+
+<h2>W skrócie</h2>
+<p>Meca Bingo nie zbiera, nie sprzedaje i nie udostępnia danych osobowych. Nie ma kont, plików cookie ani reklam. Przechowujemy tylko anonimowe liczniki odwiedzin i użycia (patrz niżej). Dane gry zostają w przeglądarkach osób, które grają.</p>
+
+<h2>Strona</h2>
+<ul>
+  <li><b>Dane gry</b> (playlista, karty, zagrane piosenki, pseudonimy graczy, zdjęcia i wiadomości) są zapisywane tylko w przeglądarce prowadzącego (localStorage i IndexedDB). Zdjęcia nigdy nie opuszczają komputera prowadzącego.</li>
+  <li><b>Telefony graczy</b> łączą się bezpośrednio z przeglądarką prowadzącego (WebRTC). Publiczna usługa sygnalizacyjna PeerJS służy tylko do zapoznania ze sobą obu przeglądarek; dane gry przez nią nie przechodzą.</li>
+  <li><b>Anonimowe statystyki użycia:</b> strona prowadzącego wysyła na nasz serwer kilka anonimowych liczników, żebyśmy widzieli, jak gra jest używana i co poprawić: że utworzono grę (serwis muzyczny, liczba piosenek, rodzaj karty i zasady), że dołączył gracz, że zgłoszono wygraną i czy była ważna, jak poszedł import playlisty oraz ile trwała zakończona gra. Zapisujemy dzień, kraj podany przez Cloudflare i język strony. Nie zapisujemy adresów IP, identyfikatorów urządzeń, pseudonimów, nazw playlist ani tytułów piosenek i nic nie jest używane do reklam. Wpisy są usuwane po około 13 miesiącach.</li>
+  <li><b>Hosting:</b> stronę udostępnia Cloudflare. Jak każdy serwer WWW, Cloudflare przetwarza Twój adres IP i dane przeglądarki, aby dostarczyć strony i chronić je przed nadużyciami. Nie używamy plików cookie ani reklamowych narzędzi śledzących. Odwiedziny liczymy za pomocą Cloudflare Web Analytics, które nie używa plików cookie, fingerprintingu ani śledzenia między stronami. Czcionki i skrypty są serwowane z naszej własnej domeny.</li>
+  <li><b>Usługa połączenia:</b> aby połączyć telefony z prowadzącym, obie przeglądarki kontaktują się z serwerem sygnalizacyjnym PeerJS (0.peerjs.com), który widzi ich adresy IP tylko w tym celu.</li>
+  <li><b>Import playlisty:</b> gdy prowadzący wklei link do publicznej playlisty, nasz serwer jednorazowo czyta tę publiczną stronę, żeby pobrać tytuły i wykonawców, i je zwraca. Nic nie jest zapisywane.</li>
+</ul>
+
+<h2>Rozszerzenie Meca Bingo Sync</h2>
+<p>Rozszerzenie jest opcjonalne i używa go tylko prowadzący. Działa wyłącznie w odtwarzaczach webowych Amazon Music, Spotify, Deezer, YouTube Music i Apple Music oraz na stronie Meca Bingo. Rozszerzenie:</p>
+<ul>
+  <li>czyta tytuły i wykonawców playlisty, którą prowadzący chce zaimportować, na stronie Amazon Music otwartej w jego własnej przeglądarce;</li>
+  <li>czyta tytuł i wykonawcę grającej piosenki i wysyła je do strony Meca Bingo otwartej w tej samej przeglądarce, żeby zaznaczyć piosenkę w bingo;</li>
+  <li>naciska odtwarzanie, pauzę, następną i poprzednią w odtwarzaczu, gdy prowadzący o to poprosi;</li>
+  <li>zapisuje kilka wartości technicznych (która karta jest kartą z muzyką) w pamięci sesji przeglądarki, usuwanej po jej zamknięciu.</li>
+</ul>
+<p>Rozszerzenie nie czyta haseł, plików cookie, historii przeglądania ani innych stron, nie wysyła danych na żaden serwer i nie używa zdalnego kodu.</p>
+
+<h2>Muzyka i znaki towarowe</h2>
+<p>Meca Bingo nie przechowuje, nie transmituje i nie rozpowszechnia muzyki: prowadzący odtwarza muzykę ze swojego konta w serwisie streamingowym, na warunkach tego serwisu. Spotify, Amazon Music, Apple Music, Deezer i YouTube są znakami towarowymi ich właścicieli; Meca Bingo nie jest z nimi powiązane ani przez nie wspierane.</p>
+<h2>Kontakt</h2>
+<p>Pytania lub prośby dotyczące Twoich danych: <a href="mailto:info@mecabingo.oscasais.es" style="color:var(--text-accent)">info@mecabingo.oscasais.es</a>. Możesz też zgłosić sprawę na <a href="https://github.com/oscarOficial/meca-bingo/issues" style="color:var(--text-accent)">github.com/oscarOficial/meca-bingo</a>.</p>
+</template>
+<template lang="sk" data-title="Meca Bingo · Zásady ochrany súkromia">
+<h1>Zásady ochrany súkromia</h1>
+<p class="mut">Web Meca Bingo a rozšírenie prehliadača Meca Bingo Sync · Posledná aktualizácia: 23. novembra 2026 (rozšírenie 1.1)</p>
+<p class="mut"><i>Preklad anglického originálu; v prípade rozdielov platí anglická verzia.</i></p>
+
+<h2>Zhrnutie</h2>
+<p>Meca Bingo nezbiera, nepredáva ani nezdieľa osobné údaje. Nie sú tu účty, cookies ani reklama. Uchovávame iba anonymné počty návštev a používania (pozri nižšie). Údaje z hry zostávajú v prehliadačoch tých, ktorí hrajú.</p>
+
+<h2>Web</h2>
+<ul>
+  <li><b>Údaje z hry</b> (playlist, karty, zahrané pesničky, prezývky hráčov, fotky a správy) sa ukladajú iba v prehliadači moderátora (localStorage a IndexedDB). Fotky nikdy neopustia počítač moderátora.</li>
+  <li><b>Mobily hráčov</b> sa pripájajú priamo k prehliadaču moderátora (WebRTC). Verejná signalizačná služba PeerJS slúži len na to, aby sa dva prehliadače našli; údaje z hry cez ňu neprechádzajú.</li>
+  <li><b>Anonymné štatistiky používania:</b> stránka moderátora posiela na náš server niekoľko anonymných počítadiel, aby sme videli, ako sa hra používa a čo zlepšiť: že bola vytvorená hra (hudobná služba, počet pesničiek, typ karty a pravidlá), že sa pripojil hráč, že bola ohlásená výhra a či bola platná, ako dopadol import playlistu a ako dlho trvala dokončená hra. Ukladáme deň, krajinu, ktorú uvádza Cloudflare, a jazyk stránky. Neukladáme IP adresy, identifikátory zariadení, prezývky, názvy playlistov ani názvy pesničiek a nič sa nepoužíva na reklamu. Záznamy sa mažú približne po 13 mesiacoch.</li>
+  <li><b>Hosting:</b> web poskytuje Cloudflare. Ako každý webový server, aj Cloudflare spracúva tvoju IP adresu a údaje o prehliadači, aby doručil stránky a chránil ich pred zneužitím. Nepoužívame cookies ani reklamné sledovače. Návštevy počítame pomocou Cloudflare Web Analytics, ktoré nepoužíva cookies, fingerprinting ani sledovanie naprieč webmi. Písma a skripty sa načítavajú z našej vlastnej domény.</li>
+  <li><b>Služba pripojenia:</b> na prepojenie mobilov s moderátorom oba prehliadače kontaktujú signalizačný server PeerJS (0.peerjs.com), ktorý vidí ich IP adresy iba na tento účel.</li>
+  <li><b>Import playlistu:</b> keď moderátor vloží odkaz na verejný playlist, náš server si túto verejnú stránku raz prečíta, aby získal názvy pesničiek a interpretov, a vráti ich. Nič sa neukladá.</li>
+</ul>
+
+<h2>Rozšírenie Meca Bingo Sync</h2>
+<p>Rozšírenie je voliteľné a používa ho iba moderátor. Funguje len vo webových prehrávačoch Amazon Music, Spotify, Deezer, YouTube Music a Apple Music a na webe Meca Bingo. Rozšírenie:</p>
+<ul>
+  <li>číta názvy a interpretov playlistu, ktorý chce moderátor importovať, na stránke Amazon Music otvorenej v jeho vlastnom prehliadači;</li>
+  <li>číta názov a interpreta práve hrajúcej pesničky a posiela ich stránke Meca Bingo otvorenej v tom istom prehliadači, aby sa pesnička označila v bingu;</li>
+  <li>stláča prehrať, pauzu, ďalšiu a predchádzajúcu v hudobnom prehrávači, keď o to moderátor požiada;</li>
+  <li>ukladá niekoľko technických hodnôt (ktorá karta je hudobná) do úložiska relácie prehliadača, ktoré sa zmaže po jeho zatvorení.</li>
+</ul>
+<p>Rozšírenie nečíta heslá, cookies, históriu prehliadania ani iné weby, neposiela údaje na žiadny server a nepoužíva vzdialený kód.</p>
+
+<h2>Hudba a ochranné známky</h2>
+<p>Meca Bingo neuchováva, nestreamuje ani nešíri hudbu: moderátor prehráva hudbu zo svojho vlastného účtu v streamovacej službe podľa jej podmienok. Spotify, Amazon Music, Apple Music, Deezer a YouTube sú ochranné známky ich vlastníkov; Meca Bingo s nimi nie je spojené ani nimi podporované.</p>
+<h2>Kontakt</h2>
+<p>Otázky alebo žiadosti týkajúce sa tvojich údajov: <a href="mailto:info@mecabingo.oscasais.es" style="color:var(--text-accent)">info@mecabingo.oscasais.es</a>. Môžeš tiež otvoriť hlásenie na <a href="https://github.com/oscarOficial/meca-bingo/issues" style="color:var(--text-accent)">github.com/oscarOficial/meca-bingo</a>.</p>
+</template>
+<script>
+// English is the page as written; other languages come from the templates above.
+// Order: ?lang=xx, then the language chosen in the game, then the browser language.
+(() => {
+  const q = new URLSearchParams(location.search).get('lang');
+  let lang = q || (localStorage.getItem('meca-lang') || '').replace(/"/g, '') || (navigator.language || 'en').slice(0, 2);
+  const t = document.querySelector(`template[lang="${lang}"]`);
+  if (t) { document.getElementById('doc').innerHTML = t.innerHTML; document.title = t.dataset.title; } else lang = 'en';
+  document.documentElement.lang = lang;
+  document.querySelectorAll('#langs a').forEach(a => { if (a.dataset.l === lang) { a.removeAttribute('href'); a.style.fontWeight = '800'; } });
+})();
+</script>
 </body>
 </html>

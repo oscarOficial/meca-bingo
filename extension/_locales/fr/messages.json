@@ -1,0 +1,53 @@
+{
+  "extDescription": {
+    "message": "Meca Bingo : coche la chanson en cours sur Spotify, Deezer, YouTube Music, Apple Music ou Amazon Music et pilote la musique."
+  },
+  "actionTitle": {
+    "message": "Meca Bingo Sync"
+  },
+  "popupPlayer": {
+    "message": "Lecteur de musique"
+  },
+  "popupSite": {
+    "message": "Meca Bingo"
+  },
+  "noPlayer": {
+    "message": "Aucun onglet de musique ouvert ($1)"
+  },
+  "playing": {
+    "message": "▶ En lecture"
+  },
+  "paused": {
+    "message": "⏸ En pause"
+  },
+  "hostOpen": {
+    "message": "Page de l’animateur ouverte"
+  },
+  "hostClosed": {
+    "message": "Page de l’animateur fermée"
+  },
+  "openHost": {
+    "message": "Ouvre la page de l’animateur sur"
+  },
+  "prev": {
+    "message": "Précédente"
+  },
+  "playPause": {
+    "message": "Lecture / pause"
+  },
+  "next": {
+    "message": "Suivante"
+  },
+  "tapTitle": {
+    "message": "Touche pour lancer la musique"
+  },
+  "tapHint": {
+    "message": "Le navigateur a besoin d’un toucher avant de jouer de la musique"
+  },
+  "readingPlaylist": {
+    "message": "Lecture de la playlist…"
+  },
+  "startingMusic": {
+    "message": "Lancement de la musique…"
+  }
+}

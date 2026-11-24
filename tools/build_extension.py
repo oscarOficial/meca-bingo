@@ -12,7 +12,7 @@ import json, os, re, shutil, zipfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, 'extension')
-FILES = ['background.js', 'bridge.js', 'provider.js', 'mainworld.js', 'popup.html', 'popup.js', 'icons']
+FILES = ['background.js', 'bridge.js', 'provider.js', 'mainworld.js', 'popup.html', 'popup.js', 'icons', '_locales']
 GECKO_ID = 'meca-bingo-sync@oscasais.workers.dev'  # never change: identifies the add-on on Firefox
 
 
