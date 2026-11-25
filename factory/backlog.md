@@ -70,6 +70,12 @@ When the task is merged: `- [x] <title> → task/<id>`. Done by hand: `- [x] <ti
 - [ ] Extension: clear, actionable errors on the host screen
     En general debemos mejorar que el usuario sepa qué hacer para cada error con la integración entre los diferentes servicios (login, abrir playlist, conexión, problemas de conectividad...). Los errores deben ser visibles para el host y claros.
 
+### Extension: phones and tablets
+
+- [ ] Extension works on phones and tablets
+    Hacer que la extensión sea compatible también con tablets y móviles.
+    Note: today it is desktop only (`public/extension.html` says "only for the host's computer", and `extStoreUrl` in `public/js/host.js` sends phones and tablets to the install page). Chrome for Android has no extensions. Firefox for Android does (needs `browser_specific_settings.gecko_android` in `tools/build_extension.py` and marking the add-on "compatible with Android" on AMO); Safari on iPhone/iPad does (same Xcode app as macOS, with the iOS target); Edge for Android's support must be checked. The spec must first find out, per browser, whether each music web player (Spotify, Amazon Music, Deezer, YouTube Music, Apple Music) runs in a mobile browser at all, or only redirects to its app, and limit the task to the combinations that can work. Then: manifest/build changes, the host page and `extension.html` texts (8 languages) and store links per device, the popup on a small screen, and a test plan on a real phone/tablet. Store listing and new release are for the human (`extension/manifest.json`, version, store settings).
+
 ### Game settings
 
 - [x] Host setting: pause or not between songs → task/host-setting-pause-or-not-between-songs
