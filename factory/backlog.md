@@ -94,10 +94,10 @@ When the task is merged: `- [x] <title> → task/<id>`. Done by hand: `- [x] <ti
 
 ### Follow-ups found while building (25 Nov)
 
-- [ ] Overlays and toasts follow a language change
+- [x] Overlays and toasts follow a language change → task/overlays-and-toasts-follow-a-language
     Al cambiar de idioma, lo que está abierto en ese momento se queda en el idioma anterior: la ayuda "Cómo jugar" del jugador, toasts, la pantalla de ganar/perder, el momento foto, el "¡Tiempo!" del temporizador y el editor de premios.
     Note: found by the translations task (task/open-the-playlist-in-spotify-shows-in), which left short-lived overlays out of scope.
-- [ ] One shared dropdown component for every dropdown, in every browser
+- [x] One shared dropdown component for every dropdown, in every browser → task/one-shared-dropdown-component-for-every
     Unificar el menú de idioma (`details.prefs`), el selector de evento (`details.evmenu`) y los `<select>` del host en un mismo estilo, y que la flecha abierta/cerrada y la distancia al borde funcionen también en Firefox y Safari.
     Note: the dropdowns task only fixes `<select>`s in Chrome (`appearance: base-select`); Firefox/Safari keep native selects whose arrow never flips. The event picker task built its own `.evmenu` next to `.prefs`. Do after both are merged.
 - [x] Landing feature and mode lists use Lucide icons instead of emojis → task/landing-feature-and-mode-lists-use
@@ -109,15 +109,15 @@ When the task is merged: `- [x] <title> → task/<id>`. Done by hand: `- [x] <ti
     Tres detalles del sistema de eventos: una página que carga en una pestaña oculta anima el fondo hasta el primer cambio de pestaña; el destello al marcar una celda se desplaza si se hace scroll durante su animación (0,8 s); y si un evento define colores y emojis, el confeti normal sale el doble de grande.
 - [x] Python tools run on Windows without PYTHONUTF8=1 → task/python-tools-run-on-windows-without
     `ux_check.py`, `seo_check.py` y los mensajes de error de `build_events.py` fallan en la consola de Windows (cp1252) al escribir ✅/✗ o leer JSON, salvo con `PYTHONUTF8=1`. Abrir/escribir ficheros con `encoding='utf-8'` y reconfigurar stdout a UTF-8.
-- [ ] English names for the remaining Spanish identifiers
+- [x] English names for the remaining Spanish identifiers → task/english-names-for-the-remaining-spanish
     Quedan identificadores en español en el código (p. ej. las clases `.faroles` y `.volante` de los skins). Renombrarlos a inglés según la regla de AGENTS.md, sin cambiar textos visibles.
 - [x] Remove the dead cache rules from the Worker → task/remove-the-dead-cache-rules-from-the
     Eliminar el código muerto de caché en `src/worker.js`: las dos líneas de `Cache-Control` de `withHeaders()` (`.woff2/.png/.jpg/.webp/.svg` → 30 días, `.js/.css` → 1 hora) nunca se aplican.
     Note: `wrangler.jsonc` has no `run_worker_first`, so Cloudflare serves every existing file in `public/` before the Worker runs; `withHeaders()` only sees the language landings, the `/host`-style pages and 404s, none of which match those extensions. Static files already get `max-age=0, must-revalidate` (checked in production). Keep the security headers in `withHeaders()`; don't touch `wrangler.jsonc`. Found by the closed SVG-cache task.
-- [ ] Confirmation dialogs close with Escape and follow WCAG
+- [x] Confirmation dialogs close with Escape and follow WCAG → task/confirmation-dialogs-close-with-escape
     Los diálogos de confirmación (`#modal` + `ask()` en host.js y su copia en play.js) deben cerrarse con Escape y seguir las recomendaciones de WCAG 2.2 (nivel AA) para diálogos modales.
     Note: today they don't close on Escape. The spec should cover, for host and player: Escape = Cancel; `role="alertdialog"` (or a native `<dialog>` with `showModal()`), `aria-modal="true"`, `aria-labelledby`/`aria-describedby` pointing at the title and text; focus moves into the dialog when it opens (the safe/Cancel button for destructive actions), Tab stays inside it, and focus goes back to the control that opened it on close; the page behind is inert; buttons ≥ 40px and visible focus outlines using the skin tokens. Prefer one shared `ask()` (e.g. in fx.js) over the two copies. Check every place that calls `ask()`.
-- [ ] Service chips and all other chips readable on every skin
+- [x] Service chips and all other chips readable on every skin → task/service-chips-and-all-other-chips
     En el skin Feria (flamenco-fair) las tags de los servicios (Spotify, Deezer, Apple Music…) de la landing no se ven: texto blanco sobre fondo crema. Solucionarlo de forma transversal para todos los chips y todos los skins, siguiendo el patrón de los skins.
     Note: `.svc` is styled twice, inline in `site/landing.template.html:74-76` and `public/host.html:99-100`, with `background:var(--surface)` but no `color`, so it inherits the hero text colour (white on flamenco-fair's red hero). Other chip-like elements: `.pill` (app.css, already uses `--pill-text`/`--pill-border` tokens), `.chips` in host.html. Follow the skin pattern: one shared chip style in `public/css/app.css` with its own tokens (e.g. `--chip-bg`, `--chip-text`, `--chip-border`) defaulted in `:root` and overridden in `site/skins/<id>/tokens.css` only where needed; remove the duplicated inline rules; rebuild with build_skins.py/build_site.py. The UX check should assert chip text contrast (WCAG AA, ≥ 4.5:1) on the landing and host for all five skins, on the hero and on page backgrounds.
 - [x] Host's join URL is a link that opens in a new tab → task/hosts-join-url-is-a-link-that-opens-in-a
