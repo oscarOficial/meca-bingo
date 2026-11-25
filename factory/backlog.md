@@ -84,7 +84,7 @@ When the task is merged: `- [x] <title> → task/<id>`. Done by hand: `- [x] <ti
 
 ### Icons
 
-- [ ] Replace UI emojis with Lucide icons
+- [x] Replace UI emojis with Lucide icons → task/replace-ui-emojis-with-lucide-icons
     Los emojis usados como iconos en la interfaz (❓, 🌐…) se ven distintos en cada dispositivo y no siguen los colores del skin. Sustituirlos por iconos de Lucide (ISC).
     Decisions (human): dependency approved. No runtime library: copy only the icons used into one SVG sprite `public/img/icons.svg` (with Lucide's licence) and draw them with `<svg><use href="/img/icons.svg#name">`, coloured with `currentColor` so they follow the skin tokens. Keep accessible labels.
 
