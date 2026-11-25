@@ -15,8 +15,11 @@ When the task is merged: `- [x] <title> → task/<id>`. Done by hand: `- [x] <ti
     Cuando el usuario se conecta a la partida para poner su nombre el tema no encaja con el skin que el host ha seleccionado.
 - [x] Host game screen opens at the top after creating the game → task/host-game-screen-opens-at-the-top-after
     Tras crear partida la pantalla del host debe de mostrar desde el inicio (ahora se queda anclada abajo y no muestra el código QR ni las fotos).
-- [ ] 3×9 card shows its empty cells on phones
+- [x] 3×9 card shows its empty cells on phones → task/3-9-card-shows-its-empty-cells-on-phones
     Los cartones si se selecciona el cartón 3x9 no aparecen las celdas vacías (quizás debamos, para los cartones, si es un móvil fijar el portrait).
+- [ ] Compact player header and slimmer CALL button in landscape
+    En móvil en horizontal el cartón necesita más espacio. Subir "Jugando por Línea" (con su dibujo del premio) y "Cartón #1" al header, entre el logo y los botones "?" / "online", para ganar altura. Mantener el botón CALL a la derecha (queda bajo el pulgar derecho) pero mucho más estrecho (~56–64 px, texto en dos líneas o en vertical) para ganar ancho. Alternativa a comparar con capturas en la spec: CALL abajo en el centro.
+    Note: phone landscape is the layout 3×9 cards now always use on phones; vertical space is the scarcest (real phones lose more to the browser bar than the 740×375 UX check viewport).
 
 ### Extension: player sync (each one builds on the previous)
 
