@@ -14,8 +14,14 @@
   S.cfg = { ...DEFAULT_CFG, ...S.cfg }; S.cfg.prizes = MB.migratePrizes(S.cfg); delete S.cfg.vertical; delete S.cfg.diagonal;
   const save = () => store.set(KEY, S);
 
-  // ---------------- Meca Bingo Sync (Chrome extension, optional) ----------------
+  // ---------------- Meca Bingo Sync (browser extension, optional) ----------------
   const EXT = { on: false, version: null, playing: false, player: false };
+  // "Install" goes straight to this browser's store (store installs update themselves); others get the install page
+  const STORES = { edge: 'https://microsoftedge.microsoft.com/addons/detail/meca-bingo-sync/jdkejadbliplmenkjebcboggjpnaibpi',
+    firefox: 'https://addons.mozilla.org/firefox/addon/meca-bingo/', chrome: 'https://chromewebstore.google.com/detail/kjefpodcfpmpoocaeliddebomimbckic' };
+  const ua = navigator.userAgent;
+  const extStoreUrl = /Mobile|Android/.test(ua) ? 'extension.html' : /Edg\//.test(ua) ? STORES.edge
+    : /Firefox\//.test(ua) ? STORES.firefox : /Chrome\//.test(ua) ? STORES.chrome : 'extension.html';
   let extSeq = 0; const extWait = {};
   function extCall(type, data = {}, ms = 120000) {
     return new Promise(res => {
@@ -105,7 +111,7 @@
     set('tModeTitle', t.modeTitle); seti('tModeAuto', 'headphones', t.modeAuto); seti('tModeManual', 'hand', t.modeManual); set('tModeAutoDesc', t.modeAutoDesc); set('tModeManualDesc', t.modeManualDesc);
     const facts = (id, l, ics) => $(id).innerHTML = l.map((x, i) => `<li>${icon(ics[i])} ${esc(x)}</li>`).join('');
     facts('modeAutoFacts', t.modeAutoFacts, ['headphones', 'sparkles', 'user-check', 'laptop']); facts('modeManualFacts', t.modeManualFacts, ['headphones', 'hand', 'user-x', 'smartphone']);
-    set('tExtMissing', t.extMissing); set('getExtBtn', t.getExtBtn + ' →'); set('tSteps', t.stepsTitle); set('helpTitle', t.howToPlay); set('helpOk', t.gotIt); $('helpBtn').title = t.howToPlay; $('helpBtn').setAttribute('aria-label', t.howToPlay);
+    set('tExtMissing', t.extMissing); set('getExtBtn', t.getExtBtn + ' →'); $('getExtBtn').href = extStoreUrl; set('tSteps', t.stepsTitle); set('helpTitle', t.howToPlay); set('helpOk', t.gotIt); $('helpBtn').title = t.howToPlay; $('helpBtn').setAttribute('aria-label', t.howToPlay);
     set('tCard', t.cardType); set('tFree', t.freeCenter); set('tFreeHint', t.freeCenterHint);
     $('fmt').children[0].innerHTML = `${cardPic('es')}<span><b>${esc(t.cardEsShort)}</b><small>${esc(t.cardEsDesc)}</small></span>`;
     $('fmt').children[1].innerHTML = `${cardPic('us')}<span><b>${esc(t.cardUsShort)}</b><small>${esc(t.cardUsDesc)}</small></span>`;

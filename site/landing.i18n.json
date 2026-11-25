@@ -123,17 +123,6 @@
     "—"
    ]
   ],
-  "extTitle": "Meca Bingo Sync (optional)",
-  "extLead": "A browser extension for the host's computer that makes the night run by itself:",
-  "extList": [
-   "Marks every song automatically as it plays",
-   "Play, pause, next and previous on the bingo screen",
-   "Works with the Spotify, Amazon Music, Deezer, YouTube Music and Apple Music web players",
-   "Amazon Music: imports the playlist and START plays the round in shuffle"
-  ],
-  "extChrome": "Chrome / Edge",
-  "extFirefox": "Firefox",
-  "extSafari": "Safari (soon)",
   "faqTitle": "Questions",
   "faq": [
    [
@@ -388,17 +377,6 @@
     "—"
    ]
   ],
-  "extTitle": "Meca Bingo Sync (opcional)",
-  "extLead": "Una extensión para el navegador del presentador que hace que la noche vaya sola:",
-  "extList": [
-   "Marca sola cada canción que suena",
-   "Play, pausa, siguiente y anterior en la pantalla del bingo",
-   "Funciona con los reproductores web de Spotify, Amazon Music, Deezer, YouTube Music y Apple Music",
-   "Amazon Music: importa la playlist y START arranca la ronda en aleatorio"
-  ],
-  "extChrome": "Chrome / Edge",
-  "extFirefox": "Firefox",
-  "extSafari": "Safari (pronto)",
   "faqTitle": "Preguntas",
   "faq": [
    [
@@ -653,17 +631,6 @@
     "—"
    ]
   ],
-  "extTitle": "Meca Bingo Sync (facultatif)",
-  "extLead": "Une extension de navigateur pour l’ordinateur de l’animateur, pour que la soirée roule toute seule :",
-  "extList": [
-   "Coche chaque chanson automatiquement quand elle passe",
-   "Lecture, pause, suivante et précédente sur l’écran du bingo",
-   "Marche avec les lecteurs web de Spotify, Amazon Music, Deezer, YouTube Music et Apple Music",
-   "Amazon Music : importe la playlist et START lance la manche en aléatoire"
-  ],
-  "extChrome": "Chrome / Edge",
-  "extFirefox": "Firefox",
-  "extSafari": "Safari (bientôt)",
   "faqTitle": "Questions",
   "faq": [
    [
@@ -918,17 +885,6 @@
     "—"
    ]
   ],
-  "extTitle": "Meca Bingo Sync (optional)",
-  "extLead": "Eine Browser-Erweiterung für den Computer der Spielleitung, damit der Abend von selbst läuft:",
-  "extList": [
-   "Markiert jeden Song automatisch, wenn er läuft",
-   "Play, Pause, Weiter und Zurück auf dem Bingo-Bildschirm",
-   "Geht mit den Web-Playern von Spotify, Amazon Music, Deezer, YouTube Music und Apple Music",
-   "Amazon Music: importiert die Playlist, und START spielt die Runde im Zufallsmodus"
-  ],
-  "extChrome": "Chrome / Edge",
-  "extFirefox": "Firefox",
-  "extSafari": "Safari (bald)",
   "faqTitle": "Fragen",
   "faq": [
    [
@@ -1183,17 +1139,6 @@
     "—"
    ]
   ],
-  "extTitle": "Meca Bingo Sync (facoltativa)",
-  "extLead": "Un’estensione del browser per il computer di chi presenta, che fa andare la serata da sola:",
-  "extList": [
-   "Segna ogni canzone automaticamente mentre suona",
-   "Play, pausa, avanti e indietro sullo schermo della tombola",
-   "Funziona con i web player di Spotify, Amazon Music, Deezer, YouTube Music e Apple Music",
-   "Amazon Music: importa la playlist e START fa partire il turno in ordine casuale"
-  ],
-  "extChrome": "Chrome / Edge",
-  "extFirefox": "Firefox",
-  "extSafari": "Safari (presto)",
   "faqTitle": "Domande",
   "faq": [
    [
@@ -1448,17 +1393,6 @@
     "—"
    ]
   ],
-  "extTitle": "Meca Bingo Sync (optioneel)",
-  "extLead": "Een browserextensie voor de computer van de spelleider, zodat de avond vanzelf loopt:",
-  "extList": [
-   "Vinkt elk nummer automatisch aan als het speelt",
-   "Afspelen, pauze, volgende en vorige op het bingoscherm",
-   "Werkt met de webspelers van Spotify, Amazon Music, Deezer, YouTube Music en Apple Music",
-   "Amazon Music: importeert de playlist en START speelt de ronde in willekeurige volgorde"
-  ],
-  "extChrome": "Chrome / Edge",
-  "extFirefox": "Firefox",
-  "extSafari": "Safari (binnenkort)",
   "faqTitle": "Vragen",
   "faq": [
    [
@@ -1713,17 +1647,6 @@
     "—"
    ]
   ],
-  "extTitle": "Meca Bingo Sync (opcjonalnie)",
-  "extLead": "Rozszerzenie przeglądarki na komputer prowadzącego, dzięki któremu wieczór toczy się sam:",
-  "extList": [
-   "Automatycznie zaznacza każdą piosenkę, kiedy leci",
-   "Odtwarzanie, pauza, następna i poprzednia na ekranie bingo",
-   "Działa z odtwarzaczami webowymi Spotify, Amazon Music, Deezer, YouTube Music i Apple Music",
-   "Amazon Music: importuje playlistę, a START puszcza rundę losowo"
-  ],
-  "extChrome": "Chrome / Edge",
-  "extFirefox": "Firefox",
-  "extSafari": "Safari (wkrótce)",
   "faqTitle": "Pytania",
   "faq": [
    [
@@ -1978,17 +1901,6 @@
     "—"
    ]
   ],
-  "extTitle": "Meca Bingo Sync (voliteľné)",
-  "extLead": "Rozšírenie prehliadača pre počítač moderátora, vďaka ktorému večer beží sám:",
-  "extList": [
-   "Automaticky označí každú pesničku, keď hrá",
-   "Prehrať, pauza, ďalšia a predchádzajúca na obrazovke binga",
-   "Funguje s webovými prehrávačmi Spotify, Amazon Music, Deezer, YouTube Music a Apple Music",
-   "Amazon Music: importuje playlist a START pustí kolo náhodne"
-  ],
-  "extChrome": "Chrome / Edge",
-  "extFirefox": "Firefox",
-  "extSafari": "Safari (čoskoro)",
   "faqTitle": "Otázky",
   "faq": [
    [
