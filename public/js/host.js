@@ -34,7 +34,7 @@
   // While a control is in flight, state messages are ignored so they don't flip the button back.
   let ctlSeq = 0, ctlBusy = 0;
   function applyState(m) { if (ctlBusy || m.ok === false) return; EXT.playing = !!m.playing; if (m.player !== undefined) EXT.player = m.player; drawExt(); }
-  function syncExt() { if (!(S.phase === 'game' && EXT.on)) return; const at = ctlSeq; extCall('getState', {}, 5000).then(r => { if (at === ctlSeq) applyState(r); }); }
+  function syncExt() { if (!(S.phase === 'game' && EXT.on)) return; const at = ctlSeq; extCall('getState', {}, 5000).then(r => { if (r.track) heard(r.track.title, r.track.artist); if (at === ctlSeq) applyState(r); }); }
   setInterval(syncExt, 2000);
   function extControl(action, ms) {
     ctlSeq++; ctlBusy++;
@@ -61,16 +61,21 @@
     });
     return best;
   }
+  // the song the player is playing: pushed once, and also in every getState reply (in case the push was missed).
+  // Each song is handled once, so polling doesn't repeat the toast or re-mark a song undone while it keeps playing.
+  let lastHeard = null;
+  function heard(title, artist) {
+    const key = title + '|' + artist; if (S.phase !== 'game' || key === lastHeard) return; lastHeard = key;
+    const i = findTrack(title, artist);
+    if (i >= 0 && !S.played.includes(i)) { markSong(i); const n = S.played.length; toast(() => t.autoMarked(n), undefined, 'headphones'); }
+    else if (i < 0) toast(() => t.notOnCards, 4000, 'headphones');
+  }
   window.addEventListener('message', e => {
     const m = e.data; if (e.source !== window || !m || !m.__mbExt) return;
     if (m.id && extWait[m.id]) { const f = extWait[m.id]; delete extWait[m.id]; f(m); }
     if (m.type === 'ready') { EXT.on = true; EXT.version = m.version; drawExt(); if (S.phase !== 'game') drawMode(); else drawGame(); syncExt(); }
     else if (m.type === 'state' && !m.id) applyState(m);   // pushed by the player; replies to getState go through syncExt
-    else if (m.type === 'track' && S.phase === 'game') {
-      const i = findTrack(m.title, m.artist);
-      if (i >= 0 && !S.played.includes(i)) { markSong(i); const n = S.played.length; toast(() => t.autoMarked(n), undefined, 'headphones'); }
-      else if (i < 0) toast(() => t.notOnCards, 4000, 'headphones');
-    }
+    else if (m.type === 'track') heard(m.title, m.artist);
   });
   window.postMessage({ __mbPage: true, type: 'hello' }, '*');
 
@@ -437,6 +442,7 @@
     }
   }
   function startGame() {
+    lastHeard = null;
     $('setup').classList.add('hidden'); $('game').classList.remove('hidden'); scrollTo(0, 0); document.body.classList.add('ingame');
     const url = new URL('play.html', location.href).href.replace(/\?.*$/, '') + '?r=' + S.code + (new URLSearchParams(location.search).get('net') === 'local' ? '&net=local' : '');
     $('codeBig').textContent = S.code; $('joinUrl').textContent = url.replace(/^https?:\/\//, '').replace(/\?.*/, '') + ' · ' + S.code; $('joinUrl').href = url;
