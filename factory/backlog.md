@@ -111,3 +111,6 @@ When the task is merged: `- [x] <title> → task/<id>`. Done by hand: `- [x] <ti
     `ux_check.py`, `seo_check.py` y los mensajes de error de `build_events.py` fallan en la consola de Windows (cp1252) al escribir ✅/✗ o leer JSON, salvo con `PYTHONUTF8=1`. Abrir/escribir ficheros con `encoding='utf-8'` y reconfigurar stdout a UTF-8.
 - [ ] English names for the remaining Spanish identifiers
     Quedan identificadores en español en el código (p. ej. las clases `.faroles` y `.volante` de los skins). Renombrarlos a inglés según la regla de AGENTS.md, sin cambiar textos visibles.
+- [ ] Remove the dead cache rules from the Worker
+    Eliminar el código muerto de caché en `src/worker.js`: las dos líneas de `Cache-Control` de `withHeaders()` (`.woff2/.png/.jpg/.webp/.svg` → 30 días, `.js/.css` → 1 hora) nunca se aplican.
+    Note: `wrangler.jsonc` has no `run_worker_first`, so Cloudflare serves every existing file in `public/` before the Worker runs; `withHeaders()` only sees the language landings, the `/host`-style pages and 404s, none of which match those extensions. Static files already get `max-age=0, must-revalidate` (checked in production). Keep the security headers in `withHeaders()`; don't touch `wrangler.jsonc`. Found by the closed SVG-cache task.
