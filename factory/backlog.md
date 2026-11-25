@@ -53,7 +53,7 @@ When the task is merged: `- [x] <title> → task/<id>`. Done by hand: `- [x] <ti
 
 - [x] Extension: host play/pause state matches the real player → task/extension-host-play-pause-state-matches
     Los controles de la extensión a veces no están bien sincronizados con el host (muestra que está sonando cuando en realidad está en pausa).
-- [ ] Extension: detect the playing playlist on YouTube Music
+- [x] Extension: detect the playing playlist on YouTube Music → task/extension-detect-the-playing-playlist-on
     Con YouTube la extensión no parece funcionar (no se entera de que está corriendo la playlist de fondo).
 - [ ] Extension: host shows the current song after signing in to Spotify
     Tras hacer login en Spotify la playlist empieza pero la página de Host no se actualiza correctamente (no muestra que haya una canción reproduciéndose).
