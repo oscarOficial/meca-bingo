@@ -178,6 +178,9 @@ def run():
             if tag == 'es':
                 check('host game screen opens at the top', host.evaluate('scrollY') == 0, f"scrollY={host.evaluate('scrollY')}")
                 check('game screen says the mode', 'manual' in host.inner_text('#modeBanner').lower())
+                j = host.evaluate("(() => { const a = document.querySelector('#joinUrl'); return [a.tagName, a.target, a.rel, a.href]; })()")
+                check('host: join URL is a link that opens in a new tab', j[0] == 'A' and j[1] == '_blank' and 'noopener' in j[2].split(), str(j[:3]))
+                check('host: join link goes to the player page of this game', j[3].endswith(f"play.html?r={host.inner_text('#codeBig')}&net=local"), j[3])
                 host.click('#helpBtn'); time.sleep(0.2); shot(host, 'host-help-desktop'); check('host rules help opens', host.is_visible('#help')); host.click('#helpOk')
             code = host.inner_text('#codeBig')
             player = ctx.new_page()
@@ -221,6 +224,8 @@ def run():
                 for dev in ('desktop', 'tablet', 'phone-portrait'):
                     w, h = DEVICES[dev]; host.set_viewport_size({'width': w, 'height': h}); time.sleep(0.3)
                     shot(host, f'host-game-{dev}', full=True); page_checks(host, f'host game ({dev})')
+                    r = host.evaluate("(() => { const r = document.querySelector('#joinUrl').getBoundingClientRect(); return [Math.round(r.width), Math.round(r.height)]; })()")
+                    check(f'host game ({dev}): join link tap target ≥ 40px', min(r) >= 40, f'{r[0]}x{r[1]}px')
                 w, h = DEVICES['phone-landscape']; player.set_viewport_size({'width': w, 'height': h})
                 player.click('#callBtn'); time.sleep(0.8)
                 shot(player, 'player-result-phone')

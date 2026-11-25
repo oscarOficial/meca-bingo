@@ -30,6 +30,9 @@
 .join .qr{background:#fff;border-radius:14px;padding:10px;width:170px;height:170px;overflow:hidden;color:transparent}
 .join .qr svg{width:100%;height:100%}
 .join .code{font:800 clamp(40px,7vw,64px) var(--font-display);letter-spacing:8px;color:var(--text-highlight)}
+/* inline padding grows the tap target to ≥40px without moving lines */
+#joinUrl{color:inherit;font-weight:700;text-decoration:none;padding:13px 0;border-radius:6px}
+#joinUrl:hover,#joinUrl:focus-visible{color:var(--text-accent);text-decoration:underline}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
 .prize{text-align:center;font:800 clamp(22px,2.6vw,40px) var(--font-display)}
 .prize b{color:var(--text-highlight)}
@@ -255,7 +258,7 @@
     <div class="reel" aria-hidden="true"><div class="track" id="reel"></div></div>
     <div class="card join">
       <div class="qr" id="qr"></div>
-      <div><div class="mut" id="tScan"></div><div class="code" id="codeBig"></div><div class="mut"><span id="tGoTo"></span> <b id="joinUrl"></b></div>
+      <div><div class="mut" id="tScan"></div><div class="code" id="codeBig"></div><div class="mut"><span id="tGoTo"></span> <a id="joinUrl" target="_blank" rel="noopener"></a></div>
         <label class="lbl" style="margin-top:12px"><span id="tPlayers"></span> · <span id="pCount"></span></label><div class="chips" id="chips"></div></div>
     </div>
     <div class="card prize" id="prizeNow"></div>
