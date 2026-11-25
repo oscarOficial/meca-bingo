@@ -26,7 +26,7 @@ When the task is merged: `- [x] <title> → task/<id>`. Done by hand: `- [x] <ti
 
 - [ ] Language dropdown: arrow shows open/closed and keeps off the right edge
     En el dropdown de idioma la flecha no cambia de estado (abierto/cerrado) y además el desplegable se queda demasiado pegado al borde derecho.
-- [ ] Special event picker as a dropdown with an icon per event
+- [x] Special event picker as a dropdown with an icon per event → task/special-event-picker-as-a-dropdown-with
     El selector de evento especial me gustaría que fuera un dropdown y que cada opción tenga un icono representativo al lado (por ejemplo en Navidad un árbol de navidad). "Ninguno" también necesita su icono o un hueco equivalente.
     Note: the icon belongs in each `site/events/<id>/event.json` (built by build_events.py), not hard-coded in host.js.
 - [ ] Meca Bingo logo links to the home page
