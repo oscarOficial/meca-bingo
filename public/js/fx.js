@@ -39,6 +39,9 @@
     if (el) { const r = el.getBoundingClientRect(); d.style.cssText = `position:absolute;left:${r.left + scrollX}px;top:${r.top + scrollY}px;width:${r.width}px;height:${r.height}px`; } else d.style.inset = '0';
     document.body.appendChild(d); setTimeout(() => d.remove(), 3000);
   }
+  // a new width (turning the phone) moves the cells: drop a mark effect left behind, which would also widen the page
+  let width = innerWidth;
+  addEventListener('resize', () => { if (innerWidth !== width) document.querySelectorAll('.evfx[data-fx=mark]').forEach(e => e.remove()); width = innerWidth; });
   const win = () => { flash('#3ef08a'); hook('win'); }, nope = () => { flash('#ff3d9a'); hook('nope'); };
   const mark = el => hook('mark', el), moment = () => hook('moment');
   const pick = a => a[Math.floor(Math.random() * a.length)];
