@@ -166,7 +166,7 @@
 <div class="wrap">
   <div class="top">
     <h1>Meca <span class="grad">Bingo</span></h1>
-    <div class="row"><span class="pill ok hidden" id="extPill">🧩 Sync</span><button class="btn" id="helpBtn" type="button">❓</button><select id="lang" style="width:auto"></select><button class="btn" id="fs">⛶</button></div>
+    <div class="row"><span class="pill ok hidden" id="extPill"><svg class="icon" aria-hidden="true"><use href="/img/icons.svg#puzzle"/></svg> Sync</span><button class="btn" id="helpBtn" type="button"><svg class="icon" aria-hidden="true"><use href="/img/icons.svg#circle-question-mark"/></svg></button><select id="lang" style="width:auto"></select><button class="btn" id="fs"><svg class="icon" aria-hidden="true"><use href="/img/icons.svg#maximize"/></svg></button></div>
   </div>
 
   <!-- ============ SETUP ============ -->
@@ -176,7 +176,7 @@
       <h2 id="tPasteTitle"></h2>
       <p class="mut" id="tPasteSub"></p>
       <form class="pasterow" id="plForm"><input type="url" id="plUrl" autocomplete="off" aria-labelledby="tPasteTitle"><button class="btn big cy" id="importBtn"></button></form>
-      <div class="svcs"><span class="mut" id="tWorksWith"></span><span class="svc">Spotify</span><span class="svc">Deezer</span><span class="svc">Apple Music</span><span class="svc">YouTube Music</span><span class="svc">Amazon Music <b>🧩</b></span></div>
+      <div class="svcs"><span class="mut" id="tWorksWith"></span><span class="svc">Spotify</span><span class="svc">Deezer</span><span class="svc">Apple Music</span><span class="svc">YouTube Music</span><span class="svc">Amazon Music <svg class="icon" aria-hidden="true"><use href="/img/icons.svg#puzzle"/></svg></span></div>
       <details class="info"><summary id="tHowImport"></summary><ul id="importInfo"></ul><a href="extension.html" target="_blank" id="extLink"></a></details>
       <details class="info"><summary id="tOrPaste"></summary>
         <textarea id="paste" placeholder="Toxic - Britney Spears&#10;Hey Ya! - Outkast"></textarea>
@@ -268,7 +268,7 @@
           <div class="pol snap" id="snap"><img id="snapImg" alt=""><p id="snapCap"></p></div>
         </div>
         <div class="card">
-          <div class="lock" id="lock"><div style="font-size:28px">🔒</div><h3 id="tLogHidden" style="margin:6px 0"></h3><p class="mut" id="tLogHint" style="margin-bottom:12px"></p><button class="btn" id="unlock"></button></div>
+          <div class="lock" id="lock"><div style="font-size:28px"><svg class="icon" aria-hidden="true"><use href="/img/icons.svg#lock"/></svg></div><h3 id="tLogHidden" style="margin:6px 0"></h3><p class="mut" id="tLogHint" style="margin-bottom:12px"></p><button class="btn" id="unlock"></button></div>
           <div id="logBody" class="hidden">
             <div class="row" style="margin-bottom:8px"><input type="text" id="q" style="flex:1"><button class="btn" id="relock"></button></div>
             <h4 class="sub" id="hTodo"></h4><div id="todo"></div>
@@ -286,7 +286,7 @@
   </section>
 </div>
 
-<div class="ctlbar hidden" id="ctlbar"><button data-ctl="prev" title="Previous">⏮</button><button data-ctl="toggle" id="ctlToggle" class="main">▶</button><button data-ctl="next" title="Next">⏭</button></div>
+<div class="ctlbar hidden" id="ctlbar"><button data-ctl="prev"><svg class="icon" aria-hidden="true"><use href="/img/icons.svg#skip-back"/></svg></button><button data-ctl="toggle" id="ctlToggle" class="main"><svg class="icon" aria-hidden="true"><use href="/img/icons.svg#play"/></svg></button><button data-ctl="next"><svg class="icon" aria-hidden="true"><use href="/img/icons.svg#skip-forward"/></svg></button></div>
 <div class="moment" id="moment"><div class="mlbl" id="mLbl"></div><div class="mpol"><div class="mimg"><img id="mImg" alt=""></div><p id="mCap"></p></div></div>
 <div class="stage" id="stage"><div class="who" id="stWho"></div><div class="big"><img alt=""><p></p><div class="stamp"></div></div></div>
 <canvas id="fx"></canvas>

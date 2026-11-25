@@ -1,6 +1,6 @@
 // Player screen: join with a code, get a card, mark songs, call prizes.
 (function () {
-  const { $, toast, esc, store } = FX;
+  const { $, icon, toast, esc, store } = FX;
   const params = new URLSearchParams(location.search);
   let code = (params.get('r') || '').toUpperCase();
   let lang = store.get('meca-lang') || (navigator.language || 'en').slice(0, 2); if (!I18N.T[lang]) lang = 'en';
@@ -16,10 +16,11 @@
   function setStatus(s) { const e = $('status'); e.textContent = s === 'open' ? '● ' + t.online : s === 'lost' ? '● ' + t.reconnecting : '● ' + t.connecting; e.className = 'status pill ' + (s === 'open' ? 'ok' : 'warn'); }
   function texts() {
     t = I18N.get(lang); document.documentElement.lang = lang;
-    $('tCode').textContent = t.code; $('tJoin').textContent = t.join; $('tName').textContent = t.yourName; $('nameIn').placeholder = t.namePh; $('tGo').textContent = t.letsGo; $('hint').textContent = t.tapToMark; $('tRotate').textContent = t.rotate; $('rotateAnyway').textContent = t.rotateAnyway; $('resBack').textContent = t.backToCard;
+    $('tCode').textContent = t.code; $('tJoin').textContent = t.join; $('tName').textContent = t.yourName; $('nameIn').placeholder = t.namePh; $('tGo').textContent = t.letsGo; $('hint').textContent = t.tapToMark; $('tRotate').textContent = t.rotate; $('rotateAnyway').textContent = t.rotateAnyway;
+    $('helpBtn').title = t.playerHelpTitle; $('helpBtn').setAttribute('aria-label', t.playerHelpTitle); $('resBack').textContent = t.backToCard;
   }
   // prize names and shapes come from the host; very old hosts sent 'line' / 'two' / 'bingo'
-  // rules: shown the first time on this phone, and from the ❓ button
+  // rules: shown the first time on this phone, and from the help button
   function showHelp() {
     $('helpTitle').textContent = t.playerHelpTitle; $('helpOk').textContent = t.gotIt;
     $('helpRules').innerHTML = t.rules.map(x => `<li>${esc(x)}</li>`).join('');
@@ -97,15 +98,15 @@
   try { document.fonts.ready.then(() => { if (document.querySelector('#board .cell[data-i]')) fitText(); }); document.fonts.addEventListener('loadingdone', () => { if (document.querySelector('#board .cell[data-i]')) fitText(); }); } catch (e) {}
   function drawState() {
     const pz = hasPrize() && state.prizes && state.prizes[state.prize];
-    $('prize').innerHTML = state.over ? `<span class="pf">🎉 ${esc(t.allPrizesDone)}</span>` : hasPrize() ? `<span><span class="pf">${esc(t.playingFor)}</span> <b>${esc(prizeLabel(state.prize))}</b></span>${pz && window.PATUI ? PATUI.html(state.fmt || (P.card && P.card.fmt) || 'es', pz.pat, { free: state.free, label: prizeLabel(state.prize) }) : ''}` : '';
+    $('prize').innerHTML = state.over ? `<span class="pf">${icon('party-popper')} ${esc(t.allPrizesDone)}</span>` : hasPrize() ? `<span><span class="pf">${esc(t.playingFor)}</span> <b>${esc(prizeLabel(state.prize))}</b></span>${pz && window.PATUI ? PATUI.html(state.fmt || (P.card && P.card.fmt) || 'es', pz.pat, { free: state.free, label: prizeLabel(state.prize) }) : ''}` : '';
     const cb = $('callbar'); const was = cb.classList.contains('hidden'); cb.classList.toggle('hidden', !hasPrize() || !P.card); if (was !== cb.classList.contains('hidden')) { sizeBoard(); fitText(); }
     if (hasPrize()) $('callBtn').innerHTML = `<span>${esc(t.call(prizeLabel(state.prize).replace(/\s*\(.*?\)/g, '').toUpperCase()))}</span>`;
     $('callBtn').disabled = !connected || busy;
-    const W = Object.entries(state.winners || {}).filter(([, n]) => n && n.length).map(([p, n]) => `🏆 <b>${esc(prizeLabel(p))}</b>: ${n.map(esc).join(', ')}`);
+    const W = Object.entries(state.winners || {}).filter(([, n]) => n && n.length).map(([p, n]) => `${icon('trophy')} <b>${esc(prizeLabel(p))}</b>: ${n.map(esc).join(', ')}`);
     $('winners').innerHTML = W.join('<br>'); $('winners').classList.toggle('hidden', !W.length);
   }
-  function result(ok, title, sub) {
-    const r = $('res'); r.className = 'res on ' + (ok ? 'ok' : 'no'); $('resT').textContent = title; $('resS').textContent = sub || '';
+  function result(ok, title, sub, ic) {
+    const r = $('res'); r.className = 'res on ' + (ok ? 'ok' : 'no'); $('resT').textContent = title; if (ic) $('resS').innerHTML = icon(ic) + ' ' + esc(sub); else $('resS').textContent = sub || '';
     ok ? FX.win() : FX.nope();
     try { navigator.vibrate && navigator.vibrate(ok ? [80, 60, 80, 60, 200] : [300]); } catch (e) {}
     setTimeout(() => r.classList.remove('on'), ok ? 5000 : 3000);
@@ -127,12 +128,12 @@
       const before = JSON.stringify(state.winners || {});
       state = { ...state, ...m }; drawState();
       if (JSON.stringify(m.winners || {}) !== before) {
-        for (const [p, n] of Object.entries(m.winners || {})) if (n && n.length) toast('🏆 ' + t.winnerIs(n.join(', '), prizeLabel(p)), 5000);
+        for (const [p, n] of Object.entries(m.winners || {})) if (n && n.length) toast(t.winnerIs(n.join(', '), prizeLabel(p)), 5000, 'trophy');
       }
     } else if (m.t === 'result') {
       busy = false; drawState();
       if (m.ok) result(true, t.youWon(prizeLabel(m.prize)));
-      else result(false, t.notValid, m.reason === 'wrong' ? '⚠️ ' + t.youWrong : m.reason === 'closed' ? t.prizeClosed : t.youIncomplete);
+      else result(false, t.notValid, m.reason === 'wrong' ? t.youWrong : m.reason === 'closed' ? t.prizeClosed : t.youIncomplete, m.reason === 'wrong' && 'triangle-exclamation-point');
       (m.wrong || []).forEach(i => { const c = document.querySelector(`.cell[data-i="${i}"]`); if (c) { c.classList.add('wrong'); setTimeout(() => c.classList.remove('wrong'), 4000); } });
     } else if (m.t === 'full') { show('msg'); $('msgText').textContent = t.gameFull; }
     else if (m.t === 'over') { show('msg'); $('msgText').textContent = t.gameOver; $('callbar').classList.add('hidden'); store.del(K()); }

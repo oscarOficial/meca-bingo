@@ -59,7 +59,7 @@
   function draw() {
     const l = lang(), t = TXT[l];
     document.querySelectorAll('[data-prefs-t]').forEach(el => { if (t[el.dataset.prefsT]) el.textContent = t[el.dataset.prefsT]; });
-    document.querySelectorAll('[data-prefs-label]').forEach(el => { el.textContent = '🌐 ' + l.toUpperCase(); el.setAttribute('aria-label', t.menu); el.title = t.menu; });
+    document.querySelectorAll('[data-prefs-label]').forEach(el => { el.innerHTML = '<svg class="icon" aria-hidden="true"><use href="/img/icons.svg#globe"/></svg> ' + l.toUpperCase(); el.setAttribute('aria-label', t.menu); el.title = t.menu; });
     document.querySelectorAll('[data-skin-cards]').forEach(box => {
       box.setAttribute('role', 'group'); box.setAttribute('aria-label', t.mood);
       box.innerHTML = Object.keys(SKINS).map(k => `<button type="button" data-skin="${k}" aria-pressed="false">` +

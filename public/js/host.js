@@ -1,6 +1,6 @@
 // Host screen: set up the game, then run it. All game state lives in this browser.
 (function () {
-  const { $, toast, pick, esc, store } = FX;
+  const { $, icon, toast, pick, esc, store } = FX;
   const toggleFullscreen = () => FX.toggleFullscreen(t.noFullscreen);
   const KEY = 'meca-host';
   const DEFAULT_CFG = { fmt: 'es', freeCenter: false, prizes: MB.defaultPrizes('es'), clip: 0, gap: 'next', maxPlayers: 30, moment: 6 };
@@ -46,8 +46,8 @@
     else if (m.type === 'state') { EXT.playing = !!m.playing; if (m.player !== undefined) EXT.player = m.player; drawExt(); }
     else if (m.type === 'track' && S.phase === 'game') {
       const i = findTrack(m.title, m.artist);
-      if (i >= 0 && !S.played.includes(i)) { markSong(i); toast('🎧 ' + t.autoMarked(S.played.length)); }
-      else if (i < 0) toast('🎧 ' + t.notOnCards, 4000);
+      if (i >= 0 && !S.played.includes(i)) { markSong(i); toast(t.autoMarked(S.played.length), undefined, 'headphones'); }
+      else if (i < 0) toast(t.notOnCards, 4000, 'headphones');
     }
   });
   window.postMessage({ __mbPage: true, type: 'hello' }, '*');
@@ -81,25 +81,28 @@
   function texts() {
     t = I18N.get(lang); document.documentElement.lang = lang;
     const set = (id, s) => { const e = $(id); if (e) e.textContent = s; };
+    const seti = (id, ic, s) => { const e = $(id); if (e) e.innerHTML = icon(ic) + ' ' + esc(s); };
     $('lang').innerHTML = I18N.langs.map(l => `<option value="${l}">${I18N.T[l].langName}</option>`).join(''); $('lang').value = lang;
     set('tPasteTitle', t.pasteTitle); set('tPasteSub', t.pasteSub); $('plUrl').placeholder = t.pastePh; set('importBtn', t.import); set('tWorksWith', t.worksWith);
-    set('tHowImport', t.howImport); $('importInfo').innerHTML = t.importInfo.map(x => `<li>${esc(x)}</li>`).join(''); set('extLink', t.getExt);
+    set('tHowImport', t.howImport); $('importInfo').innerHTML = t.importInfo.map(x => `<li>${esc(x)}</li>`).join(''); seti('extLink', 'puzzle', t.getExt);
     set('tOrPaste', t.orPaste); set('useList', t.useList); set('plChange', '↺ ' + t.change); set('tSongList', t.songList || t.songs);
-    set('tModeTitle', t.modeTitle); set('tModeAuto', '🎧 ' + t.modeAuto); set('tModeManual', '✋ ' + t.modeManual); set('tModeAutoDesc', t.modeAutoDesc); set('tModeManualDesc', t.modeManualDesc);
-    $('modeAutoFacts').innerHTML = t.modeAutoFacts.map(x => `<li>${esc(x)}</li>`).join(''); $('modeManualFacts').innerHTML = t.modeManualFacts.map(x => `<li>${esc(x)}</li>`).join('');
+    set('tModeTitle', t.modeTitle); seti('tModeAuto', 'headphones', t.modeAuto); seti('tModeManual', 'hand', t.modeManual); set('tModeAutoDesc', t.modeAutoDesc); set('tModeManualDesc', t.modeManualDesc);
+    const facts = (id, l, ics) => $(id).innerHTML = l.map((x, i) => `<li>${icon(ics[i])} ${esc(x)}</li>`).join('');
+    facts('modeAutoFacts', t.modeAutoFacts, ['headphones', 'sparkles', 'user-check', 'laptop']); facts('modeManualFacts', t.modeManualFacts, ['headphones', 'hand', 'user-x', 'smartphone']);
     set('tExtMissing', t.extMissing); set('getExtBtn', t.getExtBtn + ' →'); set('tSteps', t.stepsTitle); set('helpTitle', t.howToPlay); set('helpOk', t.gotIt); $('helpBtn').title = t.howToPlay; $('helpBtn').setAttribute('aria-label', t.howToPlay);
     set('tCard', t.cardType); set('tFree', t.freeCenter); set('tFreeHint', t.freeCenterHint);
     $('fmt').children[0].innerHTML = `${cardPic('es')}<span><b>${esc(t.cardEsShort)}</b><small>${esc(t.cardEsDesc)}</small></span>`;
     $('fmt').children[1].innerHTML = `${cardPic('us')}<span><b>${esc(t.cardUsShort)}</b><small>${esc(t.cardUsDesc)}</small></span>`;
-    set('tPrizesTitle', t.prizesTitle); set('tPrizesHint', t.prizesHint); set('tMore', '⚙️ ' + t.moreOptions);
-    set('tabGal', t.patGallery); set('tabDraw', '✏️ ' + t.patDraw); set('dClear', t.clear); set('dInvert', t.invert); set('dAll', t.all); set('shRemove', '🗑 ' + t.remove); set('shDone', t.done); set('shTitle', t.prizeNameLbl);
+    set('tPrizesTitle', t.prizesTitle); set('tPrizesHint', t.prizesHint); seti('tMore', 'settings', t.moreOptions);
+    set('tabGal', t.patGallery); seti('tabDraw', 'pencil', t.patDraw); set('dClear', t.clear); set('dInvert', t.invert); set('dAll', t.all); seti('shRemove', 'trash', t.remove); set('shDone', t.done); set('shTitle', t.prizeNameLbl);
     set('tClip', t.clip); $('clip').innerHTML = [0, 30, 45, 60, 90].map(s => `<option value="${s}">${s ? t.secs(s) : t.full}</option>`).join('');
     set('tGap', t.gapLbl); $('gap').innerHTML = ['next', 'pause'].map(v => `<option value="${v}">${v === 'pause' ? t.gapPause : t.gapNext}</option>`).join('');
-    set('tMax', t.maxPlayers); set('tMoment', t.momentLbl); $('momentSecs').innerHTML = [0, 4, 6, 8, 10].map(v => `<option value="${v}">${v ? t.momentSecs(v) : t.momentOff}</option>`).join(''); set('tPhotos', '📸 ' + t.photosMsgs); set('tPhotosHint', t.photosHint); set('tAddPhotos', t.addPhotos); set('clearPhotos', t.removeAll);
+    set('tMax', t.maxPlayers); set('tMoment', t.momentLbl); $('momentSecs').innerHTML = [0, 4, 6, 8, 10].map(v => `<option value="${v}">${v ? t.momentSecs(v) : t.momentOff}</option>`).join(''); seti('tPhotos', 'camera', t.photosMsgs); set('tPhotosHint', t.photosHint); set('tAddPhotos', t.addPhotos); set('clearPhotos', t.removeAll);
     set('tMsgWait', t.msgWait); set('tMsgWin', t.msgWin); set('tMsgLose', t.msgLose); set('tOnePerLine', t.onePerLine); set('create', t.create);
     set('tScan', t.scanToJoin); set('tGoTo', t.orGoTo); set('tPlayers', t.players); set('undo', '↶ ' + t.undo);
-    set('tLogHidden', t.logHidden); set('tLogHint', t.logHint); set('unlock', t.showLog); set('relock', '🔒 ' + t.hide); $('q').placeholder = t.find;
-    set('tWinners', t.winners); set('tClaims', t.claims); set('endBtn', t.endGame); $('fs').title = t.fullscreen;
+    set('tLogHidden', t.logHidden); set('tLogHint', t.logHint); set('unlock', t.showLog); seti('relock', 'lock', t.hide); $('q').placeholder = t.find;
+    set('tWinners', t.winners); set('tClaims', t.claims); set('endBtn', t.endGame); $('fs').title = t.fullscreen; $('fs').setAttribute('aria-label', t.fullscreen);
+    document.querySelectorAll('[data-ctl=prev],[data-ctl=next]').forEach(b => { b.title = b.dataset.ctl === 'prev' ? t.ctlPrev : t.ctlNext; b.setAttribute('aria-label', b.title); });
     set('tSpecialEvent', t.specialEvent); set('tSpecialEventLead', t.specialEventLead); drawEvents();
   }
   // special event picker under the mood cards: "None", the shown events and the current one if it is hidden (test)
@@ -154,7 +157,7 @@
     if (!$('modePick')) return;
     const m = mode();
     [...$('modePick').children].forEach(b => b.setAttribute('aria-pressed', b.dataset.mode === m));
-    const st = $('extState'); st.textContent = EXT.on ? '✓ ' + t.extReady : '🧩 ' + t.getExtBtn; st.className = 'pill ' + (EXT.on ? 'ok' : 'warn');
+    const st = $('extState'); if (EXT.on) st.textContent = '✓ ' + t.extReady; else st.innerHTML = icon('puzzle') + ' ' + esc(t.getExtBtn); st.className = 'pill ' + (EXT.on ? 'ok' : 'warn');
     $('extWarn').classList.toggle('hidden', !(m === 'auto' && !EXT.on));
     $('stepsList').innerHTML = (m === 'auto' ? t.stepsAuto : t.stepsManual).map(x => `<li>${esc(x)}</li>`).join('');
   }
@@ -183,7 +186,7 @@
         ${PATUI.html(c.fmt, p.pat, { free: c.freeCenter && c.fmt === 'us', label: prizeTitle(k) })}
         <b>${esc(prizeTitle(k))}</b>
         <span class="est">${e && e.median ? esc(t.aroundSong(e.median)) : est ? '' : esc(t.checking)}</span>
-        ${warns.map(w => `<span class="w">⚠️ ${esc(w)}</span>`).join('')}
+        ${warns.map(w => `<span class="w">${icon('triangle-exclamation-point')} ${esc(w)}</span>`).join('')}
       </div>`;
     }).join('') + (n < MB.MAX_PRIZES ? `<button type="button" class="pz add" id="addPrize">${esc(t.addPrize)}</button>` : '');
   }
@@ -279,7 +282,7 @@
   };
   $('shName').oninput = e => { const v = e.target.value.trim(); if (v && v !== I18N.prizeTitle(t, S.cfg.fmt, { preset: ed.preset })) { ed.name = v; ed.nameEdited = true; } else { delete ed.name; ed.nameEdited = false; } };
   $('shDone').onclick = () => {
-    if (ed.pat.kind === 'masks' && !ed.pat.masks.some(m => m.length)) { toast('✏️ ' + t.drawHint, 3000); return; }
+    if (ed.pat.kind === 'masks' && !ed.pat.masks.some(m => m.length)) { toast(t.drawHint, 3000, 'pencil'); return; }
     const p = { preset: ed.preset, pat: ed.pat }; if (ed.name) p.name = ed.name;
     if (edK < S.cfg.prizes.length) S.cfg.prizes[edK] = p; else S.cfg.prizes.push(p);
     save(); closeSheet(); drawSetup();
@@ -325,7 +328,7 @@
       scrollTo(0, 0);
       STATS.track('import', { provider: d.provider, ok: true, songs: d.tracks.length });
       save(); drawSetup();
-    } catch (e) { toast('⚠️ ' + e.message, 8000); }
+    } catch (e) { toast(e.message, 8000, 'triangle-exclamation-point'); }
     finally { $('importBtn').disabled = false; $('importBtn').textContent = t.import; }
   }
 
@@ -410,12 +413,12 @@
     $('pCount').textContent = `${names.length}/${S.cards.length}`;
     $('chips').innerHTML = names.length ? names.map(p => `<span class="pill">${esc(p.name)} · #${p.card + 1}</span>`).join('') : `<span class="mut">${esc(t.noPlayers)}</span>`;
     const cur = currentPrize();
-    $('prizeNow').innerHTML = cur !== null ? `${esc(t.playingFor)} <b>${esc(prizeLabel(cur))}</b>${PATUI.html(S.cfg.fmt, S.cfg.prizes[cur].pat, { free: S.cfg.fmt === 'us' && S.cfg.freeCenter })}` : `🎉 ${esc(t.allPrizesDone)}`;
+    $('prizeNow').innerHTML = cur !== null ? `${esc(t.playingFor)} <b>${esc(prizeLabel(cur))}</b>${PATUI.html(S.cfg.fmt, S.cfg.prizes[cur].pat, { free: S.cfg.fmt === 'us' && S.cfg.freeCenter })}` : `${icon('party-popper')} ${esc(t.allPrizesDone)}`;
     const md = S.mode || 'manual', mb = $('modeBanner');
     mb.className = 'modebanner ' + (md === 'auto' && !EXT.on ? 'warn' : md);
-    mb.textContent = md === 'auto' ? (EXT.on ? t.autoBanner : t.autoNoExt) : t.manualBanner;
+    mb.innerHTML = md === 'auto' ? (EXT.on ? icon('headphones') + ' ' + esc(t.autoBanner) : icon('triangle-exclamation-point') + ' ' + esc(t.autoNoExt)) : icon('hand') + ' ' + esc(t.manualBanner);
     $('nowLbl').textContent = t.played(`${P.length} / ${N}`);
-    $('nowTitle').textContent = P.length ? `🎵 ${t.songN(P.length)}` : t.waitingFirst;
+    $('nowTitle').innerHTML = P.length ? `${icon('eighth-notes')} ${esc(t.songN(P.length))}` : esc(t.waitingFirst);
     $('nowSub').textContent = P.length ? t.songHidden : '';
     $('prog').style.width = (P.length / N * 100) + '%'; $('undo').disabled = !P.length;
     // song log
@@ -426,7 +429,7 @@
     $('hTodo').textContent = t.notPlayed(N - P.length); $('todo').innerHTML = todo.map(i => row(i, '')).join('');
     $('hDone').textContent = t.playedList(P.length); $('done').innerHTML = [...P].reverse().filter(match).map(i => row(i, 'played')).join('');
     // winners and calls
-    const W = enabledPrizes().filter(p => S.awarded[p]).map(p => `<div>🏆 <b>${esc(prizeLabel(p))}</b>: ${S.awarded[p].names.map(esc).join(', ')}</div>`);
+    const W = enabledPrizes().filter(p => S.awarded[p]).map(p => `<div>${icon('trophy')} <b>${esc(prizeLabel(p))}</b>: ${S.awarded[p].names.map(esc).join(', ')}</div>`);
     $('winners').innerHTML = W.join('') || '—';
     $('claims').innerHTML = S.claims.length ? S.claims.slice(0, 12).map(c => `<div class="claim"><span>${esc(c.name)} · #${c.card} · ${esc(prizeLabel(c.prize))}</span><span class="${c.ok ? 'ok' : 'bad'}">${c.ok ? '✓' : '✗'}</span></div>`).join('') : esc(t.noClaims);
     if (P.length !== lastSongCount) { lastSongCount = P.length; net && net.broadcast(publicState()); }
@@ -440,10 +443,10 @@
   let tId = null;
   function startClip() {
     clearInterval(tId); const secs = +S.cfg.clip; const el = $('timer'); el.className = 'timer'; el.textContent = '';
-    if (!secs) return; let left = secs; el.textContent = '⏱ ' + left;
-    tId = setInterval(() => { left--; el.textContent = '⏱ ' + left; if (left <= 0) { clearInterval(tId); el.className = 'timer end'; if (!(EXT.on && EXT.playing)) { el.textContent = '⏭ ' + t.timeUp; toast('⏱ ' + t.timeUp); }
-      else if (S.cfg.gap !== 'pause') { el.textContent = '⏭ ' + t.timeUp; extCall('control', { action: 'next' }, 5000); }
-      else { el.textContent = '⏸ ' + t.timeUpPaused; EXT.playing = false; drawExt(); extCall('control', { action: 'pause' }, 5000).then(r => { if (!r.ok) toast('⚠️ ' + (r.error === 'notab' ? t.noPlayer : t.controlFailed), 5000); }); } } }, 1000);
+    if (!secs) return; let left = secs; el.innerHTML = icon('timer') + ' ' + left;
+    tId = setInterval(() => { left--; el.innerHTML = icon('timer') + ' ' + left; if (left <= 0) { clearInterval(tId); el.className = 'timer end'; if (!(EXT.on && EXT.playing)) { el.innerHTML = icon('skip-forward') + ' ' + esc(t.timeUp); toast(t.timeUp, undefined, 'timer'); }
+      else if (S.cfg.gap !== 'pause') { el.innerHTML = icon('skip-forward') + ' ' + esc(t.timeUp); extCall('control', { action: 'next' }, 5000); }
+      else { el.innerHTML = icon('pause') + ' ' + t.timeUpPaused(icon('skip-forward')); EXT.playing = false; drawExt(); extCall('control', { action: 'pause' }, 5000).then(r => { if (!r.ok) toast(r.error === 'notab' ? t.noPlayer : t.controlFailed, 5000, 'triangle-exclamation-point'); }); } } }, 1000);
   }
   function drawExt() {
     const pill = $('extPill'); if (pill) { pill.classList.toggle('hidden', !EXT.on); pill.title = 'Meca Bingo Sync ' + (EXT.version || ''); }
@@ -455,19 +458,19 @@
     const pre = canStart && !S.musicStarted;
     bar.classList.toggle('pre', !!pre);
     const tg = $('ctlToggle');
-    if (pre) { tg.innerHTML = '▶ ' + esc(t.startMusic); tg.classList.add('start'); tg.classList.remove('playing'); }
-    else { tg.textContent = EXT.playing ? '⏸' : '▶'; tg.classList.remove('start'); tg.classList.toggle('playing', EXT.playing); }
+    if (pre) { tg.innerHTML = icon('play') + ' ' + esc(t.startMusic); tg.removeAttribute('aria-label'); tg.removeAttribute('title'); tg.classList.add('start'); tg.classList.remove('playing'); }
+    else { tg.innerHTML = icon(EXT.playing ? 'pause' : 'play'); tg.title = EXT.playing ? t.ctlPause : t.ctlPlay; tg.setAttribute('aria-label', tg.title); tg.classList.remove('start'); tg.classList.toggle('playing', EXT.playing); }
   }
   async function ctl(action) {
     if (action === 'toggle' && $('ctlToggle').classList.contains('start')) {
-      S.musicStarted = true; save(); drawExt(); toast('▶ ' + t.startingMusic);
+      S.musicStarted = true; save(); drawExt(); toast(t.startingMusic, undefined, 'play');
       const r = await extCall('start', { url: S.playlist.url });
-      if (!r.ok) { S.musicStarted = false; save(); drawExt(); toast('⚠️ ' + t.startFailed, 6000); }
+      if (!r.ok) { S.musicStarted = false; save(); drawExt(); toast(t.startFailed, 6000, 'triangle-exclamation-point'); }
       return;
     }
     if (action === 'toggle') { EXT.playing = !EXT.playing; drawExt(); }
     const r = await extCall('control', { action }, 8000);
-    if (!r.ok) toast('⚠️ ' + (r.error === 'notab' ? t.noPlayer : t.controlFailed), 5000);
+    if (!r.ok) toast(r.error === 'notab' ? t.noPlayer : t.controlFailed, 5000, 'triangle-exclamation-point');
   }
   // Photo moment: after each new song the photo and its message take the whole screen for a few seconds
   let mT = null;
@@ -476,7 +479,7 @@
     if (!secs || !photos.length || $('stage').classList.contains('on')) return;
     clearTimeout(mT); m.classList.remove('out');
     $('mImg').src = $('snapImg').src; $('mCap').textContent = $('snapCap').textContent;
-    $('mLbl').textContent = '🎵 ' + t.songN(S.played.length);
+    $('mLbl').innerHTML = icon('eighth-notes') + ' ' + esc(t.songN(S.played.length));
     m.style.setProperty('--msecs', secs + 's');
     m.classList.remove('on'); void m.offsetWidth; m.classList.add('on');
     mT = setTimeout(hideMoment, secs * 1000); FX.moment();
@@ -504,7 +507,7 @@
     const old = I18N.get(lang); lang = $('lang').value; store.set('meca-lang', lang);
     // switch the default messages too, unless the host already edited them
     if (S.phase === 'setup') { readMsgs(); ['wait', 'win', 'lose'].forEach(k => { if (S.msgs[k].join('\n') === old.defaults[k].join('\n')) S.msgs[k] = [...I18N.get(lang).defaults[k]]; }); }
-    texts(); S.phase === 'setup' ? drawSetup() : drawGame(); save();
+    texts(); S.phase === 'setup' ? drawSetup() : drawGame(); drawExt(); save();
     if (S.phase === 'game' && net) net.broadcast(publicState());
   };
   $('fs').onclick = toggleFullscreen;
