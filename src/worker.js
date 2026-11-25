@@ -26,8 +26,6 @@ function withHeaders(res, path) {
   h.set('Referrer-Policy', 'strict-origin-when-cross-origin');
   h.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
   if (!path.startsWith('/api/')) h.set('Strict-Transport-Security', 'max-age=31536000');
-  if (/\.(woff2|png|jpg|webp|svg)$/.test(path)) h.set('Cache-Control', 'public, max-age=2592000');
-  else if (/\.(js|css)$/.test(path)) h.set('Cache-Control', 'public, max-age=3600');
   return r;
 }
 
