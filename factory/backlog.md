@@ -29,6 +29,9 @@ When the task is merged: `- [x] <title> → task/<id>`. Done by hand: `- [x] <ti
 - [ ] Special event picker as a dropdown with an icon per event
     El selector de evento especial me gustaría que fuera un dropdown y que cada opción tenga un icono representativo al lado (por ejemplo en Navidad un árbol de navidad). "Ninguno" también necesita su icono o un hueco equivalente.
     Note: the icon belongs in each `site/events/<id>/event.json` (built by build_events.py), not hard-coded in host.js.
+- [ ] Meca Bingo logo links to the home page
+    El logo de Meca Bingo debe llevar al home.
+    Note: the logo is the `h1` in `.top` (host.html) and `.head` (play.html); the home is the landing in the current language (`/<lang>/`). The host's browser is the game server and a player leaving drops out of the game, so during a game the link must ask for confirmation first (or the spec proposes something equivalent); before a game starts it can go straight there.
 
 ### Special events (Christmas first; do before the extension tasks to be ready for December)
 
