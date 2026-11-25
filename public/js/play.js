@@ -89,9 +89,9 @@
   try { document.fonts.ready.then(() => { if (document.querySelector('#board .cell[data-i]')) fitText(); }); document.fonts.addEventListener('loadingdone', () => { if (document.querySelector('#board .cell[data-i]')) fitText(); }); } catch (e) {}
   function drawState() {
     const pz = hasPrize() && state.prizes && state.prizes[state.prize];
-    $('prize').innerHTML = state.over ? `🎉 ${esc(t.allPrizesDone)}` : hasPrize() ? `<span>${esc(t.playingFor)} <b>${esc(prizeLabel(state.prize))}</b></span>${pz && window.PATUI ? PATUI.html(state.fmt || (P.card && P.card.fmt) || 'es', pz.pat, { free: state.free, label: prizeLabel(state.prize) }) : ''}` : '';
+    $('prize').innerHTML = state.over ? `<span class="pf">🎉 ${esc(t.allPrizesDone)}</span>` : hasPrize() ? `<span><span class="pf">${esc(t.playingFor)}</span> <b>${esc(prizeLabel(state.prize))}</b></span>${pz && window.PATUI ? PATUI.html(state.fmt || (P.card && P.card.fmt) || 'es', pz.pat, { free: state.free, label: prizeLabel(state.prize) }) : ''}` : '';
     const cb = $('callbar'); const was = cb.classList.contains('hidden'); cb.classList.toggle('hidden', !hasPrize() || !P.card); if (was !== cb.classList.contains('hidden')) { sizeBoard(); fitText(); }
-    if (hasPrize()) $('callBtn').textContent = t.call(prizeLabel(state.prize).replace(/\s*\(.*?\)/g, '').toUpperCase());
+    if (hasPrize()) $('callBtn').innerHTML = `<span>${esc(t.call(prizeLabel(state.prize).replace(/\s*\(.*?\)/g, '').toUpperCase()))}</span>`;
     $('callBtn').disabled = !connected || busy;
     const W = Object.entries(state.winners || {}).filter(([, n]) => n && n.length).map(([p, n]) => `🏆 <b>${esc(prizeLabel(p))}</b>: ${n.map(esc).join(', ')}`);
     $('winners').innerHTML = W.join('<br>'); $('winners').classList.toggle('hidden', !W.length);

@@ -140,6 +140,13 @@ def run():
                 if tag != 'es' and dev in ('tablet', 'desktop'): continue
                 player.set_viewport_size({'width': w, 'height': h}); time.sleep(0.4)
                 shot(player, f'player-{tag}-{dev}'); page_checks(player, f'player card {tag} ({dev})', card=True)
+                if dev == 'phone-landscape':
+                    # landscape: prize and card number move up into the header row, CALL is a narrow column
+                    r = player.evaluate("""(() => { const q = s => document.querySelector(s).getBoundingClientRect(), h = q('.head h1'), s = q('.head > .row'), b = q('#board');
+                      const top = Math.min(h.top, s.top), bot = Math.max(h.bottom, s.bottom), off = ['#prize', '#cardNo'].filter(k => { const r = q(k), m = (r.top + r.bottom) / 2; return m < top || m > bot || m > b.top; });
+                      return { off, w: Math.round(q('#callBtn').width) }; })()""")
+                    check(f'player card {tag} ({dev}): prize and card number in the header row', not r['off'], ', '.join(r['off']) + ' outside it')
+                    check(f'player card {tag} ({dev}): call button 56–64px wide', 56 <= r['w'] <= 64, f"{r['w']}px")
             if tag == 'es':
                 # host game screen with a played song and a valid call shown
                 host.click('#unlock'); host.click('#todo .song >> nth=0'); time.sleep(1.4)
