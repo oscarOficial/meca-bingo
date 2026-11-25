@@ -49,16 +49,15 @@ JS_CHECKS = r"""
 })()
 """.replace('%MIN%', str(MIN_TAP))
 
-# An open dropdown: a .prefs pop (its rect) or a select (its picker's rect: options + the picker's padding and border)
+# A dropdown (details.dd): is it open, its arrow's rotate, where its list is and the sideways scroll
 DROPDOWN_JS = r"""
 (() => {
-  const e = document.querySelector('%SEL%'), sel = e.tagName === 'SELECT', ps = sel && getComputedStyle(e, '::picker(select)');
-  const rs = sel ? [...e.options].map(o => o.getBoundingClientRect()) : [e.getBoundingClientRect()], pad = sel ? parseFloat(ps.paddingRight) + parseFloat(ps.borderRightWidth) : 0;
-  return { left: Math.round(Math.min(...rs.map(r => r.left)) - pad), right: Math.round(innerWidth - Math.max(...rs.map(r => r.right)) - pad),
-    open: sel && e.matches(':open'), rot: sel ? getComputedStyle(e, '::picker-icon').rotate : '', hscroll: document.documentElement.scrollWidth - innerWidth };
+  const d = document.querySelector('%SEL%'), r = d.querySelector('.dd-pop').getBoundingClientRect();
+  return { left: Math.round(r.left), right: Math.round(innerWidth - r.right), open: d.open,
+    rot: getComputedStyle(d.querySelector('summary'), '::after').rotate, hscroll: document.documentElement.scrollWidth - innerWidth };
 })()
 """
-MENU_ROT = "getComputedStyle(document.querySelector('.prefs>summary'), '::after').rotate"
+MENU_ROT = "getComputedStyle(document.querySelector('%SEL% > summary'), '::after').rotate"
 
 def page_checks(page, label, card=False):
     r = page.evaluate(JS_CHECKS)
@@ -117,15 +116,14 @@ def run():
                     w, h = DEVICES[dev]; host.set_viewport_size({'width': w, 'height': h}); time.sleep(0.2)
                     shot(host, f'host-paste-{dev}'); page_checks(host, f'host paste ({dev})')
                     check(f'host paste ({dev}): playlist box visible without scrolling', host.evaluate("document.getElementById('plUrl').getBoundingClientRect().bottom < innerHeight"))
-                # header language select: on Chrome the customizable select flips its arrow and keeps its list off the edges
+                # header language dropdown: the arrow flips while open and the list keeps 24px off both edges
                 w, h = DEVICES['phone-portrait']; host.set_viewport_size({'width': w, 'height': h}); time.sleep(0.2)
-                if host.evaluate("CSS.supports('appearance', 'base-select')"):
-                    host.click('#lang'); time.sleep(0.4); shot(host, 'host-lang-open-phone')
-                    r = host.evaluate(DROPDOWN_JS.replace('%SEL%', '#lang'))
-                    check('host lang select (phone-portrait): open, arrow flipped', r['open'] and r['rot'] not in ('none', '0deg'), f"open={r['open']} rotate={r['rot']}")
-                    check('host lang select (phone-portrait): list ≥ 24px from both edges', min(r['left'], r['right']) >= 24, f"left {r['left']}px, right {r['right']}px")
-                    host.keyboard.press('Escape'); time.sleep(0.2)
-                    check('host lang select (phone-portrait): Escape closes it', not host.evaluate("document.getElementById('lang').matches(':open')"))
+                host.click('#lang>summary'); time.sleep(0.4); shot(host, 'host-lang-open-phone')
+                r = host.evaluate(DROPDOWN_JS.replace('%SEL%', '#lang'))
+                check('host lang dropdown (phone-portrait): open, arrow flipped', r['open'] and r['rot'] not in ('none', '0deg'), f"open={r['open']} rotate={r['rot']}")
+                check('host lang dropdown (phone-portrait): list ≥ 24px from both edges, no sideways scroll', min(r['left'], r['right']) >= 24 and r['hscroll'] <= 1, f"left {r['left']}px, right {r['right']}px, scroll {r['hscroll']}px")
+                host.keyboard.press('Escape'); time.sleep(0.2)
+                check('host lang dropdown (phone-portrait): Escape closes it', host.evaluate("!document.getElementById('lang').open && document.activeElement === document.querySelector('#lang>summary')"))
                 host.set_viewport_size({'width': 1366, 'height': 850})
             host.click('#tOrPaste'); host.fill('#paste', SONGS + ('\n' + '\n'.join(f'Extra Song {i} - Extra Artist' for i in range(20)) if fmt == 'us' else '')); host.click('#useList')
             host.click(f'#fmt [data-v="{fmt}"]')
@@ -157,16 +155,25 @@ def run():
                 for dev in ('phone-small', 'desktop'):
                     w, h = DEVICES[dev]; host.set_viewport_size({'width': w, 'height': h}); time.sleep(0.2)
                     host.evaluate("document.getElementById('eventMenu').scrollIntoView({block: 'start'})"); host.click('#eventCur'); time.sleep(0.3)
-                    ev = host.evaluate("""(() => { const o = [...document.querySelectorAll('#eventPick [data-event]')], s = o.map(b => b.querySelector('.evico')), p = document.getElementById('eventPick').getBoundingClientRect();
-                      return {n: o.length, slots: s.map(e => e ? Math.round(e.getBoundingClientRect().width) : 0), imgs: o.filter(b => b.dataset.event).map(b => { const i = b.querySelector('.evico img'); return !!i && i.complete && i.naturalWidth > 0; }),
-                        none: !s[0] || !s[0].children.length, inside: p.left >= 0 && p.right <= innerWidth, arrow: getComputedStyle(document.querySelector('#eventCur'), '::after').transform }; })()""")
+                    ev = host.evaluate("""(() => { const o = [...document.querySelectorAll('#eventPick [data-v]')], s = o.map(b => b.querySelector('.evico')), p = document.getElementById('eventPick').getBoundingClientRect();
+                      return {n: o.length, slots: s.map(e => e ? Math.round(e.getBoundingClientRect().width) : 0), imgs: o.filter(b => b.dataset.v).map(b => { const i = b.querySelector('.evico img'); return !!i && i.complete && i.naturalWidth > 0; }),
+                        none: !s[0] || !s[0].children.length, inside: p.left >= 0 && p.right <= innerWidth, arrow: getComputedStyle(document.querySelector('#eventCur'), '::after').rotate }; })()""")
                     check(f'host ({dev}): event options all start with an icon slot of the same width', ev['n'] >= 2 and len(set(ev['slots'])) == 1 and ev['slots'][0] > 0 and ev['none'], str(ev['slots']))
                     check(f'host ({dev}): every event option shows its icon (loaded)', ev['imgs'] and all(ev['imgs']), str(ev['imgs']))
-                    check(f'host ({dev}): open event list inside the screen, arrow turned', ev['inside'] and ev['arrow'] not in ('none', ''), str(ev))
+                    check(f'host ({dev}): open event list inside the screen, arrow turned', ev['inside'] and ev['arrow'] not in ('none', '0deg', ''), str(ev))
                     shot(host, f'host-event-menu-{dev}'); page_checks(host, f'host event menu open ({dev})')
                     host.keyboard.press('Escape'); time.sleep(0.1)
                     check(f'host ({dev}): Escape closes the event list', host.evaluate("!document.getElementById('eventMenu').open && document.activeElement.id === 'eventCur'"))
                 host.set_viewport_size({'width': 1366, 'height': 850})
+                # "More options": with the full song the gap dropdown stays shut; picking a song length updates the summary and closes the list
+                host.click('#tMore'); time.sleep(0.2)
+                host.click('#gap>summary'); time.sleep(0.2)
+                check('host: with the full song the gap dropdown does not open', not host.evaluate("document.getElementById('gap').open"))
+                host.click('#clip>summary'); time.sleep(0.2); want = host.inner_text('#clip [data-v="30"]'); host.click('#clip [data-v="30"]'); time.sleep(0.2)
+                got = host.evaluate("[document.getElementById('clip').open, document.querySelector('#clip>summary').innerText, document.querySelector('#clip [data-v=\"30\"]').getAttribute('aria-pressed'), JSON.parse(localStorage.getItem('meca-host')).cfg.clip, document.querySelector('#gap>summary').getAttribute('aria-disabled')]")
+                check('host: picking a song length closes the list, shows it, saves it and enables the gap', got == [False, want, 'true', 30, 'false'], str(got))
+                host.click('#gap>summary'); time.sleep(0.2); check('host: with a song length the gap dropdown opens', host.evaluate("document.getElementById('gap').open"))
+                host.click('#gap [data-v="next"]'); host.click('#clip>summary'); host.click('#clip [data-v="0"]'); host.click('#tMore'); time.sleep(0.2)
             if tag == 'es':
                 host.click('#modePick [data-mode="auto"]'); time.sleep(0.2)
                 check('auto mode without extension shows how to get it', host.is_visible('#extWarn'))
@@ -242,13 +249,14 @@ def run():
                 w, h = DEVICES[dev]; land = browser.new_page(viewport={'width': w, 'height': h}); land.goto(f'{base}/{lang}/'); time.sleep(0.5)
                 shot(land, f'landing-{lang}-{dev}', full=True); page_checks(land, f'landing /{lang}/ ({dev})')
                 # language menu: the arrow flips while open and the list keeps 24px off both edges
-                closed = land.evaluate(MENU_ROT); land.click('.prefs>summary'); time.sleep(0.3)
-                r = land.evaluate(DROPDOWN_JS.replace('%SEL%', '.prefs .pop'))
+                rot = MENU_ROT.replace('%SEL%', '.prefs')
+                closed = land.evaluate(rot); land.click('.prefs>summary'); time.sleep(0.3)
+                r = land.evaluate(DROPDOWN_JS.replace('%SEL%', '.prefs'))
                 if dev in ('phone-portrait', 'desktop'): shot(land, f'landing-{lang}-{dev}-menu')
-                check(f'landing /{lang}/ ({dev}): language menu arrow flips when open', land.evaluate(MENU_ROT) != closed, f'{closed} both ways')
+                check(f'landing /{lang}/ ({dev}): language menu arrow flips when open', land.evaluate(rot) != closed, f'{closed} both ways')
                 check(f'landing /{lang}/ ({dev}): language menu ≥ 24px from both edges, no sideways scroll', min(r['left'], r['right']) >= 24 and r['hscroll'] <= 1, f"left {r['left']}px, right {r['right']}px, scroll {r['hscroll']}px")
                 land.click('.prefs>summary'); time.sleep(0.3)
-                check(f'landing /{lang}/ ({dev}): language menu closes, arrow back', land.evaluate(MENU_ROT) == closed and not land.evaluate("document.querySelector('.prefs').open"))
+                check(f'landing /{lang}/ ({dev}): language menu closes, arrow back', land.evaluate(rot) == closed and not land.evaluate("document.querySelector('.prefs').open"))
                 land.close()
         browser.close()
     srv.shutdown()

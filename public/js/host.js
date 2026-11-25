@@ -82,7 +82,7 @@
     t = I18N.get(lang); document.documentElement.lang = lang; $('homeLink').href = '/' + lang + '/';
     const set = (id, s) => { const e = $(id); if (e) e.textContent = s; };
     const seti = (id, ic, s) => { const e = $(id); if (e) e.innerHTML = icon(ic) + ' ' + esc(s); };
-    $('lang').innerHTML = I18N.langs.map(l => `<option value="${l}">${I18N.T[l].langName}</option>`).join(''); $('lang').value = lang;
+    dropdown('lang', t.language, I18N.langs.map(l => [l, I18N.T[l].langName]), lang, setLang);
     set('tPasteTitle', t.pasteTitle); set('tPasteSub', t.pasteSub); $('plUrl').placeholder = t.pastePh; set('importBtn', t.import); set('tWorksWith', t.worksWith);
     set('tHowImport', t.howImport); $('importInfo').innerHTML = t.importInfo.map(x => `<li>${esc(x)}</li>`).join(''); seti('extLink', 'puzzle', t.getExt);
     set('tOrPaste', t.orPaste); set('useList', t.useList); set('plChange', '↺ ' + t.change); set('tSongList', t.songList || t.songs);
@@ -95,9 +95,7 @@
     $('fmt').children[1].innerHTML = `${cardPic('us')}<span><b>${esc(t.cardUsShort)}</b><small>${esc(t.cardUsDesc)}</small></span>`;
     set('tPrizesTitle', t.prizesTitle); set('tPrizesHint', t.prizesHint); seti('tMore', 'settings', t.moreOptions);
     set('tabGal', t.patGallery); seti('tabDraw', 'pencil', t.patDraw); set('dClear', t.clear); set('dInvert', t.invert); set('dAll', t.all); seti('shRemove', 'trash', t.remove); set('shDone', t.done); set('shTitle', t.prizeNameLbl);
-    set('tClip', t.clip); $('clip').innerHTML = [0, 30, 45, 60, 90].map(s => `<option value="${s}">${s ? t.secs(s) : t.full}</option>`).join('');
-    set('tGap', t.gapLbl); $('gap').innerHTML = ['next', 'pause'].map(v => `<option value="${v}">${v === 'pause' ? t.gapPause : t.gapNext}</option>`).join('');
-    set('tMax', t.maxPlayers); set('tMoment', t.momentLbl); $('momentSecs').innerHTML = [0, 4, 6, 8, 10].map(v => `<option value="${v}">${v ? t.momentSecs(v) : t.momentOff}</option>`).join(''); seti('tPhotos', 'camera', t.photosMsgs); set('tPhotosHint', t.photosHint); set('tAddPhotos', t.addPhotos); set('clearPhotos', t.removeAll);
+    set('tClip', t.clip); set('tGap', t.gapLbl); set('tMax', t.maxPlayers); set('tMoment', t.momentLbl); seti('tPhotos', 'camera', t.photosMsgs); set('tPhotosHint', t.photosHint); set('tAddPhotos', t.addPhotos); set('clearPhotos', t.removeAll);
     set('tMsgWait', t.msgWait); set('tMsgWin', t.msgWin); set('tMsgLose', t.msgLose); set('tOnePerLine', t.onePerLine); set('create', t.create);
     set('tScan', t.scanToJoin); set('tGoTo', t.orGoTo); set('tPlayers', t.players); set('undo', '↶ ' + t.undo);
     set('tLogHidden', t.logHidden); set('tLogHint', t.logHint); set('unlock', t.showLog); seti('relock', 'lock', t.hide); $('q').placeholder = t.find;
@@ -105,15 +103,31 @@
     document.querySelectorAll('[data-ctl=prev],[data-ctl=next]').forEach(b => { b.title = b.dataset.ctl === 'prev' ? t.ctlPrev : t.ctlNext; b.setAttribute('aria-label', b.title); });
     set('tSpecialEvent', t.specialEvent); set('tSpecialEventLead', t.specialEventLead); drawEvents();
   }
+  // a dropdown (details.dd; js/skin.js closes it and keeps it on screen): the summary shows the current option, the list a button per option.
+  // opts: [value, text, html before the text]; pick(value as a string) runs when one is chosen
+  function dropdown(id, name, opts, cur, pick) {
+    const d = $(id), [sum, pop] = d.children, show = ([, s, pre = '']) => `${pre}<span>${esc(s)}</span>`;
+    const now = opts.find(o => String(o[0]) === String(cur)) || opts[0];
+    sum.innerHTML = show(now); sum.title = name; sum.setAttribute('aria-label', name + ': ' + now[1]);
+    pop.setAttribute('role', 'group'); pop.setAttribute('aria-label', name);
+    pop.innerHTML = opts.map(o => `<button type="button" data-v="${esc(o[0])}" aria-pressed="${o === now}">${show(o)}</button>`).join('');
+    pop.onclick = e => { const b = e.target.closest('button[data-v]'); if (b) { d.open = false; pick(b.dataset.v); } };
+  }
   // special event picker under the mood cards: "None", the shown events and the current one if it is hidden (test)
   function drawEvents() {
     if (!window.Events) return;
     const cur = Events.get() || '', ids = [...Events.list]; if (cur && !ids.includes(cur)) ids.push(cur);
+    $('eventWrap').classList.toggle('hidden', !ids.length);
     // every option starts with the same icon slot ("None" leaves it empty) so the names line up
-    const opt = id => `<span class="evico">${id ? `<img src="${esc(Events.icon(id))}" alt="">` : ''}</span><span>${esc(id ? Events.name(id, lang) : t.eventNone)}</span>`;
-    $('eventWrap').classList.toggle('hidden', !ids.length); $('eventPick').setAttribute('aria-label', t.specialEvent);
-    const sum = $('eventCur'); sum.title = t.specialEvent; sum.setAttribute('aria-label', t.specialEvent); sum.innerHTML = opt(cur);
-    $('eventPick').innerHTML = ['', ...ids].map(id => `<button type="button" data-event="${id}" aria-pressed="${id === cur}">${opt(id)}</button>`).join('');
+    dropdown('eventMenu', t.specialEvent, ['', ...ids].map(id => [id, id ? Events.name(id, lang) : t.eventNone, `<span class="evico">${id ? `<img src="${esc(Events.icon(id))}" alt="">` : ''}</span>`]), cur, v => Events.set(v));
+  }
+  // "More options": song length, what to do when it ends (only with a length) and the photo moment
+  function drawMore() {
+    const c = S.cfg, pick = (k, num) => v => { c[k] = num ? +v : v; save(); drawMore(); };
+    dropdown('clip', t.clip, [0, 30, 45, 60, 90].map(s => [s, s ? t.secs(s) : t.full]), c.clip, pick('clip', true));
+    dropdown('gap', t.gapLbl, ['next', 'pause'].map(v => [v, v === 'pause' ? t.gapPause : t.gapNext]), c.gap, pick('gap'));
+    dropdown('momentSecs', t.momentLbl, [0, 4, 6, 8, 10].map(v => [v, v ? t.momentSecs(v) : t.momentOff]), c.moment ?? 6, pick('moment', true));
+    $('gap').firstElementChild.setAttribute('aria-disabled', String(!+c.clip)); if (!+c.clip) $('gap').open = false;
   }
 
   // small picture of a card type (the 3×9 one with its gaps)
@@ -133,7 +147,7 @@
     $('step1').classList.toggle('hidden', !!pl); $('step2').classList.toggle('hidden', !pl);
     [...$('fmt').children].forEach(b => b.setAttribute('aria-pressed', b.dataset.v === c.fmt));
     $('freeWrap').classList.toggle('hidden', c.fmt !== 'us'); $('freeCenter').checked = !!c.freeCenter;
-    $('clip').value = c.clip; $('gap').value = c.gap; $('gap').disabled = !+c.clip; $('maxPlayers').value = c.maxPlayers; $('momentSecs').value = c.moment ?? 6;
+    drawMore(); $('maxPlayers').value = c.maxPlayers;
     $('msgWait').value = S.msgs.wait.join('\n'); $('msgWin').value = S.msgs.win.join('\n'); $('msgLose').value = S.msgs.lose.join('\n');
     let ok = false;
     if (pl) {
@@ -505,17 +519,13 @@
   // ---------------- events ----------------
   addEventListener('skinchange', () => { if (S.phase === 'game' && net) net.broadcast(publicState()); });
   addEventListener('eventchange', () => { drawEvents(); if (S.phase === 'game' && net) net.broadcast(publicState()); });
-  $('eventPick').onclick = e => { const b = e.target.closest('[data-event]'); if (b) { Events.set(b.dataset.event); $('eventMenu').open = false; } };
-  // close the event dropdown on a click outside it or on Escape (like the language menu in skin.js)
-  document.addEventListener('click', e => { if ($('eventMenu').open && !$('eventMenu').contains(e.target)) $('eventMenu').open = false; });
-  addEventListener('keydown', e => { if (e.key === 'Escape' && $('eventMenu').open) { $('eventMenu').open = false; $('eventCur').focus(); } });
-  $('lang').onchange = () => {
-    const old = I18N.get(lang); lang = $('lang').value; store.set('meca-lang', lang);
+  function setLang(l) {
+    const old = I18N.get(lang); lang = l; store.set('meca-lang', lang);
     // switch the default messages too, unless the host already edited them
     if (S.phase === 'setup') { readMsgs(); ['wait', 'win', 'lose'].forEach(k => { if (S.msgs[k].join('\n') === old.defaults[k].join('\n')) S.msgs[k] = [...I18N.get(lang).defaults[k]]; }); }
     texts(); S.phase === 'setup' ? drawSetup() : drawGame(); drawExt(); save();
     if (S.phase === 'game' && net) net.broadcast(publicState());
-  };
+  }
   $('fs').onclick = toggleFullscreen;
   $('useList').onclick = () => { const tr = MB.parsePasted($('paste').value); if (!tr.length) return; S.playlist = { title: t.myList, provider: 'pasted', tracks: tr }; save(); drawSetup(); };
   $('fmt').onclick = e => { const b = e.target.closest('button'); if (!b || b.dataset.v === S.cfg.fmt) return; S.cfg.prizes = convertPrizes(S.cfg.prizes, S.cfg.fmt, b.dataset.v); S.cfg.fmt = b.dataset.v; save(); drawSetup(); };
@@ -525,9 +535,6 @@
   $('freeCenter').onchange = e => { S.cfg.freeCenter = e.target.checked; save(); drawSetup(); };
   $('plChange').onclick = () => { S.playlist = null; save(); drawSetup(); setTimeout(() => $('plUrl').focus(), 50); };
   $('plForm').onsubmit = e => { e.preventDefault(); importPlaylist(); };
-  $('clip').onchange = e => { S.cfg.clip = +e.target.value; $('gap').disabled = !S.cfg.clip; save(); };
-  $('gap').onchange = e => { S.cfg.gap = e.target.value; save(); };
-  $('momentSecs').onchange = e => { S.cfg.moment = +e.target.value; save(); };
   $('maxPlayers').oninput = e => { const v = +e.target.value; if (v >= 1 && v <= 30) { S.cfg.maxPlayers = v; save(); drawSetup(); } };
   $('maxPlayers').onchange = e => { S.cfg.maxPlayers = Math.max(1, Math.min(30, +e.target.value || 30)); e.target.value = S.cfg.maxPlayers; save(); drawSetup(); };
   ['msgWait', 'msgWin', 'msgLose'].forEach(id => $(id).onchange = () => { readMsgs(); save(); });
