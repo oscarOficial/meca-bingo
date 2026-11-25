@@ -35,6 +35,12 @@
     return extCall('control', { action }, ms).then(r => { setTimeout(() => { ctlBusy--; syncExt(); }, 400); return r; });   // a moment for the player to act
   }
   const isAmazon = u => /^https?:\/\/music\.amazon\./i.test(u || '');
+  // the extension only runs on music.youtube.com, so YouTube links open there
+  function openUrl(pl) {
+    if (pl.provider !== 'youtube') return pl.url;
+    try { const l = new URL(pl.url).searchParams.get('list'); if (l) return 'https://music.youtube.com/playlist?list=' + encodeURIComponent(l); } catch (e) {}
+    return pl.url;
+  }
   const normT = s => String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\(.*?\)|\[.*?\]/g, ' ').replace(/\s(feat|ft)\..*$/i, ' ').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
   // find the playlist song the player is playing (titles are written slightly differently by each provider)
   function findTrack(title, artist) {
@@ -162,7 +168,7 @@
     let ok = false;
     if (pl) {
       $('plTitle').textContent = pl.provider === 'pasted' ? t.myList : pl.title; $('plCount').textContent = pl.tracks.length + ' ' + t.songs;
-      $('plOpen').classList.toggle('hidden', !pl.url); if (pl.url) { $('plOpen').href = pl.url; $('plOpen').textContent = t.openPlaylist(t.providers[pl.provider] || ''); }
+      $('plOpen').classList.toggle('hidden', !pl.url); if (pl.url) { $('plOpen').href = openUrl(pl); $('plOpen').textContent = t.openPlaylist(t.providers[pl.provider] || ''); }
       // songs and players go together: more players need more songs
       const n = pl.tracks.length, players = +c.maxPlayers || 30, cap = MB.maxPlayersFor(c.fmt, n);
       const need = MB.minSongs(c.fmt, players) - n; ok = need <= 0;
@@ -437,7 +443,7 @@
   function drawGame() {
     const N = S.playlist.tracks.length, P = S.played, Pset = new Set(P);
     const go = $('gameOpen'), pu = S.playlist && S.playlist.url;
-    go.classList.toggle('hidden', !pu); if (pu) { go.href = pu; go.textContent = t.openPlaylist(t.providers[S.playlist.provider] || ''); }
+    go.classList.toggle('hidden', !pu); if (pu) { go.href = openUrl(S.playlist); go.textContent = t.openPlaylist(t.providers[S.playlist.provider] || ''); }
     const names = Object.values(S.players);
     $('pCount').textContent = `${names.length}/${S.cards.length}`;
     $('chips').innerHTML = names.length ? names.map(p => `<span class="pill">${esc(p.name)} · #${p.card + 1}</span>`).join('') : `<span class="mut">${esc(t.noPlayers)}</span>`;
