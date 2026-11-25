@@ -11,11 +11,12 @@ it fails if an event is invalid or the built files are out of date.
 ```
 site/events/
   events.json         events shown in the host's picker (order) and built but never shown (hidden)
-  <id>/event.json     names (every site language), suggested dates, effects
+  <id>/event.json     names (every site language), icon, suggested dates, effects
   <id>/layer.css      background and effects (rules start with :event)
 ```
 
-The host picks the event in setup, under "Pick your mood" ("None" + the events in `order`). An
+The host picks the event from a dropdown in setup, under "Pick your mood" ("None" + the events
+in `order`, each with its icon). An
 event whose dates include today is pre-selected; if the host turns it off, that sticks until the
 season changes. The host's event is sent to every player with the skin.
 
@@ -23,7 +24,7 @@ season changes. The host's event is sent to every player with the skin.
 
 | I want to… | Do this, then run `python3 tools/site/build_events.py` |
 |---|---|
-| **Add** an event | Copy a folder (e.g. `test/`), rename it (`a-z`, `0-9`, `-`), edit `event.json` and `layer.css`, add the id to `order` in `events.json`. |
+| **Add** an event | Copy a folder (e.g. `test/`), rename it (`a-z`, `0-9`, `-`), edit `event.json` (with its `icon`) and `layer.css`, add the id to `order` in `events.json`. |
 | **Hide** an event | Move its id from `order` to `hidden`. It is still built (the UX check can use it with `EVENT=<id>`, and `Events.set('<id>')` in the host's console shows it) but never shown or suggested. |
 | **Remove** an event | Remove its id from `events.json` and delete its folder. |
 
@@ -35,6 +36,7 @@ slot: `EVENT=test python3 tools/ux/ux_check.py`.
 ```json
 {
  "name": {"en": "Christmas", "es": "Navidad", "…": "every language of site/landing.i18n.json"},
+ "icon": "christmas/christmas-tree.svg",
  "dates": [{"from": "12-01", "to": "01-06"}],
  "effects": {
   "win": {"confetti": {"colors": ["#ffffff", "#d4f1ff"], "emoji": ["❄️"]}},
@@ -43,6 +45,9 @@ slot: `EVENT=test python3 tools/ux/ux_check.py`.
 }
 ```
 
+- `icon` (required): the picture shown next to the name in the host's event dropdown, a path
+  under `public/img/events/` (e.g. `christmas/christmas-tree.svg`), `.svg`, `.png` or `.webp`.
+  The build fails if the file is missing.
 - `dates`: inclusive `MM-DD` ranges when the event is suggested; a range may wrap over New Year
   (`12-01` → `01-06`). May be empty (never suggested).
 - `effects`: one key per hook, only `win` (valid call), `nope` (wrong call), `mark` (a cell is

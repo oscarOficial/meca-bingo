@@ -1,6 +1,7 @@
 {
  "_help": "Christmas: falling snow, a tree, a star and a gift at the edges; snowflake/tree/star confetti on a valid call, a falling piece of coal on a wrong one, a snow sparkle when a cell is marked. Illustrations: public/img/events/christmas/ (Fluent Emoji, MIT).",
  "name": {"en": "Christmas", "es": "Navidad", "fr": "Noël", "de": "Weihnachten", "it": "Natale", "nl": "Kerst", "pl": "Boże Narodzenie", "sk": "Vianoce"},
+ "icon": "christmas/christmas-tree.svg",
  "dates": [{"from": "12-01", "to": "01-06"}],
  "effects": {
   "win": {"confetti": {"colors": ["#ffffff", "#d4f1ff", "#e63946", "#2a9d5c", "#f4c542"], "emoji": ["❄️", "🎄", "⭐"]}}

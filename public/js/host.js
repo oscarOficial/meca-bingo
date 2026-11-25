@@ -109,8 +109,11 @@
   function drawEvents() {
     if (!window.Events) return;
     const cur = Events.get() || '', ids = [...Events.list]; if (cur && !ids.includes(cur)) ids.push(cur);
+    // every option starts with the same icon slot ("None" leaves it empty) so the names line up
+    const opt = id => `<span class="evico">${id ? `<img src="${esc(Events.icon(id))}" alt="">` : ''}</span><span>${esc(id ? Events.name(id, lang) : t.eventNone)}</span>`;
     $('eventWrap').classList.toggle('hidden', !ids.length); $('eventPick').setAttribute('aria-label', t.specialEvent);
-    $('eventPick').innerHTML = ['', ...ids].map(id => `<button type="button" data-event="${id}" class="${id === cur ? 'on' : ''}" aria-pressed="${id === cur}">${esc(id ? Events.name(id, lang) : t.eventNone)}</button>`).join('');
+    const sum = $('eventCur'); sum.title = t.specialEvent; sum.setAttribute('aria-label', t.specialEvent); sum.innerHTML = opt(cur);
+    $('eventPick').innerHTML = ['', ...ids].map(id => `<button type="button" data-event="${id}" aria-pressed="${id === cur}">${opt(id)}</button>`).join('');
   }
 
   // small picture of a card type (the 3×9 one with its gaps)
@@ -502,7 +505,10 @@
   // ---------------- events ----------------
   addEventListener('skinchange', () => { if (S.phase === 'game' && net) net.broadcast(publicState()); });
   addEventListener('eventchange', () => { drawEvents(); if (S.phase === 'game' && net) net.broadcast(publicState()); });
-  $('eventPick').onclick = e => { const b = e.target.closest('[data-event]'); if (b) Events.set(b.dataset.event); };
+  $('eventPick').onclick = e => { const b = e.target.closest('[data-event]'); if (b) { Events.set(b.dataset.event); $('eventMenu').open = false; } };
+  // close the event dropdown on a click outside it or on Escape (like the language menu in skin.js)
+  document.addEventListener('click', e => { if ($('eventMenu').open && !$('eventMenu').contains(e.target)) $('eventMenu').open = false; });
+  addEventListener('keydown', e => { if (e.key === 'Escape' && $('eventMenu').open) { $('eventMenu').open = false; $('eventCur').focus(); } });
   $('lang').onchange = () => {
     const old = I18N.get(lang); lang = $('lang').value; store.set('meca-lang', lang);
     // switch the default messages too, unless the host already edited them
