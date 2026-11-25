@@ -58,6 +58,30 @@ DROPDOWN_JS = r"""
     open: sel && e.matches(':open'), rot: sel ? getComputedStyle(e, '::picker-icon').rotate : '', hscroll: document.documentElement.scrollWidth - innerWidth };
 })()
 """
+# Chips (.svc, .pill) whose text is below WCAG AA (4.5:1) on their effective background:
+# own background-color composited over the ancestors' until one is opaque, --page as the last fallback
+CHIP_CONTRAST_JS = r"""
+(() => {
+  const cv = document.createElement('canvas').getContext('2d', { willReadFrequently: true });
+  const rgba = c => { cv.clearRect(0, 0, 1, 1); cv.fillStyle = '#0000'; cv.fillStyle = c; cv.fillRect(0, 0, 1, 1); const d = cv.getImageData(0, 0, 1, 1).data; return [d[0], d[1], d[2], d[3] / 255]; };
+  const over = (f, b) => { const a = f[3] + b[3] * (1 - f[3]); return a ? [0, 1, 2].map(i => (f[i] * f[3] + b[i] * b[3] * (1 - f[3])) / a).concat(a) : [0, 0, 0, 0]; };
+  const lum = c => { const [r, g, b] = c.slice(0, 3).map(v => { v /= 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; }); return 0.2126 * r + 0.7152 * g + 0.0722 * b; };
+  const page = rgba(getComputedStyle(document.documentElement).getPropertyValue('--page').trim() || '#fff');
+  const vis = e => { const r = e.getBoundingClientRect(), s = getComputedStyle(e); return r.width > 0 && r.height > 0 && s.visibility !== 'hidden' && s.display !== 'none'; };
+  return [...document.querySelectorAll('.svc, .pill')].filter(vis).map(e => {
+    let bg = [0, 0, 0, 0];
+    for (let n = e; n && bg[3] < 1; n = n.parentElement) bg = over(bg, rgba(getComputedStyle(n).backgroundColor));
+    if (bg[3] < 1) bg = over(bg, [...page.slice(0, 3), 1]);
+    const fg = over(rgba(getComputedStyle(e).color), bg), [hi, lo] = [lum(fg), lum(bg)].sort((a, b) => b - a);
+    return { text: e.textContent.trim().slice(0, 24) || e.id, ratio: Math.round((hi + 0.05) / (lo + 0.05) * 100) / 100 };
+  }).filter(c => c.ratio < 4.5);
+})()
+"""
+
+def chip_contrast(page, label):
+    low = page.evaluate(CHIP_CONTRAST_JS)
+    check(f'{label}: chip text contrast ≥ 4.5:1', not low, ', '.join(f"{c['text']} {c['ratio']}:1" for c in low))
+
 MENU_ROT = "getComputedStyle(document.querySelector('.prefs>summary'), '::after').rotate"
 
 def page_checks(page, label, card=False):
@@ -72,6 +96,7 @@ def page_checks(page, label, card=False):
         check(f'{label}: call button does not cover the card', not r.get('coveredCells'), f"{r.get('coveredCells')} cells under the button")
     small = [s for s in r['smallTaps'] if not s.startswith(('lang', 'fs', 'snap'))]
     check(f'{label}: tap targets ≥ {MIN_TAP}px', not small, ', '.join(small))
+    chip_contrast(page, label)
 
 def shot(page, name, full=False):
     page.screenshot(path=os.path.join(OUT, name + '.png'), full_page=full)
@@ -250,6 +275,16 @@ def run():
                 land.click('.prefs>summary'); time.sleep(0.3)
                 check(f'landing /{lang}/ ({dev}): language menu closes, arrow back', land.evaluate(MENU_ROT) == closed and not land.evaluate("document.querySelector('.prefs').open"))
                 land.close()
+        # chips readable on every skin: landing hero + final section, host paste screen
+        skins = json.load(open(os.path.join(ROOT, 'site', 'skins', 'skins.json'), encoding='utf-8'))['order']
+        for skin in skins:
+            ctx = browser.new_context(viewport={'width': 1366, 'height': 850})
+            ctx.add_init_script(f"localStorage.setItem('meca-skin', {json.dumps(skin)})")
+            pg = ctx.new_page()
+            for path, name, png in (('/en/', 'landing /en/', 'landing'), ('/host.html?net=local', 'host paste', 'host-paste')):
+                pg.goto(base + path); time.sleep(0.4)
+                shot(pg, f'chips-{skin}-{png}', full=True); chip_contrast(pg, f'skin {skin} · {name} (desktop)')
+            ctx.close()
         browser.close()
     srv.shutdown()
     failed = [r for r in results if not r[1]]
