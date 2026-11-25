@@ -48,7 +48,7 @@ Run what matches the area you changed. All of them must pass.
 | You changed | Run |
 |---|---|
 | Anything | `node tests/patterns.test.js` |
-| `public/` (game, host, player, CSS) | `python tools/ux/ux_check.py` → `ux-report/report.md` + screenshots. `SKIN=<id>` to check one skin (default `pista`). |
+| `public/` (game, host, player, CSS) | `python tools/ux/ux_check.py` → `ux-report/report.md` + screenshots. `SKIN=<id>` to check one skin (default `pista`); `UX_PORT=<port>` if 8099 is taken (e.g. another check running). |
 | `site/landing.*` | `python tools/site/build_site.py`, then `python tools/site/build_site.py --check` and `python tools/site/seo_check.py` |
 | `site/skins/` | `python tools/site/build_skins.py`, then `--check`. For new skins or a new default: `python tools/site/screenshots.py <id>` |
 | `extension/`, `site.config.json` | `python tools/build_extension.py` and `python tools/ext/players_e2e.py` |

@@ -9,6 +9,7 @@ Exit code 1 if a check fails, so CI marks the commit.
     python3 tools/ux/ux_check.py            # uses ./public, port 8099
     CHROME=/usr/bin/google-chrome python3 tools/ux/ux_check.py
     SKIN=feria python3 tools/ux/ux_check.py   # check one skin (default: pista); report in ux-report/
+    UX_PORT=8098 python3 tools/ux/ux_check.py # another port, e.g. to run two checks at once
 """
 import functools, http.server, json, os, sys, threading, time
 from playwright.sync_api import sync_playwright
@@ -16,7 +17,7 @@ from playwright.sync_api import sync_playwright
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 OUT = os.path.join(ROOT, 'ux-report')
 SONGS = open(os.path.join(os.path.dirname(__file__), 'songs.txt')).read()
-PORT = 8099
+PORT = int(os.environ.get('UX_PORT', 8099))
 DEVICES = {  # name: (width, height)
     'phone-portrait': (375, 740), 'phone-small': (320, 600), 'phone-landscape': (740, 375),
     'tablet': (820, 1180), 'desktop': (1366, 850)
