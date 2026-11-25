@@ -132,6 +132,19 @@ def run():
                 for dev in ('desktop', 'phone-portrait'):
                     w, h = DEVICES[dev]; host.set_viewport_size({'width': w, 'height': h}); time.sleep(0.2)
                     shot(host, f'host-setup-{dev}', full=True); page_checks(host, f'host setup ({dev})')
+                # special event dropdown: same icon slot in every option ("None" empty), event icons loaded, list on screen
+                for dev in ('phone-small', 'desktop'):
+                    w, h = DEVICES[dev]; host.set_viewport_size({'width': w, 'height': h}); time.sleep(0.2)
+                    host.evaluate("document.getElementById('eventMenu').scrollIntoView({block: 'start'})"); host.click('#eventCur'); time.sleep(0.3)
+                    ev = host.evaluate("""(() => { const o = [...document.querySelectorAll('#eventPick [data-event]')], s = o.map(b => b.querySelector('.evico')), p = document.getElementById('eventPick').getBoundingClientRect();
+                      return {n: o.length, slots: s.map(e => e ? Math.round(e.getBoundingClientRect().width) : 0), imgs: o.filter(b => b.dataset.event).map(b => { const i = b.querySelector('.evico img'); return !!i && i.complete && i.naturalWidth > 0; }),
+                        none: !s[0] || !s[0].children.length, inside: p.left >= 0 && p.right <= innerWidth, arrow: getComputedStyle(document.querySelector('#eventCur'), '::after').transform }; })()""")
+                    check(f'host ({dev}): event options all start with an icon slot of the same width', ev['n'] >= 2 and len(set(ev['slots'])) == 1 and ev['slots'][0] > 0 and ev['none'], str(ev['slots']))
+                    check(f'host ({dev}): every event option shows its icon (loaded)', ev['imgs'] and all(ev['imgs']), str(ev['imgs']))
+                    check(f'host ({dev}): open event list inside the screen, arrow turned', ev['inside'] and ev['arrow'] not in ('none', ''), str(ev))
+                    shot(host, f'host-event-menu-{dev}'); page_checks(host, f'host event menu open ({dev})')
+                    host.keyboard.press('Escape'); time.sleep(0.1)
+                    check(f'host ({dev}): Escape closes the event list', host.evaluate("!document.getElementById('eventMenu').open && document.activeElement.id === 'eventCur'"))
                 host.set_viewport_size({'width': 1366, 'height': 850})
             if tag == 'es':
                 host.click('#modePick [data-mode="auto"]'); time.sleep(0.2)
