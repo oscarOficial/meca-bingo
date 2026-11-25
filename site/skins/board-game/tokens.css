@@ -21,7 +21,7 @@
 --btn-big-border:3px solid #111;--btn-cy-border:3px solid #111;
 --card-radius:18px;--card-shadow:6px 6px 0 #111;
 --modal-shadow:8px 8px 0 #111;
---pill-border:2px solid #111;--selected-border:2px solid #111;
+--chip-border:2px solid #111;--selected-border:2px solid #111;
 
 /* the card sits on a cobalt game board; marked songs get a lime counter */
 --board-bg:#2232c2;--board-border:3px solid #111;--board-radius:20px;--board-pad:10px;--board-shadow:6px 6px 0 #111;--board-label:#fff;

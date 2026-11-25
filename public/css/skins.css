@@ -142,8 +142,8 @@ html[data-skin=street-party]{
   --card-border:0;
   --card-shadow:0 1px 0 #d9ccb4,0 14px 32px #2a252019;
   --modal-radius:4px;
-  --pill-border:var(--border-w) solid var(--selected);
-  --pill-text:var(--selected);
+  --chip-border:var(--border-w) solid var(--selected);
+  --chip-text:var(--selected);
   --cell-radius:0;
   --cell-border:#e2d6c1;
   --cell-gap-bg:var(--surface);
@@ -323,7 +323,7 @@ html[data-skin=board-game]{
   --card-radius:18px;
   --card-shadow:6px 6px 0 #111;
   --modal-shadow:8px 8px 0 #111;
-  --pill-border:2px solid #111;
+  --chip-border:2px solid #111;
   --selected-border:2px solid #111;
   --board-bg:#2232c2;
   --board-border:3px solid #111;
