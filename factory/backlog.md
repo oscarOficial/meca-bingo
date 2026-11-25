@@ -77,7 +77,7 @@ When the task is merged: `- [x] <title> → task/<id>`. Done by hand: `- [x] <ti
 
 ### Texts
 
-- [ ] "Open the playlist in Spotify" shows in Spanish in Dutch, and audit all translations
+- [x] "Open the playlist in Spotify" shows in Spanish in Dutch, and audit all translations → task/open-the-playlist-in-spotify-shows-in
     "Abrir la playlist en Spotify" en neerlandés aparece en español. Revisar bien las traducciones en todos los idiomas.
     Note: `openPlaylist` in `public/js/i18n.js` is already right in `nl`, so the cause is probably that `#plOpen` / the host's playlist link keep the text from when they were rendered and aren't refreshed on a language change (host.js:134, :402). The audit: every key present in all 8 languages, no text left in another language, and every visible string re-rendered when the language changes.
 
