@@ -122,6 +122,7 @@ def run():
                 host.click('#modePick [data-mode="manual"]')
             host.click('#create'); time.sleep(0.6)
             if tag == 'es':
+                check('host game screen opens at the top', host.evaluate('scrollY') == 0, f"scrollY={host.evaluate('scrollY')}")
                 check('game screen says the mode', 'manual' in host.inner_text('#modeBanner').lower())
                 host.click('#helpBtn'); time.sleep(0.2); shot(host, 'host-help-desktop'); check('host rules help opens', host.is_visible('#help')); host.click('#helpOk')
             code = host.inner_text('#codeBig')

@@ -384,7 +384,7 @@
     }
   }
   function startGame() {
-    $('setup').classList.add('hidden'); $('game').classList.remove('hidden'); document.body.classList.add('ingame');
+    $('setup').classList.add('hidden'); $('game').classList.remove('hidden'); scrollTo(0, 0); document.body.classList.add('ingame');
     const url = new URL('play.html', location.href).href.replace(/\?.*$/, '') + '?r=' + S.code + (new URLSearchParams(location.search).get('net') === 'local' ? '&net=local' : '');
     $('codeBig').textContent = S.code; $('joinUrl').textContent = url.replace(/^https?:\/\//, '').replace(/\?.*/, '') + ' · ' + S.code;
     try { const qr = qrcode(0, 'M'); qr.addData(url); qr.make(); $('qr').innerHTML = qr.createSvgTag({ cellSize: 4, margin: 0, scalable: true }); } catch (e) { $('qr').textContent = url; }
