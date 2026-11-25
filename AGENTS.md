@@ -50,7 +50,7 @@ Run what matches the area you changed. All of them must pass.
 | You changed | Run |
 |---|---|
 | Anything | `node tests/patterns.test.js` |
-| `public/` (game, host, player, CSS) | `python tools/ux/ux_check.py` → `ux-report/report.md` + screenshots. `SKIN=<id>` to check one skin (default `pista`), `EVENT=<id>` to add a special event; `UX_PORT=<port>` if 8099 is taken (e.g. another check running). |
+| `public/` (game, host, player, CSS) | `python tools/ux/ux_check.py` → `ux-report/report.md` + screenshots. `SKIN=<id>` to check one skin (default `dance-floor`), `EVENT=<id>` to add a special event; `UX_PORT=<port>` if 8099 is taken (e.g. another check running). |
 | `site/landing.*` | `python tools/site/build_site.py`, then `python tools/site/build_site.py --check` and `python tools/site/seo_check.py` |
 | `site/skins/` | `python tools/site/build_skins.py`, then `--check`. For new skins or a new default: `python tools/site/screenshots.py <id>` |
 | `site/events/` | `python tools/site/build_events.py`, then `--check`; `EVENT=<id> python tools/ux/ux_check.py` |

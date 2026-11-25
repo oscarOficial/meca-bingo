@@ -1,4 +1,4 @@
-/* Landing art direction and lanterns for Feria. `:skin` becomes html[data-skin=feria] when built. */
+/* Landing art direction and lanterns for Flamenco fair. `:skin` becomes html[data-skin=flamenco-fair] when built. */
 /* steps: white cards with a coloured top edge and a round number */
 :skin .steps .card{border-top:6px solid var(--k,#9c0e25)}
 :skin .steps .card::before{background:var(--k,#9c0e25);color:var(--kt,#fff6ec);font:400 20px var(--font-display);width:40px;height:40px;top:-20px}

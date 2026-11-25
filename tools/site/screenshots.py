@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Landing screenshots, one set per skin.
 
-    python3 tools/site/screenshots.py            # all skins
-    python3 tools/site/screenshots.py feria      # one skin
+    python3 tools/site/screenshots.py                  # all skins
+    python3 tools/site/screenshots.py flamenco-fair   # one skin
 
 Plays a small game in a headless browser (host + one player, ?net=local) and saves:
   public/img/skins/<skin>/host.jpg|webp     host screen, 1280×800

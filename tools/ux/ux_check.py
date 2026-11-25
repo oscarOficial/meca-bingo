@@ -8,7 +8,7 @@ Exit code 1 if a check fails, so CI marks the commit.
     pip install playwright && python -m playwright install chromium
     python3 tools/ux/ux_check.py            # uses ./public, port 8099
     CHROME=/usr/bin/google-chrome python3 tools/ux/ux_check.py
-    SKIN=feria python3 tools/ux/ux_check.py   # check one skin (default: pista); report in ux-report/
+    SKIN=flamenco-fair python3 tools/ux/ux_check.py   # check one skin (default: dance-floor); report in ux-report/
     EVENT=test python3 tools/ux/ux_check.py   # with a special event on; meant for hidden or out-of-season events
                                               # (the saved choice only holds while no shown event is in season)
     UX_PORT=8098 python3 tools/ux/ux_check.py # another port, e.g. to run two checks at once
@@ -92,6 +92,14 @@ def run():
                     check('host: event picker shows it pressed', host.evaluate(f"!!document.querySelector('#eventPick [data-event={json.dumps(EVENT)}][aria-pressed=true]') && !document.getElementById('eventWrap').classList.contains('hidden')"))
                 else:
                     check('host: no special event', host.evaluate("!('event' in document.documentElement.dataset)"))
+                # skins renamed to English ids: an old id saved on a device, or sent by an older host, maps to the new one
+                old = browser.new_page(); old.add_init_script("localStorage.setItem('meca-skin', 'pista')")
+                old.goto(base + '/host.html?net=local'); time.sleep(0.3)
+                got = old.evaluate("[document.documentElement.dataset.skin, localStorage.getItem('meca-skin')]")
+                check('skin: an old saved id (pista) migrates to dance-floor and is saved again', got == ['dance-floor', 'dance-floor'], str(got))
+                got = old.evaluate("['pista', 'verbena', 'feria', 'mesa', 'clasico'].map(Skin.id)")
+                check('skin: Skin.id maps the old ids to the new ones', got == ['dance-floor', 'street-party', 'flamenco-fair', 'board-game', 'classic'], str(got))
+                old.close()
                 # first screen: only "paste your playlist"
                 for dev in ('desktop', 'phone-small'):
                     w, h = DEVICES[dev]; host.set_viewport_size({'width': w, 'height': h}); time.sleep(0.2)
@@ -186,7 +194,7 @@ def run():
                 host.set_viewport_size({'width': 1366, 'height': 850}); time.sleep(0.2); shot(host, 'host-call-desktop')
                 # a new phone (no name yet, its own other skin): the name screen follows the host's skin
                 hs = host.evaluate('document.documentElement.dataset.skin')
-                own = next(k for k in ('verbena', 'pista') if k != hs)
+                own = next(k for k in ('street-party', 'dance-floor') if k != hs)
                 fresh = ctx.new_page(); fresh.set_viewport_size({'width': 375, 'height': 740})
                 fresh.add_init_script(f"localStorage.setItem('meca-skin', {json.dumps(own)}); localStorage.removeItem('meca-name')")
                 fresh.goto(f'{base}/play.html?r={code}&net=local'); time.sleep(1)

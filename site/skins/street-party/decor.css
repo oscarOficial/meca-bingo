@@ -1,4 +1,4 @@
-/* Landing art direction for Verbena. `:skin` becomes html[data-skin=verbena] when built. */
+/* Landing art direction for Street party. `:skin` becomes html[data-skin=street-party] when built. */
 :skin .steps .card{background:none;box-shadow:none;border:0;border-top:2px dashed #cbb99a;border-radius:0;padding:26px 4px 8px}
 :skin .steps .card::before{content:'0' counter(s);background:none;color:var(--accent);font:400 34px var(--font-display);width:auto;height:auto;top:-6px;left:4px}
 :skin #how,:skin #mood{border-top:2px dashed #cbb99a;margin-top:40px}
