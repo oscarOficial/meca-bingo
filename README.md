@@ -30,7 +30,7 @@ LINE / 2 LINES / BINGO. The host's screen checks every call automatically.
 | Photos & messages | Any number of photos (kept only in the host's browser) and three lists of messages |
 | Language | English, Spanish, French, German, Italian, Dutch (also for Flemish), Polish, Slovak. App texts in `js/i18n.js`, landing texts in `site/landing.i18n.json` |
 | Look ("Pick your mood") | Five skins: Dance floor (default), Street party, Flamenco fair, Board game, Classic. The host's skin is sent to every player. One folder per skin in `site/skins/` (how to add, change, hide or remove one: `site/skins/README.md`); `python3 tools/site/build_skins.py` builds them, `python3 tools/site/screenshots.py` remakes their screenshots |
-| Special event | An optional seasonal layer over any mood: an animated background and effects for marking, valid and wrong calls and the photo moment. Suggested on its dates, chosen by the host under "Pick your mood" and sent to every player. One folder per event in `site/events/` (`site/events/README.md`), built by `python3 tools/site/build_events.py`. No event ships yet |
+| Special event | An optional seasonal layer over any mood: an animated background and effects for marking, valid and wrong calls and the photo moment. Suggested on its dates, chosen by the host under "Pick your mood" and sent to every player. One folder per event in `site/events/` (`site/events/README.md`), built by `python3 tools/site/build_events.py`. Ships with Christmas (snow, tree, gift; suggested 1 Dec – 6 Jan) |
 
 Songs and players go together (from simulations: first-line ties ≤ 20 %, full-card ties ≤ 25 %):
 
