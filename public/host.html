@@ -15,6 +15,7 @@
 <style>
 .top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
 .top h1{font-size:26px;color:var(--logo-color);text-shadow:var(--logo-shadow)}
+#homeLink{color:inherit;text-decoration:none;display:inline-block;padding:10px 0;margin:-10px 0}
 .top{flex-wrap:nowrap}.top>.row{flex-wrap:nowrap;gap:6px}
 .top .btn{padding:8px 11px;min-height:40px}
 @media (max-width:480px){.top h1{font-size:21px;white-space:nowrap}#fs{display:none}}
@@ -165,7 +166,7 @@
 <body>
 <div class="wrap">
   <div class="top">
-    <h1>Meca <span class="grad">Bingo</span></h1>
+    <h1><a id="homeLink" href="/en/">Meca <span class="grad">Bingo</span></a></h1>
     <div class="row"><span class="pill ok hidden" id="extPill"><svg class="icon" aria-hidden="true"><use href="/img/icons.svg#puzzle"/></svg> Sync</span><button class="btn" id="helpBtn" type="button"><svg class="icon" aria-hidden="true"><use href="/img/icons.svg#circle-question-mark"/></svg></button><select id="lang" style="width:auto"></select><button class="btn" id="fs"><svg class="icon" aria-hidden="true"><use href="/img/icons.svg#maximize"/></svg></button></div>
   </div>
 
