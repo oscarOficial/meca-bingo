@@ -1,7 +1,9 @@
 // Confetti, flashes and small helpers shared by host and player screens.
 (function (G) {
   const $ = id => document.getElementById(id);
-  function toast(msg, ms = 3500) { const e = $('toast'); if (!e) return; e.textContent = msg; e.classList.add('on'); clearTimeout(e._t); e._t = setTimeout(() => e.classList.remove('on'), ms); }
+  // a Lucide icon from the sprite, coloured by currentColor
+  const icon = name => `<svg class="icon" aria-hidden="true"><use href="/img/icons.svg#${name}"/></svg>`;
+  function toast(msg, ms = 3500, ic) { const e = $('toast'); if (!e) return; if (ic) e.innerHTML = icon(ic) + ' ' + esc(msg); else e.textContent = msg; e.classList.add('on'); clearTimeout(e._t); e._t = setTimeout(() => e.classList.remove('on'), ms); }
   function flash(color) { const f = document.createElement('div'); f.style.cssText = `position:fixed;inset:0;pointer-events:none;z-index:34;background:${color};animation:mbflash .6s ease-out forwards`; document.body.appendChild(f); setTimeout(() => f.remove(), 700); }
   const st = document.createElement('style'); st.textContent = '@keyframes mbflash{0%{opacity:.5}100%{opacity:0}}'; document.head.appendChild(st);
   // confetti (vendored canvas-confetti on <canvas id="fx">): two bursts from the bottom corners
@@ -49,5 +51,5 @@
       else await document.documentElement.requestFullscreen();
     } catch (e) { toast(msg || 'Full screen is not available here'); }
   }
-  G.FX = { $, toast, flash, confetti, win, nope, mark, moment, pick, esc, store, toggleFullscreen };
+  G.FX = { $, icon, toast, flash, confetti, win, nope, mark, moment, pick, esc, store, toggleFullscreen };
 })(window);
