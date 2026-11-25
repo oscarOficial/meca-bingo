@@ -13,7 +13,7 @@ When the task is merged: `- [x] <title> → task/<id>`. Done by hand: `- [x] <ti
 
 - [x] Player join screen uses the host's skin → task/player-join-screen-uses-the-hosts-skin
     Cuando el usuario se conecta a la partida para poner su nombre el tema no encaja con el skin que el host ha seleccionado.
-- [ ] Host game screen opens at the top after creating the game
+- [x] Host game screen opens at the top after creating the game → task/host-game-screen-opens-at-the-top-after
     Tras crear partida la pantalla del host debe de mostrar desde el inicio (ahora se queda anclada abajo y no muestra el código QR ni las fotos).
 - [ ] 3×9 card shows its empty cells on phones
     Los cartones si se selecciona el cartón 3x9 no aparecen las celdas vacías (quizás debamos, para los cartones, si es un móvil fijar el portrait).
