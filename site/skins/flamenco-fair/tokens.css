@@ -1,4 +1,4 @@
-/* Feria flamenca: polka dots, ruffles and paper lanterns. Declarations only (see ../README.md). */
+/* Flamenco fair: polka dots, ruffles and paper lanterns. Declarations only (see ../README.md). */
 --page:#fff6ec;--surface:#ffffff;--surface-2:#fff6ec;--border:#e4d3c3;--paper:#fff6ec;
 --text:#1a1414;--text-muted:#5a4a44;
 --accent:#9c0e25;--selected:#1a1414;--highlight:#e9b44c;--success:#0a5440;
@@ -10,7 +10,7 @@
 /* faint polka dots on every page */
 --page-image:radial-gradient(circle,#9c0e2512 0 7px,transparent 8px),radial-gradient(circle,#9c0e2512 0 7px,transparent 8px);
 --page-image-size:64px 64px;--page-image-pos:0 0,32px 32px;--page-image-attach:scroll;
---_lunares:radial-gradient(circle,#fff6ec 0 9px,transparent 10px) 0 0/64px 64px,radial-gradient(circle,#fff6ec 0 9px,transparent 10px) 32px 32px/64px 64px,#9c0e25;
+--_polka-dots:radial-gradient(circle,#fff6ec 0 9px,transparent 10px) 0 0/64px 64px,radial-gradient(circle,#fff6ec 0 9px,transparent 10px) 32px 32px/64px 64px,#9c0e25;
 
 /* type: Abril Fatface titles, DM Sans text */
 --font-display:'Abril Fatface',Georgia,serif;--font-body:'DM Sans',Inter,system-ui,sans-serif;

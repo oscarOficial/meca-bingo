@@ -149,7 +149,7 @@ textarea{min-height:110px;resize:vertical}
 .prefs .pop select{width:100%;max-width:none}
 @media (max-width:480px){.prefs .pop{right:8px}}   /* phones: the menu ends the 16px-padded header; 8px more keeps the list 24px off the edge */
 /* decoration slots: hidden unless a skin's decor.css turns them on (site/skins/README.md) */
-.ball,.neon,.topband,.sticker,.faroles,.volante{display:none}
+.ball,.neon,.topband,.sticker,.lanterns,.ruffle{display:none}
 /* special event slots: .evbg a background an event's layer.css shows, .evfx a short effect over the page (site/events/README.md) */
 .evbg{display:none;position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
 .evfx{position:fixed;pointer-events:none;z-index:36}
