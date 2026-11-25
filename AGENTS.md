@@ -64,7 +64,11 @@ Manual play in one browser: `npx wrangler dev`, then `http://localhost:8787/host
 ## Conventions
 
 - **Language.** Code, comments, commit messages, file names and docs are in **English**. Text
-  people see goes through i18n.
+  people see goes through i18n. "Code" includes every identifier and key: variables, functions,
+  CSS classes and custom properties, `data-*` attributes and values, JSON keys, localStorage keys,
+  message fields, URL parameters, and the ids of skins, events and other items (`christmas`, not
+  `navidad`). Spanish words only appear as visible text in the Spanish translations. Some old
+  identifiers are still Spanish: don't add new ones, and rename one only when the task is about it.
 - **i18n.** Every visible string in the game is in `public/js/i18n.js`, in **all 8 languages**
   (en, es, fr, de, it, nl, pl, sk). Landing texts in `site/landing.i18n.json`, same keys in every
   language. Skin names and descriptions in each `skin.json`. Never hard-code a visible string.
