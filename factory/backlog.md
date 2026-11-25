@@ -69,7 +69,7 @@ When the task is merged: `- [x] <title> → task/<id>`. Done by hand: `- [x] <ti
 
 ### Game settings
 
-- [ ] Host setting: pause or not between songs
+- [x] Host setting: pause or not between songs → task/host-setting-pause-or-not-between-songs
     Añadir configuración de pausa o no entre canciones.
 
 ### Texts
