@@ -111,7 +111,11 @@
 
   chrome.runtime.onMessage.addListener((msg, sender, reply) => {
     if (!msg) return;
-    if (msg.type === 'mb-status') { reply({ playing: isPlaying(), now: nowPlaying() }); return; }
+    if (msg.type === 'mb-status') {
+      // the held song (the one already sent), so a song skipped before HOLD is never reported
+      const playing = isPlaying(), now = nowPlaying(), held = playing && now && now.title + '|' + now.artist === sent;
+      reply({ playing, now, track: held ? { title: now.title, artist: now.artist } : null }); return;
+    }
     if (msg.type === 'mb-control') { control(msg.action).then(reply); return true; }
     if (msg.type === 'mb-import' && isAmazon) {
       unpre(); cover(_('readingPlaylist'));

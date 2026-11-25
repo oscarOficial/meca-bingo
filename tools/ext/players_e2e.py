@@ -7,8 +7,8 @@
 For each supported player (except Amazon import/start, which needs the real site) it opens a
 page that behaves like the player (Media Session title/artist + media-key handlers) on the
 player's real address, opens the host page, and checks that the host page sees the player,
-receives the song that is playing, follows play/pause (a muted video playing does not count)
-and can skip to the next song.
+receives the song that is playing, follows play/pause (a muted video playing does not count),
+can skip to the next song, and that a second host page opened later gets the song in getState.
 """
 import base64, json, os, struct, sys, tempfile, time
 from playwright.sync_api import sync_playwright
@@ -71,9 +71,11 @@ with sync_playwright() as p:
         nx = ask({'type': 'control', 'action': 'next'}); time.sleep(2.5)
         tracks = [g['title'] for g in host.evaluate('got') if g.get('type') == 'track']
         log = pl.evaluate('window.log')
-        good = st.get('player') and start and paused and resumed and nx.get('ok') and 'Song One' in tracks and 'Song Two' in tracks and 'next' in log
+        host = ctx.new_page(); host.goto(f'https://{SITE}/host.html'); time.sleep(1)   # opened after the song started: it missed the push
+        late = (ask({'type': 'getState'}).get('track') or {}).get('title')
+        good = st.get('player') and start and paused and resumed and nx.get('ok') and 'Song One' in tracks and 'Song Two' in tracks and 'next' in log and late == 'Song Two'
         ok &= bool(good)
-        print(('OK ' if good else 'FAIL'), name, '| state', st, '| playing at start', start, '| paused after toggle (muted video playing)', paused, '| playing after toggle', resumed, '| next', nx.get('ok'), '| tracks', tracks, '| player log', log)
+        print(('OK ' if good else 'FAIL'), name, '| state', st, '| playing at start', start, '| paused after toggle (muted video playing)', paused, '| playing after toggle', resumed, '| next', nx.get('ok'), '| tracks', tracks, '| player log', log, '| late host song', late)
         ctx.close()
 print('all players OK' if ok else 'SOME PLAYERS FAILED')
 sys.exit(0 if ok else 1)
