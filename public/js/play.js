@@ -105,8 +105,14 @@
     const W = Object.entries(state.winners || {}).filter(([, n]) => n && n.length).map(([p, n]) => `${icon('trophy')} <b>${esc(prizeLabel(p))}</b>: ${n.map(esc).join(', ')}`);
     $('winners').innerHTML = W.join('<br>'); $('winners').classList.toggle('hidden', !W.length);
   }
-  function result(ok, title, sub, ic) {
-    const r = $('res'); r.className = 'res on ' + (ok ? 'ok' : 'no'); $('resT').textContent = title; if (ic) $('resS').innerHTML = icon(ic) + ' ' + esc(sub); else $('resS').textContent = sub || '';
+  let res = null; // the result on screen, redrawn on a language change
+  function drawResult() {
+    const { ok, prize, reason } = res, sub = ok ? '' : reason === 'wrong' ? t.youWrong : reason === 'closed' ? t.prizeClosed : t.youIncomplete;
+    $('resT').textContent = ok ? t.youWon(prizeLabel(prize)) : t.notValid;
+    if (!ok && reason === 'wrong') $('resS').innerHTML = icon('triangle-exclamation-point') + ' ' + esc(sub); else $('resS').textContent = sub;
+  }
+  function result(ok, prize, reason) {
+    const r = $('res'); r.className = 'res on ' + (ok ? 'ok' : 'no'); res = { ok, prize, reason }; drawResult();
     ok ? FX.win() : FX.nope();
     try { navigator.vibrate && navigator.vibrate(ok ? [80, 60, 80, 60, 200] : [300]); } catch (e) {}
     setTimeout(() => r.classList.remove('on'), ok ? 5000 : 3000);
@@ -114,7 +120,8 @@
 
   function onMessage(m) {
     if (!m || !m.t) return;
-    if (m.lang && m.lang !== lang && I18N.T[m.lang]) { lang = m.lang; texts(); drawCard(); if (last) setStatus(last); }
+    const relang = m.lang && m.lang !== lang && I18N.T[m.lang];
+    if (relang) { lang = m.lang; texts(); drawCard(); if (last) setStatus(last); }
     if (m.skin && window.Skin && Skin.valid(m.skin) && Skin.id(m.skin) !== Skin.get()) Skin.set(m.skin, false);
     if ('event' in m && window.Events && (Events.valid(m.event) ? m.event : null) !== Events.get()) Events.set(m.event, false);
     if (m.t === 'welcome') {
@@ -128,15 +135,16 @@
       const before = JSON.stringify(state.winners || {});
       state = { ...state, ...m }; drawState();
       if (JSON.stringify(m.winners || {}) !== before) {
-        for (const [p, n] of Object.entries(m.winners || {})) if (n && n.length) toast(t.winnerIs(n.join(', '), prizeLabel(p)), 5000, 'trophy');
+        for (const [p, n] of Object.entries(m.winners || {})) if (n && n.length) toast(() => t.winnerIs(n.join(', '), prizeLabel(p)), 5000, 'trophy');
       }
     } else if (m.t === 'result') {
       busy = false; drawState();
-      if (m.ok) result(true, t.youWon(prizeLabel(m.prize)));
-      else result(false, t.notValid, m.reason === 'wrong' ? t.youWrong : m.reason === 'closed' ? t.prizeClosed : t.youIncomplete, m.reason === 'wrong' && 'triangle-exclamation-point');
+      result(!!m.ok, m.prize, m.reason);
       (m.wrong || []).forEach(i => { const c = document.querySelector(`.cell[data-i="${i}"]`); if (c) { c.classList.add('wrong'); setTimeout(() => c.classList.remove('wrong'), 4000); } });
     } else if (m.t === 'full') { show('msg'); $('msgText').textContent = t.gameFull; }
     else if (m.t === 'over') { show('msg'); $('msgText').textContent = t.gameOver; $('callbar').classList.add('hidden'); store.del(K()); }
+    // overlays open now were filled in the old language; redrawn last so they get this message's prize names
+    if (relang) { FX.retoast(); if ($('help').classList.contains('on')) showHelp(); if ($('res').classList.contains('on')) drawResult(); }
   }
   // without a name yet the connection opens early and only peeks at the game (skin, language)
   let joining = false, last = null;

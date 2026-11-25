@@ -1,7 +1,7 @@
 // Host screen: set up the game, then run it. All game state lives in this browser.
 (function () {
   const { $, icon, toast, pick, esc, store } = FX;
-  const toggleFullscreen = () => FX.toggleFullscreen(t.noFullscreen);
+  const toggleFullscreen = () => FX.toggleFullscreen(() => t.noFullscreen);
   const KEY = 'meca-host';
   const DEFAULT_CFG = { fmt: 'es', freeCenter: false, prizes: MB.defaultPrizes('es'), clip: 0, gap: 'next', maxPlayers: 30, moment: 6 };
 
@@ -46,8 +46,8 @@
     else if (m.type === 'state') { EXT.playing = !!m.playing; if (m.player !== undefined) EXT.player = m.player; drawExt(); }
     else if (m.type === 'track' && S.phase === 'game') {
       const i = findTrack(m.title, m.artist);
-      if (i >= 0 && !S.played.includes(i)) { markSong(i); toast(t.autoMarked(S.played.length), undefined, 'headphones'); }
-      else if (i < 0) toast(t.notOnCards, 4000, 'headphones');
+      if (i >= 0 && !S.played.includes(i)) { markSong(i); const n = S.played.length; toast(() => t.autoMarked(n), undefined, 'headphones'); }
+      else if (i < 0) toast(() => t.notOnCards, 4000, 'headphones');
     }
   });
   window.postMessage({ __mbPage: true, type: 'hello' }, '*');
@@ -223,7 +223,6 @@
     edK = k; ed = k < c.prizes.length ? JSON.parse(JSON.stringify(c.prizes[k])) : { preset: unused.id, pat: unused.pat };
     tab = ed.preset === 'custom' ? 'draw' : 'gal';
     $('shRemove').classList.toggle('hidden', !(k < c.prizes.length && c.prizes.length > 1));
-    $('shClose').setAttribute('aria-label', t.cancel); $('shClose').title = t.cancel;
     $('sheet').classList.add('on'); $('sheet').setAttribute('aria-hidden', 'false');
     drawSheet(); setTimeout(() => $('shName').focus({ preventScroll: true }), 50);
   }
@@ -232,6 +231,7 @@
   function drawSheet() {
     const c = S.cfg, fmt = c.fmt, free = c.freeCenter && fmt === 'us';
     $('shPic').innerHTML = PATUI.html(fmt, ed.pat, { free });
+    $('shClose').setAttribute('aria-label', t.cancel); $('shClose').title = t.cancel;
     $('shName').value = edName();
     $('tabGal').setAttribute('aria-selected', tab === 'gal'); $('tabDraw').setAttribute('aria-selected', tab === 'draw');
     $('gal').classList.toggle('hidden', tab !== 'gal'); $('draw').classList.toggle('hidden', tab !== 'draw');
@@ -285,7 +285,7 @@
   };
   $('shName').oninput = e => { const v = e.target.value.trim(); if (v && v !== I18N.prizeTitle(t, S.cfg.fmt, { preset: ed.preset })) { ed.name = v; ed.nameEdited = true; } else { delete ed.name; ed.nameEdited = false; } };
   $('shDone').onclick = () => {
-    if (ed.pat.kind === 'masks' && !ed.pat.masks.some(m => m.length)) { toast(t.drawHint, 3000, 'pencil'); return; }
+    if (ed.pat.kind === 'masks' && !ed.pat.masks.some(m => m.length)) { toast(() => t.drawHint, 3000, 'pencil'); return; }
     const p = { preset: ed.preset, pat: ed.pat }; if (ed.name) p.name = ed.name;
     if (edK < S.cfg.prizes.length) S.cfg.prizes[edK] = p; else S.cfg.prizes.push(p);
     save(); closeSheet(); drawSetup();
@@ -307,31 +307,33 @@
     S.msgs = { wait: rd('msgWait'), win: rd('msgWin'), lose: rd('msgLose') };
     ['wait', 'win', 'lose'].forEach(k => { if (!S.msgs[k].length) S.msgs[k] = [...t.defaults[k]]; });
   }
+  // the error keeps its text as a function, so its toast can follow a language change
+  const fail = f => Object.assign(new Error(f()), { text: f });
   async function importPlaylist() {
     const url = $('plUrl').value.trim(); if (!url) return;
     $('importBtn').disabled = true; $('importBtn').textContent = t.importing;
     try {
       if (isAmazon(url)) {
-        if (!EXT.on) throw new Error(t.needExtension);
+        if (!EXT.on) throw fail(() => t.needExtension);
         const r = await extCall('import', { url });
-        if (!r.ok || !r.tracks || !r.tracks.length) { STATS.track('import', { provider: 'amazon', ok: false, error: r.error || 'empty' }); throw new Error(t.errEmpty('Amazon Music')); }
+        if (!r.ok || !r.tracks || !r.tracks.length) { STATS.track('import', { provider: 'amazon', ok: false, error: r.error || 'empty' }); throw fail(() => t.errEmpty('Amazon Music')); }
         S.playlist = { title: r.title || 'Amazon Music', provider: 'amazon', tracks: r.tracks, url };
         STATS.track('import', { provider: 'amazon', ok: true, songs: r.tracks.length });
         save(); drawSetup(); return;
       }
       let r, d;
-      try { r = await fetch('/api/playlist?url=' + encodeURIComponent(url)); d = await r.json(); } catch (e) { throw new Error(t.errNetwork); }
+      try { r = await fetch('/api/playlist?url=' + encodeURIComponent(url)); d = await r.json(); } catch (e) { throw fail(() => t.errNetwork); }
       if (!r.ok) {
-        const prov = t.providers[d.provider] || '';
+        const prov = () => t.providers[d.provider] || '';
         if (d.detail) console.warn('playlist import:', d.detail);
         STATS.track('import', { provider: d.provider || 'unknown', ok: false, error: d.error || 'failed' });
-        throw new Error(d.error === 'unsupported' ? t.errUnsupported : d.error === 'empty' ? t.errEmpty(prov) : t.errFailed(prov));
+        throw fail(() => d.error === 'unsupported' ? t.errUnsupported : d.error === 'empty' ? t.errEmpty(prov()) : t.errFailed(prov()));
       }
       S.playlist = { title: d.title, provider: d.provider, tracks: d.tracks, note: d.note, url };
       scrollTo(0, 0);
       STATS.track('import', { provider: d.provider, ok: true, songs: d.tracks.length });
       save(); drawSetup();
-    } catch (e) { toast(e.message, 8000, 'triangle-exclamation-point'); }
+    } catch (e) { toast(e.text || e.message, 8000, 'triangle-exclamation-point'); }
     finally { $('importBtn').disabled = false; $('importBtn').textContent = t.import; }
   }
 
@@ -443,13 +445,14 @@
     save(); drawGame();
   }
   // clip timer: reminds the host when it is time to change song
-  let tId = null;
+  let tId = null, tEnd = null; // tEnd: the "Time!" text shown ('up' / 'paused'), redrawn on a language change
+  function drawTimerEnd() { $('timer').innerHTML = tEnd === 'paused' ? icon('pause') + ' ' + t.timeUpPaused(icon('skip-forward')) : icon('skip-forward') + ' ' + esc(t.timeUp); }
   function startClip() {
-    clearInterval(tId); const secs = +S.cfg.clip; const el = $('timer'); el.className = 'timer'; el.textContent = '';
+    clearInterval(tId); tEnd = null; const secs = +S.cfg.clip; const el = $('timer'); el.className = 'timer'; el.textContent = '';
     if (!secs) return; let left = secs; el.innerHTML = icon('timer') + ' ' + left;
-    tId = setInterval(() => { left--; el.innerHTML = icon('timer') + ' ' + left; if (left <= 0) { clearInterval(tId); el.className = 'timer end'; if (!(EXT.on && EXT.playing)) { el.innerHTML = icon('skip-forward') + ' ' + esc(t.timeUp); toast(t.timeUp, undefined, 'timer'); }
-      else if (S.cfg.gap !== 'pause') { el.innerHTML = icon('skip-forward') + ' ' + esc(t.timeUp); extCall('control', { action: 'next' }, 5000); }
-      else { el.innerHTML = icon('pause') + ' ' + t.timeUpPaused(icon('skip-forward')); EXT.playing = false; drawExt(); extCall('control', { action: 'pause' }, 5000).then(r => { if (!r.ok) toast(r.error === 'notab' ? t.noPlayer : t.controlFailed, 5000, 'triangle-exclamation-point'); }); } } }, 1000);
+    tId = setInterval(() => { left--; el.innerHTML = icon('timer') + ' ' + left; if (left <= 0) { clearInterval(tId); el.className = 'timer end'; if (!(EXT.on && EXT.playing)) { tEnd = 'up'; drawTimerEnd(); toast(() => t.timeUp, undefined, 'timer'); }
+      else if (S.cfg.gap !== 'pause') { tEnd = 'up'; drawTimerEnd(); extCall('control', { action: 'next' }, 5000); }
+      else { tEnd = 'paused'; drawTimerEnd(); EXT.playing = false; drawExt(); extCall('control', { action: 'pause' }, 5000).then(r => { if (!r.ok) toast(() => r.error === 'notab' ? t.noPlayer : t.controlFailed, 5000, 'triangle-exclamation-point'); }); } } }, 1000);
   }
   function drawExt() {
     const pill = $('extPill'); if (pill) { pill.classList.toggle('hidden', !EXT.on); pill.title = 'Meca Bingo Sync ' + (EXT.version || ''); }
@@ -466,37 +469,38 @@
   }
   async function ctl(action) {
     if (action === 'toggle' && $('ctlToggle').classList.contains('start')) {
-      S.musicStarted = true; save(); drawExt(); toast(t.startingMusic, undefined, 'play');
+      S.musicStarted = true; save(); drawExt(); toast(() => t.startingMusic, undefined, 'play');
       const r = await extCall('start', { url: S.playlist.url });
-      if (!r.ok) { S.musicStarted = false; save(); drawExt(); toast(t.startFailed, 6000, 'triangle-exclamation-point'); }
+      if (!r.ok) { S.musicStarted = false; save(); drawExt(); toast(() => t.startFailed, 6000, 'triangle-exclamation-point'); }
       return;
     }
     if (action === 'toggle') { EXT.playing = !EXT.playing; drawExt(); }
     const r = await extCall('control', { action }, 8000);
-    if (!r.ok) toast(r.error === 'notab' ? t.noPlayer : t.controlFailed, 5000, 'triangle-exclamation-point');
+    if (!r.ok) toast(() => r.error === 'notab' ? t.noPlayer : t.controlFailed, 5000, 'triangle-exclamation-point');
   }
   // Photo moment: after each new song the photo and its message take the whole screen for a few seconds
-  let mT = null;
+  let mT = null, mN = 0;
+  const drawMoment = () => { $('mLbl').innerHTML = icon('eighth-notes') + ' ' + esc(t.songN(mN)); };
   function showMoment() {
     const secs = S.cfg.moment ?? 6; const m = $('moment');
     if (!secs || !photos.length || $('stage').classList.contains('on')) return;
     clearTimeout(mT); m.classList.remove('out');
     $('mImg').src = $('snapImg').src; $('mCap').textContent = $('snapCap').textContent;
-    $('mLbl').innerHTML = icon('eighth-notes') + ' ' + esc(t.songN(S.played.length));
+    mN = S.played.length; drawMoment();
     m.style.setProperty('--msecs', secs + 's');
     m.classList.remove('on'); void m.offsetWidth; m.classList.add('on');
     mT = setTimeout(hideMoment, secs * 1000); FX.moment();
   }
   function hideMoment() { const m = $('moment'); if (!m.classList.contains('on')) return; m.classList.add('out'); clearTimeout(mT); mT = setTimeout(() => m.classList.remove('on', 'out'), 650); }
   function shuffleSnap() { const s = $('snap'); $('snapImg').src = rndPhoto(); $('snapCap').textContent = pick(S.msgs.wait); s.classList.remove('flip'); void s.offsetWidth; s.classList.add('flip'); }
-  let stT = null;
+  let stT = null, stD = null;
+  function drawStage() { const { ok, p, prize } = stD; $('stWho').textContent = `${p.name} · #${p.card + 1} · ${prizeLabel(prize)}`; $('stage').querySelector('.stamp').textContent = ok ? t.valid : t.nope; }
   function showStage(ok, p, prize, reason) {
     hideMoment(); const st = $('stage'); clearTimeout(stT);
     st.className = 'stage on ' + (ok ? 'win' : 'lose');
-    $('stWho').textContent = `${p.name} · #${p.card + 1} · ${prizeLabel(prize)}`;
+    stD = { ok, p, prize }; drawStage();
     st.querySelector('img').src = rndPhoto();
     st.querySelector('.big p').textContent = ok ? pick(S.msgs.win) : pick(S.msgs.lose);
-    st.querySelector('.stamp').textContent = ok ? t.valid : t.nope;
     ok ? FX.win() : FX.nope();
     stT = setTimeout(() => st.classList.remove('on'), ok ? 6000 : 3500);
   }
@@ -514,6 +518,9 @@
     // switch the default messages too, unless the host already edited them
     if (S.phase === 'setup') { readMsgs(); ['wait', 'win', 'lose'].forEach(k => { if (S.msgs[k].join('\n') === old.defaults[k].join('\n')) S.msgs[k] = [...I18N.get(lang).defaults[k]]; }); }
     texts(); S.phase === 'setup' ? drawSetup() : drawGame(); drawExt(); save();
+    // overlays open now were filled in the old language
+    FX.retoast(); if (tEnd) drawTimerEnd();
+    if ($('stage').classList.contains('on')) drawStage(); if ($('moment').classList.contains('on')) drawMoment(); if ($('sheet').classList.contains('on')) drawSheet();
     if (S.phase === 'game' && net) net.broadcast(publicState());
   };
   $('fs').onclick = toggleFullscreen;
