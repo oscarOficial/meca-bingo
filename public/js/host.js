@@ -3,7 +3,7 @@
   const { $, icon, toast, pick, esc, store } = FX;
   const toggleFullscreen = () => FX.toggleFullscreen(t.noFullscreen);
   const KEY = 'meca-host';
-  const DEFAULT_CFG = { fmt: 'es', freeCenter: false, prizes: MB.defaultPrizes('es'), clip: 0, maxPlayers: 30, moment: 6 };
+  const DEFAULT_CFG = { fmt: 'es', freeCenter: false, prizes: MB.defaultPrizes('es'), clip: 0, gap: 'next', maxPlayers: 30, moment: 6 };
 
   let lang = store.get('meca-lang') || (navigator.language || 'en').slice(0, 2); if (!I18N.T[lang]) lang = 'en';
   let t = I18N.get(lang);
@@ -96,6 +96,7 @@
     set('tPrizesTitle', t.prizesTitle); set('tPrizesHint', t.prizesHint); seti('tMore', 'settings', t.moreOptions);
     set('tabGal', t.patGallery); seti('tabDraw', 'pencil', t.patDraw); set('dClear', t.clear); set('dInvert', t.invert); set('dAll', t.all); seti('shRemove', 'trash', t.remove); set('shDone', t.done); set('shTitle', t.prizeNameLbl);
     set('tClip', t.clip); $('clip').innerHTML = [0, 30, 45, 60, 90].map(s => `<option value="${s}">${s ? t.secs(s) : t.full}</option>`).join('');
+    set('tGap', t.gapLbl); $('gap').innerHTML = ['next', 'pause'].map(v => `<option value="${v}">${v === 'pause' ? t.gapPause : t.gapNext}</option>`).join('');
     set('tMax', t.maxPlayers); set('tMoment', t.momentLbl); $('momentSecs').innerHTML = [0, 4, 6, 8, 10].map(v => `<option value="${v}">${v ? t.momentSecs(v) : t.momentOff}</option>`).join(''); seti('tPhotos', 'camera', t.photosMsgs); set('tPhotosHint', t.photosHint); set('tAddPhotos', t.addPhotos); set('clearPhotos', t.removeAll);
     set('tMsgWait', t.msgWait); set('tMsgWin', t.msgWin); set('tMsgLose', t.msgLose); set('tOnePerLine', t.onePerLine); set('create', t.create);
     set('tScan', t.scanToJoin); set('tGoTo', t.orGoTo); set('tPlayers', t.players); set('undo', '↶ ' + t.undo);
@@ -129,7 +130,7 @@
     $('step1').classList.toggle('hidden', !!pl); $('step2').classList.toggle('hidden', !pl);
     [...$('fmt').children].forEach(b => b.setAttribute('aria-pressed', b.dataset.v === c.fmt));
     $('freeWrap').classList.toggle('hidden', c.fmt !== 'us'); $('freeCenter').checked = !!c.freeCenter;
-    $('clip').value = c.clip; $('maxPlayers').value = c.maxPlayers; $('momentSecs').value = c.moment ?? 6;
+    $('clip').value = c.clip; $('gap').value = c.gap; $('gap').disabled = !+c.clip; $('maxPlayers').value = c.maxPlayers; $('momentSecs').value = c.moment ?? 6;
     $('msgWait').value = S.msgs.wait.join('\n'); $('msgWin').value = S.msgs.win.join('\n'); $('msgLose').value = S.msgs.lose.join('\n');
     let ok = false;
     if (pl) {
@@ -443,7 +444,9 @@
   function startClip() {
     clearInterval(tId); const secs = +S.cfg.clip; const el = $('timer'); el.className = 'timer'; el.textContent = '';
     if (!secs) return; let left = secs; el.innerHTML = icon('timer') + ' ' + left;
-    tId = setInterval(() => { left--; el.innerHTML = icon('timer') + ' ' + left; if (left <= 0) { clearInterval(tId); el.className = 'timer end'; el.innerHTML = icon('skip-forward') + ' ' + esc(t.timeUp); if (EXT.on && EXT.playing) extCall('control', { action: 'next' }, 5000); else toast(t.timeUp, undefined, 'timer'); } }, 1000);
+    tId = setInterval(() => { left--; el.innerHTML = icon('timer') + ' ' + left; if (left <= 0) { clearInterval(tId); el.className = 'timer end'; if (!(EXT.on && EXT.playing)) { el.innerHTML = icon('skip-forward') + ' ' + esc(t.timeUp); toast(t.timeUp, undefined, 'timer'); }
+      else if (S.cfg.gap !== 'pause') { el.innerHTML = icon('skip-forward') + ' ' + esc(t.timeUp); extCall('control', { action: 'next' }, 5000); }
+      else { el.innerHTML = icon('pause') + ' ' + t.timeUpPaused(icon('skip-forward')); EXT.playing = false; drawExt(); extCall('control', { action: 'pause' }, 5000).then(r => { if (!r.ok) toast(r.error === 'notab' ? t.noPlayer : t.controlFailed, 5000, 'triangle-exclamation-point'); }); } } }, 1000);
   }
   function drawExt() {
     const pill = $('extPill'); if (pill) { pill.classList.toggle('hidden', !EXT.on); pill.title = 'Meca Bingo Sync ' + (EXT.version || ''); }
@@ -516,7 +519,8 @@
   $('freeCenter').onchange = e => { S.cfg.freeCenter = e.target.checked; save(); drawSetup(); };
   $('plChange').onclick = () => { S.playlist = null; save(); drawSetup(); setTimeout(() => $('plUrl').focus(), 50); };
   $('plForm').onsubmit = e => { e.preventDefault(); importPlaylist(); };
-  $('clip').onchange = e => { S.cfg.clip = +e.target.value; save(); };
+  $('clip').onchange = e => { S.cfg.clip = +e.target.value; $('gap').disabled = !S.cfg.clip; save(); };
+  $('gap').onchange = e => { S.cfg.gap = e.target.value; save(); };
   $('momentSecs').onchange = e => { S.cfg.moment = +e.target.value; save(); };
   $('maxPlayers').oninput = e => { const v = +e.target.value; if (v >= 1 && v <= 30) { S.cfg.maxPlayers = v; save(); drawSetup(); } };
   $('maxPlayers').onchange = e => { S.cfg.maxPlayers = Math.max(1, Math.min(30, +e.target.value || 30)); e.target.value = S.cfg.maxPlayers; save(); drawSetup(); };
