@@ -3,7 +3,11 @@
   const $ = id => document.getElementById(id);
   // a Lucide icon from the sprite, coloured by currentColor
   const icon = name => `<svg class="icon" aria-hidden="true"><use href="/img/icons.svg#${name}"/></svg>`;
-  function toast(msg, ms = 3500, ic) { const e = $('toast'); if (!e) return; if (ic) e.innerHTML = icon(ic) + ' ' + esc(msg); else e.textContent = msg; e.classList.add('on'); clearTimeout(e._t); e._t = setTimeout(() => e.classList.remove('on'), ms); }
+  // msg is a string or a function returning it: a function is called again by retoast() after a language change
+  let tMsg = null, tIc = null;
+  function drawToast() { const e = $('toast'), msg = typeof tMsg === 'function' ? tMsg() : tMsg; if (tIc) e.innerHTML = icon(tIc) + ' ' + esc(msg); else e.textContent = msg; }
+  function toast(msg, ms = 3500, ic) { const e = $('toast'); if (!e) return; tMsg = msg; tIc = ic; drawToast(); e.classList.add('on'); clearTimeout(e._t); e._t = setTimeout(() => { e.classList.remove('on'); tMsg = null; }, ms); }
+  function retoast() { const e = $('toast'); if (e && tMsg !== null && e.classList.contains('on')) drawToast(); }
   function flash(color) { const f = document.createElement('div'); f.style.cssText = `position:fixed;inset:0;pointer-events:none;z-index:34;background:${color};animation:mbflash .6s ease-out forwards`; document.body.appendChild(f); setTimeout(() => f.remove(), 700); }
   const st = document.createElement('style'); st.textContent = '@keyframes mbflash{0%{opacity:.5}100%{opacity:0}}'; document.head.appendChild(st);
   // confetti (vendored canvas-confetti on <canvas id="fx">): two bursts from the bottom corners
@@ -57,5 +61,5 @@
       else await document.documentElement.requestFullscreen();
     } catch (e) { toast(msg || 'Full screen is not available here'); }
   }
-  G.FX = { $, icon, toast, flash, confetti, win, nope, mark, moment, pick, esc, store, toggleFullscreen };
+  G.FX = { $, icon, toast, retoast, flash, confetti, win, nope, mark, moment, pick, esc, store, toggleFullscreen };
 })(window);
