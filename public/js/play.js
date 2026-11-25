@@ -1,6 +1,6 @@
 // Player screen: join with a code, get a card, mark songs, call prizes.
 (function () {
-  const { $, toast, flash, confetti, esc, store } = FX;
+  const { $, toast, esc, store } = FX;
   const params = new URLSearchParams(location.search);
   let code = (params.get('r') || '').toUpperCase();
   let lang = store.get('meca-lang') || (navigator.language || 'en').slice(0, 2); if (!I18N.T[lang]) lang = 'en';
@@ -98,7 +98,7 @@
   }
   function result(ok, title, sub) {
     const r = $('res'); r.className = 'res on ' + (ok ? 'ok' : 'no'); $('resT').textContent = title; $('resS').textContent = sub || '';
-    if (ok) { flash('#3ef08a'); confetti(); } else flash('#ff3d9a');
+    ok ? FX.win() : FX.nope();
     try { navigator.vibrate && navigator.vibrate(ok ? [80, 60, 80, 60, 200] : [300]); } catch (e) {}
     setTimeout(() => r.classList.remove('on'), ok ? 5000 : 3000);
   }
@@ -107,6 +107,7 @@
     if (!m || !m.t) return;
     if (m.lang && m.lang !== lang && I18N.T[m.lang]) { lang = m.lang; texts(); drawCard(); }
     if (m.skin && window.Skin && Skin.valid(m.skin) && m.skin !== Skin.get()) Skin.set(m.skin, false);
+    if ('event' in m && window.Events && (Events.valid(m.event) ? m.event : null) !== Events.get()) Events.set(m.event, false);
     if (m.t === 'welcome') {
       // same game, same card: keep my marks; a different card means a new game
       if (!P.card || P.card.no !== m.card.no || JSON.stringify(P.card.cells) !== JSON.stringify(m.card.cells)) P = { card: m.card, marks: [] };
@@ -149,6 +150,7 @@
     const i = +c.dataset.i, k = P.marks.indexOf(i);
     if (k >= 0) P.marks.splice(k, 1); else P.marks.push(i);
     c.classList.toggle('on', k < 0); store.set(K(), P);
+    if (k < 0) FX.mark(c);
   };
   $('callBtn').onclick = () => { if (!connected || !hasPrize()) return; busy = true; drawState(); net.send({ t: 'claim', dev, prize: state.prize, marks: P.marks }); setTimeout(() => { busy = false; drawState(); }, 6000); };
   $('res').onclick = () => $('res').classList.remove('on');

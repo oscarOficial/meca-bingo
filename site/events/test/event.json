@@ -1,0 +1,8 @@
+{
+ "_help": "Hidden test event: exercises every slot of the event system (background, the four effect hooks, confetti colours and emoji).",
+ "name": {"en": "Test", "es": "Test", "fr": "Test", "de": "Test", "it": "Test", "nl": "Test", "pl": "Test", "sk": "Test"},
+ "dates": [],
+ "effects": {
+  "win": {"confetti": {"colors": ["#ffd23f", "#2de2e6", "#ffffff"], "emoji": ["⭐"]}}
+ }
+}

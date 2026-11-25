@@ -1,6 +1,6 @@
 // Host screen: set up the game, then run it. All game state lives in this browser.
 (function () {
-  const { $, toast, flash, confetti, pick, esc, store } = FX;
+  const { $, toast, pick, esc, store } = FX;
   const toggleFullscreen = () => FX.toggleFullscreen(t.noFullscreen);
   const KEY = 'meca-host';
   const DEFAULT_CFG = { fmt: 'es', freeCenter: false, prizes: MB.defaultPrizes('es'), clip: 0, maxPlayers: 30, moment: 6 };
@@ -99,6 +99,14 @@
     set('tScan', t.scanToJoin); set('tGoTo', t.orGoTo); set('tPlayers', t.players); set('undo', '↶ ' + t.undo);
     set('tLogHidden', t.logHidden); set('tLogHint', t.logHint); set('unlock', t.showLog); set('relock', '🔒 ' + t.hide); $('q').placeholder = t.find;
     set('tWinners', t.winners); set('tClaims', t.claims); set('endBtn', t.endGame); $('fs').title = t.fullscreen;
+    set('tSpecialEvent', t.specialEvent); set('tSpecialEventLead', t.specialEventLead); drawEvents();
+  }
+  // special event picker under the mood cards: "None", the shown events and the current one if it is hidden (test)
+  function drawEvents() {
+    if (!window.Events) return;
+    const cur = Events.get() || '', ids = [...Events.list]; if (cur && !ids.includes(cur)) ids.push(cur);
+    $('eventWrap').classList.toggle('hidden', !ids.length); $('eventPick').setAttribute('aria-label', t.specialEvent);
+    $('eventPick').innerHTML = ['', ...ids].map(id => `<button type="button" data-event="${id}" class="${id === cur ? 'on' : ''}" aria-pressed="${id === cur}">${esc(id ? Events.name(id, lang) : t.eventNone)}</button>`).join('');
   }
 
   // small picture of a card type (the 3×9 one with its gaps)
@@ -348,7 +356,7 @@
   function publicState() {
     const cur = currentPrize();
     const prizes = S.cfg.prizes.map((p, k) => ({ name: prizeTitle(k), pat: p.pat }));
-    return { t: 'state', lang, skin: window.Skin ? Skin.get() : undefined, prize: cur, prizes, fmt: S.cfg.fmt, free: S.cfg.fmt === 'us' && !!S.cfg.freeCenter, winners: Object.fromEntries(Object.entries(S.awarded).map(([k, v]) => [k, v.names])), over: cur === null };
+    return { t: 'state', lang, skin: window.Skin ? Skin.get() : undefined, event: window.Events ? Events.get() : null, prize: cur, prizes, fmt: S.cfg.fmt, free: S.cfg.fmt === 'us' && !!S.cfg.freeCenter, winners: Object.fromEntries(Object.entries(S.awarded).map(([k, v]) => [k, v.names])), over: cur === null };
   }
   function onMessage(cid, m, reply) {
     if (!m || !m.t) return;
@@ -468,7 +476,7 @@
     $('mLbl').textContent = '🎵 ' + t.songN(S.played.length);
     m.style.setProperty('--msecs', secs + 's');
     m.classList.remove('on'); void m.offsetWidth; m.classList.add('on');
-    mT = setTimeout(hideMoment, secs * 1000);
+    mT = setTimeout(hideMoment, secs * 1000); FX.moment();
   }
   function hideMoment() { const m = $('moment'); if (!m.classList.contains('on')) return; m.classList.add('out'); clearTimeout(mT); mT = setTimeout(() => m.classList.remove('on', 'out'), 650); }
   function shuffleSnap() { const s = $('snap'); $('snapImg').src = rndPhoto(); $('snapCap').textContent = pick(S.msgs.wait); s.classList.remove('flip'); void s.offsetWidth; s.classList.add('flip'); }
@@ -480,13 +488,15 @@
     st.querySelector('img').src = rndPhoto();
     st.querySelector('.big p').textContent = ok ? pick(S.msgs.win) : pick(S.msgs.lose);
     st.querySelector('.stamp').textContent = ok ? t.valid : t.nope;
-    if (ok) { flash('#3ef08a'); confetti(); } else flash('#ff3d9a');
+    ok ? FX.win() : FX.nope();
     stT = setTimeout(() => st.classList.remove('on'), ok ? 6000 : 3500);
   }
   function ask(title, text, fn) { $('mTitle').textContent = title; $('mText').textContent = text; $('mNo').textContent = t.cancel; $('mYes').textContent = t.confirm; $('modal').classList.add('on'); $('mYes').onclick = () => { $('modal').classList.remove('on'); fn(); }; }
 
   // ---------------- events ----------------
   addEventListener('skinchange', () => { if (S.phase === 'game' && net) net.broadcast(publicState()); });
+  addEventListener('eventchange', () => { drawEvents(); if (S.phase === 'game' && net) net.broadcast(publicState()); });
+  $('eventPick').onclick = e => { const b = e.target.closest('[data-event]'); if (b) Events.set(b.dataset.event); };
   $('lang').onchange = () => {
     const old = I18N.get(lang); lang = $('lang').value; store.set('meca-lang', lang);
     // switch the default messages too, unless the host already edited them
@@ -531,6 +541,7 @@
     $('game').classList.add('hidden'); $('setup').classList.remove('hidden'); document.body.classList.remove('ingame'); drawSetup(); drawExt();
   });
 
+  if (window.Events) Events.restore();
   texts(); loadPhotos();
   if (S.phase === 'game' && S.code) startGame(); else {
     S.phase = 'setup'; drawSetup();

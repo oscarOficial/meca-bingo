@@ -9,7 +9,9 @@
 <link rel="stylesheet" href="css/fonts.css">
 <link rel="stylesheet" href="css/app.css">
 <link rel="stylesheet" href="css/skins.css">
+<link rel="stylesheet" href="css/events.css">
 <script src="js/skin.js"></script>
+<script src="js/events.js"></script>
 <style>
 .top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
 .top h1{font-size:26px;color:var(--logo-color);text-shadow:var(--logo-shadow)}
@@ -216,6 +218,11 @@
         <label class="lbl" data-prefs-t="mood"></label>
         <p class="mut" data-prefs-t="moodLead" style="margin-bottom:12px"></p>
         <div class="moods" data-skin-cards></div>
+        <div id="eventWrap" class="hidden" style="margin-top:18px">
+          <label class="lbl" id="tSpecialEvent"></label>
+          <p class="mut" id="tSpecialEventLead" style="margin-bottom:12px"></p>
+          <div class="seg" id="eventPick" role="group"></div>
+        </div>
       </div>
 
       <details class="card fold"><summary id="tMore"></summary>
@@ -301,6 +308,7 @@
 <script src="js/game.js"></script>
 <script src="js/patterns-ui.js"></script>
 <script src="js/net.js"></script>
+<script src="js/vendor/canvas-confetti.js"></script>
 <script src="js/fx.js"></script>
 <script src="js/stats.js"></script>
 <script src="js/host.js"></script>
