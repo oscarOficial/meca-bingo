@@ -22,64 +22,64 @@ def js_list(items):
 
 def sync_players():
     """Write the music players from extension/players.json into the manifest and scripts."""
-    players = json.load(open(os.path.join(SRC, 'players.json')))['players']
+    players = json.load(open(os.path.join(SRC, 'players.json'), encoding='utf-8'))['players']
     every = [m for p in players for m in p['matches']]
     importers = [m for p in players if p.get('import') for m in p['matches']]
     mp = os.path.join(SRC, 'manifest.json')
-    m = json.load(open(mp))
+    m = json.load(open(mp, encoding='utf-8'))
     for cs in m['content_scripts']:
         if 'provider.js' in cs['js'] or 'mainworld.js' in cs['js']:
             old = set(cs['matches']); cs['matches'] = every
     m['host_permissions'] = every + [p for p in m['host_permissions'] if p not in old and p not in every]
     m['web_accessible_resources'][0]['matches'] = every
     names = [p['name'] for p in players]
-    json.dump(m, open(mp, 'w'), indent=2); open(mp, 'a').write('\n')
-    p = os.path.join(SRC, 'background.js'); s = open(p).read()
+    json.dump(m, open(mp, 'w', encoding='utf-8'), indent=2); open(mp, 'a', encoding='utf-8').write('\n')
+    p = os.path.join(SRC, 'background.js'); s = open(p, encoding='utf-8').read()
     s = re.sub(r"const AMAZON = \[[^\]]*\];", 'const AMAZON = ' + js_list(importers) + ';', s)
     s = re.sub(r"const PLAYERS = \[[^\]]*\];", 'const PLAYERS = ' + js_list(every) + ';', s)
-    open(p, 'w').write(s)
-    p = os.path.join(SRC, 'popup.js'); s = open(p).read()
+    open(p, 'w', encoding='utf-8').write(s)
+    p = os.path.join(SRC, 'popup.js'); s = open(p, encoding='utf-8').read()
     s = re.sub(r"const PLAYER_NAMES = '[^']*';", "const PLAYER_NAMES = '" + ', '.join(names) + "';", s)
-    open(p, 'w').write(s)
+    open(p, 'w', encoding='utf-8').write(s)
     print('players:', ', '.join(names))
 
 
 def set_version(version=None, bump=None):
     """Set or bump the extension version (x.y.z) in extension/manifest.json."""
-    mp = os.path.join(SRC, 'manifest.json'); m = json.load(open(mp))
+    mp = os.path.join(SRC, 'manifest.json'); m = json.load(open(mp, encoding='utf-8'))
     if bump:
         a, b, c = (int(x) for x in m['version'].split('.'))
         version = {'major': f'{a+1}.0.0', 'minor': f'{a}.{b+1}.0', 'patch': f'{a}.{b}.{c+1}'}[bump]
     if version:
         m['version'] = version
-        json.dump(m, open(mp, 'w'), indent=2); open(mp, 'a').write('\n')
+        json.dump(m, open(mp, 'w', encoding='utf-8'), indent=2); open(mp, 'a', encoding='utf-8').write('\n')
     return m['version']
 
 
 def sync_domains():
     """Write the domains from site.config.json into the extension sources."""
-    cfg = json.load(open(os.path.join(ROOT, 'site.config.json')))
+    cfg = json.load(open(os.path.join(ROOT, 'site.config.json'), encoding='utf-8'))
     sites = [f'https://{d}/*' for d in dict.fromkeys([cfg['canonical']] + cfg.get('domains', []))]
     mp = os.path.join(SRC, 'manifest.json')
-    m = json.load(open(mp))
+    m = json.load(open(mp, encoding='utf-8'))
     bridge = next(cs for cs in m['content_scripts'] if 'bridge.js' in cs['js'])
     old = set(bridge['matches'])
     bridge['matches'] = sites
     m['host_permissions'] = [p for p in m['host_permissions'] if p not in old] + sites
     m['homepage_url'] = f"https://{cfg['canonical']}/"
-    json.dump(m, open(mp, 'w'), indent=2); open(mp, 'a').write('\n')
+    json.dump(m, open(mp, 'w', encoding='utf-8'), indent=2); open(mp, 'a', encoding='utf-8').write('\n')
     for f in ('background.js', 'popup.js'):
-        p = os.path.join(SRC, f); s = open(p).read()
+        p = os.path.join(SRC, f); s = open(p, encoding='utf-8').read()
         s = re.sub(r"const SITE = \[[^\]]*\];", 'const SITE = ' + json.dumps(sites).replace('"', "'").replace("','", "', '") + ';', s)
-        open(p, 'w').write(s)
-    p = os.path.join(SRC, 'popup.html'); s = open(p).read()
+        open(p, 'w', encoding='utf-8').write(s)
+    p = os.path.join(SRC, 'popup.html'); s = open(p, encoding='utf-8').read()
     c = cfg['canonical']
     s = re.sub(r'<a href="https://[^/"]+/host\.html" target="_blank">[^<]+</a>', f'<a href="https://{c}/host.html" target="_blank">{c}</a>', s)
-    open(p, 'w').write(s)
+    open(p, 'w', encoding='utf-8').write(s)
     print('domains:', ', '.join(sites))
 
 def manifest_for(browser):
-    m = json.load(open(os.path.join(SRC, 'manifest.json')))
+    m = json.load(open(os.path.join(SRC, 'manifest.json'), encoding='utf-8'))
     if browser == 'firefox':
         m['background'] = {'scripts': ['background.js']}
         m['browser_specific_settings'] = {'gecko': {'id': GECKO_ID, 'strict_min_version': '128.0', 'data_collection_permissions': {'required': ['none']}}}
@@ -94,7 +94,7 @@ def build(browser):
     for f in FILES:
         s = os.path.join(SRC, f)
         (shutil.copytree if os.path.isdir(s) else shutil.copy)(s, os.path.join(out, f))
-    json.dump(manifest_for(browser), open(os.path.join(out, 'manifest.json'), 'w'), indent=2)
+    json.dump(manifest_for(browser), open(os.path.join(out, 'manifest.json'), 'w', encoding='utf-8'), indent=2)
     z = os.path.join(ROOT, 'public', 'download', f'meca-bingo-sync-{browser}.zip')
     os.makedirs(os.path.dirname(z), exist_ok=True)
     with zipfile.ZipFile(z, 'w', zipfile.ZIP_DEFLATED) as zf:

@@ -16,6 +16,7 @@ Writes:
   public/js/skin.js      the skin list (between the skins:registry markers)
 """
 import json, os, re, sys
+sys.stdout.reconfigure(encoding='utf-8'); sys.stderr.reconfigure(encoding='utf-8')
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 SRC = os.path.join(ROOT, 'site', 'skins')

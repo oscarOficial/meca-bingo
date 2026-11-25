@@ -15,10 +15,11 @@ Exit code 1 if a check fails, so CI marks the commit.
 """
 import functools, http.server, json, os, sys, threading, time
 from playwright.sync_api import sync_playwright
+sys.stdout.reconfigure(encoding='utf-8'); sys.stderr.reconfigure(encoding='utf-8')
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 OUT = os.path.join(ROOT, 'ux-report')
-SONGS = open(os.path.join(os.path.dirname(__file__), 'songs.txt')).read()
+SONGS = open(os.path.join(os.path.dirname(__file__), 'songs.txt'), encoding='utf-8').read()
 PORT = int(os.environ.get('UX_PORT', 8099))
 EVENT = os.environ.get('EVENT')
 DEVICES = {  # name: (width, height)
@@ -255,7 +256,7 @@ def run():
     lines = ['# Meca Bingo · UX report', '', f'{len(results) - len(failed)}/{len(results)} checks passed', '']
     lines += [f"- {'✅' if ok else '❌'} {n}" + (f' — {d}' if (d and not ok) else '') for n, ok, d in results]
     lines += ['', 'Screenshots:', ''] + [f'- {f}' for f in sorted(os.listdir(OUT)) if f.endswith('.png')]
-    open(os.path.join(OUT, 'report.md'), 'w').write('\n'.join(lines) + '\n')
+    open(os.path.join(OUT, 'report.md'), 'w', encoding='utf-8').write('\n'.join(lines) + '\n')
     print('\n'.join(lines[:3] + [l for l in lines if l.startswith('- ❌')]))
     return 1 if failed else 0
 

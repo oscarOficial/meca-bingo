@@ -61,7 +61,7 @@ def shoot(browser, base, skin):
     for c in cells[:max(0, 3 - marked)]: c.click()          # the card may hold none of them
     time.sleep(0.5)
     # show the real address instead of the local test server
-    site = json.load(open(os.path.join(ROOT, 'site.config.json')))['canonical']
+    site = json.load(open(os.path.join(ROOT, 'site.config.json'), encoding='utf-8'))['canonical']
     host.evaluate('''([from, to]) => { const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
       while (w.nextNode()) if (w.currentNode.nodeValue.includes(from)) w.currentNode.nodeValue = w.currentNode.nodeValue.replaceAll(from, to); }''', [base.split('//')[1], site])
     host.evaluate('scrollTo(0, 0)'); time.sleep(0.3)

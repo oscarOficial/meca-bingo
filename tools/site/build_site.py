@@ -128,7 +128,7 @@ def root_page(L):
 
 def build():
     L = json.load(open(STRINGS, encoding='utf-8'))
-    site = json.load(open(CONFIG))['canonical']
+    site = json.load(open(CONFIG, encoding='utf-8'))['canonical']
     out = {os.path.join('public', l, 'index.html'): render(l, L, site) for l in L}
     out[os.path.join('public', 'index.html')] = root_page(L)
     return out

@@ -5,10 +5,11 @@
 """
 import json, os, re, sys
 from html.parser import HTMLParser
+sys.stdout.reconfigure(encoding='utf-8'); sys.stderr.reconfigure(encoding='utf-8')
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-LANGS = list(json.load(open(os.path.join(ROOT, 'site', 'landing.i18n.json'))))
-SITE = json.load(open(os.path.join(ROOT, 'site.config.json')))['canonical']
+LANGS = list(json.load(open(os.path.join(ROOT, 'site', 'landing.i18n.json'), encoding='utf-8')))
+SITE = json.load(open(os.path.join(ROOT, 'site.config.json'), encoding='utf-8'))['canonical']
 
 
 class Page(HTMLParser):
