@@ -3,99 +3,114 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Meca Bingo Sync · Chrome extension</title>
+<title>Meca Bingo Sync · Browser extension</title>
 <link rel="stylesheet" href="css/fonts.css">
 <link rel="stylesheet" href="css/app.css">
 <link rel="stylesheet" href="css/skins.css">
 <script src="js/skin.js"></script>
-<style>.wrap{max-width:760px}h1{font-size:34px;margin:20px 0 6px}ol{padding-left:22px}li{margin:8px 0;line-height:1.5}code{background:var(--surface-2);padding:2px 6px;border-radius:6px}</style>
+<style>.wrap{max-width:760px}h1{font-size:34px;margin:20px 0 6px}ol{padding-left:22px}li{margin:8px 0;line-height:1.5}code{background:var(--surface-2);padding:2px 6px;border-radius:6px}summary{font-weight:700;font-size:1.17em;cursor:pointer;min-height:40px;display:flex;align-items:center}</style>
 </head>
 <body>
 <div class="wrap">
   <div class="row"><img src="icon.png" width="64" height="64" style="border-radius:14px"><h1>Meca Bingo <span class="grad">Sync</span></h1></div>
   <p class="mut" id="intro"></p>
   <div class="card" id="store"></div>
-  <div class="card"><h3 id="hManual" style="margin-bottom:8px"></h3><ol id="steps"></ol><a class="btn cy" href="download/meca-bingo-sync-chrome.zip" id="dl" style="display:inline-block;text-decoration:none;margin-top:8px"></a></div>
-  <div class="card"><h3 style="margin-bottom:8px">Firefox</h3><p class="mut" id="ff"></p><a class="btn" href="download/meca-bingo-sync-firefox.zip" style="display:inline-block;text-decoration:none;margin-top:8px">⬇ Firefox (.zip)</a></div>
+  <details class="card" id="manualBox" open><summary id="hManual"></summary><ol id="steps"></ol><a class="btn cy" href="download/meca-bingo-sync-chrome.zip" id="dl" style="display:inline-block;text-decoration:none;margin-top:8px"></a></details>
+  <div class="card"><h3 style="margin-bottom:8px">Firefox</h3><p class="mut" id="ff"></p><a class="btn" href="download/meca-bingo-sync-firefox.zip" id="ffDl" style="display:inline-block;text-decoration:none;margin-top:8px">⬇ Firefox (.zip)</a></div>
   <div class="card"><h3 style="margin-bottom:8px">Safari</h3><p class="mut" id="sf"></p></div>
   <p class="mut"><a href="privacy.html" id="priv" style="color:var(--text-accent)">Privacy policy</a></p>
 </div>
 <script src="js/i18n.js"></script>
 <script>
-// When the extension is published, put its Chrome Web Store link here:
-const STORE_URL = '';           // Chrome Web Store
-const FIREFOX_URL = '';         // addons.mozilla.org
+// Store pages. Installs from a store update themselves; the zips never do, so they stay as a fallback.
+const STORE_URL = 'https://chromewebstore.google.com/detail/kjefpodcfpmpoocaeliddebomimbckic'; // Chrome Web Store
+const EDGE_URL = 'https://microsoftedge.microsoft.com/addons/detail/meca-bingo-sync/jdkejadbliplmenkjebcboggjpnaibpi'; // Microsoft Edge Add-ons
+const FIREFOX_URL = 'https://addons.mozilla.org/firefox/addon/meca-bingo/'; // addons.mozilla.org
 const SAFARI_URL = '';          // Mac App Store
 const L = { en: {
   intro: 'Optional, only for the host’s computer (Chrome, Edge or Firefox). It works with the Spotify, Amazon Music, Deezer, YouTube Music and Apple Music web players: it marks each song automatically and adds play / pause / next to the bingo screen. With Amazon Music it also imports the playlist and starts the round in shuffle. Players never need it.',
   store: 'Install from the Chrome Web Store', soon: 'Coming soon to the Chrome Web Store. Meanwhile, install it by hand:',
   manual: 'Chrome, Edge, Brave, Opera: install by hand', dl: '⬇ Chrome / Edge (.zip)',
+  edge: 'Install from Edge Add-ons', storeNote: 'It updates itself. Brave and Opera can install it from the Chrome Web Store too.', manualOld: 'Install by hand (it does not update itself)', ffStore: 'Install from Firefox Add-ons', ffNote: 'It updates itself.',
   ff: 'Coming soon to Firefox Add-ons. To try it now: open about:debugging → This Firefox → Load Temporary Add-on… and pick the zip (it stays until you close Firefox).',
   sf: 'Coming soon to the Mac App Store. Safari extensions are installed through the App Store only.',
-  privacy: 'Privacy policy', title: 'Chrome extension',
+  privacy: 'Privacy policy', title: 'Browser extension',
   steps: ['Download the zip and unzip it into a folder you will keep.', 'Open <code>chrome://extensions</code> and turn on <b>Developer mode</b> (top right).', 'Click <b>Load unpacked</b> and choose the unzipped folder.', 'Open the host page again: you will see <b>🧩 Sync</b> at the top.'] },
   es: {
   intro: 'Opcional y solo para el ordenador del presentador (Chrome, Edge o Firefox). Funciona con los reproductores web de Spotify, Amazon Music, Deezer, YouTube Music y Apple Music: marca sola cada canción y añade play / pausa / siguiente a la pantalla del bingo. Con Amazon Music además importa la playlist y arranca la ronda en aleatorio. Los jugadores no la necesitan.',
   store: 'Instalar desde la Chrome Web Store', soon: 'Pronto en la Chrome Web Store. Mientras tanto, instálala a mano:',
   manual: 'Chrome, Edge, Brave, Opera: instalar a mano', dl: '⬇ Chrome / Edge (.zip)',
+  edge: 'Instalar desde Edge Add-ons', storeNote: 'Se actualiza sola. Brave y Opera también pueden instalarla desde la Chrome Web Store.', manualOld: 'Instalar a mano (no se actualiza sola)', ffStore: 'Instalar desde Firefox Add-ons', ffNote: 'Se actualiza sola.',
   ff: 'Pronto en Firefox Add-ons. Para probarla ya: abre about:debugging → Este Firefox → Cargar complemento temporal… y elige el zip (dura hasta que cierres Firefox).',
   sf: 'Pronto en la Mac App Store. Las extensiones de Safari solo se instalan desde la App Store.',
-  privacy: 'Política de privacidad', title: 'Extensión para Chrome',
+  privacy: 'Política de privacidad', title: 'Extensión para el navegador',
   steps: ['Descarga el zip y descomprímelo en una carpeta que no vayas a borrar.', 'Abre <code>chrome://extensions</code> y activa el <b>Modo de desarrollador</b> (arriba a la derecha).', 'Pulsa <b>Cargar descomprimida</b> y elige la carpeta.', 'Vuelve a abrir la página del presentador: verás <b>🧩 Sync</b> arriba.'] },
   fr: {
   intro: 'Facultative, seulement pour l’ordinateur de l’animateur (Chrome, Edge ou Firefox). Elle marche avec les lecteurs web de Spotify, Amazon Music, Deezer, YouTube Music et Apple Music : elle coche chaque chanson automatiquement et ajoute lecture / pause / suivante à l’écran du bingo. Avec Amazon Music, elle importe aussi la playlist et lance la manche en aléatoire. Les joueurs n’en ont jamais besoin.',
   store: 'Installer depuis le Chrome Web Store', soon: 'Bientôt sur le Chrome Web Store. En attendant, installe-la à la main :',
   manual: 'Chrome, Edge, Brave, Opera : installer à la main', dl: '⬇ Chrome / Edge (.zip)',
+  edge: 'Installer depuis Edge Add-ons', storeNote: 'Elle se met à jour toute seule. Brave et Opera peuvent aussi l’installer depuis le Chrome Web Store.', manualOld: 'Installer à la main (pas de mise à jour automatique)', ffStore: 'Installer depuis Firefox Add-ons', ffNote: 'Elle se met à jour toute seule.',
   ff: 'Bientôt sur Firefox Add-ons. Pour l’essayer maintenant : ouvre about:debugging → Ce Firefox → Charger un module complémentaire temporaire… et choisis le zip (il reste jusqu’à la fermeture de Firefox).',
   sf: 'Bientôt sur le Mac App Store. Les extensions Safari s’installent uniquement depuis l’App Store.',
-  privacy: 'Politique de confidentialité', title: 'Extension Chrome',
+  privacy: 'Politique de confidentialité', title: 'Extension de navigateur',
   steps: ['Télécharge le zip et décompresse-le dans un dossier que tu garderas.', 'Ouvre <code>chrome://extensions</code> et active le <b>Mode développeur</b> (en haut à droite).', 'Clique sur <b>Charger l’extension non empaquetée</b> et choisis le dossier décompressé.', 'Rouvre la page de l’animateur : tu verras <b>🧩 Sync</b> en haut.'] },
   de: {
   intro: 'Optional und nur für den Computer der Spielleitung (Chrome, Edge oder Firefox). Sie funktioniert mit den Web-Playern von Spotify, Amazon Music, Deezer, YouTube Music und Apple Music: Sie markiert jeden Song automatisch und fügt dem Bingo-Bildschirm Play / Pause / Weiter hinzu. Mit Amazon Music importiert sie außerdem die Playlist und startet die Runde im Zufallsmodus. Die Spieler brauchen sie nie.',
   store: 'Im Chrome Web Store installieren', soon: 'Bald im Chrome Web Store. Bis dahin installierst du sie von Hand:',
   manual: 'Chrome, Edge, Brave, Opera: von Hand installieren', dl: '⬇ Chrome / Edge (.zip)',
+  edge: 'Bei Edge Add-ons installieren', storeNote: 'Sie aktualisiert sich selbst. Brave und Opera können sie auch aus dem Chrome Web Store installieren.', manualOld: 'Von Hand installieren (aktualisiert sich nicht selbst)', ffStore: 'Bei Firefox Add-ons installieren', ffNote: 'Sie aktualisiert sich selbst.',
   ff: 'Bald bei Firefox Add-ons. Zum Ausprobieren jetzt: Öffne about:debugging → Dieser Firefox → Temporäres Add-on laden… und wähle die Zip-Datei (sie bleibt, bis du Firefox schließt).',
   sf: 'Bald im Mac App Store. Safari-Erweiterungen werden nur über den App Store installiert.',
-  privacy: 'Datenschutzerklärung', title: 'Chrome-Erweiterung',
+  privacy: 'Datenschutzerklärung', title: 'Browser-Erweiterung',
   steps: ['Lade die Zip-Datei herunter und entpacke sie in einen Ordner, den du behältst.', 'Öffne <code>chrome://extensions</code> und schalte den <b>Entwicklermodus</b> ein (oben rechts).', 'Klicke auf <b>Entpackte Erweiterung laden</b> und wähle den entpackten Ordner.', 'Öffne die Seite der Spielleitung neu: Oben siehst du <b>🧩 Sync</b>.'] },
   it: {
   intro: 'Facoltativa e solo per il computer di chi presenta (Chrome, Edge o Firefox). Funziona con i web player di Spotify, Amazon Music, Deezer, YouTube Music e Apple Music: segna ogni canzone da sola e aggiunge play / pausa / avanti allo schermo della tombola. Con Amazon Music importa anche la playlist e fa partire il turno in ordine casuale. Ai giocatori non serve mai.',
   store: 'Installa dal Chrome Web Store', soon: 'Presto sul Chrome Web Store. Nel frattempo installala a mano:',
   manual: 'Chrome, Edge, Brave, Opera: installa a mano', dl: '⬇ Chrome / Edge (.zip)',
+  edge: 'Installa da Edge Add-ons', storeNote: 'Si aggiorna da sola. Anche Brave e Opera possono installarla dal Chrome Web Store.', manualOld: 'Installa a mano (non si aggiorna da sola)', ffStore: 'Installa da Firefox Add-ons', ffNote: 'Si aggiorna da sola.',
   ff: 'Presto su Firefox Add-ons. Per provarla subito: apri about:debugging → Questo Firefox → Carica componente aggiuntivo temporaneo… e scegli lo zip (resta finché non chiudi Firefox).',
   sf: 'Presto sul Mac App Store. Le estensioni di Safari si installano solo dall’App Store.',
-  privacy: 'Informativa sulla privacy', title: 'Estensione per Chrome',
+  privacy: 'Informativa sulla privacy', title: 'Estensione per il browser',
   steps: ['Scarica lo zip ed estrailo in una cartella che terrai.', 'Apri <code>chrome://extensions</code> e attiva la <b>Modalità sviluppatore</b> (in alto a destra).', 'Clicca su <b>Carica estensione non pacchettizzata</b> e scegli la cartella estratta.', 'Riapri la pagina di chi presenta: in alto vedrai <b>🧩 Sync</b>.'] },
   nl: {
   intro: 'Optioneel en alleen voor de computer van de spelleider (Chrome, Edge of Firefox). Werkt met de webspelers van Spotify, Amazon Music, Deezer, YouTube Music en Apple Music: vinkt elk nummer automatisch aan en voegt afspelen / pauze / volgende toe aan het bingoscherm. Met Amazon Music importeert ze ook de playlist en start ze de ronde in willekeurige volgorde. Spelers hebben haar nooit nodig.',
   store: 'Installeren via de Chrome Web Store', soon: 'Binnenkort in de Chrome Web Store. Installeer haar intussen met de hand:',
   manual: 'Chrome, Edge, Brave, Opera: met de hand installeren', dl: '⬇ Chrome / Edge (.zip)',
+  edge: 'Installeren via Edge Add-ons', storeNote: 'Ze werkt zichzelf bij. Brave en Opera kunnen haar ook via de Chrome Web Store installeren.', manualOld: 'Met de hand installeren (werkt zichzelf niet bij)', ffStore: 'Installeren via Firefox Add-ons', ffNote: 'Ze werkt zichzelf bij.',
   ff: 'Binnenkort bij Firefox Add-ons. Nu al proberen: open about:debugging → Deze Firefox → Tijdelijke add-on laden… en kies het zipbestand (het blijft tot je Firefox sluit).',
   sf: 'Binnenkort in de Mac App Store. Safari-extensies worden alleen via de App Store geïnstalleerd.',
-  privacy: 'Privacybeleid', title: 'Chrome-extensie',
+  privacy: 'Privacybeleid', title: 'Browserextensie',
   steps: ['Download het zipbestand en pak het uit in een map die je bewaart.', 'Open <code>chrome://extensions</code> en zet de <b>Ontwikkelaarsmodus</b> aan (rechtsboven).', 'Klik op <b>Uitgepakte extensie laden</b> en kies de uitgepakte map.', 'Open de pagina van de spelleider opnieuw: bovenaan zie je <b>🧩 Sync</b>.'] },
   pl: {
   intro: 'Opcjonalne i tylko na komputer prowadzącego (Chrome, Edge lub Firefox). Działa z odtwarzaczami webowymi Spotify, Amazon Music, Deezer, YouTube Music i Apple Music: samo zaznacza każdą piosenkę i dodaje odtwarzanie / pauzę / następną do ekranu bingo. Z Amazon Music importuje też playlistę i puszcza rundę losowo. Gracze nigdy go nie potrzebują.',
   store: 'Zainstaluj z Chrome Web Store', soon: 'Wkrótce w Chrome Web Store. Na razie zainstaluj je ręcznie:',
   manual: 'Chrome, Edge, Brave, Opera: instalacja ręczna', dl: '⬇ Chrome / Edge (.zip)',
+  edge: 'Zainstaluj z Edge Add-ons', storeNote: 'Aktualizuje się samo. Brave i Opera też mogą je zainstalować z Chrome Web Store.', manualOld: 'Instalacja ręczna (bez automatycznych aktualizacji)', ffStore: 'Zainstaluj z Firefox Add-ons', ffNote: 'Aktualizuje się samo.',
   ff: 'Wkrótce w Firefox Add-ons. Żeby wypróbować teraz: otwórz about:debugging → Ten Firefox → Wczytaj tymczasowy dodatek… i wybierz plik zip (zostaje do zamknięcia Firefoksa).',
   sf: 'Wkrótce w Mac App Store. Rozszerzenia Safari instaluje się tylko z App Store.',
-  privacy: 'Polityka prywatności', title: 'Rozszerzenie do Chrome',
+  privacy: 'Polityka prywatności', title: 'Rozszerzenie do przeglądarki',
   steps: ['Pobierz plik zip i rozpakuj go do folderu, którego nie usuniesz.', 'Otwórz <code>chrome://extensions</code> i włącz <b>Tryb dewelopera</b> (w prawym górnym rogu).', 'Kliknij <b>Załaduj rozpakowane</b> i wybierz rozpakowany folder.', 'Otwórz ponownie stronę prowadzącego: na górze zobaczysz <b>🧩 Sync</b>.'] },
   sk: {
   intro: 'Voliteľné a iba pre počítač moderátora (Chrome, Edge alebo Firefox). Funguje s webovými prehrávačmi Spotify, Amazon Music, Deezer, YouTube Music a Apple Music: samo označí každú pesničku a pridá na obrazovku binga prehrať / pauzu / ďalšiu. S Amazon Music navyše importuje playlist a pustí kolo náhodne. Hráči ho nikdy nepotrebujú.',
   store: 'Nainštalovať z Chrome Web Store', soon: 'Čoskoro v Chrome Web Store. Zatiaľ ho nainštaluj ručne:',
   manual: 'Chrome, Edge, Brave, Opera: ručná inštalácia', dl: '⬇ Chrome / Edge (.zip)',
+  edge: 'Nainštalovať z Edge Add-ons', storeNote: 'Aktualizuje sa samo. Brave a Opera ho môžu nainštalovať aj z Chrome Web Store.', manualOld: 'Ručná inštalácia (neaktualizuje sa samo)', ffStore: 'Nainštalovať z Firefox Add-ons', ffNote: 'Aktualizuje sa samo.',
   ff: 'Čoskoro vo Firefox Add-ons. Ak to chceš skúsiť hneď: otvor about:debugging → Tento Firefox → Načítať dočasný doplnok… a vyber zip (zostane, kým nezavrieš Firefox).',
   sf: 'Čoskoro v Mac App Store. Rozšírenia pre Safari sa inštalujú iba cez App Store.',
-  privacy: 'Zásady ochrany súkromia', title: 'Rozšírenie pre Chrome',
+  privacy: 'Zásady ochrany súkromia', title: 'Rozšírenie pre prehliadač',
   steps: ['Stiahni zip a rozbaľ ho do priečinka, ktorý si necháš.', 'Otvor <code>chrome://extensions</code> a zapni <b>Režim pre vývojárov</b> (vpravo hore).', 'Klikni na <b>Načítať rozbalené</b> a vyber rozbalený priečinok.', 'Znova otvor stránku moderátora: hore uvidíš <b>🧩 Sync</b>.'] } };
 let lang = (localStorage.getItem('meca-lang') || '').replace(/"/g, '') || (navigator.language || 'en').slice(0, 2); if (!L[lang]) lang = 'en';
 const t = L[lang]; document.documentElement.lang = lang;
-intro.textContent = t.intro; priv.textContent = t.privacy; priv.href = "privacy.html?lang=" + lang; document.title = 'Meca Bingo Sync · ' + t.title; hManual.textContent = t.manual; dl.textContent = t.dl;
+intro.textContent = t.intro; priv.textContent = t.privacy; priv.href = "privacy.html?lang=" + lang; document.title = 'Meca Bingo Sync · ' + t.title; dl.textContent = t.dl;
 steps.innerHTML = t.steps.map(s => `<li>${s}</li>`).join('');
-ff.textContent = FIREFOX_URL ? '' : t.ff; sf.textContent = SAFARI_URL ? '' : t.sf;
-store.innerHTML = STORE_URL ? `<a class="btn big" style="display:inline-block;text-decoration:none" href="${STORE_URL}">${t.store}</a>` : `<span class="mut">${t.soon}</span>`;
+sf.textContent = SAFARI_URL ? '' : t.sf;
+const btn = (url, label, cls) => `<a class="btn ${cls}" style="display:inline-block;text-decoration:none;margin:4px 8px 4px 0" href="${url}" target="_blank" rel="noopener">${label}</a>`;
+if (STORE_URL || EDGE_URL) {
+  store.innerHTML = (STORE_URL ? btn(STORE_URL, t.store, 'big') : '') + (EDGE_URL ? btn(EDGE_URL, t.edge, 'big') : '') + `<p class="mut" style="margin-top:8px">${t.storeNote}</p>`;
+  hManual.textContent = t.manualOld; manualBox.open = false;
+} else { store.innerHTML = `<span class="mut">${t.soon}</span>`; hManual.textContent = t.manual; }
+if (FIREFOX_URL) { ffDl.href = FIREFOX_URL; ffDl.target = '_blank'; ffDl.rel = 'noopener'; ffDl.textContent = t.ffStore; ffDl.classList.add('big'); ff.textContent = t.ffNote; }
+else ff.textContent = t.ff;
 </script>
 </body>
 </html>

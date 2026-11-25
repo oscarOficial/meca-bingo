@@ -55,7 +55,7 @@ All imports read **public** playlists without logging in, best effort:
 | Spotify | Public embed page | first 100 songs |
 | Apple Music | Structured data in the public page | to verify |
 | YouTube / YouTube Music | Public playlist page | to verify |
-| Amazon Music | No public API; tries the page | likely needs the Chrome extension |
+| Amazon Music | No public API; tries the page | likely needs the browser extension |
 
 If a provider fails you can always paste the song list.
 

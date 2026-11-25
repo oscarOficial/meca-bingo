@@ -162,8 +162,11 @@ Chrome upload file: `public/download/meca-bingo-sync-chrome.zip`.
 - Regions: all.
 
 ## 3. After approval
-Copy the store link and put it in `public/extension.html` (`STORE_URL`), so the site sends people there
-instead of the zip.
+Put each store link in `public/extension.html` (`STORE_URL`, `EDGE_URL`, `FIREFOX_URL`) and in
+`public/js/host.js` (`STORES`), so the site sends people there instead of the zip. Current links:
+- Chrome Web Store: https://chromewebstore.google.com/detail/kjefpodcfpmpoocaeliddebomimbckic
+- Edge Add-ons: https://microsoftedge.microsoft.com/addons/detail/meca-bingo-sync/jdkejadbliplmenkjebcboggjpnaibpi
+- Firefox Add-ons: https://addons.mozilla.org/firefox/addon/meca-bingo/
 
 ## Notes
 - If you change the site's domain, update `host_permissions` and the `bridge.js` match in `manifest.json`,

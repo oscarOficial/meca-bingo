@@ -32,7 +32,7 @@ Locally: `python3 tools/build_extension.py --bump minor` (or `--version 1.2.0`).
 Without them the release still happens; you upload the zips to the stores by hand.
 
 **Chrome Web Store**
-- `CWS_EXTENSION_ID`: the item id in the Chrome Web Store dashboard (32 letters).
+- `CWS_EXTENSION_ID`: the item id in the Chrome Web Store dashboard (`kjefpodcfpmpoocaeliddebomimbckic`).
 - `CWS_CLIENT_ID`, `CWS_CLIENT_SECRET`, `CWS_REFRESH_TOKEN`: an OAuth client for the
   Chrome Web Store API. Steps:
   https://github.com/fregante/chrome-webstore-upload-keys
