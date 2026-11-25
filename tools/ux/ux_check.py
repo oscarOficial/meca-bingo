@@ -132,8 +132,9 @@ def run():
             player.evaluate("localStorage.removeItem('meca-dev'); localStorage.setItem('meca-name', JSON.stringify('Ana'))" + ("" if tag == 'es' else "; localStorage.setItem('meca-help-seen', '1')")); player.reload(); time.sleep(1)
             if tag == 'es':
                 check('player: rules shown the first time', player.is_visible('#help'))
-                player.set_viewport_size({'width': 375, 'height': 740}); time.sleep(0.5); shot(player, 'player-help-phone'); page_checks(player, 'player help (phone)')
+                player.set_viewport_size({'width': 375, 'height': 740}); time.sleep(0.5); shot(player, 'player-help-phone'); page_checks(player, 'player help (phone)', card=True)
                 player.click('#helpOk'); time.sleep(0.2)
+                w, h = DEVICES['phone-landscape']; player.set_viewport_size({'width': w, 'height': h}); time.sleep(0.3)  # an upright 3x9 card asks to turn the phone
             player.click('.cell[data-i] >> nth=0'); player.click('.cell[data-i] >> nth=2')
             for dev, (w, h) in DEVICES.items():
                 if tag != 'es' and dev in ('tablet', 'desktop'): continue
@@ -147,7 +148,7 @@ def run():
                 for dev in ('desktop', 'tablet', 'phone-portrait'):
                     w, h = DEVICES[dev]; host.set_viewport_size({'width': w, 'height': h}); time.sleep(0.3)
                     shot(host, f'host-game-{dev}', full=True); page_checks(host, f'host game ({dev})')
-                player.set_viewport_size({'width': 375, 'height': 740})
+                w, h = DEVICES['phone-landscape']; player.set_viewport_size({'width': w, 'height': h})
                 player.click('#callBtn'); time.sleep(0.8)
                 shot(player, 'player-result-phone'); host.set_viewport_size({'width': 1366, 'height': 850}); time.sleep(0.2); shot(host, 'host-call-desktop')
                 # a new phone (no name yet, its own other skin): the name screen follows the host's skin
