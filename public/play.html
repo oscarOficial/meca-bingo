@@ -54,9 +54,17 @@
 .res.no h2{color:var(--result-no);animation:shake .5s}
 @keyframes pop{0%{transform:scale(.3)}100%{transform:scale(1)}}
 @keyframes shake{20%,60%{transform:translateX(-10px)}40%,80%{transform:translateX(10px)}}
-@media (orientation:landscape) and (max-height:500px){.wrap{padding:6px 136px 10px 10px;max-width:none}.head{margin-bottom:4px}.head h1{font-size:18px}.prize{margin-bottom:4px;font-size:15px}#hint{display:none}
-.callbar{left:auto;top:0;right:0;bottom:0;width:128px;padding:10px 10px calc(10px + env(safe-area-inset-bottom)) 6px;align-items:center;background:linear-gradient(90deg,transparent,var(--page) 25%)}
-.callbar .btn{width:100%;white-space:normal;font-size:17px;padding:18px 8px;line-height:1.15}}
+/* phone landscape: logo, prize, card number and status in one header row; CALL as a narrow column on the right */
+@media (orientation:landscape) and (max-height:500px){.wrap{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;column-gap:10px;align-items:center;padding:6px 80px 10px 10px;max-width:none}
+.head,#play,#play>.row{display:contents}#hint{display:none}
+.head h1{grid-area:1/1;font-size:18px;white-space:nowrap}.head>.row{grid-area:1/4}#cardNo{grid-area:1/3;white-space:nowrap}
+.prize{grid-area:1/2;margin:0;font-size:15px;line-height:1.1;gap:6px;min-width:0;min-height:40px;justify-content:safe center;container-type:inline-size}.prize>span:not(.pf){display:flex;align-items:center;gap:.3em;min-width:0}
+/* too narrow: "Playing for" gives way first (ellipsis); a long prize name then wraps rather than being cut */
+.prize .pf{min-width:0;flex-shrink:1000;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.prize .patpic{flex:none}@container (max-width:220px){.prize b{font-size:12.5px;line-height:1.05}}
+.prize .patpic svg{height:30px}.prize .patpic .es9{height:18px}
+.wrap>section,#board,#winners{grid-column:1/-1}#board{margin-top:6px}
+.callbar{left:auto;top:0;right:0;bottom:0;width:72px;padding:10px 6px calc(10px + env(safe-area-inset-bottom));align-items:center;background:linear-gradient(90deg,transparent,var(--page) 25%)}
+.callbar .btn{width:100%;height:min(100%,320px);padding:12px 4px;font-size:16px;line-height:1.15;white-space:normal}.callbar .btn span{writing-mode:vertical-rl;transform:rotate(180deg)}}
 </style>
 </head>
 <body>
