@@ -66,6 +66,7 @@ textarea{min-height:110px;resize:vertical}
 .btn.big{background:var(--accent-fill);border:var(--btn-big-border);box-shadow:var(--btn-big-shadow);color:var(--on-accent);font-size:17px;padding:14px 22px}
 .btn.cy{background:var(--btn-cy-bg);color:var(--btn-cy-text);border:var(--btn-cy-border);box-shadow:var(--btn-cy-shadow)}
 .btn:disabled{opacity:.4;cursor:default}
+.icon{width:1.1em;height:1.1em;vertical-align:-.2em;flex:none}   /* Lucide sprite icon (img/icons.svg), coloured by currentColor */
 .seg{display:flex;background:var(--surface-2);border:var(--border-w) solid var(--border);border-radius:12px;padding:4px;gap:4px;flex-wrap:wrap}
 .seg button{flex:1;min-width:120px;min-height:44px;border:0;background:none;color:var(--text-muted);font:600 14px var(--font-body);padding:10px 8px;border-radius:9px;cursor:pointer}
 .seg button.on{background:var(--selected);color:var(--on-selected);font-weight:800;border:var(--selected-border)}
