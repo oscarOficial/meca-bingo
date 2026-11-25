@@ -1,0 +1,18 @@
+/* Christmas: falling snow and a few Fluent Emoji illustrations (public/img/events/christmas/, MIT) at the edges. */
+/* background: tree, gift and star on .evbg; two snow layers (near and far) on its pseudo-elements, each falling one tile */
+:event .evbg{display:block;background:url(../img/events/christmas/christmas-tree.svg) left 10px bottom 8px/84px no-repeat,url(../img/events/christmas/gift.svg) right 12px bottom 10px/56px no-repeat,url(../img/events/christmas/star.svg) right 18px top 14px/34px no-repeat}
+:event .evbg::before,:event .evbg::after{content:'';position:absolute;left:0;right:0;bottom:0;--_ring:color-mix(in srgb,var(--text-muted) 55%,transparent);will-change:transform}
+:event .evbg::before{top:-240px;opacity:.85;background:radial-gradient(circle at 30px 40px,#fff 0 3px,var(--_ring) 3.5px 4px,transparent 4.5px),radial-gradient(circle at 150px 110px,#fff 0 2.5px,var(--_ring) 3px 3.5px,transparent 4px),radial-gradient(circle at 95px 190px,#fff 0 3.5px,var(--_ring) 4px 4.5px,transparent 5px),radial-gradient(circle at 205px 20px,#fff 0 2px,var(--_ring) 2.5px 3px,transparent 3.5px);background-size:240px 240px;animation:evxmas-near 12s linear infinite}
+:event .evbg::after{top:-180px;opacity:.55;background:radial-gradient(circle at 20px 60px,#fff 0 1.5px,var(--_ring) 2px 2.5px,transparent 3px),radial-gradient(circle at 110px 20px,#fff 0 1.5px,var(--_ring) 2px 2.5px,transparent 3px),radial-gradient(circle at 70px 140px,#fff 0 1px,var(--_ring) 1.5px 2px,transparent 2.5px),radial-gradient(circle at 160px 100px,#fff 0 1.5px,var(--_ring) 2px 2.5px,transparent 3px);background-size:180px 180px;animation:evxmas-far 18s linear infinite}
+@keyframes evxmas-near{from{transform:translate3d(0,0,0)}to{transform:translate3d(0,240px,0)}}
+@keyframes evxmas-far{from{transform:translate3d(0,0,0)}to{transform:translate3d(0,180px,0)}}
+@media (max-width:560px){
+ :event .evbg{background-size:52px,38px,24px;background-position:left 4px bottom 4px,right 6px bottom 6px,right 8px top 8px}
+ :event .evbg::after{display:none}
+}
+/* mark: a snowflake over the marked cell that grows and fades */
+:event .evfx[data-fx=mark]{background:url(../img/events/christmas/snowflake.svg) center/60% no-repeat;opacity:0;animation:evxmas-sparkle .7s ease-out}
+@keyframes evxmas-sparkle{0%{opacity:.95;transform:scale(.3) rotate(0)}100%{opacity:0;transform:scale(1.25) rotate(60deg)}}
+/* nope: one piece of coal drops from the top to below the centre and fades */
+:event .evfx[data-fx=nope]::before{content:'';position:absolute;left:50%;top:0;width:72px;height:72px;margin-left:-36px;background:url(../img/events/christmas/coal.svg) center/contain no-repeat;opacity:0;animation:evxmas-coal 1.3s cubic-bezier(.5,0,1,1)}
+@keyframes evxmas-coal{0%{opacity:1;transform:translateY(-80px) rotate(0)}75%{opacity:1}100%{opacity:0;transform:translateY(62vh) rotate(200deg)}}
