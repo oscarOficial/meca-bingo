@@ -24,6 +24,12 @@ When the task is merged: `- [x] <title> → task/<id>`. Done by hand: `- [x] <ti
     Cuando el jugador gire el móvil a horizontal, la pantalla de juego debe pasar automáticamente a pantalla completa (así ganamos espacio para el cartón).
     Note: browsers only allow `requestFullscreen()` after a tap, not on an orientation change, and iPhone Safari has no Fullscreen API for pages. The spec must pick a fallback (e.g. enter full screen on the first tap in landscape, an "expand" button, or a PWA manifest with `display: fullscreen`) and say what iPhone gets.
 
+- [ ] Language dropdown: arrow shows open/closed and keeps off the right edge
+    En el dropdown de idioma la flecha no cambia de estado (abierto/cerrado) y además el desplegable se queda demasiado pegado al borde derecho.
+- [ ] Special event picker as a dropdown with an icon per event
+    El selector de evento especial me gustaría que fuera un dropdown y que cada opción tenga un icono representativo al lado (por ejemplo en Navidad un árbol de navidad). "Ninguno" también necesita su icono o un hueco equivalente.
+    Note: the icon belongs in each `site/events/<id>/event.json` (built by build_events.py), not hard-coded in host.js.
+
 ### Special events (Christmas first; do before the extension tasks to be ready for December)
 
 - [x] Special events: system, effect hooks, host picker and sync to players → task/special-events-system-effect-hooks-host
@@ -67,6 +73,10 @@ When the task is merged: `- [x] <title> → task/<id>`. Done by hand: `- [x] <ti
     Añadir configuración de pausa o no entre canciones.
 
 ### Texts
+
+- [ ] "Open the playlist in Spotify" shows in Spanish in Dutch, and audit all translations
+    "Abrir la playlist en Spotify" en neerlandés aparece en español. Revisar bien las traducciones en todos los idiomas.
+    Note: `openPlaylist` in `public/js/i18n.js` is already right in `nl`, so the cause is probably that `#plOpen` / the host's playlist link keep the text from when they were rendered and aren't refreshed on a language change (host.js:134, :402). The audit: every key present in all 8 languages, no text left in another language, and every visible string re-rendered when the language changes.
 
 - [ ] Extension texts: premium accounts and signed-in player needed
     Actualizar la descripción para que se haga hincapié en el uso de cuentas de pago de los servicios para evitar publicidad, además de que deben estar con login hecho y todo funcionando en el reproductor del servicio para que la sincronización funcione correctamente.
