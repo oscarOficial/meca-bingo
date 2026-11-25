@@ -85,6 +85,14 @@
     }
   }
   let rT; addEventListener('resize', () => { clearTimeout(rT); rT = setTimeout(drawCard, 120); });
+  // phone in landscape: full screen on the first tap, since browsers only allow it from a tap, not on rotation (no API on iPhone)
+  const land = matchMedia('(orientation:landscape) and (max-height:500px)'); let fsArmed = land.matches;
+  land.addEventListener('change', () => { if (land.matches) fsArmed = true; });
+  document.addEventListener('click', () => {
+    const de = document.documentElement;
+    if (!fsArmed || !land.matches || $('play').classList.contains('hidden') || document.fullscreenElement || !de.requestFullscreen) return;
+    fsArmed = false; de.requestFullscreen().catch(() => {});
+  });
   // the web fonts can arrive after the card is drawn and are a bit wider: fit the text again
   try { document.fonts.ready.then(() => { if (document.querySelector('#board .cell[data-i]')) fitText(); }); document.fonts.addEventListener('loadingdone', () => { if (document.querySelector('#board .cell[data-i]')) fitText(); }); } catch (e) {}
   function drawState() {

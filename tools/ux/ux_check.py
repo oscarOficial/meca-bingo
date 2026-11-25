@@ -145,9 +145,12 @@ def run():
                 check('player: rules shown the first time', player.is_visible('#help'))
                 player.set_viewport_size({'width': 375, 'height': 740}); time.sleep(0.5); shot(player, 'player-help-phone'); page_checks(player, 'player help (phone)', card=True)
                 player.click('#helpOk'); time.sleep(0.2)
+                check('player: a tap in portrait does not go full screen', player.evaluate('document.fullscreenElement === null'))
                 w, h = DEVICES['phone-landscape']; player.set_viewport_size({'width': w, 'height': h}); time.sleep(0.3)  # an upright 3x9 card asks to turn the phone
             player.click('.cell[data-i] >> nth=0'); player.click('.cell[data-i] >> nth=2')
             if tag == 'es':
+                time.sleep(0.3); check('player (phone-landscape): first tap goes full screen', player.evaluate('!!document.fullscreenElement'))
+                player.evaluate('document.exitFullscreen()'); time.sleep(0.3)  # Playwright can't resize a full-screen window
                 pev = player.evaluate("[document.documentElement.dataset.event || null, document.querySelectorAll('.evfx').length, !!document.querySelector('.evfx[data-fx=mark]')]")
                 if EVENT:
                     check(f'player card: follows the host\'s event "{EVENT}" (state)', pev[0] == EVENT, str(pev[0]))
