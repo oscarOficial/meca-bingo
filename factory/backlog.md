@@ -51,7 +51,7 @@ When the task is merged: `- [x] <title> → task/<id>`. Done by hand: `- [x] <ti
 
 ### Extension: player sync (each one builds on the previous)
 
-- [ ] Extension: host play/pause state matches the real player
+- [x] Extension: host play/pause state matches the real player → task/extension-host-play-pause-state-matches
     Los controles de la extensión a veces no están bien sincronizados con el host (muestra que está sonando cuando en realidad está en pausa).
 - [ ] Extension: detect the playing playlist on YouTube Music
     Con YouTube la extensión no parece funcionar (no se entera de que está corriendo la playlist de fondo).
