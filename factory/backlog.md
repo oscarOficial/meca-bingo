@@ -36,7 +36,7 @@ When the task is merged: `- [x] <title> → task/<id>`. Done by hand: `- [x] <ti
 
 ### Code
 
-- [ ] English ids for the skins
+- [x] English ids for the skins → task/english-ids-for-the-skins
     Las keys de código de los temas deben estar en inglés, como el resto del código (hoy `pista`, `clasico`, `verbena`, `feria`, `mesa`).
     Decisions (human): rename every skin id to English (folders in `site/skins/`, `skins.json`, generated CSS/JS, `data-skin`, `SKIN=` in the UX check and its default, screenshots in `public/img/skins/<id>/`, docs and AGENTS.md). Visible names in each `skin.json` don't change. A skin saved in localStorage with an old id, and an old id sent by a host on an older version, must map to the new one, not fall back silently. Do it after the Christmas and full-screen tasks are merged (they use the current ids).
 
