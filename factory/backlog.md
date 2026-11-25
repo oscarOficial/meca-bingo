@@ -105,7 +105,7 @@ When the task is merged: `- [x] <title> → task/<id>`. Done by hand: `- [x] <ti
     Note: left out of the icons task. Texts are in `site/landing.i18n.json`, the template in `site/landing.template.html`; rebuild with build_site.py.
 - [x] Icon sprite and event images aren't stuck in browser caches for 30 days → not needed (static files bypass the Worker; already max-age=0)
     El Worker cachea los `.svg` 30 días (`src/worker.js:29`): si se añade un icono a `public/img/icons.svg` o se cambia una imagen de evento, los navegadores seguirán con la versión vieja. Versionar la URL (p. ej. `?v=<hash>` generado en un build) o acortar la caché para esos ficheros.
-- [ ] Special events polish: hidden-tab load, mark sparkle on scroll, confetti size
+- [x] Special events polish: hidden-tab load, mark sparkle on scroll, confetti size → task/special-events-polish-hidden-tab-load
     Tres detalles del sistema de eventos: una página que carga en una pestaña oculta anima el fondo hasta el primer cambio de pestaña; el destello al marcar una celda se desplaza si se hace scroll durante su animación (0,8 s); y si un evento define colores y emojis, el confeti normal sale el doble de grande.
 - [x] Python tools run on Windows without PYTHONUTF8=1 → task/python-tools-run-on-windows-without
     `ux_check.py`, `seo_check.py` y los mensajes de error de `build_events.py` fallan en la consola de Windows (cp1252) al escribir ✅/✗ o leer JSON, salvo con `PYTHONUTF8=1`. Abrir/escribir ficheros con `encoding='utf-8'` y reconfigurar stdout a UTF-8.
