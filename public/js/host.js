@@ -24,6 +24,16 @@
       setTimeout(() => { if (extWait[id]) { delete extWait[id]; res({ ok: false, error: 'timeout' }); } }, ms);
     });
   }
+  // play/pause: the button flips at once, then follows the real player (asked every 2 s and after each control).
+  // While a control is in flight, state messages are ignored so they don't flip the button back.
+  let ctlSeq = 0, ctlBusy = 0;
+  function applyState(m) { if (ctlBusy || m.ok === false) return; EXT.playing = !!m.playing; if (m.player !== undefined) EXT.player = m.player; drawExt(); }
+  function syncExt() { if (!(S.phase === 'game' && EXT.on)) return; const at = ctlSeq; extCall('getState', {}, 5000).then(r => { if (at === ctlSeq) applyState(r); }); }
+  setInterval(syncExt, 2000);
+  function extControl(action, ms) {
+    ctlSeq++; ctlBusy++;
+    return extCall('control', { action }, ms).then(r => { setTimeout(() => { ctlBusy--; syncExt(); }, 400); return r; });   // a moment for the player to act
+  }
   const isAmazon = u => /^https?:\/\/music\.amazon\./i.test(u || '');
   const normT = s => String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\(.*?\)|\[.*?\]/g, ' ').replace(/\s(feat|ft)\..*$/i, ' ').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
   // find the playlist song the player is playing (titles are written slightly differently by each provider)
@@ -42,8 +52,8 @@
   window.addEventListener('message', e => {
     const m = e.data; if (e.source !== window || !m || !m.__mbExt) return;
     if (m.id && extWait[m.id]) { const f = extWait[m.id]; delete extWait[m.id]; f(m); }
-    if (m.type === 'ready') { EXT.on = true; EXT.version = m.version; drawExt(); if (S.phase !== 'game') drawMode(); else drawGame(); if (S.phase === 'game') window.postMessage({ __mbPage: true, type: 'getState', id: 'st' }, '*'); }
-    else if (m.type === 'state') { EXT.playing = !!m.playing; if (m.player !== undefined) EXT.player = m.player; drawExt(); }
+    if (m.type === 'ready') { EXT.on = true; EXT.version = m.version; drawExt(); if (S.phase !== 'game') drawMode(); else drawGame(); syncExt(); }
+    else if (m.type === 'state' && !m.id) applyState(m);   // pushed by the player; replies to getState go through syncExt
     else if (m.type === 'track' && S.phase === 'game') {
       const i = findTrack(m.title, m.artist);
       if (i >= 0 && !S.played.includes(i)) { markSong(i); const n = S.played.length; toast(() => t.autoMarked(n), undefined, 'headphones'); }
@@ -421,7 +431,7 @@
     try { const qr = qrcode(0, 'M'); qr.addData(url); qr.make(); $('qr').innerHTML = qr.createSvgTag({ cellSize: 4, margin: 0, scalable: true }); } catch (e) { $('qr').textContent = url; }
     if (net) net.close();
     net = NET.hostRoom(S.code, { onMessage, onStatus: (s, e) => { if (s === 'error' && e !== 'peer-unavailable') console.warn('net', e); } });
-    shuffleSnap(); drawGame(); drawExt();
+    shuffleSnap(); drawGame(); drawExt(); syncExt();
   }
   let q = '', lastSongCount = -1;
   function drawGame() {
@@ -465,8 +475,8 @@
     clearInterval(tId); tEnd = null; const secs = +S.cfg.clip; const el = $('timer'); el.className = 'timer'; el.textContent = '';
     if (!secs) return; let left = secs; el.innerHTML = icon('timer') + ' ' + left;
     tId = setInterval(() => { left--; el.innerHTML = icon('timer') + ' ' + left; if (left <= 0) { clearInterval(tId); el.className = 'timer end'; if (!(EXT.on && EXT.playing)) { tEnd = 'up'; drawTimerEnd(); toast(() => t.timeUp, undefined, 'timer'); }
-      else if (S.cfg.gap !== 'pause') { tEnd = 'up'; drawTimerEnd(); extCall('control', { action: 'next' }, 5000); }
-      else { tEnd = 'paused'; drawTimerEnd(); EXT.playing = false; drawExt(); extCall('control', { action: 'pause' }, 5000).then(r => { if (!r.ok) toast(() => r.error === 'notab' ? t.noPlayer : t.controlFailed, 5000, 'triangle-exclamation-point'); }); } } }, 1000);
+      else if (S.cfg.gap !== 'pause') { tEnd = 'up'; drawTimerEnd(); extControl('next', 5000); }
+      else { tEnd = 'paused'; drawTimerEnd(); EXT.playing = false; drawExt(); extControl('pause', 5000).then(r => { if (!r.ok) toast(() => r.error === 'notab' ? t.noPlayer : t.controlFailed, 5000, 'triangle-exclamation-point'); }); } } }, 1000);
   }
   function drawExt() {
     const pill = $('extPill'); if (pill) { pill.classList.toggle('hidden', !EXT.on); pill.title = 'Meca Bingo Sync ' + (EXT.version || ''); }
@@ -488,9 +498,10 @@
       if (!r.ok) { S.musicStarted = false; save(); drawExt(); toast(() => t.startFailed, 6000, 'triangle-exclamation-point'); }
       return;
     }
+    const was = EXT.playing;
     if (action === 'toggle') { EXT.playing = !EXT.playing; drawExt(); }
-    const r = await extCall('control', { action }, 8000);
-    if (!r.ok) toast(() => r.error === 'notab' ? t.noPlayer : t.controlFailed, 5000, 'triangle-exclamation-point');
+    const r = await extControl(action, 8000);
+    if (!r.ok) { EXT.playing = was; drawExt(); toast(() => r.error === 'notab' ? t.noPlayer : t.controlFailed, 5000, 'triangle-exclamation-point'); }
   }
   // Photo moment: after each new song the photo and its message take the whole screen for a few seconds
   let mT = null, mN = 0;

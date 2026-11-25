@@ -8,9 +8,10 @@
   } catch (e) {}
   // Track every audio/video element, even ones never added to the page.
   const root = document.documentElement;
-  const mark = () => { let any = false; for (const m of media) if (!m.paused && !m.ended) any = true; root.dataset.mbPlaying = any ? '1' : '0'; };
+  // mbPlaying: '1' an unmuted one plays, '0' they are all paused, '' none is unmuted (muted Canvas/artwork videos are not the music)
+  const mark = () => { let seen = false, any = false; for (const m of media) if (!m.muted) { seen = true; if (!m.paused && !m.ended) any = true; } root.dataset.mbPlaying = any ? '1' : seen ? '0' : ''; };
   const media = new Set();
-  const watch = m => { if (media.has(m)) return; media.add(m); ['play', 'playing', 'pause', 'ended', 'emptied'].forEach(ev => m.addEventListener(ev, mark)); };
+  const watch = m => { if (media.has(m)) return; media.add(m); ['play', 'playing', 'pause', 'ended', 'emptied', 'volumechange'].forEach(ev => m.addEventListener(ev, mark)); };
   try {
     const origPlay = HTMLMediaElement.prototype.play;
     HTMLMediaElement.prototype.play = function () {
@@ -29,8 +30,7 @@
     }
     if (!m.__mbCtl) return;
     let ok = false, used = '';
-    const st = navigator.mediaSession.playbackState;
-    const playing = st === 'playing' || root.dataset.mbPlaying === '1' || [...document.querySelectorAll('audio,video')].some(x => !x.paused);
+    const playing = !!m.playing;   // decided by provider.js isPlaying()
     if (m.action === 'next') { ok = call('nexttrack'); used = 'nexttrack'; }
     else if (m.action === 'prev') { ok = call('previoustrack'); used = 'previoustrack'; }
     else if (m.action === 'pause') { if (!playing) { ok = true; used = 'already paused'; } else { ok = call('pause'); used = 'pause'; } }

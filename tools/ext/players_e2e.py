@@ -7,25 +7,29 @@
 For each supported player (except Amazon import/start, which needs the real site) it opens a
 page that behaves like the player (Media Session title/artist + media-key handlers) on the
 player's real address, opens the host page, and checks that the host page sees the player,
-receives the song that is playing and can skip to the next song.
+receives the song that is playing, follows play/pause (a muted video playing does not count)
+and can skip to the next song.
 """
-import json, os, sys, tempfile, time
+import base64, json, os, struct, sys, tempfile, time
 from playwright.sync_api import sync_playwright
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 EXT = os.path.join(ROOT, 'dist', 'chrome')
 PUB = os.path.join(ROOT, 'public')
 SITE = json.load(open(os.path.join(ROOT, 'site.config.json'), encoding='utf-8'))['domains'][-1]   # the workers.dev address
 PLAYERS = json.load(open(os.path.join(ROOT, 'extension', 'players.json'), encoding='utf-8'))['players']
-FAKE = '''<!doctype html><title>fake player</title><body><audio id=a loop src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA="></audio>
+# half a second of real (silent) samples, so the <audio> really plays, loops and pauses
+WAV = 'data:audio/wav;base64,' + base64.b64encode(b'RIFF' + struct.pack('<I', 36 + 4000) + b'WAVEfmt ' + struct.pack('<IHHIIHH', 16, 1, 1, 8000, 8000, 1, 8) + b'data' + struct.pack('<I', 4000) + b'\x80' * 4000).decode()
+# the music is the <audio>; the muted looping <video> stands for Spotify Canvas / motion artwork, which keeps playing when the music pauses
+FAKE = '''<!doctype html><title>fake player</title><body><audio id=a loop src="WAV"></audio><video id=v muted loop src="WAV"></video>
 <script>
 let i=0; const songs=[['Song One','Artist A'],['Song Two','Artist B'],['Song Three','Artist C']]; window.log=[];
 function show(){ navigator.mediaSession.metadata=new MediaMetadata({title:songs[i][0],artist:songs[i][1]}); }
-navigator.mediaSession.setActionHandler('play',()=>{log.push('play');navigator.mediaSession.playbackState='playing'});
-navigator.mediaSession.setActionHandler('pause',()=>{log.push('pause');navigator.mediaSession.playbackState='paused'});
+navigator.mediaSession.setActionHandler('play',()=>{log.push('play');a.play();navigator.mediaSession.playbackState='playing'});
+navigator.mediaSession.setActionHandler('pause',()=>{log.push('pause');a.pause();navigator.mediaSession.playbackState='paused'});
 navigator.mediaSession.setActionHandler('nexttrack',()=>{log.push('next');i=(i+1)%3;show()});
 navigator.mediaSession.setActionHandler('previoustrack',()=>{log.push('prev');i=(i+2)%3;show()});
-show(); navigator.mediaSession.playbackState='playing';
-</script>'''
+show(); v.muted=true; v.play(); a.play(); navigator.mediaSession.playbackState='playing';
+</script>'''.replace('WAV', WAV)
 def serve_site(route):
     path = '/' + route.request.url.split('/', 3)[3].split('?')[0]
     path = path if path != '/' else '/index.html'
@@ -53,12 +57,23 @@ with sync_playwright() as p:
         pl = ctx.new_page(); pl.goto(url); time.sleep(3.5)
         ask = lambda m: host.evaluate("m=>new Promise(r=>{const id=Math.random();addEventListener('message',function h(e){if(e.data&&e.data.__mbExt&&e.data.id===id){removeEventListener('message',h);r(e.data)}});postMessage(Object.assign({__mbPage:true,id},m),'*')})", m)
         st = ask({'type': 'getState'})
+        pushed = lambda: [g['playing'] for g in host.evaluate('got') if g.get('type') == 'state' and 'id' not in g]
+        def after_toggle(want):   # toggle, then wait up to ~2 s for getState and the pushed state to show `want`
+            ask({'type': 'control', 'action': 'toggle'})
+            for _ in range(10):
+                time.sleep(0.2)
+                g, pu = ask({'type': 'getState'}).get('playing'), pushed()
+                if g == want and pu and pu[-1] == want: break
+            return g == want and bool(pu) and pu[-1] == want
+        start = st.get('playing') is True and pushed()[-1:] == [True]
+        paused = after_toggle(False) and pl.evaluate('!v.paused && a.paused')
+        resumed = after_toggle(True) and pl.evaluate('!a.paused')
         nx = ask({'type': 'control', 'action': 'next'}); time.sleep(2.5)
         tracks = [g['title'] for g in host.evaluate('got') if g.get('type') == 'track']
         log = pl.evaluate('window.log')
-        good = st.get('player') and nx.get('ok') and 'Song One' in tracks and 'Song Two' in tracks and 'next' in log
+        good = st.get('player') and start and paused and resumed and nx.get('ok') and 'Song One' in tracks and 'Song Two' in tracks and 'next' in log
         ok &= bool(good)
-        print(('OK ' if good else 'FAIL'), name, '| state', st, '| next', nx.get('ok'), '| tracks', tracks, '| player log', log)
+        print(('OK ' if good else 'FAIL'), name, '| state', st, '| playing at start', start, '| paused after toggle (muted video playing)', paused, '| playing after toggle', resumed, '| next', nx.get('ok'), '| tracks', tracks, '| player log', log)
         ctx.close()
 print('all players OK' if ok else 'SOME PLAYERS FAILED')
 sys.exit(0 if ok else 1)
