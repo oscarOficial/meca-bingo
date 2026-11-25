@@ -1,0 +1,14 @@
+/* Hidden test event: one visible thing per slot (built into public/css/events.css). */
+/* background: two soft glows drifting behind the page */
+:event .evbg{display:block}
+:event .evbg::before,:event .evbg::after{content:'';position:absolute;width:60vmax;height:60vmax;border-radius:50%;opacity:.35;animation:evtest-drift 9s ease-in-out infinite alternate}
+:event .evbg::before{left:-30vmax;top:-30vmax;background:radial-gradient(circle,var(--selected) 0,transparent 65%)}
+:event .evbg::after{right:-30vmax;bottom:-30vmax;background:radial-gradient(circle,var(--accent) 0,transparent 65%);animation-direction:alternate-reverse}
+@keyframes evtest-drift{from{transform:translate(0,0)}to{transform:translate(30vw,25vh)}}
+@media (max-width:560px){:event .evbg::after{display:none}}
+/* effects: a ring around the screen (win, nope, moment) or the marked cell (mark) that fades out */
+:event .evfx{border:6px solid var(--highlight);animation:evtest-ring 1.2s ease-out forwards}
+:event .evfx[data-fx=nope]{border-color:var(--accent)}
+:event .evfx[data-fx=moment]{border-color:var(--selected)}
+:event .evfx[data-fx=mark]{border-width:3px;border-radius:var(--cell-radius);animation-duration:.8s}
+@keyframes evtest-ring{0%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.08)}}

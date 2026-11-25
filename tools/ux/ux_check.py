@@ -9,6 +9,8 @@ Exit code 1 if a check fails, so CI marks the commit.
     python3 tools/ux/ux_check.py            # uses ./public, port 8099
     CHROME=/usr/bin/google-chrome python3 tools/ux/ux_check.py
     SKIN=feria python3 tools/ux/ux_check.py   # check one skin (default: pista); report in ux-report/
+    EVENT=test python3 tools/ux/ux_check.py   # with a special event on; meant for hidden or out-of-season events
+                                              # (the saved choice only holds while no shown event is in season)
     UX_PORT=8098 python3 tools/ux/ux_check.py # another port, e.g. to run two checks at once
 """
 import functools, http.server, json, os, sys, threading, time
@@ -18,6 +20,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 OUT = os.path.join(ROOT, 'ux-report')
 SONGS = open(os.path.join(os.path.dirname(__file__), 'songs.txt')).read()
 PORT = int(os.environ.get('UX_PORT', 8099))
+EVENT = os.environ.get('EVENT')
 DEVICES = {  # name: (width, height)
     'phone-portrait': (375, 740), 'phone-small': (320, 600), 'phone-landscape': (740, 375),
     'tablet': (820, 1180), 'desktop': (1366, 850)
@@ -78,9 +81,17 @@ def run():
             tag = f"{fmt}{'-vertical' if vertical else ''}"
             ctx = browser.new_context()
             if os.environ.get('SKIN'): ctx.add_init_script(f"localStorage.setItem('meca-skin', {json.dumps(os.environ['SKIN'])})")
+            if EVENT: ctx.add_init_script(f"localStorage.setItem('meca-event', JSON.stringify({{pick: {json.dumps(EVENT)}, sug: null}}))")
             host = ctx.new_page(); host.set_viewport_size({'width': 1366, 'height': 850})
             host.goto(base + '/host.html?net=local'); host.evaluate('localStorage.clear()'); host.reload(); time.sleep(0.6)
             if tag == 'es':
+                dates = host.evaluate("[[2026,0,3],[2026,6,1],[2026,11,1]].map(([y,m,d]) => Events.inDates([{from:'12-01',to:'01-06'}], new Date(y,m,d)))")
+                check('event dates: 12-01→01-06 has Jan 3 and Dec 1, not Jul 1 (wraps over New Year)', dates == [True, False, True], str(dates))
+                if EVENT:
+                    check(f'host: special event "{EVENT}" on', host.evaluate('document.documentElement.dataset.event') == EVENT, str(host.evaluate('document.documentElement.dataset.event')))
+                    check('host: event picker shows it pressed', host.evaluate(f"!!document.querySelector('#eventPick [data-event={json.dumps(EVENT)}][aria-pressed=true]') && !document.getElementById('eventWrap').classList.contains('hidden')"))
+                else:
+                    check('host: no special event', host.evaluate("!('event' in document.documentElement.dataset)"))
                 # first screen: only "paste your playlist"
                 for dev in ('desktop', 'phone-small'):
                     w, h = DEVICES[dev]; host.set_viewport_size({'width': w, 'height': h}); time.sleep(0.2)
@@ -136,6 +147,16 @@ def run():
                 player.click('#helpOk'); time.sleep(0.2)
                 w, h = DEVICES['phone-landscape']; player.set_viewport_size({'width': w, 'height': h}); time.sleep(0.3)  # an upright 3x9 card asks to turn the phone
             player.click('.cell[data-i] >> nth=0'); player.click('.cell[data-i] >> nth=2')
+            if tag == 'es':
+                pev = player.evaluate("[document.documentElement.dataset.event || null, document.querySelectorAll('.evfx').length, !!document.querySelector('.evfx[data-fx=mark]')]")
+                if EVENT:
+                    check(f'player card: follows the host\'s event "{EVENT}" (state)', pev[0] == EVENT, str(pev[0]))
+                    check('player: marking a cell shows the event\'s mark effect', pev[2])
+                    bg = player.evaluate("(() => { const e = document.querySelector('.evbg'), s = e && getComputedStyle(e); return s ? [s.display, s.pointerEvents] : null; })()")
+                    check('player: event background shown and lets taps through', bg and bg[0] != 'none' and bg[1] == 'none', str(bg))
+                else:
+                    check('player: no special event', pev[0] is None, str(pev[0]))
+                    check('player: marking a cell adds no effect', pev[1] == 0, f'{pev[1]} .evfx')
             for dev, (w, h) in DEVICES.items():
                 if tag != 'es' and dev in ('tablet', 'desktop'): continue
                 player.set_viewport_size({'width': w, 'height': h}); time.sleep(0.4)
@@ -157,7 +178,9 @@ def run():
                     shot(host, f'host-game-{dev}', full=True); page_checks(host, f'host game ({dev})')
                 w, h = DEVICES['phone-landscape']; player.set_viewport_size({'width': w, 'height': h})
                 player.click('#callBtn'); time.sleep(0.8)
-                shot(player, 'player-result-phone'); host.set_viewport_size({'width': 1366, 'height': 850}); time.sleep(0.2); shot(host, 'host-call-desktop')
+                shot(player, 'player-result-phone')
+                if EVENT: check('player: the call shows the event\'s win/nope effect', player.evaluate("!!document.querySelector('.evfx[data-fx=win], .evfx[data-fx=nope]')"))
+                host.set_viewport_size({'width': 1366, 'height': 850}); time.sleep(0.2); shot(host, 'host-call-desktop')
                 # a new phone (no name yet, its own other skin): the name screen follows the host's skin
                 hs = host.evaluate('document.documentElement.dataset.skin')
                 own = next(k for k in ('verbena', 'pista') if k != hs)
@@ -165,6 +188,7 @@ def run():
                 fresh.add_init_script(f"localStorage.setItem('meca-skin', {json.dumps(own)}); localStorage.removeItem('meca-name')")
                 fresh.goto(f'{base}/play.html?r={code}&net=local'); time.sleep(1)
                 check('player name screen uses the host\'s skin', fresh.is_visible('#name') and fresh.evaluate('document.documentElement.dataset.skin') == hs, f"{fresh.evaluate('document.documentElement.dataset.skin')} vs host {hs}")
+                if EVENT: check(f'player name screen follows the host\'s event "{EVENT}" (peek)', fresh.evaluate('document.documentElement.dataset.event') == EVENT, str(fresh.evaluate('document.documentElement.dataset.event')))
                 check('player name screen keeps the phone\'s own saved skin', fresh.evaluate("localStorage.getItem('meca-skin')") == own)
                 shot(fresh, 'player-name-phone'); page_checks(fresh, 'player name (phone)'); fresh.close()
             ctx.close()

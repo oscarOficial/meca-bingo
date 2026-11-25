@@ -22,10 +22,11 @@ never commit to `main` from a task: tasks live on their own branch and the human
 | `public/js/net.js` | Host ↔ player connection (PeerJS, or `?net=local` BroadcastChannel). |
 | `public/js/i18n.js` | All game texts, one block per language. |
 | `public/js/fx.js`, `patterns-ui.js`, `skin.js`, `stats.js` | Shared helpers, prize pictures, skins, anonymous counters. |
-| `public/js/vendor/` | Third-party code (PeerJS, QR). Don't edit. |
+| `public/js/vendor/` | Third-party code (PeerJS, QR, canvas-confetti). Don't edit. |
 | `src/worker.js`, `playlist.js`, `stats.js` | The Worker: domains/redirects, `/api/playlist`, `/api/event` (Cloudflare D1). |
 | `site/landing.template.html`, `site/landing.i18n.json` | Source of the landing pages `public/<lang>/index.html`. |
 | `site/skins/` | One folder per skin; how they work: `site/skins/README.md`. |
+| `site/events/` | One folder per special event (a layer over any skin); how they work: `site/events/README.md`. |
 | `extension/` | Meca Bingo Sync browser extension (Chrome/Edge, Firefox, Safari). `extension/RELEASING.md`. |
 | `tools/` | Python build and check scripts (site, skins, extension, UX check). |
 
@@ -37,6 +38,7 @@ Edit the source, run the build, commit both.
 |---|---|---|
 | `public/<lang>/index.html` | `site/landing.*` | `python tools/site/build_site.py` |
 | `public/css/skins.css`, `public/css/fonts.css`, `public/js/skin.js` (skin list) | `site/skins/` | `python tools/site/build_skins.py` |
+| `public/css/events.css`, `public/js/events.js` (event list) | `site/events/` | `python tools/site/build_events.py` |
 | `dist/` (gitignored), lists inside `extension/*.js` | `extension/players.json`, `site.config.json` | `python tools/build_extension.py` |
 | `public/download/*.zip`, extension version | — | Only the release workflow. Never in a task. |
 
@@ -48,9 +50,10 @@ Run what matches the area you changed. All of them must pass.
 | You changed | Run |
 |---|---|
 | Anything | `node tests/patterns.test.js` |
-| `public/` (game, host, player, CSS) | `python tools/ux/ux_check.py` → `ux-report/report.md` + screenshots. `SKIN=<id>` to check one skin (default `pista`); `UX_PORT=<port>` if 8099 is taken (e.g. another check running). |
+| `public/` (game, host, player, CSS) | `python tools/ux/ux_check.py` → `ux-report/report.md` + screenshots. `SKIN=<id>` to check one skin (default `pista`), `EVENT=<id>` to add a special event; `UX_PORT=<port>` if 8099 is taken (e.g. another check running). |
 | `site/landing.*` | `python tools/site/build_site.py`, then `python tools/site/build_site.py --check` and `python tools/site/seo_check.py` |
 | `site/skins/` | `python tools/site/build_skins.py`, then `--check`. For new skins or a new default: `python tools/site/screenshots.py <id>` |
+| `site/events/` | `python tools/site/build_events.py`, then `--check`; `EVENT=<id> python tools/ux/ux_check.py` |
 | `extension/`, `site.config.json` | `python tools/build_extension.py` and `python tools/ext/players_e2e.py` |
 | `src/` | `npx wrangler dev`, then try the endpoint you changed on `http://localhost:8787` |
 

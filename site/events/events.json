@@ -1,0 +1,5 @@
+{
+ "_help": "Special events. 'order': events shown in the host's picker and suggested on their dates, in this order. 'hidden': built and usable (UX check: EVENT=<id>, development: Events.set('<id>')) but never shown or suggested. An id is in one list only. Then run: python3 tools/site/build_events.py",
+ "order": [],
+ "hidden": ["test"]
+}
