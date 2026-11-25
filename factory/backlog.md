@@ -100,7 +100,7 @@ When the task is merged: `- [x] <title> → task/<id>`. Done by hand: `- [x] <ti
 - [ ] One shared dropdown component for every dropdown, in every browser
     Unificar el menú de idioma (`details.prefs`), el selector de evento (`details.evmenu`) y los `<select>` del host en un mismo estilo, y que la flecha abierta/cerrada y la distancia al borde funcionen también en Firefox y Safari.
     Note: the dropdowns task only fixes `<select>`s in Chrome (`appearance: base-select`); Firefox/Safari keep native selects whose arrow never flips. The event picker task built its own `.evmenu` next to `.prefs`. Do after both are merged.
-- [ ] Landing feature and mode lists use Lucide icons instead of emojis
+- [x] Landing feature and mode lists use Lucide icons instead of emojis → task/landing-feature-and-mode-lists-use
     Las listas de características y modos de la landing siguen con emojis; usar los iconos de Lucide del sprite como en el juego.
     Note: left out of the icons task. Texts are in `site/landing.i18n.json`, the template in `site/landing.template.html`; rebuild with build_site.py.
 - [x] Icon sprite and event images aren't stuck in browser caches for 30 days → not needed (static files bypass the Worker; already max-age=0)
