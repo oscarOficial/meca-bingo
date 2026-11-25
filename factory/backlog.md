@@ -103,7 +103,7 @@ When the task is merged: `- [x] <title> → task/<id>`. Done by hand: `- [x] <ti
 - [ ] Landing feature and mode lists use Lucide icons instead of emojis
     Las listas de características y modos de la landing siguen con emojis; usar los iconos de Lucide del sprite como en el juego.
     Note: left out of the icons task. Texts are in `site/landing.i18n.json`, the template in `site/landing.template.html`; rebuild with build_site.py.
-- [ ] Icon sprite and event images aren't stuck in browser caches for 30 days
+- [x] Icon sprite and event images aren't stuck in browser caches for 30 days → not needed (static files bypass the Worker; already max-age=0)
     El Worker cachea los `.svg` 30 días (`src/worker.js:29`): si se añade un icono a `public/img/icons.svg` o se cambia una imagen de evento, los navegadores seguirán con la versión vieja. Versionar la URL (p. ej. `?v=<hash>` generado en un build) o acortar la caché para esos ficheros.
 - [ ] Special events polish: hidden-tab load, mark sparkle on scroll, confetti size
     Tres detalles del sistema de eventos: una página que carga en una pestaña oculta anima el fondo hasta el primer cambio de pestaña; el destello al marcar una celda se desplaza si se hace scroll durante su animación (0,8 s); y si un evento define colores y emojis, el confeti normal sale el doble de grande.
