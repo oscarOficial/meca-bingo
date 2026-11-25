@@ -77,9 +77,9 @@
   document.addEventListener('keydown', e => { if (e.key === 'Escape') document.querySelectorAll('details.prefs[open]').forEach(d => { d.open = false; d.querySelector('summary').focus(); }); });
   // string of paper lanterns on top of the page (a decoration slot: a skin's decor.css shows it)
   function lanterns() {
-    if (document.querySelector('.faroles')) return;
+    if (document.querySelector('.lanterns')) return;
     const small = !!document.getElementById('board');          // the player's phone: shorter string
-    document.body.insertAdjacentHTML('afterbegin', `<div class="faroles${small ? ' small' : ''}" aria-hidden="true">${'<i></i>'.repeat(14)}</div>`);
+    document.body.insertAdjacentHTML('afterbegin', `<div class="lanterns${small ? ' small' : ''}" aria-hidden="true">${'<i></i>'.repeat(14)}</div>`);
   }
   const ready = () => { lanterns(); draw(); pictures(root.dataset.skin); };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', ready); else ready();

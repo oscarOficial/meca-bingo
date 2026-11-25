@@ -61,8 +61,8 @@ sections. Write every rule with `:skin` first; it becomes `html[data-skin=<id>]`
 | `.neon` (`span` for line 2) | landing, above the title | dance-floor |
 | `.topband` | landing, top of the page (shows the "free · no accounts" line) | street-party |
 | `.sticker` | landing, corner of the screenshots | street-party |
-| `.volante` | landing, under the hero | flamenco-fair |
-| `.faroles` (14 `i`; `.small` on the player's phone) | every page, at the top (added by `js/skin.js`) | flamenco-fair |
+| `.ruffle` | landing, under the hero | flamenco-fair |
+| `.lanterns` (14 `i`; `.small` on the player's phone) | every page, at the top (added by `js/skin.js`) | flamenco-fair |
 
 Landing sections a decor may restyle: `.hero`, `.steps .card`, `.final`, `#how`, `#mood`, `.shots`.
 Keep decorations `aria-hidden` and make every animation stop with `prefers-reduced-motion`

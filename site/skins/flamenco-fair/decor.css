@@ -11,25 +11,25 @@
 :skin .final .btn.big{background:var(--highlight);color:#1a1414}
 /* hero on a red polka-dot band, text on a red panel, ruffles under it */
 :skin .hero{position:relative;isolation:isolate;padding-bottom:56px}
-:skin .hero::before{content:'';position:absolute;z-index:-1;top:20px;bottom:0;left:calc(50% - 50vw);width:100vw;background:var(--_lunares)}
+:skin .hero::before{content:'';position:absolute;z-index:-1;top:20px;bottom:0;left:calc(50% - 50vw);width:100vw;background:var(--_polka-dots)}
 :skin .hero>div:first-child{background:#9c0e25;color:#fff6ec;padding:28px 30px;border-radius:6px}
 :skin .hero h1{color:#fff6ec}
 :skin .hero .lead,:skin .hero .plbl,:skin .hero .join{color:#fff6ec}
 :skin .hero .btn.big{background:#fff6ec;color:#9c0e25}
 :skin .hero .btn.cy{background:#1a1414;color:#fff6ec}
-:skin .volante{display:block;height:46px;margin:0 calc(50% - 50vw);background:radial-gradient(circle at 24px 0,#9c0e25 0 24px,transparent 25px) 0 0/48px 28px repeat-x,radial-gradient(circle at 18px 0,#1a1414 0 18px,transparent 19px) 0 24px/36px 22px repeat-x}
-/* string of swinging paper lanterns (js/skin.js puts .faroles on top of every page) */
-:skin .faroles{display:flex;justify-content:space-around;position:relative;height:62px;padding:0 10px;overflow:hidden;pointer-events:none}
-:skin .faroles::before{content:'';position:absolute;left:0;right:0;top:10px;height:2px;background:#1a1414}
-:skin .faroles i{display:block;margin-top:10px;width:2px;height:12px;background:#1a1414;position:relative;transform-origin:top center;animation:mece 2.6s ease-in-out infinite}
-:skin .faroles i::after{content:'';position:absolute;top:12px;left:-14px;width:30px;height:38px;border-radius:15px;border:2px solid #1a1414;box-sizing:border-box;background:var(--f,#9c0e25) repeating-linear-gradient(0deg,transparent 0 7px,#1a141459 7px 8px)}
-:skin .faroles i:nth-child(4n+2){--f:#fff6ec}
-:skin .faroles i:nth-child(4n+3){--f:#0a5440}
-:skin .faroles i:nth-child(4n){--f:#e9b44c}
-:skin .faroles i:nth-child(3n+2){animation-duration:3.1s}
-:skin .faroles i:nth-child(3n){animation-duration:3.6s}
-@keyframes mece{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
-@media (max-width:560px){:skin .faroles{height:50px}:skin .faroles i:nth-child(n+9){display:none}}
+:skin .ruffle{display:block;height:46px;margin:0 calc(50% - 50vw);background:radial-gradient(circle at 24px 0,#9c0e25 0 24px,transparent 25px) 0 0/48px 28px repeat-x,radial-gradient(circle at 18px 0,#1a1414 0 18px,transparent 19px) 0 24px/36px 22px repeat-x}
+/* string of swinging paper lanterns (js/skin.js puts .lanterns on top of every page) */
+:skin .lanterns{display:flex;justify-content:space-around;position:relative;height:62px;padding:0 10px;overflow:hidden;pointer-events:none}
+:skin .lanterns::before{content:'';position:absolute;left:0;right:0;top:10px;height:2px;background:#1a1414}
+:skin .lanterns i{display:block;margin-top:10px;width:2px;height:12px;background:#1a1414;position:relative;transform-origin:top center;animation:sway 2.6s ease-in-out infinite}
+:skin .lanterns i::after{content:'';position:absolute;top:12px;left:-14px;width:30px;height:38px;border-radius:15px;border:2px solid #1a1414;box-sizing:border-box;background:var(--f,#9c0e25) repeating-linear-gradient(0deg,transparent 0 7px,#1a141459 7px 8px)}
+:skin .lanterns i:nth-child(4n+2){--f:#fff6ec}
+:skin .lanterns i:nth-child(4n+3){--f:#0a5440}
+:skin .lanterns i:nth-child(4n){--f:#e9b44c}
+:skin .lanterns i:nth-child(3n+2){animation-duration:3.1s}
+:skin .lanterns i:nth-child(3n){animation-duration:3.6s}
+@keyframes sway{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+@media (max-width:560px){:skin .lanterns{height:50px}:skin .lanterns i:nth-child(n+9){display:none}}
 /* the player's phone: a shorter string so the card keeps its room */
-:skin .faroles.small{height:44px}
-:skin .faroles.small i{transform:scale(.8)}
+:skin .lanterns.small{height:44px}
+:skin .lanterns.small i{transform:scale(.8)}
