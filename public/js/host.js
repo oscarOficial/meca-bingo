@@ -79,7 +79,7 @@
 
   // ---------------- texts ----------------
   function texts() {
-    t = I18N.get(lang); document.documentElement.lang = lang;
+    t = I18N.get(lang); document.documentElement.lang = lang; $('homeLink').href = '/' + lang + '/';
     const set = (id, s) => { const e = $(id); if (e) e.textContent = s; };
     const seti = (id, ic, s) => { const e = $(id); if (e) e.innerHTML = icon(ic) + ' ' + esc(s); };
     $('lang').innerHTML = I18N.langs.map(l => `<option value="${l}">${I18N.T[l].langName}</option>`).join(''); $('lang').value = lang;
@@ -546,6 +546,8 @@
   $('stage').onclick = () => $('stage').classList.remove('on');
   $('moment').onclick = hideMoment;
   $('mNo').onclick = () => $('modal').classList.remove('on');
+  // leaving keeps the saved game (reopening host.html resumes it), but players drop until then
+  $('homeLink').onclick = e => { if (S.phase !== 'game') return; e.preventDefault(); ask(t.leaveTitle, t.leaveHost, () => location.href = $('homeLink').href); };
   $('endBtn').onclick = () => ask(t.endGame, t.endConfirm, () => {
     STATS.track('game_ended', { songs: S.played.length, players: Object.keys(S.players || {}).length, minutes: Math.round((Date.now() - (S.started || Date.now())) / 60000),
       prizesWon: Object.keys(S.awarded || {}).length, mode: S.mode || 'manual', claims: (S.claims || []).length, ext: EXT.on, provider: (S.playlist && S.playlist.provider) || 'unknown', fmt: S.cfg.fmt });
