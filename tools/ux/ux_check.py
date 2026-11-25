@@ -73,6 +73,35 @@ def page_checks(page, label, card=False):
     small = [s for s in r['smallTaps'] if not s.startswith(('lang', 'fs', 'snap'))]
     check(f'{label}: tap targets ≥ {MIN_TAP}px', not small, ', '.join(small))
 
+# The leave confirmation (#modal, a native <dialog>): open with Cancel focused, Tab kept inside, Escape = Cancel
+MODAL_JS = r"""
+(() => { const d = document.getElementById('modal');
+  return { open: d.open, modal: d.matches(':modal'), focus: document.activeElement.id,
+    aria: [d.getAttribute('role'), d.getAttribute('aria-modal'), d.getAttribute('aria-labelledby'), d.getAttribute('aria-describedby')].join(' ') }; })()
+"""
+
+def confirm_checks(page, label, screen, shot_name, small=False):
+    url = page.url
+    page.click('#homeLink'); time.sleep(0.2)
+    m = page.evaluate(MODAL_JS)
+    check(f'{label}: leave confirmation opens as a modal dialog', m['open'] and m['modal'], str(m))
+    check(f'{label}: confirmation is an alertdialog labelled by its title and text', m['aria'] == 'alertdialog true mTitle mText', m['aria'])
+    check(f'{label}: confirmation focuses Cancel', m['focus'] == 'mNo', m['focus'])
+    page.keyboard.press('Tab'); page.keyboard.press('Tab')
+    check(f'{label}: Tab stays inside the confirmation', page.evaluate("document.getElementById('modal').contains(document.activeElement)"), page.evaluate('document.activeElement.id'))
+    page.keyboard.press('Shift+Tab'); page.keyboard.press('Shift+Tab')
+    check(f'{label}: Shift+Tab stays inside the confirmation', page.evaluate("document.getElementById('modal').contains(document.activeElement)"), page.evaluate('document.activeElement.id'))
+    if screen == '#game':
+        behind = page.evaluate("(() => { const b = document.getElementById('endBtn'); b.focus(); return [b.matches(':focus'), document.activeElement.id]; })()")
+        check(f'{label}: page behind the confirmation is inert', not behind[0], str(behind))
+    shot(page, shot_name); page_checks(page, f'{label} confirmation')
+    if small:
+        vp = page.viewport_size; w, h = DEVICES['phone-small']; page.set_viewport_size({'width': w, 'height': h}); time.sleep(0.2)
+        page_checks(page, f'{label} confirmation (phone-small)'); page.set_viewport_size(vp); time.sleep(0.2)
+    page.keyboard.press('Escape'); time.sleep(0.2)
+    after = page.evaluate(f"[document.getElementById('modal').open, document.activeElement.id, !document.querySelector('{screen}').classList.contains('hidden')]")
+    check(f'{label}: Escape closes the confirmation, back on the opener, still in the game', not after[0] and after[1] == 'homeLink' and after[2] and page.url == url, str(after) + ' ' + page.url)
+
 def shot(page, name, full=False):
     page.screenshot(path=os.path.join(OUT, name + '.png'), full_page=full)
 
@@ -179,6 +208,9 @@ def run():
                 check('host game screen opens at the top', host.evaluate('scrollY') == 0, f"scrollY={host.evaluate('scrollY')}")
                 check('game screen says the mode', 'manual' in host.inner_text('#modeBanner').lower())
                 host.click('#helpBtn'); time.sleep(0.2); shot(host, 'host-help-desktop'); check('host rules help opens', host.is_visible('#help')); host.click('#helpOk')
+                w, h = DEVICES['phone-portrait']; host.set_viewport_size({'width': w, 'height': h}); time.sleep(0.3)
+                confirm_checks(host, 'host game (phone-portrait)', '#game', 'host-confirm-phone', small=True)
+                host.set_viewport_size({'width': 1366, 'height': 850}); time.sleep(0.2)
             code = host.inner_text('#codeBig')
             player = ctx.new_page()
             player.goto(f'{base}/play.html?r={code}&net=local')
@@ -193,6 +225,7 @@ def run():
             if tag == 'es':
                 time.sleep(0.3); check('player (phone-landscape): first tap goes full screen', player.evaluate('!!document.fullscreenElement'))
                 player.evaluate('document.exitFullscreen()'); time.sleep(0.3)  # Playwright can't resize a full-screen window
+                confirm_checks(player, 'player card (phone-landscape)', '#play', 'player-confirm-phone')  # upright, the 3x9 card is under the "turn the phone" prompt
                 pev = player.evaluate("[document.documentElement.dataset.event || null, document.querySelectorAll('.evfx').length, !!document.querySelector('.evfx[data-fx=mark]')]")
                 if EVENT:
                     check(f'player card: follows the host\'s event "{EVENT}" (state)', pev[0] == EVENT, str(pev[0]))

@@ -126,7 +126,9 @@ textarea{min-height:110px;resize:vertical}
 @keyframes stampIn{0%{transform:rotate(30deg) scale(3);opacity:0}100%{transform:rotate(14deg) scale(1);opacity:1}}
 #fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:35}
 .modal{position:fixed;inset:0;background:#000a;display:none;align-items:center;justify-content:center;padding:20px;z-index:45}
-.modal.on{display:flex}
+.modal.on,.modal[open]{display:flex}
+dialog.modal{border:0;margin:0;width:auto;height:auto;max-width:none;max-height:none;color:inherit}dialog.modal::backdrop{background:transparent}
+#modal .btn:focus-visible{outline:3px solid var(--text-accent);outline-offset:2px}
 .modal>div{background:var(--surface);border:var(--border-w) solid var(--border);border-radius:var(--modal-radius);box-shadow:var(--modal-shadow);padding:20px;max-width:360px}
 .modal h3{font-size:20px;margin-bottom:8px}.modal p{color:var(--text-muted);margin-bottom:16px}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important}.prefs>summary::after,select::picker-icon{transition:none}}
