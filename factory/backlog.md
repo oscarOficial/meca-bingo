@@ -34,6 +34,12 @@ When the task is merged: `- [x] <title> → task/<id>`. Done by hand: `- [x] <ti
     Primer evento especial: Navidad. Fondo animado (nieve cayendo), decoraciones navideñas y efectos al hacer bingo (confeti de copos, árboles, estrellas), al hacer Nope (cae un trozo de carbón) y al marcar una canción (pequeño destello de nieve). Sugerido en las fechas de Navidad (1 dic – 6 ene).
     Decisions (human): illustrations from Fluent Emoji (MIT, Microsoft) as SVG, only the few files used, with the licence file next to them (like the fonts). Must work over all five moods (light and dark); check with `EVENT=navidad` and at least one light and one dark skin.
 
+### Code
+
+- [ ] English ids for the skins
+    Las keys de código de los temas deben estar en inglés, como el resto del código (hoy `pista`, `clasico`, `verbena`, `feria`, `mesa`).
+    Decisions (human): rename every skin id to English (folders in `site/skins/`, `skins.json`, generated CSS/JS, `data-skin`, `SKIN=` in the UX check and its default, screenshots in `public/img/skins/<id>/`, docs and AGENTS.md). Visible names in each `skin.json` don't change. A skin saved in localStorage with an old id, and an old id sent by a host on an older version, must map to the new one, not fall back silently. Do it after the Christmas and full-screen tasks are merged (they use the current ids).
+
 ### Extension: player sync (each one builds on the previous)
 
 - [ ] Extension: host play/pause state matches the real player
