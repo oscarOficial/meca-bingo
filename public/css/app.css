@@ -34,7 +34,7 @@
 --btn-cy-bg:var(--selected);--btn-cy-text:var(--on-selected);--btn-cy-border:0;--btn-cy-shadow:var(--btn-shadow);
 --card-radius:18px;--card-border:var(--border-w) solid var(--border);--card-shadow:0 0 #0000;
 --modal-radius:18px;--modal-shadow:0 0 #0000;
---pill-border:var(--border-w) solid var(--border);--pill-text:currentColor;
+--chip-bg:var(--surface-2);--chip-text:var(--text);--chip-border:var(--border-w) solid var(--border);
 --selected-border:0;
 /* the player's card */
 --board-bg:transparent;--board-border:0;--board-radius:0;--board-pad:0;--board-shadow:0 0 #0000;--board-label:var(--text-muted);
@@ -99,7 +99,7 @@ textarea{min-height:110px;resize:vertical}
 .evico img{width:100%;height:100%;object-fit:contain}
 .chk{display:flex;gap:8px;align-items:center;font-size:14.5px;padding:6px 0;cursor:pointer}
 .chk input{width:18px;height:18px;accent-color:var(--accent)}
-.pill{display:inline-flex;align-items:center;gap:6px;background:var(--surface-2);border:var(--pill-border);color:var(--pill-text);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:600}
+.pill,.svc{display:inline-flex;align-items:center;gap:6px;background:var(--chip-bg);border:var(--chip-border);color:var(--chip-text);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:600}
 .ok{color:var(--text-success)}.bad{color:var(--text-danger)}.warn{color:var(--text-highlight)}
 .hidden{display:none!important}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--surface-2);border:var(--border-w) solid var(--border);padding:11px 16px;border-radius:12px;font-size:14px;z-index:40;display:none;max-width:92%;text-align:center}
