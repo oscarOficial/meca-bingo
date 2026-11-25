@@ -20,7 +20,7 @@ When the task is merged: `- [x] <title> → task/<id>`. Done by hand: `- [x] <ti
 - [x] Compact player header and slimmer CALL button in landscape → task/compact-player-header-and-slimmer-call
     En móvil en horizontal el cartón necesita más espacio. Subir "Jugando por Línea" (con su dibujo del premio) y "Cartón #1" al header, entre el logo y los botones "?" / "online", para ganar altura. Mantener el botón CALL a la derecha (queda bajo el pulgar derecho) pero mucho más estrecho (~56–64 px, texto en dos líneas o en vertical) para ganar ancho. Alternativa a comparar con capturas en la spec: CALL abajo en el centro.
     Note: phone landscape is the layout 3×9 cards now always use on phones; vertical space is the scarcest (real phones lose more to the browser bar than the 740×375 UX check viewport).
-- [ ] Player goes full screen when the phone is rotated to landscape
+- [x] Player goes full screen when the phone is rotated to landscape → task/player-goes-full-screen-when-the-phone
     Cuando el jugador gire el móvil a horizontal, la pantalla de juego debe pasar automáticamente a pantalla completa (así ganamos espacio para el cartón).
     Note: browsers only allow `requestFullscreen()` after a tap, not on an orientation change, and iPhone Safari has no Fullscreen API for pages. The spec must pick a fallback (e.g. enter full screen on the first tap in landscape, an "expand" button, or a PWA manifest with `display: fullscreen`) and say what iPhone gets.
 
