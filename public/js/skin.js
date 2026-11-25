@@ -72,9 +72,19 @@
 
   const saved = read();
   if (apply(saved) !== saved && valid(saved)) try { localStorage.setItem(KEY, id(saved)); } catch (e) {}   // a renamed skin: save its new id
-  // close the language menu on a click outside it or on Escape
-  document.addEventListener('click', e => document.querySelectorAll('details.prefs[open]').forEach(d => { if (!d.contains(e.target)) d.open = false; }));
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') document.querySelectorAll('details.prefs[open]').forEach(d => { d.open = false; d.querySelector('summary').focus(); }); });
+  // dropdowns (details.dd, every page): close on a click outside or on Escape, a disabled one doesn't open,
+  // and an open list moves sideways to stay 24px off both screen edges (plain details/toggle: same in every browser)
+  document.addEventListener('click', e => {
+    const s = e.target.closest('details.dd>summary'); if (s && s.getAttribute('aria-disabled') === 'true') e.preventDefault();
+    document.querySelectorAll('details.dd[open]').forEach(d => { if (!d.contains(e.target)) d.open = false; });
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') document.querySelectorAll('details.dd[open]').forEach(d => { d.open = false; d.querySelector('summary').focus(); }); });
+  document.addEventListener('toggle', e => {
+    const d = e.target, p = d.open && d.matches('details.dd') && d.querySelector('.dd-pop'); if (!p) return;
+    p.style.translate = ''; const r = p.getBoundingClientRect(), w = root.clientWidth;
+    const dx = r.left < 24 ? 24 - r.left : r.right > w - 24 ? Math.max(24 - r.left, w - 24 - r.right) : 0;
+    if (dx) p.style.translate = dx + 'px 0';
+  }, true);
   // string of paper lanterns on top of the page (a decoration slot: a skin's decor.css shows it)
   function lanterns() {
     if (document.querySelector('.lanterns')) return;
