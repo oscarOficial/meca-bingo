@@ -24,7 +24,7 @@ When the task is merged: `- [x] <title> → task/<id>`. Done by hand: `- [x] <ti
     Cuando el jugador gire el móvil a horizontal, la pantalla de juego debe pasar automáticamente a pantalla completa (así ganamos espacio para el cartón).
     Note: browsers only allow `requestFullscreen()` after a tap, not on an orientation change, and iPhone Safari has no Fullscreen API for pages. The spec must pick a fallback (e.g. enter full screen on the first tap in landscape, an "expand" button, or a PWA manifest with `display: fullscreen`) and say what iPhone gets.
 
-- [ ] Language dropdown: arrow shows open/closed and keeps off the right edge
+- [x] Language dropdown: arrow shows open/closed and keeps off the right edge → task/language-dropdown-arrow-shows-open
     En el dropdown de idioma la flecha no cambia de estado (abierto/cerrado) y además el desplegable se queda demasiado pegado al borde derecho.
 - [x] Special event picker as a dropdown with an icon per event → task/special-event-picker-as-a-dropdown-with
     El selector de evento especial me gustaría que fuera un dropdown y que cada opción tenga un icono representativo al lado (por ejemplo en Navidad un árbol de navidad). "Ninguno" también necesita su icono o un hueco equivalente.
