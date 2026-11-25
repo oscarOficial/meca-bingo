@@ -67,6 +67,9 @@ def head(lang, t, langs, site):
 
 
 SERVICES = ['Spotify', 'Deezer', 'Apple Music', 'YouTube Music', 'Amazon Music']
+# sprite icon before each item of these data-list lists, one per item (same icons as the host's mode picker)
+LIST_ICONS = {'wayAutoL': ['eighth-notes', 'volume-2', 'user-check', 'laptop'], 'wayManL': ['eighth-notes', 'hand', 'smartphone', 'puzzle']}
+icon = lambda name: f'<svg class="icon" aria-hidden="true"><use href="/img/icons.svg#{name}"/></svg>'
 # game modes shown on the landing: card type, shape (cells lit on the logical grid)
 MODES = [('es', 'line', list(range(5, 10))), ('es', 'two', list(range(0, 5)) + list(range(10, 15))), ('us', 'corners', [0, 4, 20, 24]),
          ('us', 'x', [0, 6, 12, 18, 24, 4, 8, 16, 20]), ('us', 'stamp', [0, 1, 5, 6]), ('us', 'diamond', [2, 6, 8, 10, 14, 16, 18, 22]),
@@ -99,7 +102,11 @@ def render(lang, L, site):
     # data-t="key": fill the element's text
     s = re.sub(r'(<(\w+)\b[^>]*\bdata-t="(\w+)"[^>]*>)(</\2>)', lambda m: m.group(1) + esc(t[m.group(3)]) + m.group(4), s)
     # data-list="key": fill <li> items
-    s = re.sub(r'(<(\w+)\b[^>]*\bdata-list="(\w+)"[^>]*>)(</\2>)', lambda m: m.group(1) + ''.join(f'<li>{esc(x)}</li>' for x in t[m.group(3)]) + m.group(4), s)
+    def items(key):
+        icons = LIST_ICONS.get(key)
+        if icons and len(icons) != len(t[key]): raise SystemExit(f'{lang}: {key} has {len(t[key])} items, LIST_ICONS has {len(icons)}')
+        return ''.join(f'<li>{icon(icons[i]) + " " if icons else ""}{esc(x)}</li>' for i, x in enumerate(t[key]))
+    s = re.sub(r'(<(\w+)\b[^>]*\bdata-list="(\w+)"[^>]*>)(</\2>)', lambda m: m.group(1) + items(m.group(3)) + m.group(4), s)
     s = s.replace('<div class="feat" id="feat"></div>', '<div class="feat" id="feat">' + ''.join(
         f'<div><b>{esc(a)}</b><span>{esc(b)}</span></div>' for a, b in t['feats']) + '</div>')
     s = s.replace('<tbody id="provRows"></tbody>', '<tbody id="provRows">' + ''.join(

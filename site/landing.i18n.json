@@ -246,21 +246,21 @@
   "navWays": "Two ways to play",
   "waysTitle": "Two ways to play",
   "waysLead": "Choose it when you create the game, depending on where the music comes from.",
-  "wayAutoT": "🎧 Automatic",
+  "wayAutoT": "Automatic",
   "wayAutoP": "The music plays in the host's computer browser and the free extension marks every song by itself.",
   "wayAutoL": [
-   "🎵 Spotify, Amazon Music, Deezer, YouTube Music or Apple Music web player",
-   "🔊 It can sound through a speaker or the TV connected to the computer",
-   "🙋 The host plays too: nobody sees the song names",
-   "💻 Computer with Chrome, Edge or Firefox"
+   "Spotify, Amazon Music, Deezer, YouTube Music or Apple Music web player",
+   "It can sound through a speaker or the TV connected to the computer",
+   "The host plays too: nobody sees the song names",
+   "Computer with Chrome, Edge or Firefox"
   ],
-  "wayManT": "✋ Manual",
+  "wayManT": "Manual",
   "wayManP": "The music plays from anywhere and the host taps each song on the screen when it plays.",
   "wayManL": [
-   "🎵 Any app or device: phone, speaker, TV, records…",
-   "✋ The host marks the songs, so the host doesn't play",
-   "📱 Works on a computer, tablet or phone",
-   "🧩 No extension needed"
+   "Any app or device: phone, speaker, TV, records…",
+   "The host marks the songs, so the host doesn't play",
+   "Works on a computer, tablet or phone",
+   "No extension needed"
   ],
   "sticker": "I've got that one!"
  },
@@ -511,21 +511,21 @@
   "navWays": "Dos formas de jugar",
   "waysTitle": "Dos formas de jugar",
   "waysLead": "Se elige al crear la partida, según de dónde salga la música.",
-  "wayAutoT": "🎧 Automático",
+  "wayAutoT": "Automático",
   "wayAutoP": "La música suena en el navegador del ordenador del presentador y la extensión gratuita marca sola cada canción.",
   "wayAutoL": [
-   "🎵 Reproductor web de Spotify, Amazon Music, Deezer, YouTube Music o Apple Music",
-   "🔊 Puede sonar por un altavoz o la tele conectados al ordenador",
-   "🙋 El presentador también juega: nadie ve los títulos",
-   "💻 Ordenador con Chrome, Edge o Firefox"
+   "Reproductor web de Spotify, Amazon Music, Deezer, YouTube Music o Apple Music",
+   "Puede sonar por un altavoz o la tele conectados al ordenador",
+   "El presentador también juega: nadie ve los títulos",
+   "Ordenador con Chrome, Edge o Firefox"
   ],
-  "wayManT": "✋ Manual",
+  "wayManT": "Manual",
   "wayManP": "La música suena desde cualquier sitio y el presentador toca en la pantalla cada canción cuando suena.",
   "wayManL": [
-   "🎵 Cualquier app o aparato: móvil, altavoz, tele, discos…",
-   "✋ El presentador marca las canciones, así que no juega",
-   "📱 Funciona en ordenador, tablet o móvil",
-   "🧩 Sin extensión"
+   "Cualquier app o aparato: móvil, altavoz, tele, discos…",
+   "El presentador marca las canciones, así que no juega",
+   "Funciona en ordenador, tablet o móvil",
+   "Sin extensión"
   ],
   "sticker": "¡Esa la tengo!"
  },
@@ -776,21 +776,21 @@
   "navWays": "Deux façons de jouer",
   "waysTitle": "Deux façons de jouer",
   "waysLead": "Tu choisis en créant la partie, selon d’où vient la musique.",
-  "wayAutoT": "🎧 Automatique",
+  "wayAutoT": "Automatique",
   "wayAutoP": "La musique joue dans le navigateur de l’ordinateur de l’animateur et l’extension gratuite coche chaque chanson toute seule.",
   "wayAutoL": [
-   "🎵 Lecteur web Spotify, Amazon Music, Deezer, YouTube Music ou Apple Music",
-   "🔊 Le son peut sortir d’une enceinte ou de la télé branchée à l’ordinateur",
-   "🙋 L’animateur joue aussi : personne ne voit les titres",
-   "💻 Ordinateur avec Chrome, Edge ou Firefox"
+   "Lecteur web Spotify, Amazon Music, Deezer, YouTube Music ou Apple Music",
+   "Le son peut sortir d’une enceinte ou de la télé branchée à l’ordinateur",
+   "L’animateur joue aussi : personne ne voit les titres",
+   "Ordinateur avec Chrome, Edge ou Firefox"
   ],
-  "wayManT": "✋ Manuel",
+  "wayManT": "Manuel",
   "wayManP": "La musique joue depuis n’importe où et l’animateur touche chaque chanson à l’écran quand elle passe.",
   "wayManL": [
-   "🎵 N’importe quelle appli ou appareil : téléphone, enceinte, télé, vinyles…",
-   "✋ L’animateur coche les chansons, donc il ne joue pas",
-   "📱 Marche sur ordinateur, tablette ou téléphone",
-   "🧩 Aucune extension nécessaire"
+   "N’importe quelle appli ou appareil : téléphone, enceinte, télé, vinyles…",
+   "L’animateur coche les chansons, donc il ne joue pas",
+   "Marche sur ordinateur, tablette ou téléphone",
+   "Aucune extension nécessaire"
   ],
   "sticker": "Je l’ai !"
  },
@@ -1041,21 +1041,21 @@
   "navWays": "Zwei Arten zu spielen",
   "waysTitle": "Zwei Arten zu spielen",
   "waysLead": "Du wählst beim Erstellen des Spiels, je nachdem, woher die Musik kommt.",
-  "wayAutoT": "🎧 Automatisch",
+  "wayAutoT": "Automatisch",
   "wayAutoP": "Die Musik läuft im Browser am Computer der Spielleitung, und die kostenlose Erweiterung markiert jeden Song von selbst.",
   "wayAutoL": [
-   "🎵 Web-Player von Spotify, Amazon Music, Deezer, YouTube Music oder Apple Music",
-   "🔊 Sie kann über eine Box oder den Fernseher am Computer laufen",
-   "🙋 Die Spielleitung spielt mit: Niemand sieht die Songtitel",
-   "💻 Computer mit Chrome, Edge oder Firefox"
+   "Web-Player von Spotify, Amazon Music, Deezer, YouTube Music oder Apple Music",
+   "Sie kann über eine Box oder den Fernseher am Computer laufen",
+   "Die Spielleitung spielt mit: Niemand sieht die Songtitel",
+   "Computer mit Chrome, Edge oder Firefox"
   ],
-  "wayManT": "✋ Manuell",
+  "wayManT": "Manuell",
   "wayManP": "Die Musik läuft von überall, und die Spielleitung tippt jeden Song auf dem Bildschirm an, wenn er läuft.",
   "wayManL": [
-   "🎵 Jede App und jedes Gerät: Handy, Box, Fernseher, Schallplatten…",
-   "✋ Die Spielleitung markiert die Songs, spielt also nicht mit",
-   "📱 Läuft auf Computer, Tablet oder Handy",
-   "🧩 Keine Erweiterung nötig"
+   "Jede App und jedes Gerät: Handy, Box, Fernseher, Schallplatten…",
+   "Die Spielleitung markiert die Songs, spielt also nicht mit",
+   "Läuft auf Computer, Tablet oder Handy",
+   "Keine Erweiterung nötig"
   ],
   "sticker": "Hab ich!"
  },
@@ -1306,21 +1306,21 @@
   "navWays": "Due modi di giocare",
   "waysTitle": "Due modi di giocare",
   "waysLead": "Lo scegli quando crei la partita, a seconda di da dove arriva la musica.",
-  "wayAutoT": "🎧 Automatico",
+  "wayAutoT": "Automatico",
   "wayAutoP": "La musica suona nel browser del computer di chi presenta e l’estensione gratuita segna ogni canzone da sola.",
   "wayAutoL": [
-   "🎵 Web player di Spotify, Amazon Music, Deezer, YouTube Music o Apple Music",
-   "🔊 Può suonare da una cassa o dalla TV collegata al computer",
-   "🙋 Anche chi presenta gioca: nessuno vede i titoli",
-   "💻 Computer con Chrome, Edge o Firefox"
+   "Web player di Spotify, Amazon Music, Deezer, YouTube Music o Apple Music",
+   "Può suonare da una cassa o dalla TV collegata al computer",
+   "Anche chi presenta gioca: nessuno vede i titoli",
+   "Computer con Chrome, Edge o Firefox"
   ],
-  "wayManT": "✋ Manuale",
+  "wayManT": "Manuale",
   "wayManP": "La musica suona da dove vuoi e chi presenta tocca ogni canzone sullo schermo quando suona.",
   "wayManL": [
-   "🎵 Qualsiasi app o dispositivo: telefono, cassa, TV, vinili…",
-   "✋ Chi presenta segna le canzoni, quindi non gioca",
-   "📱 Funziona su computer, tablet o telefono",
-   "🧩 Nessuna estensione necessaria"
+   "Qualsiasi app o dispositivo: telefono, cassa, TV, vinili…",
+   "Chi presenta segna le canzoni, quindi non gioca",
+   "Funziona su computer, tablet o telefono",
+   "Nessuna estensione necessaria"
   ],
   "sticker": "Ce l’ho!"
  },
@@ -1571,21 +1571,21 @@
   "navWays": "Twee manieren van spelen",
   "waysTitle": "Twee manieren van spelen",
   "waysLead": "Je kiest het als je het spel aanmaakt, afhankelijk van waar de muziek vandaan komt.",
-  "wayAutoT": "🎧 Automatisch",
+  "wayAutoT": "Automatisch",
   "wayAutoP": "De muziek speelt in de browser van de computer van de spelleider en de gratis extensie vinkt elk nummer vanzelf aan.",
   "wayAutoL": [
-   "🎵 Webspeler van Spotify, Amazon Music, Deezer, YouTube Music of Apple Music",
-   "🔊 Het geluid kan via een speaker of de tv aan de computer",
-   "🙋 De spelleider speelt mee: niemand ziet de titels",
-   "💻 Computer met Chrome, Edge of Firefox"
+   "Webspeler van Spotify, Amazon Music, Deezer, YouTube Music of Apple Music",
+   "Het geluid kan via een speaker of de tv aan de computer",
+   "De spelleider speelt mee: niemand ziet de titels",
+   "Computer met Chrome, Edge of Firefox"
   ],
-  "wayManT": "✋ Handmatig",
+  "wayManT": "Handmatig",
   "wayManP": "De muziek speelt van waar dan ook en de spelleider tikt elk nummer op het scherm aan als het speelt.",
   "wayManL": [
-   "🎵 Elke app of elk apparaat: telefoon, speaker, tv, platen…",
-   "✋ De spelleider vinkt de nummers aan, dus speelt niet mee",
-   "📱 Werkt op computer, tablet of telefoon",
-   "🧩 Geen extensie nodig"
+   "Elke app of elk apparaat: telefoon, speaker, tv, platen…",
+   "De spelleider vinkt de nummers aan, dus speelt niet mee",
+   "Werkt op computer, tablet of telefoon",
+   "Geen extensie nodig"
   ],
   "sticker": "Die heb ik!"
  },
@@ -1836,21 +1836,21 @@
   "navWays": "Dwa sposoby gry",
   "waysTitle": "Dwa sposoby gry",
   "waysLead": "Wybierasz przy tworzeniu gry, zależnie od tego, skąd leci muzyka.",
-  "wayAutoT": "🎧 Automatycznie",
+  "wayAutoT": "Automatycznie",
   "wayAutoP": "Muzyka gra w przeglądarce na komputerze prowadzącego, a darmowe rozszerzenie samo zaznacza każdą piosenkę.",
   "wayAutoL": [
-   "🎵 Odtwarzacz webowy Spotify, Amazon Music, Deezer, YouTube Music lub Apple Music",
-   "🔊 Dźwięk może iść przez głośnik lub telewizor podłączony do komputera",
-   "🙋 Prowadzący też gra: nikt nie widzi tytułów",
-   "💻 Komputer z Chrome, Edge lub Firefox"
+   "Odtwarzacz webowy Spotify, Amazon Music, Deezer, YouTube Music lub Apple Music",
+   "Dźwięk może iść przez głośnik lub telewizor podłączony do komputera",
+   "Prowadzący też gra: nikt nie widzi tytułów",
+   "Komputer z Chrome, Edge lub Firefox"
   ],
-  "wayManT": "✋ Ręcznie",
+  "wayManT": "Ręcznie",
   "wayManP": "Muzyka gra z dowolnego miejsca, a prowadzący stuka każdą piosenkę na ekranie, kiedy leci.",
   "wayManL": [
-   "🎵 Dowolna aplikacja lub urządzenie: telefon, głośnik, telewizor, winyle…",
-   "✋ Prowadzący zaznacza piosenki, więc nie gra",
-   "📱 Działa na komputerze, tablecie i telefonie",
-   "🧩 Rozszerzenie niepotrzebne"
+   "Dowolna aplikacja lub urządzenie: telefon, głośnik, telewizor, winyle…",
+   "Prowadzący zaznacza piosenki, więc nie gra",
+   "Działa na komputerze, tablecie i telefonie",
+   "Rozszerzenie niepotrzebne"
   ],
   "sticker": "Mam to!"
  },
@@ -2101,21 +2101,21 @@
   "navWays": "Dva spôsoby hry",
   "waysTitle": "Dva spôsoby hry",
   "waysLead": "Vyberieš si pri vytváraní hry, podľa toho, odkiaľ hrá hudba.",
-  "wayAutoT": "🎧 Automaticky",
+  "wayAutoT": "Automaticky",
   "wayAutoP": "Hudba hrá v prehliadači na počítači moderátora a bezplatné rozšírenie samo označí každú pesničku.",
   "wayAutoL": [
-   "🎵 Webový prehrávač Spotify, Amazon Music, Deezer, YouTube Music alebo Apple Music",
-   "🔊 Môže hrať cez reproduktor alebo televízor pripojený k počítaču",
-   "🙋 Moderátor hrá tiež: nikto nevidí názvy pesničiek",
-   "💻 Počítač s Chrome, Edge alebo Firefox"
+   "Webový prehrávač Spotify, Amazon Music, Deezer, YouTube Music alebo Apple Music",
+   "Môže hrať cez reproduktor alebo televízor pripojený k počítaču",
+   "Moderátor hrá tiež: nikto nevidí názvy pesničiek",
+   "Počítač s Chrome, Edge alebo Firefox"
   ],
-  "wayManT": "✋ Ručne",
+  "wayManT": "Ručne",
   "wayManP": "Hudba hrá odkiaľkoľvek a moderátor ťukne každú pesničku na obrazovke, keď hrá.",
   "wayManL": [
-   "🎵 Akákoľvek aplikácia či zariadenie: mobil, reproduktor, televízor, platne…",
-   "✋ Moderátor označuje pesničky, takže nehrá",
-   "📱 Funguje na počítači, tablete aj mobile",
-   "🧩 Rozšírenie netreba"
+   "Akákoľvek aplikácia či zariadenie: mobil, reproduktor, televízor, platne…",
+   "Moderátor označuje pesničky, takže nehrá",
+   "Funguje na počítači, tablete aj mobile",
+   "Rozšírenie netreba"
   ],
   "sticker": "Tú mám!"
  }
