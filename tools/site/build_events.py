@@ -6,7 +6,7 @@
 
 Sources (one folder per event, see site/events/README.md):
   site/events/events.json       events shown in the host's picker (order) and built but never shown (hidden)
-  site/events/<id>/event.json   names per language, suggested dates, effects
+  site/events/<id>/event.json   names per language, icon (under public/img/events/), suggested dates, effects
   site/events/<id>/layer.css    background and effects; `:event` = this event
 
 Writes:
@@ -17,11 +17,13 @@ import json, os, re, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 SRC = os.path.join(ROOT, 'site', 'events')
+IMG = os.path.join(ROOT, 'public', 'img', 'events')
 APP_CSS = os.path.join(ROOT, 'public', 'css', 'app.css')
 OUT_CSS = os.path.join(ROOT, 'public', 'css', 'events.css')
 EVENTS_JS = os.path.join(ROOT, 'public', 'js', 'events.js')
 LANGS = list(json.load(open(os.path.join(ROOT, 'site', 'landing.i18n.json'), encoding='utf-8')))
 ID = re.compile(r'^[a-z][a-z0-9-]{1,30}$')
+ICON = re.compile(r'^[\w-]+(/[\w.-]+)*\.(svg|png|webp)$')
 DATE = re.compile(r'^(\d\d)-(\d\d)$')
 DAYS = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 HOOKS, CONFETTI = {'win', 'nope', 'mark', 'moment'}, {'colors', 'emoji'}
@@ -72,6 +74,10 @@ def read_event(eid, tokens):
     meta = json.load(open(os.path.join(d, 'event.json'), encoding='utf-8'))
     missing = [l for l in LANGS if not meta.get('name', {}).get(l)]
     if missing: errors.append(f'{eid}: event.json "name" is missing {", ".join(missing)}')
+    icon = meta.get('icon')
+    if not isinstance(icon, str) or not ICON.match(icon) or '..' in icon:
+        errors.append(f'{eid}: event.json "icon" must be a .svg, .png or .webp path under public/img/events/ (e.g. "{eid}/icon.svg"), not {json.dumps(icon)}')
+    elif not os.path.isfile(os.path.join(IMG, icon)): errors.append(f'{eid}: icon public/img/events/{icon} not found')
     dates = meta.get('dates', [])
     if not isinstance(dates, list): errors.append(f'{eid}: "dates" must be a list of {{"from": "MM-DD", "to": "MM-DD"}}'); dates = []
     for r in dates:
@@ -122,7 +128,7 @@ def build():
 
     reg = {}
     for eid, (meta, _) in events.items():
-        reg[eid] = {'name': meta['name'], 'dates': meta.get('dates', []), 'effects': meta.get('effects', {})}
+        reg[eid] = {'name': meta['name'], 'icon': '/img/events/' + meta['icon'], 'dates': meta.get('dates', []), 'effects': meta.get('effects', {})}
         if eid in hidden: reg[eid]['hidden'] = True
     body = f"  const ORDER = {json.dumps(order)}, EVENTS = {json.dumps(reg, ensure_ascii=False)};\n  "
     out[EVENTS_JS] = replace_between(open(EVENTS_JS, encoding='utf-8').read(),
