@@ -37,26 +37,16 @@
     : s
     ? `<div class="cell ${M.has(i) ? 'on' : ''}" data-i="${i}" title="${esc(s[0] + (s[1] ? ' — ' + s[1] : ''))}"><span class="tt">${esc(short(s[0]))}</span>${s[1] ? `<span class="ar">${esc(short(s[1]))}</span>` : ''}</div>`
     : `<div class="cell gap"></div>`;
-  // 3×9 card on a phone held upright: 9 columns are too narrow, so when only
-  // horizontal lines count we show each row (a possible line) as its own row of 5 songs.
-  function layoutMode(c) {
-    const portrait = innerWidth < 640 && innerHeight > innerWidth;
-    return c.fmt === 'es' && portrait && !(P.rules && P.rules.vertical) ? 'rows' : 'grid';
-  }
   let rotateDismissed = false;
   function drawCard() {
     const c = P.card; if (!c) return;
-    const M = new Set(P.marks), mode = layoutMode(c);
+    const M = new Set(P.marks);
     $('cardNo').textContent = `${t.card} #${c.no}`;
     const b = $('board');
-    if (mode === 'rows') {
-      b.className = 'board rows';
-      b.innerHTML = [0, 1, 2].map(r => `<div class="line"><span class="ln">${r + 1}</span><div class="lgrid">${c.cells.slice(r * 9, r * 9 + 9).map((s, k) => s ? cellHtml(s, r * 9 + k, M) : '').join('')}</div></div>`).join('');
-    } else {
-      b.className = 'board ' + c.fmt;
-      b.innerHTML = c.cells.map((s, i) => cellHtml(s, i, M)).join('');
-    }
-    const rotate = c.fmt === 'es' && mode === 'grid' && innerWidth < 640 && innerHeight > innerWidth && !rotateDismissed;
+    b.className = 'board ' + c.fmt;
+    b.innerHTML = c.cells.map((s, i) => cellHtml(s, i, M)).join('');
+    // 3×9 on a phone held upright: 9 columns are too narrow to tap, ask to turn the phone
+    const rotate = c.fmt === 'es' && innerWidth < 640 && innerHeight > innerWidth && !rotateDismissed;
     $('rotate').classList.toggle('hidden', !rotate);
     sizeBoard(); fitText();
   }
@@ -67,9 +57,8 @@
     const cb = $('callbar'), side = getComputedStyle(cb).top === '0px';
     const bar = cb.classList.contains('hidden') || side ? 0 : cb.offsetHeight;
     const avail = innerHeight - top - bar - 12;
-    const rows = b.classList.contains('rows') ? 3 : P.card.fmt === 'es' ? 3 : 5;
-    const extra = b.classList.contains('rows') ? 3 * 14 : 0;
-    const h = Math.max(44, Math.min(150, Math.floor((avail - extra - (rows - 1) * 8) / rows)));
+    const n = P.card.fmt === 'es' ? 3 : 5;
+    const h = Math.max(44, Math.min(150, Math.floor((avail - (n - 1) * 8) / n)));
     b.style.setProperty('--cellH', h + 'px');
   }
   // shrink the text of each cell until it fits (long titles, narrow columns)
@@ -87,9 +76,9 @@
       if (over(c)) { c.classList.add('clip'); c.style.setProperty('--clamp', Math.max(1, Math.floor((c.clientHeight - 8) / (f * 1.12)))); c.title = c.innerText; }
     }
     // one font size per row, so the card looks even
-    const rows = {};
-    for (const c of document.querySelectorAll('#board .cell[data-i]')) { const k = c.closest('.lgrid') ? 'L' + [...document.querySelectorAll('.lgrid')].indexOf(c.closest('.lgrid')) : 'R' + Math.floor(+c.dataset.i / (P.card.fmt === 'es' ? 9 : 5)); (rows[k] = rows[k] || []).push(c); }
-    for (const cells of Object.values(rows)) {
+    const lines = {};
+    for (const c of document.querySelectorAll('#board .cell[data-i]')) { const k = Math.floor(+c.dataset.i / (P.card.fmt === 'es' ? 9 : 5)); (lines[k] = lines[k] || []).push(c); }
+    for (const cells of Object.values(lines)) {
       // cap every cell at the row's median size: similar sizes, without one long title shrinking the whole row
       const sizes = cells.map(c => parseFloat(c.style.fontSize)).sort((a, b) => a - b), med = sizes[Math.floor(sizes.length / 2)];
       cells.forEach(c => { if (parseFloat(c.style.fontSize) > med) c.style.fontSize = med + 'px'; if (parseFloat(c.style.fontSize) < 10.5) c.classList.add('tiny'); });
@@ -100,7 +89,7 @@
   try { document.fonts.ready.then(() => { if (document.querySelector('#board .cell[data-i]')) fitText(); }); document.fonts.addEventListener('loadingdone', () => { if (document.querySelector('#board .cell[data-i]')) fitText(); }); } catch (e) {}
   function drawState() {
     const pz = hasPrize() && state.prizes && state.prizes[state.prize];
-    $('prize').innerHTML = state.over ? `🎉 ${esc(t.allPrizesDone)}` : hasPrize() ? `<span>${esc(t.playingFor)} <b>${esc(prizeLabel(state.prize))}</b></span>${pz && window.PATUI ? PATUI.html(state.fmt || (P.card && P.card.fmt) || 'es', pz.pat, { free: state.free, label: prizeLabel(state.prize), logical: !!(P.card && layoutMode(P.card) === 'rows') }) : ''}` : '';
+    $('prize').innerHTML = state.over ? `🎉 ${esc(t.allPrizesDone)}` : hasPrize() ? `<span>${esc(t.playingFor)} <b>${esc(prizeLabel(state.prize))}</b></span>${pz && window.PATUI ? PATUI.html(state.fmt || (P.card && P.card.fmt) || 'es', pz.pat, { free: state.free, label: prizeLabel(state.prize) }) : ''}` : '';
     const cb = $('callbar'); const was = cb.classList.contains('hidden'); cb.classList.toggle('hidden', !hasPrize() || !P.card); if (was !== cb.classList.contains('hidden')) { sizeBoard(); fitText(); }
     if (hasPrize()) $('callBtn').textContent = t.call(prizeLabel(state.prize).replace(/\s*\(.*?\)/g, '').toUpperCase());
     $('callBtn').disabled = !connected || busy;
