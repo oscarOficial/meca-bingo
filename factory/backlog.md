@@ -21,6 +21,16 @@ When the task is merged: `- [x] <title> → task/<id>`. Done by hand: `- [x] <ti
     En móvil en horizontal el cartón necesita más espacio. Subir "Jugando por Línea" (con su dibujo del premio) y "Cartón #1" al header, entre el logo y los botones "?" / "online", para ganar altura. Mantener el botón CALL a la derecha (queda bajo el pulgar derecho) pero mucho más estrecho (~56–64 px, texto en dos líneas o en vertical) para ganar ancho. Alternativa a comparar con capturas en la spec: CALL abajo en el centro.
     Note: phone landscape is the layout 3×9 cards now always use on phones; vertical space is the scarcest (real phones lose more to the browser bar than the 740×375 UX check viewport).
 
+### Special events (Christmas first; do before the extension tasks to be ready for December)
+
+- [ ] Special events: system, effect hooks, host picker and sync to players
+    Un "evento especial" es una capa que se pone encima de cualquier mood (p. ej. Pista de baile + Navidad): cambia el fondo (algo divertido, animado) y añade efectos relacionados con el evento (clicks, animaciones al hacer bingo o Nope…). Los colores y las fuentes siguen siendo los del mood.
+    Decisions (human): UI name "Evento especial" (in all 8 languages); in code `event`. Same pattern as skins: `site/events/<id>/event.json` (names in every language, effects, suggested dates) + `layer.css` (rules start with `:event` → `html[data-event=<id>]`), a build like build_skins.py → `public/css/events.css` + the list in `public/js/events.js`, with `--check` in CI. Host picks it in setup next to "Pick your mood" ("Ninguno" + events); an event whose dates include today is suggested pre-selected and the host can turn it off. The host sends `event` to players with the skin (state and peek), applied without saving. Effect hooks in fx.js: `FX.win()`, `FX.nope()`, `FX.mark()`, `FX.moment()`; with no event they look exactly like today.
+    Dependency approved: vendor canvas-confetti (ISC, self-hosted in `public/js/vendor/`, with its licence) and use it for confetti instead of the hand-made one in fx.js; honour prefers-reduced-motion. Plain CSS / Web Animations API for the rest; no GSAP or Lottie. Animated backgrounds: CSS only, `pointer-events:none`, paused when the tab is hidden, light on phones. UX check gets `EVENT=<id>` like `SKIN=`. No sounds, landing unchanged, no stats changes. This task ships no event yet (the Christmas one is the next task); a hidden test event is fine if needed to check the system.
+- [ ] Christmas special event
+    Primer evento especial: Navidad. Fondo animado (nieve cayendo), decoraciones navideñas y efectos al hacer bingo (confeti de copos, árboles, estrellas), al hacer Nope (cae un trozo de carbón) y al marcar una canción (pequeño destello de nieve). Sugerido en las fechas de Navidad (1 dic – 6 ene).
+    Decisions (human): illustrations from Fluent Emoji (MIT, Microsoft) as SVG, only the few files used, with the licence file next to them (like the fonts). Must work over all five moods (light and dark); check with `EVENT=navidad` and at least one light and one dark skin.
+
 ### Extension: player sync (each one builds on the previous)
 
 - [ ] Extension: host play/pause state matches the real player
@@ -52,4 +62,10 @@ When the task is merged: `- [x] <title> → task/<id>`. Done by hand: `- [x] <ti
 - [ ] Extension texts: premium accounts and signed-in player needed
     Actualizar la descripción para que se haga hincapié en el uso de cuentas de pago de los servicios para evitar publicidad, además de que deben estar con login hecho y todo funcionando en el reproductor del servicio para que la sincronización funcione correctamente.
     Where: extension/STORE.md, public/extension.html, the extension's _locales and the landing texts that mention the extension, in all 8 languages.
+
+### Icons
+
+- [ ] Replace UI emojis with Lucide icons
+    Los emojis usados como iconos en la interfaz (❓, 🌐…) se ven distintos en cada dispositivo y no siguen los colores del skin. Sustituirlos por iconos de Lucide (ISC).
+    Decisions (human): dependency approved. No runtime library: copy only the icons used into one SVG sprite `public/img/icons.svg` (with Lucide's licence) and draw them with `<svg><use href="/img/icons.svg#name">`, coloured with `currentColor` so they follow the skin tokens. Keep accessible labels.
 
