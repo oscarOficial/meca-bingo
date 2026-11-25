@@ -55,7 +55,7 @@ When the task is merged: `- [x] <title> → task/<id>`. Done by hand: `- [x] <ti
     Los controles de la extensión a veces no están bien sincronizados con el host (muestra que está sonando cuando en realidad está en pausa).
 - [x] Extension: detect the playing playlist on YouTube Music → task/extension-detect-the-playing-playlist-on
     Con YouTube la extensión no parece funcionar (no se entera de que está corriendo la playlist de fondo).
-- [ ] Extension: host shows the current song after signing in to Spotify
+- [x] Extension: host shows the current song after signing in to Spotify → task/extension-host-shows-the-current-song
     Tras hacer login en Spotify la playlist empieza pero la página de Host no se actualiza correctamente (no muestra que haya una canción reproduciéndose).
 - [ ] Extension: hide the playing song in the player tab
     La extensión debe asegurar que en la tab que esté abierta no se muestra la canción que se está reproduciendo ni en el title ni en ningún sitio del reproductor (lo habíamos hecho anteriormente mostrando una capa superpuesta a la página con una foto divertida).
