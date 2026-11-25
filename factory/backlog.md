@@ -107,7 +107,7 @@ When the task is merged: `- [x] <title> → task/<id>`. Done by hand: `- [x] <ti
     El Worker cachea los `.svg` 30 días (`src/worker.js:29`): si se añade un icono a `public/img/icons.svg` o se cambia una imagen de evento, los navegadores seguirán con la versión vieja. Versionar la URL (p. ej. `?v=<hash>` generado en un build) o acortar la caché para esos ficheros.
 - [ ] Special events polish: hidden-tab load, mark sparkle on scroll, confetti size
     Tres detalles del sistema de eventos: una página que carga en una pestaña oculta anima el fondo hasta el primer cambio de pestaña; el destello al marcar una celda se desplaza si se hace scroll durante su animación (0,8 s); y si un evento define colores y emojis, el confeti normal sale el doble de grande.
-- [ ] Python tools run on Windows without PYTHONUTF8=1
+- [x] Python tools run on Windows without PYTHONUTF8=1 → task/python-tools-run-on-windows-without
     `ux_check.py`, `seo_check.py` y los mensajes de error de `build_events.py` fallan en la consola de Windows (cp1252) al escribir ✅/✗ o leer JSON, salvo con `PYTHONUTF8=1`. Abrir/escribir ficheros con `encoding='utf-8'` y reconfigurar stdout a UTF-8.
 - [ ] English names for the remaining Spanish identifiers
     Quedan identificadores en español en el código (p. ej. las clases `.faroles` y `.volante` de los skins). Renombrarlos a inglés según la regla de AGENTS.md, sin cambiar textos visibles.
