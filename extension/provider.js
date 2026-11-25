@@ -26,10 +26,13 @@
   const unpre = () => { const s = document.getElementById('mb-pre'); if (s) s.remove(); };
 
   // ---------- what is playing ----------
+  // Only unmuted media counts, and real media wins over playbackState, which pages can leave stale.
+  // mainworld.js marks the elements it saw call play() (even outside the page); the DOM scan adds the rest.
   function isPlaying() {
-    if (root.dataset.mbPlaying === '1') return true;
-    try { if (navigator.mediaSession.playbackState === 'playing') return true; } catch (e) {}
-    return [...document.querySelectorAll('audio,video')].some(m => !m.paused);
+    const known = root.dataset.mbPlaying, dom = [...document.querySelectorAll('audio,video')].filter(m => !m.muted);
+    if (known === '1' || dom.some(m => !m.paused && !m.ended)) return true;
+    if (known === '0' || dom.length) return false;
+    try { return navigator.mediaSession.playbackState === 'playing'; } catch (e) { return false; }
   }
   function nowPlaying() {
     try { const m = navigator.mediaSession.metadata; if (m && m.title) return { title: m.title, artist: m.artist || '' }; } catch (e) {}
@@ -52,7 +55,7 @@
     const id = ++ctlId;
     const on = e => { const m = e.data; if (e.source === window && m && m.__mbCtlRes && m.id === id) { removeEventListener('message', on); res({ ok: m.ok }); } };
     addEventListener('message', on);
-    window.postMessage({ __mbCtl: true, id, action }, '*');
+    window.postMessage({ __mbCtl: true, id, action, playing: isPlaying() }, '*');
     setTimeout(() => { removeEventListener('message', on); res({ ok: false }); }, 1000);
   });
 
