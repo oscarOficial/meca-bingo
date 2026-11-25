@@ -91,3 +91,23 @@ When the task is merged: `- [x] <title> → task/<id>`. Done by hand: `- [x] <ti
     Los emojis usados como iconos en la interfaz (❓, 🌐…) se ven distintos en cada dispositivo y no siguen los colores del skin. Sustituirlos por iconos de Lucide (ISC).
     Decisions (human): dependency approved. No runtime library: copy only the icons used into one SVG sprite `public/img/icons.svg` (with Lucide's licence) and draw them with `<svg><use href="/img/icons.svg#name">`, coloured with `currentColor` so they follow the skin tokens. Keep accessible labels.
 
+
+### Follow-ups found while building (25 Nov)
+
+- [ ] Overlays and toasts follow a language change
+    Al cambiar de idioma, lo que está abierto en ese momento se queda en el idioma anterior: la ayuda "Cómo jugar" del jugador, toasts, la pantalla de ganar/perder, el momento foto, el "¡Tiempo!" del temporizador y el editor de premios.
+    Note: found by the translations task (task/open-the-playlist-in-spotify-shows-in), which left short-lived overlays out of scope.
+- [ ] One shared dropdown component for every dropdown, in every browser
+    Unificar el menú de idioma (`details.prefs`), el selector de evento (`details.evmenu`) y los `<select>` del host en un mismo estilo, y que la flecha abierta/cerrada y la distancia al borde funcionen también en Firefox y Safari.
+    Note: the dropdowns task only fixes `<select>`s in Chrome (`appearance: base-select`); Firefox/Safari keep native selects whose arrow never flips. The event picker task built its own `.evmenu` next to `.prefs`. Do after both are merged.
+- [ ] Landing feature and mode lists use Lucide icons instead of emojis
+    Las listas de características y modos de la landing siguen con emojis; usar los iconos de Lucide del sprite como en el juego.
+    Note: left out of the icons task. Texts are in `site/landing.i18n.json`, the template in `site/landing.template.html`; rebuild with build_site.py.
+- [ ] Icon sprite and event images aren't stuck in browser caches for 30 days
+    El Worker cachea los `.svg` 30 días (`src/worker.js:29`): si se añade un icono a `public/img/icons.svg` o se cambia una imagen de evento, los navegadores seguirán con la versión vieja. Versionar la URL (p. ej. `?v=<hash>` generado en un build) o acortar la caché para esos ficheros.
+- [ ] Special events polish: hidden-tab load, mark sparkle on scroll, confetti size
+    Tres detalles del sistema de eventos: una página que carga en una pestaña oculta anima el fondo hasta el primer cambio de pestaña; el destello al marcar una celda se desplaza si se hace scroll durante su animación (0,8 s); y si un evento define colores y emojis, el confeti normal sale el doble de grande.
+- [ ] Python tools run on Windows without PYTHONUTF8=1
+    `ux_check.py`, `seo_check.py` y los mensajes de error de `build_events.py` fallan en la consola de Windows (cp1252) al escribir ✅/✗ o leer JSON, salvo con `PYTHONUTF8=1`. Abrir/escribir ficheros con `encoding='utf-8'` y reconfigurar stdout a UTF-8.
+- [ ] English names for the remaining Spanish identifiers
+    Quedan identificadores en español en el código (p. ej. las clases `.faroles` y `.volante` de los skins). Renombrarlos a inglés según la regla de AGENTS.md, sin cambiar textos visibles.
