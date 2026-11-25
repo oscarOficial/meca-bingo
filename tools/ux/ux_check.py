@@ -48,6 +48,17 @@ JS_CHECKS = r"""
 })()
 """.replace('%MIN%', str(MIN_TAP))
 
+# An open dropdown: a .prefs pop (its rect) or a select (its picker's rect: options + the picker's padding and border)
+DROPDOWN_JS = r"""
+(() => {
+  const e = document.querySelector('%SEL%'), sel = e.tagName === 'SELECT', ps = sel && getComputedStyle(e, '::picker(select)');
+  const rs = sel ? [...e.options].map(o => o.getBoundingClientRect()) : [e.getBoundingClientRect()], pad = sel ? parseFloat(ps.paddingRight) + parseFloat(ps.borderRightWidth) : 0;
+  return { left: Math.round(Math.min(...rs.map(r => r.left)) - pad), right: Math.round(innerWidth - Math.max(...rs.map(r => r.right)) - pad),
+    open: sel && e.matches(':open'), rot: sel ? getComputedStyle(e, '::picker-icon').rotate : '', hscroll: document.documentElement.scrollWidth - innerWidth };
+})()
+"""
+MENU_ROT = "getComputedStyle(document.querySelector('.prefs>summary'), '::after').rotate"
+
 def page_checks(page, label, card=False):
     r = page.evaluate(JS_CHECKS)
     if card and page.evaluate("!!document.getElementById('rotate') && !document.getElementById('rotate').classList.contains('hidden')"):
@@ -105,6 +116,15 @@ def run():
                     w, h = DEVICES[dev]; host.set_viewport_size({'width': w, 'height': h}); time.sleep(0.2)
                     shot(host, f'host-paste-{dev}'); page_checks(host, f'host paste ({dev})')
                     check(f'host paste ({dev}): playlist box visible without scrolling', host.evaluate("document.getElementById('plUrl').getBoundingClientRect().bottom < innerHeight"))
+                # header language select: on Chrome the customizable select flips its arrow and keeps its list off the edges
+                w, h = DEVICES['phone-portrait']; host.set_viewport_size({'width': w, 'height': h}); time.sleep(0.2)
+                if host.evaluate("CSS.supports('appearance', 'base-select')"):
+                    host.click('#lang'); time.sleep(0.4); shot(host, 'host-lang-open-phone')
+                    r = host.evaluate(DROPDOWN_JS.replace('%SEL%', '#lang'))
+                    check('host lang select (phone-portrait): open, arrow flipped', r['open'] and r['rot'] not in ('none', '0deg'), f"open={r['open']} rotate={r['rot']}")
+                    check('host lang select (phone-portrait): list ≥ 24px from both edges', min(r['left'], r['right']) >= 24, f"left {r['left']}px, right {r['right']}px")
+                    host.keyboard.press('Escape'); time.sleep(0.2)
+                    check('host lang select (phone-portrait): Escape closes it', not host.evaluate("document.getElementById('lang').matches(':open')"))
                 host.set_viewport_size({'width': 1366, 'height': 850})
             host.click('#tOrPaste'); host.fill('#paste', SONGS + ('\n' + '\n'.join(f'Extra Song {i} - Extra Artist' for i in range(20)) if fmt == 'us' else '')); host.click('#useList')
             host.click(f'#fmt [data-v="{fmt}"]')
@@ -206,7 +226,16 @@ def run():
         for lang in ('es', 'en'):
             for dev in (('phone-portrait', 'phone-small', 'tablet', 'desktop') if lang == 'es' else ('phone-small', 'desktop')):
                 w, h = DEVICES[dev]; land = browser.new_page(viewport={'width': w, 'height': h}); land.goto(f'{base}/{lang}/'); time.sleep(0.5)
-                shot(land, f'landing-{lang}-{dev}', full=True); page_checks(land, f'landing /{lang}/ ({dev})'); land.close()
+                shot(land, f'landing-{lang}-{dev}', full=True); page_checks(land, f'landing /{lang}/ ({dev})')
+                # language menu: the arrow flips while open and the list keeps 24px off both edges
+                closed = land.evaluate(MENU_ROT); land.click('.prefs>summary'); time.sleep(0.3)
+                r = land.evaluate(DROPDOWN_JS.replace('%SEL%', '.prefs .pop'))
+                if dev in ('phone-portrait', 'desktop'): shot(land, f'landing-{lang}-{dev}-menu')
+                check(f'landing /{lang}/ ({dev}): language menu arrow flips when open', land.evaluate(MENU_ROT) != closed, f'{closed} both ways')
+                check(f'landing /{lang}/ ({dev}): language menu ≥ 24px from both edges, no sideways scroll', min(r['left'], r['right']) >= 24 and r['hscroll'] <= 1, f"left {r['left']}px, right {r['right']}px, scroll {r['hscroll']}px")
+                land.click('.prefs>summary'); time.sleep(0.3)
+                check(f'landing /{lang}/ ({dev}): language menu closes, arrow back', land.evaluate(MENU_ROT) == closed and not land.evaluate("document.querySelector('.prefs').open"))
+                land.close()
         browser.close()
     srv.shutdown()
     failed = [r for r in results if not r[1]]
