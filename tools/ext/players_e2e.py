@@ -14,8 +14,8 @@ from playwright.sync_api import sync_playwright
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 EXT = os.path.join(ROOT, 'dist', 'chrome')
 PUB = os.path.join(ROOT, 'public')
-SITE = json.load(open(os.path.join(ROOT, 'site.config.json')))['domains'][-1]   # the workers.dev address
-PLAYERS = json.load(open(os.path.join(ROOT, 'extension', 'players.json')))['players']
+SITE = json.load(open(os.path.join(ROOT, 'site.config.json'), encoding='utf-8'))['domains'][-1]   # the workers.dev address
+PLAYERS = json.load(open(os.path.join(ROOT, 'extension', 'players.json'), encoding='utf-8'))['players']
 FAKE = '''<!doctype html><title>fake player</title><body><audio id=a loop src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA="></audio>
 <script>
 let i=0; const songs=[['Song One','Artist A'],['Song Two','Artist B'],['Song Three','Artist C']]; window.log=[];

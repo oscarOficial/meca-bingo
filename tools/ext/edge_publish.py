@@ -10,6 +10,7 @@ Create API credentials (Client ID + API key; the key expires, the page shows whe
 Exits 1 with the API's message if the upload or the submission fails.
 """
 import json, os, sys, time, urllib.error, urllib.request
+sys.stdout.reconfigure(encoding='utf-8'); sys.stderr.reconfigure(encoding='utf-8')
 
 API = os.environ.get('EDGE_API_BASE', 'https://api.addons.microsoftedge.microsoft.com').rstrip('/') + '/v1/products/'
 PRODUCT, CLIENT, KEY = (os.environ.get(k, '').strip() for k in ('EDGE_PRODUCT_ID', 'EDGE_CLIENT_ID', 'EDGE_API_KEY'))
