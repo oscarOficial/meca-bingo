@@ -114,7 +114,7 @@
 
   function onMessage(m) {
     if (!m || !m.t) return;
-    if (m.lang && m.lang !== lang && I18N.T[m.lang]) { lang = m.lang; texts(); drawCard(); }
+    if (m.lang && m.lang !== lang && I18N.T[m.lang]) { lang = m.lang; texts(); drawCard(); if (last) setStatus(last); }
     if (m.skin && window.Skin && Skin.valid(m.skin) && Skin.id(m.skin) !== Skin.get()) Skin.set(m.skin, false);
     if ('event' in m && window.Events && (Events.valid(m.event) ? m.event : null) !== Events.get()) Events.set(m.event, false);
     if (m.t === 'welcome') {
