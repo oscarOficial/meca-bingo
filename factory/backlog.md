@@ -29,7 +29,7 @@ When the task is merged: `- [x] <title> → task/<id>`. Done by hand: `- [x] <ti
 - [x] Special event picker as a dropdown with an icon per event → task/special-event-picker-as-a-dropdown-with
     El selector de evento especial me gustaría que fuera un dropdown y que cada opción tenga un icono representativo al lado (por ejemplo en Navidad un árbol de navidad). "Ninguno" también necesita su icono o un hueco equivalente.
     Note: the icon belongs in each `site/events/<id>/event.json` (built by build_events.py), not hard-coded in host.js.
-- [ ] Meca Bingo logo links to the home page
+- [x] Meca Bingo logo links to the home page → task/meca-bingo-logo-links-to-the-home-page
     El logo de Meca Bingo debe llevar al home.
     Note: the logo is the `h1` in `.top` (host.html) and `.head` (play.html); the home is the landing in the current language (`/<lang>/`). The host's browser is the game server and a player leaving drops out of the game, so during a game the link must ask for confirmation first (or the spec proposes something equivalent); before a game starts it can go straight there.
 
@@ -114,3 +114,6 @@ When the task is merged: `- [x] <title> → task/<id>`. Done by hand: `- [x] <ti
 - [ ] Remove the dead cache rules from the Worker
     Eliminar el código muerto de caché en `src/worker.js`: las dos líneas de `Cache-Control` de `withHeaders()` (`.woff2/.png/.jpg/.webp/.svg` → 30 días, `.js/.css` → 1 hora) nunca se aplican.
     Note: `wrangler.jsonc` has no `run_worker_first`, so Cloudflare serves every existing file in `public/` before the Worker runs; `withHeaders()` only sees the language landings, the `/host`-style pages and 404s, none of which match those extensions. Static files already get `max-age=0, must-revalidate` (checked in production). Keep the security headers in `withHeaders()`; don't touch `wrangler.jsonc`. Found by the closed SVG-cache task.
+- [ ] Confirmation dialogs close with Escape and follow WCAG
+    Los diálogos de confirmación (`#modal` + `ask()` en host.js y su copia en play.js) deben cerrarse con Escape y seguir las recomendaciones de WCAG 2.2 (nivel AA) para diálogos modales.
+    Note: today they don't close on Escape. The spec should cover, for host and player: Escape = Cancel; `role="alertdialog"` (or a native `<dialog>` with `showModal()`), `aria-modal="true"`, `aria-labelledby`/`aria-describedby` pointing at the title and text; focus moves into the dialog when it opens (the safe/Cancel button for destructive actions), Tab stays inside it, and focus goes back to the control that opened it on close; the page behind is inert; buttons ≥ 40px and visible focus outlines using the skin tokens. Prefer one shared `ask()` (e.g. in fx.js) over the two copies. Check every place that calls `ask()`.
