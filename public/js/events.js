@@ -35,7 +35,8 @@
   // background slot (an event's layer.css shows it) and paused animations while the tab is hidden
   function slot() { if (!document.querySelector('.evbg')) document.body.insertAdjacentHTML('afterbegin', '<div class="evbg" aria-hidden="true"></div>'); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', slot); else slot();
-  document.addEventListener('visibilitychange', () => root.classList.toggle('tab-hidden', document.hidden));
+  const hidden = () => root.classList.toggle('tab-hidden', document.hidden);
+  hidden(); document.addEventListener('visibilitychange', hidden);
 
   G.Events = { list: ORDER, valid, name, inDates, suggested, effects: id => valid(id) ? EVENTS[id].effects : {}, icon: id => valid(id) ? EVENTS[id].icon : '', get, set, restore };
 })(window);

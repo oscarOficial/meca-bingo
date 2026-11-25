@@ -16,26 +16,32 @@
     const o = { particleCount: 90, spread: 55, startVelocity: 45, ticks: 220, colors: COLS, ...opts };
     cannon({ ...o, angle: 60, origin: { x: 0, y: .75 } }); cannon({ ...o, angle: 120, origin: { x: 1, y: .75 } });
   }
-  // an event's confetti: its colours and/or emoji (drawn once, then reused)
+  // an event's confetti, one options object per cannon call: its colours and/or emoji (drawn once,
+  // then reused); emoji need scalar 2, which canvas-confetti applies to every piece of a call
   const shapes = {};
   function eventConfetti(c) {
     const o = c.colors ? { colors: c.colors } : {};
     if (c.emoji) try {
       const k = c.emoji.join(' '), em = shapes[k] || (shapes[k] = c.emoji.map(text => G.confetti.shapeFromText({ text, scalar: 2 })));
-      Object.assign(o, { shapes: c.colors ? ['square', 'circle', ...em] : em, scalar: 2 });
+      if (!c.colors) return [{ shapes: em, scalar: 2 }];
+      const n = Math.round(90 * 2 / (2 + em.length));
+      return [{ ...o, shapes: ['square', 'circle'], particleCount: n }, { shapes: em, scalar: 2, particleCount: 90 - n }];
     } catch (e) {}
-    return o;
+    return [o];
   }
   // effect hooks: with no special event they are today's effects; an event adds its confetti and
   // a short <div class="evfx" data-fx=hook> (over the screen, or over the marked cell) its layer.css styles
   function hook(name, el) {
     const id = G.Events && Events.get(), c = id && (Events.effects(id)[name] || {}).confetti;
-    if (name === 'win') confetti(c ? eventConfetti(c) : {}); else if (c) confetti(eventConfetti(c));
+    if (c) eventConfetti(c).forEach(o => confetti(o)); else if (name === 'win') confetti({});
     if (!id || reduced()) return;
     const d = document.createElement('div'); d.className = 'evfx'; d.dataset.fx = name; d.setAttribute('aria-hidden', 'true');
-    if (el) { const r = el.getBoundingClientRect(); d.style.cssText = `left:${r.left}px;top:${r.top}px;width:${r.width}px;height:${r.height}px`; } else d.style.inset = '0';
+    if (el) { const r = el.getBoundingClientRect(); d.style.cssText = `position:absolute;left:${r.left + scrollX}px;top:${r.top + scrollY}px;width:${r.width}px;height:${r.height}px`; } else d.style.inset = '0';
     document.body.appendChild(d); setTimeout(() => d.remove(), 3000);
   }
+  // a new width (turning the phone) moves the cells: drop a mark effect left behind, which would also widen the page
+  let width = innerWidth;
+  addEventListener('resize', () => { if (innerWidth !== width) document.querySelectorAll('.evfx[data-fx=mark]').forEach(e => e.remove()); width = innerWidth; });
   const win = () => { flash('#3ef08a'); hook('win'); }, nope = () => { flash('#ff3d9a'); hook('nope'); };
   const mark = el => hook('mark', el), moment = () => hook('moment');
   const pick = a => a[Math.floor(Math.random() * a.length)];
