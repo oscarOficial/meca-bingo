@@ -1,4 +1,4 @@
-/* Landing art direction for Juego de mesa. `:skin` becomes html[data-skin=mesa] when built. */
+/* Landing art direction for Board game. `:skin` becomes html[data-skin=board-game] when built. */
 :skin .steps .card::before{content:counter(s);border-radius:8px;background:#c6f432;color:#111;border:2px solid #111}
 :skin .steps .card:nth-child(even)::before{background:#ff8ad8}
 :skin .final{background:#2232c2;color:#fff;border:3px solid #111;border-radius:22px;box-shadow:8px 8px 0 #111;padding:44px 24px;margin-top:60px}

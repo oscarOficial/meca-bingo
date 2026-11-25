@@ -17,11 +17,14 @@ site/skins/
 
 | I want to… | Do this, then run `python3 tools/site/build_skins.py` |
 |---|---|
-| **Add** a skin | Copy a folder (e.g. `verbena/`), rename it (`a-z`, `0-9`, `-`), edit its three files, add the id to `order` in `skins.json`. Then `python3 tools/site/screenshots.py <id>` for its thumbnail and landing screenshots. |
+| **Add** a skin | Copy a folder (e.g. `street-party/`), rename it (`a-z`, `0-9`, `-`), edit its three files, add the id to `order` in `skins.json`. Then `python3 tools/site/screenshots.py <id>` for its thumbnail and landing screenshots. |
 | **Change** a skin | Edit its `tokens.css` (colours, fonts, shapes) or `decor.css` (decorations). |
 | **Hide** a skin | Remove its id from `order` (the folder can stay). Players sent a hidden skin get the default. |
 | **Remove** a skin | Remove it from `order`, delete its folder and `public/img/skins/<id>/`. Delete font files no other skin uses. |
 | **Change the default** | Set `default` in `skins.json` (it must be in `order`), then remake the screenshots: `python3 tools/site/screenshots.py`. |
+
+Old ids still saved on devices or sent by older hosts are mapped to their new ones in `RENAMED`
+in `public/js/skin.js`: when you rename a skin, add its old id there.
 
 The build stops with a clear message when, for example, a name is missing in one language,
 a font file does not exist, `tokens.css` sets something that is not a token (typos), or
@@ -54,12 +57,12 @@ sections. Write every rule with `:skin` first; it becomes `html[data-skin=<id>]`
 
 | Slot | Where | Used by |
 |---|---|---|
-| `.ball` (`i`, two `b`) | landing, above the title | pista |
-| `.neon` (`span` for line 2) | landing, above the title | pista |
-| `.topband` | landing, top of the page (shows the "free · no accounts" line) | verbena |
-| `.sticker` | landing, corner of the screenshots | verbena |
-| `.volante` | landing, under the hero | feria |
-| `.faroles` (14 `i`; `.small` on the player's phone) | every page, at the top (added by `js/skin.js`) | feria |
+| `.ball` (`i`, two `b`) | landing, above the title | dance-floor |
+| `.neon` (`span` for line 2) | landing, above the title | dance-floor |
+| `.topband` | landing, top of the page (shows the "free · no accounts" line) | street-party |
+| `.sticker` | landing, corner of the screenshots | street-party |
+| `.volante` | landing, under the hero | flamenco-fair |
+| `.faroles` (14 `i`; `.small` on the player's phone) | every page, at the top (added by `js/skin.js`) | flamenco-fair |
 
 Landing sections a decor may restyle: `.hero`, `.steps .card`, `.final`, `#how`, `#mood`, `.shots`.
 Keep decorations `aria-hidden` and make every animation stop with `prefers-reduced-motion`

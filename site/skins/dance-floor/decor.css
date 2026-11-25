@@ -1,4 +1,4 @@
-/* Landing art direction for Pista. `:skin` becomes html[data-skin=pista] when built. */
+/* Landing art direction for Dance floor. `:skin` becomes html[data-skin=dance-floor] when built. */
 :skin .hero h1{font-size:clamp(28px,3.4vw,40px);line-height:1.15}
 :skin .steps .card:nth-child(4n+1),:skin .roles .card:nth-child(3n+1){border-color:var(--accent)}
 :skin .steps .card:nth-child(4n+2),:skin .roles .card:nth-child(3n+2){border-color:var(--selected)}
