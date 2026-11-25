@@ -504,7 +504,7 @@
     ok ? FX.win() : FX.nope();
     stT = setTimeout(() => st.classList.remove('on'), ok ? 6000 : 3500);
   }
-  function ask(title, text, fn) { $('mTitle').textContent = title; $('mText').textContent = text; $('mNo').textContent = t.cancel; $('mYes').textContent = t.confirm; $('modal').classList.add('on'); $('mYes').onclick = () => { $('modal').classList.remove('on'); fn(); }; }
+  const ask = (title, text, fn) => FX.ask(title, text, t.cancel, t.confirm, fn);
 
   // ---------------- events ----------------
   addEventListener('skinchange', () => { if (S.phase === 'game' && net) net.broadcast(publicState()); });
@@ -552,7 +552,6 @@
   document.querySelectorAll('[data-ctl]').forEach(b => b.onclick = () => ctl(b.dataset.ctl));
   $('stage').onclick = () => $('stage').classList.remove('on');
   $('moment').onclick = hideMoment;
-  $('mNo').onclick = () => $('modal').classList.remove('on');
   // leaving keeps the saved game (reopening host.html resumes it), but players drop until then
   $('homeLink').onclick = e => { if (S.phase !== 'game') return; e.preventDefault(); ask(t.leaveTitle, t.leaveHost, () => location.href = $('homeLink').href); };
   $('endBtn').onclick = () => ask(t.endGame, t.endConfirm, () => {

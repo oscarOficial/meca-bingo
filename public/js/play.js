@@ -172,8 +172,7 @@
   $('callBtn').onclick = () => { if (!connected || !hasPrize()) return; busy = true; drawState(); net.send({ t: 'claim', dev, prize: state.prize, marks: P.marks }); setTimeout(() => { busy = false; drawState(); }, 6000); };
   $('res').onclick = () => $('res').classList.remove('on');
   $('helpBtn').onclick = showHelp; $('helpOk').onclick = () => $('help').classList.remove('on');
-  function ask(title, text, fn) { $('mTitle').textContent = title; $('mText').textContent = text; $('mNo').textContent = t.cancel; $('mYes').textContent = t.confirm; $('modal').classList.add('on'); $('mYes').onclick = () => { $('modal').classList.remove('on'); fn(); }; }
-  $('mNo').onclick = () => $('modal').classList.remove('on');
+  const ask = (title, text, fn) => FX.ask(title, text, t.cancel, t.confirm, fn);
   $('homeLink').onclick = e => { if ($('play').classList.contains('hidden')) return; e.preventDefault(); ask(t.leaveTitle, t.leavePlayer, () => location.href = $('homeLink').href); };
   $('rotateAnyway').onclick = () => { rotateDismissed = true; drawCard(); };
   $('codeForm').onsubmit = e => { e.preventDefault(); const c = $('codeIn').value.trim().toUpperCase(); if (c.length === 5) { code = c; history.replaceState(null, '', '?r=' + c + (params.get('net') ? '&net=' + params.get('net') : '')); P = store.get(K()) || { card: null, marks: [] }; start(); } };

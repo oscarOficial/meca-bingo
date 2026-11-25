@@ -61,5 +61,19 @@
       else await document.documentElement.requestFullscreen();
     } catch (e) { toast(msg || 'Full screen is not available here'); }
   }
-  G.FX = { $, icon, toast, retoast, flash, confetti, win, nope, mark, moment, pick, esc, store, toggleFullscreen };
+  // a confirmation in the native <dialog id="modal">: focus starts on Cancel, Tab wraps between the two
+  // buttons (Chrome would otherwise let it reach the browser chrome), Escape = Cancel, focus goes back to the opener
+  let askBack = null;
+  function ask(title, text, no, yes, fn) {
+    const d = $('modal'), bNo = $('mNo'), bYes = $('mYes');
+    if (!d.open) askBack = document.activeElement;
+    $('mTitle').textContent = title; $('mText').textContent = text; bNo.textContent = no; bYes.textContent = yes;
+    const close = () => { d.close(); if (askBack && askBack.isConnected) askBack.focus(); askBack = null; };
+    bNo.onclick = close; bYes.onclick = () => { close(); fn(); };
+    d.oncancel = e => { e.preventDefault(); close(); };
+    d.onkeydown = e => { if (e.key === 'Tab') { e.preventDefault(); (document.activeElement === bNo ? bYes : bNo).focus(); } };
+    if (!d.open) d.showModal();
+    bNo.focus();
+  }
+  G.FX = { $, icon, toast, retoast, flash, confetti, win, nope, mark, moment, pick, esc, store, toggleFullscreen, ask };
 })(window);

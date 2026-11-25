@@ -95,7 +95,7 @@
   <section id="msg" class="hello hidden"><h2 id="msgText"></h2></section>
 </div>
 <div class="callbar hidden" id="callbar"><button class="btn big" id="callBtn"></button></div>
-<div class="modal" id="modal"><div><h3 id="mTitle"></h3><p id="mText"></p><div class="row" style="justify-content:flex-end"><button class="btn" id="mNo"></button><button class="btn big" id="mYes"></button></div></div></div>
+<dialog id="modal" class="modal" role="alertdialog" aria-modal="true" aria-labelledby="mTitle" aria-describedby="mText"><div><h3 id="mTitle"></h3><p id="mText"></p><div class="row" style="justify-content:flex-end"><button class="btn" id="mNo" type="button"></button><button class="btn big" id="mYes" type="button"></button></div></div></dialog>
 <div class="modal" id="help"><div><h3 id="helpTitle"></h3><ol id="helpRules" style="margin:10px 0 10px 20px;line-height:1.55"></ol><p class="mut" id="helpPrizes" style="margin-bottom:12px"></p><button class="btn big" id="helpOk" type="button" style="width:100%"></button></div></div>
 <div class="res" id="res"><h2 id="resT"></h2><p class="mut" id="resS" style="font-size:16px"></p><button class="btn" id="resBack" style="min-height:48px;margin-top:10px"></button></div>
 <canvas id="fx"></canvas>
