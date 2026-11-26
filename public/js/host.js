@@ -15,7 +15,7 @@
   const save = () => store.set(KEY, S);
 
   // ---------------- Meca Bingo Sync (browser extension, optional) ----------------
-  const EXT = { on: false, version: null, open: false, playing: false, player: null, signedOut: null };   // player: null until the first getState; signedOut: id of a signed-out player
+  const EXT = { on: false, version: null, open: false, playing: false, player: null, signedOut: null, lost: false };   // player: null until the first getState; signedOut: id of a signed-out player; lost: it stopped answering
   // "Install" goes straight to this browser's store (store installs update themselves); others get the install page
   const STORES = { edge: 'https://microsoftedge.microsoft.com/addons/detail/meca-bingo-sync/jdkejadbliplmenkjebcboggjpnaibpi',
     firefox: 'https://addons.mozilla.org/firefox/addon/meca-bingo/', chrome: 'https://chromewebstore.google.com/detail/kjefpodcfpmpoocaeliddebomimbckic' };
@@ -39,12 +39,25 @@
     if (m.signedOut !== undefined) { const was = EXT.signedOut; EXT.signedOut = m.signedOut || null; if (!was && EXT.signedOut && S.phase === 'game') signInToast(); }   // pushed states carry no signedOut
     drawExt();
   }
-  function syncExt() { if (!(S.phase === 'game' && EXT.on)) return; const at = ctlSeq; extCall('getState', {}, 5000).then(r => { if (r.track) heard(r.track.title, r.track.artist); if (at === ctlSeq) applyState(r); }); }
+  // getState always answers (no ok), so ok === false means the extension itself stopped answering
+  function syncExt() { if (!(S.phase === 'game' && EXT.on)) return; const at = ctlSeq; extCall('getState', {}, 5000).then(r => { const lost = r.ok === false; if (lost !== EXT.lost) { EXT.lost = lost; drawBanner(); } if (r.track) heard(r.track.title, r.track.artist); if (at === ctlSeq) applyState(r); }); }
   setInterval(syncExt, 2000);
   function extControl(action, ms) {
     ctlSeq++; ctlBusy++;
     return extCall('control', { action }, ms).then(r => { setTimeout(() => { ctlBusy--; syncExt(); }, 400); return r; });   // a moment for the player to act
   }
+  // what to tell the host about a failed extension reply; ctx: 'import', 'start', 'open' or 'control'.
+  // 'failed' is the bridge losing the extension (also what older extensions send for a mute player tab)
+  function extError(r, ctx) {
+    const e = r.error;
+    if (e === 'timeout' || e === 'failed') return () => t.extNoAnswer;
+    if (e === 'noscript') return () => t.playerNoAnswer;
+    if (e === 'notab') return ctx === 'control' ? () => t.noPlayer : () => t.tabClosed;
+    if (ctx === 'import') return () => t.errAmazonEmpty;
+    if (ctx === 'start') return e === 'nobutton' ? () => t.startNoPlaylist : () => t.startFailed;
+    return () => t.controlFailed;
+  }
+  const extToast = (r, ctx) => toast(extError(r, ctx), 8000, 'triangle-exclamation-point');
   const isAmazon = u => /^https?:\/\/music\.amazon\./i.test(u || '');
   // the extension only runs on music.youtube.com, so YouTube links open there
   function openUrl(pl) {
@@ -362,7 +375,7 @@
       if (isAmazon(url)) {
         if (!EXT.on) throw fail(() => t.needExtension);
         const r = await extCall('import', { url });
-        if (!r.ok || !r.tracks || !r.tracks.length) { STATS.track('import', { provider: 'amazon', ok: false, error: r.error || 'empty' }); throw fail(() => t.errEmpty('Amazon Music')); }
+        if (!r.ok || !r.tracks || !r.tracks.length) { STATS.track('import', { provider: 'amazon', ok: false, error: r.error || 'empty' }); throw fail(extError(r, 'import')); }
         S.playlist = { title: r.title || 'Amazon Music', provider: 'amazon', tracks: r.tracks, url };
         STATS.track('import', { provider: 'amazon', ok: true, songs: r.tracks.length });
         save(); drawSetup(); return;
@@ -453,8 +466,26 @@
     $('codeBig').textContent = S.code; $('joinUrl').textContent = url.replace(/^https?:\/\//, '').replace(/\?.*/, '') + ' · ' + S.code; $('joinUrl').href = url;
     try { const qr = qrcode(0, 'M'); qr.addData(url); qr.make(); $('qr').innerHTML = qr.createSvgTag({ cellSize: 4, margin: 0, scalable: true }); } catch (e) { $('qr').textContent = url; }
     if (net) net.close();
-    net = NET.hostRoom(S.code, { onMessage, onStatus: (s, e) => { if (s === 'error' && e !== 'peer-unavailable') console.warn('net', e); } });
+    netDown = false;
+    net = NET.hostRoom(S.code, { onMessage, onStatus: (s, e) => {
+      if (s === 'open' && netDown) { netDown = false; drawBanner(); }
+      if (s === 'error' && e !== 'peer-unavailable') { console.warn('net', e); if (NET_DOWN.includes(e)) { netDown = true; drawBanner(); } }
+    } });
     shuffleSnap(); drawGame(); drawExt(); syncExt();
+  }
+  // the room's connection: the peer reports an error (net.js retries by itself) or the browser goes offline
+  const NET_DOWN = ['network', 'server-error', 'socket-error', 'browser-incompatible'];
+  let netDown = false, offline = !navigator.onLine;
+  addEventListener('offline', () => { offline = true; drawBanner(); });
+  addEventListener('online', () => { offline = false; drawBanner(); });
+  // the most important current problem, or the mode
+  function drawBanner() {
+    if (S.phase !== 'game') return;
+    const auto = S.mode === 'auto', mb = $('modeBanner');
+    const warn = netDown || offline ? t.roomOffline : !auto ? '' : !EXT.on ? t.autoNoExt : EXT.lost ? t.extNoAnswer
+      : EXT.signedOut ? t.signInPlayer(t.providers[EXT.signedOut] || EXT.signedOut) : EXT.player === false && !startShown() ? t.noPlayer : '';
+    mb.className = 'modebanner ' + (warn ? 'warn' : auto ? 'auto' : 'manual');
+    mb.innerHTML = warn ? icon('triangle-exclamation-point') + ' ' + esc(warn) : auto ? icon('headphones') + ' ' + esc(t.autoBanner) : icon('hand') + ' ' + esc(t.manualBanner);
   }
   let q = '', lastSongCount = -1;
   function drawGame() {
@@ -466,9 +497,7 @@
     $('chips').innerHTML = names.length ? names.map(p => `<span class="pill">${esc(p.name)} · #${p.card + 1}</span>`).join('') : `<span class="mut">${esc(t.noPlayers)}</span>`;
     const cur = currentPrize();
     $('prizeNow').innerHTML = cur !== null ? `${esc(t.playingFor)} <b>${esc(prizeLabel(cur))}</b>${PATUI.html(S.cfg.fmt, S.cfg.prizes[cur].pat, { free: S.cfg.fmt === 'us' && S.cfg.freeCenter })}` : `${icon('party-popper')} ${esc(t.allPrizesDone)}`;
-    const md = S.mode || 'manual', mb = $('modeBanner');
-    mb.className = 'modebanner ' + (md === 'auto' && !EXT.on ? 'warn' : md);
-    mb.innerHTML = md === 'auto' ? (EXT.on ? icon('headphones') + ' ' + esc(t.autoBanner) : icon('triangle-exclamation-point') + ' ' + esc(t.autoNoExt)) : icon('hand') + ' ' + esc(t.manualBanner);
+    drawBanner();
     $('nowLbl').textContent = t.played(`${P.length} / ${N}`);
     $('nowTitle').innerHTML = P.length ? `${icon('eighth-notes')} ${esc(t.songN(P.length))}` : esc(t.waitingFirst);
     $('nowSub').textContent = P.length ? t.songHidden : '';
@@ -499,7 +528,13 @@
     if (!secs) return; let left = secs; el.innerHTML = icon('timer') + ' ' + left;
     tId = setInterval(() => { left--; el.innerHTML = icon('timer') + ' ' + left; if (left <= 0) { clearInterval(tId); el.className = 'timer end'; if (!(EXT.on && EXT.playing)) { tEnd = 'up'; drawTimerEnd(); toast(() => t.timeUp, undefined, 'timer'); }
       else if (S.cfg.gap !== 'pause') { tEnd = 'up'; drawTimerEnd(); extControl('next', 5000); }
-      else { tEnd = 'paused'; drawTimerEnd(); EXT.playing = false; drawExt(); extControl('pause', 5000).then(r => { if (!r.ok) toast(() => r.error === 'notab' ? t.noPlayer : t.controlFailed, 5000, 'triangle-exclamation-point'); }); } } }, 1000);
+      else { tEnd = 'paused'; drawTimerEnd(); EXT.playing = false; drawExt(); extControl('pause', 5000).then(r => { if (!r.ok) EXT.signedOut ? signInToast() : extToast(r, 'control'); }); } } }, 1000);
+  }
+  // START: Amazon before the music started, or any supported player whose tab is not open (older extensions can't open one)
+  function startShown() {
+    const pl = S.playlist, amazon = pl && pl.provider === 'amazon' && pl.url;
+    return !!(amazon ? !S.musicStarted || EXT.player === false
+      : pl && pl.url && EXT.open && EXT.player === false && ['spotify', 'deezer', 'youtube', 'apple'].includes(pl.provider));
   }
   function drawExt() {
     const pill = $('extPill'); if (pill) { pill.classList.toggle('hidden', !EXT.on); pill.title = 'Meca Bingo Sync ' + (EXT.version || ''); }
@@ -507,11 +542,8 @@
     const inGame = S.phase === 'game';
     bar.classList.toggle('hidden', !(EXT.on && inGame));
     if (!inGame) return;
-    // START: Amazon before the music started, or any supported player whose tab is not open (older extensions can't open one)
-    const pl = S.playlist, amazon = pl && pl.provider === 'amazon' && pl.url;
-    const pre = amazon ? !S.musicStarted || EXT.player === false
-      : pl && pl.url && EXT.open && EXT.player === false && ['spotify', 'deezer', 'youtube', 'apple'].includes(pl.provider);
-    bar.classList.toggle('pre', !!pre);
+    const pre = startShown();
+    bar.classList.toggle('pre', pre); drawBanner();
     const tg = $('ctlToggle');
     if (pre) { tg.innerHTML = icon('play') + ' ' + esc(t.startMusic); tg.removeAttribute('aria-label'); tg.removeAttribute('title'); tg.classList.add('start'); tg.classList.remove('playing'); }
     else { tg.innerHTML = icon(EXT.playing ? 'pause' : 'play'); tg.title = EXT.playing ? t.ctlPause : t.ctlPlay; tg.setAttribute('aria-label', tg.title); tg.classList.remove('start'); tg.classList.toggle('playing', EXT.playing); }
@@ -523,17 +555,17 @@
       if (S.playlist.provider === 'amazon') {
         S.musicStarted = true; save(); drawExt(); toast(() => t.startingMusic, undefined, 'play');
         const r = await extCall('start', { url: S.playlist.url });
-        if (r.ok) EXT.player = true; else { S.musicStarted = false; save(); toast(() => t.startFailed, 6000, 'triangle-exclamation-point'); }
+        if (r.ok) EXT.player = true; else { S.musicStarted = false; save(); extToast(r, 'start'); }
       } else {
         const r = await extCall('open', { url: openUrl(S.playlist) }, 45000);
-        if (r.ok) EXT.player = true; else toast(() => t.noPlayer, 5000, 'triangle-exclamation-point');
+        if (r.ok) EXT.player = true; else extToast(r, 'open');
       }
       starting = false; drawExt(); return;
     }
     const was = EXT.playing;
     if (action === 'toggle') { EXT.playing = !EXT.playing; drawExt(); }
     const r = await extControl(action, 8000);
-    if (!r.ok) { EXT.playing = was; drawExt(); if (EXT.signedOut) signInToast(); else toast(() => r.error === 'notab' ? t.noPlayer : t.controlFailed, 5000, 'triangle-exclamation-point'); }
+    if (!r.ok) { EXT.playing = was; drawExt(); if (EXT.signedOut) signInToast(); else extToast(r, 'control'); }
   }
   // Photo moment: after each new song the photo and its message take the whole screen for a few seconds
   let mT = null, mN = 0;

@@ -38,7 +38,7 @@ chrome.runtime.onMessage.addListener((msg, sender, reply) => {
         const tab = await openAmazon(msg.url, true);
         if (!tab) return reply({ ok: false, error: 'notab' });
         const r = await chrome.tabs.sendMessage(tab.id, { type: 'mb-import' }).catch(() => null);
-        return reply(r || { ok: false, error: 'failed' });
+        return reply(r || { ok: false, error: 'noscript' });
       }
       case 'mb-start': {
         const host = sender.tab;
@@ -52,7 +52,7 @@ chrome.runtime.onMessage.addListener((msg, sender, reply) => {
         if (mustShow) { await focus(tab.id); await chrome.storage.session.set({ shown: [...shown, tab.id] }); }
         const r = await chrome.tabs.sendMessage(tab.id, { type: 'mb-start', url: msg.url }).catch(() => null);
         if (host) await focus(host.id);
-        return reply(r || { ok: false, error: 'failed' });
+        return reply(r || { ok: false, error: 'noscript' });
       }
       case 'mb-open': {   // other players can't start a playlist: open it on screen once (so it may play sound), back to the host
         const host = sender.tab;
@@ -67,7 +67,7 @@ chrome.runtime.onMessage.addListener((msg, sender, reply) => {
       case 'mb-control': {
         const tab = await playerTab();
         if (!tab) return reply({ ok: false, error: 'notab' });
-        return reply((await chrome.tabs.sendMessage(tab.id, { type: 'mb-control', action: msg.action }).catch(() => null)) || { ok: false, error: 'failed' });
+        return reply((await chrome.tabs.sendMessage(tab.id, { type: 'mb-control', action: msg.action }).catch(() => null)) || { ok: false, error: 'noscript' });
       }
       case 'mb-getstate': {
         const tab = await playerTab();
