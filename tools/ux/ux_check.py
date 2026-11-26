@@ -176,7 +176,9 @@ def run():
             ctx = browser.new_context()
             if os.environ.get('SKIN'): ctx.add_init_script(f"localStorage.setItem('meca-skin', {json.dumps(os.environ['SKIN'])})")
             if EVENT: ctx.add_init_script(f"localStorage.setItem('meca-event', JSON.stringify({{pick: {json.dumps(EVENT)}, sug: null}}))")
+            logs = {'host': [], 'player': []}  # [mb-net] console lines per page
             host = ctx.new_page(); host.set_viewport_size({'width': 1366, 'height': 850})
+            host.on('console', lambda m: '[mb-net]' in m.text and logs['host'].append(m.text))
             host.goto(base + '/host.html?net=local'); host.evaluate('localStorage.clear()'); host.reload(); time.sleep(0.6)
             if tag == 'es':
                 dates = host.evaluate("[[2026,0,3],[2026,6,1],[2026,11,1]].map(([y,m,d]) => Events.inDates([{from:'12-01',to:'01-06'}], new Date(y,m,d)))")
@@ -283,6 +285,7 @@ def run():
                 host.set_viewport_size({'width': 1366, 'height': 850}); time.sleep(0.2)
             code = host.inner_text('#codeBig')
             player = ctx.new_page()
+            player.on('console', lambda m: '[mb-net]' in m.text and logs['player'].append(m.text))
             player.goto(f'{base}/play.html?r={code}&net=local')
             player.evaluate("localStorage.removeItem('meca-dev'); localStorage.setItem('meca-name', JSON.stringify('Ana'))" + ("" if tag == 'es' else "; localStorage.setItem('meca-help-seen', '1')")); player.reload(); time.sleep(1)
             if tag == 'es':
@@ -346,6 +349,11 @@ def run():
                 if EVENT: check(f'player name screen follows the host\'s event "{EVENT}" (peek)', fresh.evaluate('document.documentElement.dataset.event') == EVENT, str(fresh.evaluate('document.documentElement.dataset.event')))
                 check('player name screen keeps the phone\'s own saved skin', fresh.evaluate("localStorage.getItem('meca-skin')") == own)
                 shot(fresh, 'player-name-phone'); page_checks(fresh, 'player name (phone)'); fresh.close()
+                check('host console: [mb-net] line for the BroadcastChannel', any('BroadcastChannel' in l for l in logs['host']), str(logs['host'][:3]))
+                check('player console: [mb-net] lines', bool(logs['player']), str(logs['player'][:3]))
+                private = ['Ana'] + [x.strip() for l in SONGS.splitlines() if ' - ' in l for x in l.split(' - ', 1)]
+                leak = [l for l in logs['host'] + logs['player'] if any(x and x in l for x in private)]
+                check('console: no [mb-net] line has the player name or a song', not leak, str(leak[:3]))
             ctx.close()
         for lang in ('es', 'en'):
             for dev in (('phone-portrait', 'phone-small', 'tablet', 'desktop') if lang == 'es' else ('phone-small', 'desktop')):

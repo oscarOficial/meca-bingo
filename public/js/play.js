@@ -173,7 +173,7 @@
   $('res').onclick = () => $('res').classList.remove('on');
   $('helpBtn').onclick = showHelp; $('helpOk').onclick = () => $('help').classList.remove('on');
   $('rotateAnyway').onclick = () => { rotateDismissed = true; drawCard(); };
-  $('codeForm').onsubmit = e => { e.preventDefault(); const c = $('codeIn').value.trim().toUpperCase(); if (c.length === 5) { code = c; history.replaceState(null, '', '?r=' + c + (params.get('net') ? '&net=' + params.get('net') : '')); P = store.get(K()) || { card: null, marks: [] }; start(); } };
+  $('codeForm').onsubmit = e => { e.preventDefault(); const c = $('codeIn').value.trim().toUpperCase(); if (c.length === 5) { code = c; history.replaceState(null, '', '?r=' + c + (params.get('net') ? '&net=' + params.get('net') : '') + (params.get('debug') === '1' ? '&debug=1' : '')); P = store.get(K()) || { card: null, marks: [] }; start(); } };
   $('nameForm').onsubmit = e => { e.preventDefault(); const n = $('nameIn').value.trim(); if (!n) return; name = n; store.set('meca-name', n); connect(); };
 
   function start() {
