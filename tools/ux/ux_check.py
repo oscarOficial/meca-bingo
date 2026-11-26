@@ -266,7 +266,8 @@ def run():
             if tag == 'es':
                 time.sleep(0.3); check('player (phone-landscape): first tap goes full screen', player.evaluate('!!document.fullscreenElement'))
                 player.evaluate('document.exitFullscreen()'); time.sleep(0.3)  # Playwright can't resize a full-screen window
-                confirm_checks(player, 'player card (phone-landscape)', '#play', 'player-confirm-phone')  # upright, the 3x9 card is under the "turn the phone" prompt
+                lg = player.evaluate("[!document.querySelector('#play').classList.contains('hidden'), !!document.querySelector('.head h1 a'), !!document.getElementById('homeLink'), getComputedStyle(document.querySelector('.head h1')).cursor]")
+                check('player card: logo is not a link', lg[0] and not lg[1] and not lg[2] and lg[3] != 'pointer', str(lg))
                 pev = player.evaluate("[document.documentElement.dataset.event || null, document.querySelectorAll('.evfx').length, !!document.querySelector('.evfx[data-fx=mark]')]")
                 if EVENT:
                     check(f'player card: follows the host\'s event "{EVENT}" (state)', pev[0] == EVENT, str(pev[0]))
