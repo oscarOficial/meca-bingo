@@ -593,7 +593,16 @@
     c.className = `scard ${fmt}${L.size ? ' pat' : ''}`;
     c.innerHTML = cells.map((s, i) => s === 'free' ? `<div class="sc free${L.has(i) ? ' in' : ''}">★</div>` : s === null ? '<div class="sc gap"></div>'
       : `<div class="sc${M.has(i) ? ' on' : ''}${L.has(i) ? ' in' : ''}${W.has(i) ? ' wrong' : ''}"><span class="tt">${esc(short(s))}</span></div>`).join('');
+    fitStage();
   }
+  // whole words only: a title that doesn't fit gets smaller (down to .8em, never under 9px), then "…"
+  function fitStage() {
+    for (const e of $('stCard').querySelectorAll('.tt')) {
+      e.style.fontSize = ''; const f = parseFloat(getComputedStyle(e).fontSize); let k = 1;
+      while (k > .81 && f * (k - .05) >= 9 && (e.scrollWidth > e.clientWidth + 1 || e.scrollHeight > e.clientHeight + f * k / 2)) { k -= .05; e.style.fontSize = k + 'em'; }
+    }
+  }
+  addEventListener('resize', () => { if ($('stage').classList.contains('on')) fitStage(); });
   function showStage(ok, p, prize, r, marks) {
     hideMoment(); const st = $('stage'); clearTimeout(stT);
     st.className = 'stage on ' + (ok ? 'win' : 'lose');
