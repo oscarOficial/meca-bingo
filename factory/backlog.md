@@ -60,7 +60,7 @@ When the task is merged: `- [x] <title> → task/<id>`. Done by hand: `- [x] <ti
 - [x] Extension: hide the playing song in the player tab → task/extension-hide-the-playing-song-in-the
     La extensión debe asegurar que en la tab que esté abierta no se muestra la canción que se está reproduciendo ni en el title ni en ningún sitio del reproductor (lo habíamos hecho anteriormente mostrando una capa superpuesta a la página con una foto divertida).
     Note: extension/provider.js already has cover()/uncover(), today only used while importing/starting Amazon.
-- [ ] Extension: START button opens the player tab and returns to the host
+- [x] Extension: START button opens the player tab and returns to the host → task/extension-start-button-opens-the-player
     El icono de play, si todavía no está abierta la pestaña, debe ser algo como START (que abra la pestaña del reproductor y vuelva a hacer foco en la página del host).
 
 ### Extension: errors the host can act on
