@@ -445,7 +445,8 @@
       const dev = peers[cid] || m.dev; const p = S.players[dev]; if (!p) return;
       const cur = currentPrize();
       if (m.prize !== cur || !S.cfg.prizes[m.prize]) { reply({ t: 'result', ok: false, prize: m.prize, reason: 'closed' }); return; }
-      const r = MB.checkClaim(S.cards[p.card], S.cfg.fmt, S.cfg.prizes[m.prize].pat, (m.marks || []).map(Number), S.played);
+      const marks = (m.marks || []).map(Number);
+      const r = MB.checkClaim(S.cards[p.card], S.cfg.fmt, S.cfg.prizes[m.prize].pat, marks, S.played);
       S.claims.unshift({ name: p.name, card: p.card + 1, prize: m.prize, ok: r.ok, reason: r.reason, at: S.played.length });
       if (r.ok) {
         const a = S.awarded[m.prize] || (S.awarded[m.prize] = { names: [], atSong: S.played.length });
@@ -454,7 +455,7 @@
       save();
       reply({ t: 'result', ok: r.ok, prize: m.prize, reason: r.reason, wrong: r.wrong || [] });
       STATS.track('claim', { prize: (S.cfg.prizes[m.prize] && S.cfg.prizes[m.prize].preset) || 'custom', n: +m.prize + 1, ok: r.ok, reason: r.ok ? '' : (r.reason || ''), songs: S.played.length, players: Object.keys(S.players).length, fmt: S.cfg.fmt });
-      showStage(r.ok, p, m.prize, r.reason);
+      showStage(r.ok, p, m.prize, r, marks);
       net.broadcast(publicState());
       drawGame();
     }
@@ -583,15 +584,34 @@
   function hideMoment() { const m = $('moment'); if (!m.classList.contains('on')) return; m.classList.add('out'); clearTimeout(mT); mT = setTimeout(() => m.classList.remove('on', 'out'), 650); }
   function shuffleSnap() { const s = $('snap'); $('snapImg').src = rndPhoto(); $('snapCap').textContent = pick(S.msgs.wait); s.classList.remove('flip'); void s.offsetWidth; s.classList.add('flip'); }
   let stT = null, stD = null;
-  function drawStage() { const { ok, p, prize } = stD; $('stWho').textContent = `${p.name} · #${p.card + 1} · ${prizeLabel(prize)}`; $('stage').querySelector('.stamp').textContent = ok ? t.valid : t.nope; }
-  function showStage(ok, p, prize, reason) {
+  // Shorter names on the card (same rule as play.js): drop "(From the film…)", "[feat. …]", "feat. …"
+  const short = s => String(s || '').replace(/\s*[\(\[][^\)\]]*[\)\]]/g, '').replace(/\s+(feat\.?|ft\.?|featuring)\s.*$/i, '').trim() || String(s || '');
+  function drawStage() {
+    const { ok, p, prize, fmt, cells, marks, wrong, lines } = stD;
+    $('stWho').textContent = `${p.name} · #${p.card + 1} · ${prizeLabel(prize)}`; $('stage').querySelector('.stamp').textContent = ok ? t.valid : t.nope;
+    const M = new Set(marks), W = new Set(wrong), L = new Set(lines.flat()), c = $('stCard');
+    c.className = `scard ${fmt}${L.size ? ' pat' : ''}`;
+    c.innerHTML = cells.map((s, i) => s === 'free' ? `<div class="sc free${L.has(i) ? ' in' : ''}">★</div>` : s === null ? '<div class="sc gap"></div>'
+      : `<div class="sc${M.has(i) ? ' on' : ''}${L.has(i) ? ' in' : ''}${W.has(i) ? ' wrong' : ''}"><span class="tt">${esc(short(s))}</span></div>`).join('');
+    fitStage();
+  }
+  // whole words only: a title that doesn't fit gets smaller (down to .8em, never under 9px), then "…"
+  function fitStage() {
+    for (const e of $('stCard').querySelectorAll('.tt')) {
+      e.style.fontSize = ''; const f = parseFloat(getComputedStyle(e).fontSize); let k = 1;
+      while (k > .81 && f * (k - .05) >= 9 && (e.scrollWidth > e.clientWidth + 1 || e.scrollHeight > e.clientHeight + f * k / 2)) { k -= .05; e.style.fontSize = k + 'em'; }
+    }
+  }
+  addEventListener('resize', () => { if ($('stage').classList.contains('on')) fitStage(); });
+  function showStage(ok, p, prize, r, marks) {
     hideMoment(); const st = $('stage'); clearTimeout(stT);
     st.className = 'stage on ' + (ok ? 'win' : 'lose');
-    stD = { ok, p, prize }; drawStage();
+    const cells = S.cards[p.card].map(s => s === MB.FREE ? 'free' : s < 0 ? null : S.playlist.tracks[s].title);
+    stD = { ok, p, prize, fmt: S.cfg.fmt, cells, marks, wrong: r.wrong || [], lines: r.lines || [] }; drawStage();
     st.querySelector('img').src = rndPhoto();
     st.querySelector('.big p').textContent = ok ? pick(S.msgs.win) : pick(S.msgs.lose);
     ok ? FX.win() : FX.nope();
-    stT = setTimeout(() => st.classList.remove('on'), ok ? 6000 : 3500);
+    stT = setTimeout(() => st.classList.remove('on'), ok ? 8000 : 6000);
   }
   const ask = (title, text, fn) => FX.ask(title, text, t.cancel, t.confirm, fn);
 

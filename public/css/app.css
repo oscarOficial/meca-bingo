@@ -102,18 +102,39 @@ textarea{min-height:110px;resize:vertical}
 .reel .pol:nth-child(odd){transform:rotate(-4deg)}.reel .pol:nth-child(even){transform:rotate(3deg) translateY(4px)}
 @keyframes reel{to{transform:translateX(-50%)}}
 /* big verdict stage */
-.stage{position:fixed;inset:0;z-index:30;display:none;align-items:center;justify-content:center;flex-direction:column;gap:18px;background:var(--scrim);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);cursor:pointer;padding:20px}
+.stage{position:fixed;inset:0;z-index:30;display:none;align-items:center;justify-content:center;flex-direction:column;gap:clamp(12px,2.4vh,28px);background:var(--scrim);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);cursor:pointer;padding:20px;overflow:hidden}
 .stage.on{display:flex}
-.stage .who{font-family:var(--font-display);font-weight:800;font-size:clamp(22px,4vw,40px);text-align:center}
-.stage .big{position:relative;padding:12px 12px 16px;background:var(--paper);border-radius:4px;box-shadow:0 20px 60px #000c;max-width:min(80vw,560px);display:flex;flex-direction:column;align-items:center}
-.stage .big img{display:block;max-width:100%;max-height:48vh;border-radius:2px}
-.stage .big p{margin-top:10px;text-align:center;font:800 20px var(--font-display);color:#2a2340}
-.stage .stamp{position:absolute;top:-26px;right:-22px;font:800 30px var(--font-display);padding:6px 14px;border:4px solid;border-radius:10px;transform:rotate(14deg);background:#05030c99}
-.stage.win .big{animation:winIn .8s cubic-bezier(.2,1.5,.4,1) both}.stage.win .stamp{color:var(--text-success);animation:stampIn .5s .6s ease-out both}
-.stage.lose .big{animation:loseIn .9s ease both}.stage.lose .big img{filter:grayscale(1)}.stage.lose .stamp{color:var(--text-danger);animation:stampIn .45s .25s ease-out both}
+.stage .who{font-family:var(--font-display);font-weight:800;font-size:clamp(22px,min(4vw,6vh),56px);text-align:center}
+.stage .sbody{display:flex;align-items:center;justify-content:center;gap:clamp(16px,3vw,48px);max-width:100%}
+.stage .big{position:relative;padding:10px 10px 14px;background:var(--paper);border-radius:4px;box-shadow:0 20px 60px #000c;max-width:min(23vw,420px);display:flex;flex-direction:column;align-items:center;flex:none}
+.stage .big img{display:block;max-width:100%;max-height:44vh;border-radius:2px}
+.stage .big p{margin-top:8px;text-align:center;font:800 clamp(16px,1.4vw,26px) var(--font-display);color:#2a2340}
+/* the claimed card: player's marks, the called pattern ringed, wrong marks crossed */
+.stage .scw{position:relative;flex:none}
+.scard{container-type:inline-size;display:grid;gap:clamp(4px,.6vw,10px);background:var(--board-bg);border:var(--board-border);border-radius:var(--board-radius);padding:var(--board-pad);box-shadow:var(--board-shadow);box-sizing:border-box}
+.scard.es{grid-template-columns:repeat(9,minmax(0,1fr));width:min(67vw,calc((100vh - 200px) * 2.9))}
+.scard.us{grid-template-columns:repeat(5,minmax(0,1fr));width:min(46vw,calc(100vh - 190px))}
+.sc{--lit:var(--lit-1);position:relative;height:calc(3.45em + 12px);display:flex;align-items:center;justify-content:center;text-align:center;padding:3px 2px;border-radius:var(--cell-radius);background:var(--cell-bg);color:var(--cell-text);border:var(--cell-border-w) solid var(--cell-border);font-weight:700;line-height:1.15;overflow:hidden;box-sizing:border-box}
+.scard.es .sc{font-size:clamp(9px,2.2cqi,40px)}.scard.us .sc{font-size:clamp(12px,3.6cqi,44px)}
+.sc:nth-child(4n+2){--lit:var(--lit-2)}.sc:nth-child(4n+3){--lit:var(--lit-3)}.sc:nth-child(4n){--lit:var(--lit-4)}
+.sc .tt{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden;text-overflow:ellipsis;overflow-wrap:normal;word-break:normal;max-width:100%}
+.sc.gap{background:var(--cell-gap-bg);border:var(--cell-gap-border)}
+.sc.free{background:var(--highlight);color:var(--on-highlight);border-color:transparent;font-size:2em}
+.sc.on{background:var(--lit);border-color:var(--cell-on-border);color:var(--cell-on-text);box-shadow:var(--cell-on-shadow)}
+.scard.pat .sc:not(.on):not(.free){opacity:.35}
+.sc.in{outline:clamp(3px,.45vw,8px) solid var(--highlight);outline-offset:2px;z-index:1}
+.sc.wrong{outline:clamp(3px,.45vw,8px) solid var(--text-danger);outline-offset:2px;z-index:1;overflow:visible;animation:stWrong .6s 4}
+/* the ✕ badge sits on the corner, so the title stays readable */
+.sc.wrong::after{content:'✕';position:absolute;top:-.45em;right:-.45em;width:1.3em;height:1.3em;display:grid;place-items:center;font-size:max(12px,.85em);line-height:1;font-weight:900;color:var(--page);background:var(--text-danger);border:2px solid var(--page);border-radius:50%;pointer-events:none}
+@keyframes stWrong{50%{transform:scale(1.08)}}
+/* the stamp on the photo, never over a card cell */
+.stage .stamp{position:absolute;inset:0;margin:auto;width:fit-content;height:fit-content;font:800 clamp(26px,min(3.8vw,7vh),80px) var(--font-display);padding:.12em .4em;border:.12em solid;border-radius:.3em;transform:rotate(10deg);background:#05030c99;z-index:2;white-space:nowrap}
+.stage.win .big,.stage.win .scw{animation:winIn .8s cubic-bezier(.2,1.5,.4,1) both}.stage.win .stamp{color:var(--text-success);animation:stampIn .5s .6s ease-out both}
+.stage.lose .big,.stage.lose .scw{animation:loseIn .9s ease both}.stage.lose .big img{filter:grayscale(1)}.stage.lose .stamp{color:var(--text-danger);animation:stampIn .45s .25s ease-out both}
+@media (orientation:portrait){.stage .sbody{flex-direction:column;width:100%}.stage .scw,.stage .scard{width:100%}.stage .big{max-width:min(70vw,420px)}.stage .big img{max-height:24vh}}
 @keyframes winIn{0%{transform:translateY(70vh) rotate(25deg) scale(.4)}100%{transform:rotate(-3deg)}}
 @keyframes loseIn{0%{transform:scale(.6);opacity:0}35%{transform:scale(1) rotate(-4deg);opacity:1}50%{transform:rotate(4deg)}65%{transform:rotate(-3deg)}100%{transform:rotate(-1deg)}}
-@keyframes stampIn{0%{transform:rotate(30deg) scale(3);opacity:0}100%{transform:rotate(14deg) scale(1);opacity:1}}
+@keyframes stampIn{0%{transform:rotate(30deg) scale(3);opacity:0}100%{transform:rotate(10deg) scale(1);opacity:1}}
 #fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:35}
 .modal{position:fixed;inset:0;background:#000a;display:none;align-items:center;justify-content:center;padding:20px;z-index:45}
 .modal.on,.modal[open]{display:flex}
