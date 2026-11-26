@@ -129,3 +129,18 @@ When the task is merged: `- [x] <title> → task/<id>`. Done by hand: `- [x] <ti
 - [x] Host's join URL is a link that opens in a new tab → task/hosts-join-url-is-a-link-that-opens-in-a
     En la pantalla del host, la URL de "o entra en mecabingo.oscasais.es/play.html · 7476Y" debe ser un enlace que se abra en una pestaña nueva.
     Note: the text is `#joinUrl`, set in `startGame()` (host.js:403-404) from the same `url` the QR uses (`play.html?r=CODE`, plus `&net=local` when testing). Make it an `<a target="_blank" rel="noopener">` whose `href` is that full URL; the visible text stays as today. It must keep the skin colours (no default blue), show it's a link on hover/focus, and have a tap target ≥ 40px without changing the join card layout. Opening it from the host's browser joins the game as a player in another tab, which must work (host and player state live under different keys).
+
+### Follow-ups found while building (26 Nov)
+
+- [ ] UX check waits for the host scripts instead of a fixed pause
+    El UX check falla a veces con `ReferenceError: Events is not defined` y pasa al repetirlo; también ha fallado en `main`.
+    Note: `tools/ux/ux_check.py:151` reloads the host page and sleeps 0.6 s, then line 153 calls `Events.inDates(...)`. On a busy machine the scripts aren't loaded yet. Wait for them (e.g. `page.wait_for_function("window.Events && window.FX")`) here and in the other fixed `time.sleep` waits after a navigation. Found by the sign-in detection review (it failed 3 of 4 runs).
+- [ ] Extension build doesn't rewrite the download zips in a task
+    `python tools/build_extension.py` reescribe los `public/download/*.zip` en cada ejecución, aunque nada haya cambiado, y cada tarea tiene que restaurarlos con `git checkout -- public/download`.
+    Note: `tools/build_extension.py:98-118` always writes the zips. The zips are release files (AGENTS.md: "Only the release workflow"). Option: write them only with a flag (e.g. `--zip`) that the release workflow passes, and keep `dist/` for local builds; or make the zips reproducible (fixed timestamps and file order) so an unchanged build leaves git clean. The release workflow is in `.github/`: ask the human before changing it.
+- [ ] Factory roles stop the dev servers they start
+    El builder y el revisor dejan `npx wrangler dev` corriendo dentro del worktree, y eso bloquea `git worktree remove` en Windows (archivos de `.wrangler/state` abiertos). Ha pasado dos veces el 26 nov.
+    Note: the fix is in the role instructions (`.claude/agents/builder.md`, `reviewer.md`) and maybe a helper that starts wrangler and kills its process tree on exit. `.claude/` is on the "ask the human" list: this item is that ask; do it by hand or with the human's go-ahead, not from a task.
+- [ ] Extension only opens player addresses it knows
+    El mensaje `mb-open` de la extensión abre cualquier dirección que le pase la página del sitio, sin comprobar que sea de un reproductor conocido.
+    Note: `extension/background.js:57` (`mb-open`), and `mb-start`/`mb-import` next to it. Only the site's pages can send these, so the risk is low, but rejecting URLs whose host isn't in the players list (`extension/players.json`) costs little. Found by the START task review. Needs a new extension release to reach users.
