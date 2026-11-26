@@ -8,7 +8,9 @@
   const useLocal = () => new URLSearchParams(location.search).get('net') === 'local';
   const DEBUG = new URLSearchParams(location.search).get('debug') === '1';
   const pad = (n, l = 2) => String(n).padStart(l, '0');
-  const log = (...a) => { const d = new Date(); console.info('[mb-net]', pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds()) + '.' + pad(d.getMilliseconds(), 3), ...a); };
+  const stamp = () => { const d = new Date(); return pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds()) + '.' + pad(d.getMilliseconds(), 3); };
+  const log = (...a) => console.info('[mb-net]', stamp(), ...a);
+  const warn = (...a) => console.warn('[mb-net]', stamp(), ...a);
   const dlog = (...a) => { if (DEBUG) log(...a); };
   const peerOpts = () => ({ debug: DEBUG ? 2 : 0 });
 
@@ -26,6 +28,15 @@
       log('ice gathering: ' + pc.iceGatheringState);
       if (pc.iceGatheringState === 'complete') log('candidates: host ' + n.host + ', srflx ' + n.srflx + ', relay ' + n.relay + (n.prflx ? ', prflx ' + n.prflx : ''));
     });
+  }
+
+  // A hung first request to the signalling server otherwise leaves the console silent.
+  function watchSignal(peer) {
+    const host = (peer.options && peer.options.host) || '?';
+    log('connecting to signalling server ' + host);
+    const timers = [5, 15].map(s => setTimeout(() => warn('still waiting for signalling server ' + host + ' after ' + s + 's: it is likely unreachable from this network (firewall, ad blocker, captive portal) or down'), s * 1000));
+    const clear = () => timers.forEach(clearTimeout);
+    peer.on('open', clear); peer.on('error', clear); peer.on('close', clear);
   }
 
   // ---------- host side ----------
@@ -49,6 +60,7 @@
       if (closed) return;
       log('host: room ' + code + ', peer id ' + PREFIX + code.toLowerCase() + (why ? ' (restart after ' + why + ')' : ''));
       peer = new Peer(PREFIX + code.toLowerCase(), peerOpts());
+      watchSignal(peer);
       peer.on('open', id => { log('signalling server open, id ' + id); onStatus('open'); });
       peer.on('connection', c => {
         log('incoming connection ' + c.connectionId + ' from ' + c.peer);
@@ -100,6 +112,7 @@
       if (closed) return;
       if (!peer || peer.destroyed) {
         peer = new Peer(peerOpts());
+        watchSignal(peer);
         peer.on('open', id => { log('signalling server open, id ' + id); connect(); });
         peer.on('disconnected', () => log('signalling server disconnected'));
         peer.on('error', e => {
