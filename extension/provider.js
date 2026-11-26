@@ -6,11 +6,15 @@
 // - Amazon Music only: reads a playlist and starts it in shuffle
 // - during a game (the host page asks for the state): covers the tab and keeps its title "Meca Bingo",
 //   so the song isn't given away; "Show the player" reveals it until the song changes
+// - Spotify and Deezer only: tells the host when nobody is signed in (the page shows its log-in button)
 (() => {
   const isAmazon = location.hostname.startsWith('music.amazon.');
   const root = document.documentElement;
   const _ = k => chrome.i18n.getMessage(k);
   const send = m => chrome.runtime.sendMessage(m).catch(() => {});
+  // only on a signed-out page: its top bar log-in button
+  const SIGNED_OUT = { 'open.spotify.com': ['spotify', '[data-testid="login-button"]'], 'www.deezer.com': ['deezer', 'a[href^="https://account.deezer.com/"][href*="/login"]'] }[location.hostname];
+  const signedOut = () => SIGNED_OUT && document.querySelector(SIGNED_OUT[1]) ? SIGNED_OUT[0] : null;
 
   // ---------- cover: hides the page while the extension works in this tab (busy) or during a game ----------
   const NAME = 'Meca Bingo';
@@ -48,7 +52,7 @@
     if (shown !== undefined && shown !== key) shown = undefined;
     if (!watching && document.head) { watching = true; titles.observe(document.head, { subtree: true, childList: true, characterData: true }); }
     if (busy !== null) cover(busy, false);
-    else if (Date.now() - gameAt < 10000 && shown === undefined) cover(_('coverHint'), true);
+    else if (Date.now() - gameAt < 10000 && shown === undefined) cover(_(signedOut() ? 'coverSignIn' : 'coverHint'), true);
     else { const was = !!document.getElementById('mb-cover'); uncover(); if (was && document.title === NAME && pageTitle !== null) document.title = pageTitle; }
     mask();
   }
@@ -146,7 +150,7 @@
       if (msg.game) { gameAt = Date.now(); paint(); }
       // the held song (the one already sent), so a song skipped before HOLD is never reported
       const playing = isPlaying(), now = nowPlaying(), held = playing && now && now.title + '|' + now.artist === sent;
-      reply({ playing, now, track: held ? { title: now.title, artist: now.artist } : null }); return;
+      reply({ playing, now, track: held ? { title: now.title, artist: now.artist } : null, signedOut: signedOut() }); return;
     }
     if (msg.type === 'mb-control') { control(msg.action).then(reply); return true; }
     if (msg.type === 'mb-import' && isAmazon) {

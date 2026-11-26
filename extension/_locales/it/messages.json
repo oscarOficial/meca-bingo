@@ -55,5 +55,8 @@
   },
   "coverShow": {
     "message": "Mostra il lettore"
+  },
+  "coverSignIn": {
+    "message": "Accedi per far partire la musica: premi «Mostra il lettore»"
   }
 }

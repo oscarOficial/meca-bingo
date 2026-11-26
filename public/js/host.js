@@ -15,7 +15,7 @@
   const save = () => store.set(KEY, S);
 
   // ---------------- Meca Bingo Sync (browser extension, optional) ----------------
-  const EXT = { on: false, version: null, open: false, playing: false, player: null };   // player: null until the first getState
+  const EXT = { on: false, version: null, open: false, playing: false, player: null, signedOut: null };   // player: null until the first getState; signedOut: id of a signed-out player
   // "Install" goes straight to this browser's store (store installs update themselves); others get the install page
   const STORES = { edge: 'https://microsoftedge.microsoft.com/addons/detail/meca-bingo-sync/jdkejadbliplmenkjebcboggjpnaibpi',
     firefox: 'https://addons.mozilla.org/firefox/addon/meca-bingo/', chrome: 'https://chromewebstore.google.com/detail/kjefpodcfpmpoocaeliddebomimbckic' };
@@ -33,7 +33,12 @@
   // play/pause: the button flips at once, then follows the real player (asked every 2 s and after each control).
   // While a control is in flight, state messages are ignored so they don't flip the button back.
   let ctlSeq = 0, ctlBusy = 0;
-  function applyState(m) { if (ctlBusy || m.ok === false) return; EXT.playing = !!m.playing; if (m.player !== undefined) EXT.player = m.player; drawExt(); }
+  const signInToast = (id = EXT.signedOut) => toast(() => t.signInPlayer(t.providers[id] || id), 8000, 'triangle-exclamation-point');
+  function applyState(m) {
+    if (ctlBusy || m.ok === false) return; EXT.playing = !!m.playing; if (m.player !== undefined) EXT.player = m.player;
+    if (m.signedOut !== undefined) { const was = EXT.signedOut; EXT.signedOut = m.signedOut || null; if (!was && EXT.signedOut && S.phase === 'game') signInToast(); }   // pushed states carry no signedOut
+    drawExt();
+  }
   function syncExt() { if (!(S.phase === 'game' && EXT.on)) return; const at = ctlSeq; extCall('getState', {}, 5000).then(r => { if (r.track) heard(r.track.title, r.track.artist); if (at === ctlSeq) applyState(r); }); }
   setInterval(syncExt, 2000);
   function extControl(action, ms) {
@@ -442,7 +447,7 @@
     }
   }
   function startGame() {
-    lastHeard = null;
+    lastHeard = null; EXT.signedOut = null;   // so a new game still signed out gets its toast at the first poll
     $('setup').classList.add('hidden'); $('game').classList.remove('hidden'); scrollTo(0, 0); document.body.classList.add('ingame');
     const url = new URL('play.html', location.href).href.replace(/\?.*$/, '') + '?r=' + S.code + (new URLSearchParams(location.search).get('net') === 'local' ? '&net=local' : '');
     $('codeBig').textContent = S.code; $('joinUrl').textContent = url.replace(/^https?:\/\//, '').replace(/\?.*/, '') + ' · ' + S.code; $('joinUrl').href = url;
@@ -528,7 +533,7 @@
     const was = EXT.playing;
     if (action === 'toggle') { EXT.playing = !EXT.playing; drawExt(); }
     const r = await extControl(action, 8000);
-    if (!r.ok) { EXT.playing = was; drawExt(); toast(() => r.error === 'notab' ? t.noPlayer : t.controlFailed, 5000, 'triangle-exclamation-point'); }
+    if (!r.ok) { EXT.playing = was; drawExt(); if (EXT.signedOut) signInToast(); else toast(() => r.error === 'notab' ? t.noPlayer : t.controlFailed, 5000, 'triangle-exclamation-point'); }
   }
   // Photo moment: after each new song the photo and its message take the whole screen for a few seconds
   let mT = null, mN = 0;

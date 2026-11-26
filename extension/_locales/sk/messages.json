@@ -55,5 +55,8 @@
   },
   "coverShow": {
     "message": "Zobraziť prehrávač"
+  },
+  "coverSignIn": {
+    "message": "Prihlás sa, aby hrala hudba: stlač „Zobraziť prehrávač“"
   }
 }

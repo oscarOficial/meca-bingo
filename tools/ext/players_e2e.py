@@ -13,6 +13,8 @@ During the game (the host's getState) the player tab must be covered with its ti
 also after the song changes; "Show the player" reveals the page and its title, the next song covers it again.
 For the players START can only open (all but Amazon): the bridge's "ready" says open: true, and with no player
 tab open, "open" opens the player's address in a tab and brings the host page back to the front.
+getState never reports signedOut for the fake player. For Spotify and Deezer, a second page with the real
+signed-out marker (their log-in button, no media) must report signedOut = the player id and show the sign-in cover text.
 """
 import base64, json, os, struct, sys, tempfile, time
 from playwright.sync_api import sync_playwright
@@ -34,6 +36,9 @@ navigator.mediaSession.setActionHandler('nexttrack',()=>{log.push('next');i=(i+1
 navigator.mediaSession.setActionHandler('previoustrack',()=>{log.push('prev');i=(i+2)%3;show()});
 show(); v.muted=true; v.play(); a.play(); navigator.mediaSession.playbackState='playing';
 </script>'''.replace('WAV', WAV)
+# the top bar log-in button of a signed-out page, as the real players show it (see SIGNED_OUT in extension/provider.js)
+SIGNED_OUT = {'spotify': '<button data-testid="login-button">Log in</button>',
+              'deezer': '<a id="topbar-login-button" href="https://account.deezer.com/en/login?redirect_uri=https%3A%2F%2Fwww.deezer.com%2Fen%2F">Log in</a>'}
 def serve_site(route):
     path = '/' + route.request.url.split('/', 3)[3].split('?')[0]
     path = path if path != '/' else '/index.html'
@@ -86,6 +91,16 @@ with sync_playwright() as p:
         ask({'type': 'control', 'action': 'next'}); time.sleep(1)
         recovered = covered()
         cover_ok = hidden and tall and revealed and recovered
+        hint = pl.evaluate("document.getElementById('mb-cover-t').textContent")
+        signed = 'skipped'
+        if pl_cfg['id'] in SIGNED_OUT:   # a signed-out page: no media, only the log-in button
+            page = f'<!doctype html><title>signed out</title><body>{SIGNED_OUT[pl_cfg["id"]]}'
+            ctx.route(host_root + '/signedout', lambda r: r.fulfill(status=200, body=page, headers={'content-type': 'text/html'}))
+            pl.close(); pl = ctx.new_page(); pl.goto(host_root + '/signedout'); time.sleep(1.5)
+            so = ask({'type': 'getState'}).get('signedOut'); time.sleep(0.5)
+            text = pl.evaluate("(document.getElementById('mb-cover-t') || {}).textContent")
+            signed = {'signedOut': so, 'sign-in cover': bool(text) and text != hint}
+            cover_ok = cover_ok and so == pl_cfg['id'] and signed['sign-in cover']
         opened = 'skipped'
         if not pl_cfg.get('start'):   # START opens the player tab, then the host comes back
             ready = host.evaluate("new Promise(r=>{addEventListener('message',e=>{if(e.data&&e.data.__mbExt&&e.data.type==='ready')r(e.data)});postMessage({__mbPage:true,type:'hello'},'*')})")
@@ -98,9 +113,9 @@ with sync_playwright() as p:
             visible = host.evaluate('document.visibilityState') == 'visible'
             opened = {'ready open': ready.get('open') is True, 'no tab before': none, 'open ok': op.get('ok') is True, 'tab': tab, 'host visible': visible}
             cover_ok = cover_ok and all(opened.values())
-        good = st.get('player') and start and paused and resumed and nx.get('ok') and 'Song One' in tracks and 'Song Two' in tracks and 'next' in log and late == 'Song Two' and cover_ok
+        good = st.get('player') and not st.get('signedOut') and start and paused and resumed and nx.get('ok') and 'Song One' in tracks and 'Song Two' in tracks and 'next' in log and late == 'Song Two' and cover_ok
         ok &= bool(good)
-        print(('OK ' if good else 'FAIL'), name, '| state', st, '| playing at start', start, '| paused after toggle (muted video playing)', paused, '| playing after toggle', resumed, '| next', nx.get('ok'), '| tracks', tracks, '| player log', log, '| late host song', late, '| covered in game', hidden, '| button >= 40px', tall, '| revealed', revealed, '| covered on next song', recovered, '| START opens', opened)
+        print(('OK ' if good else 'FAIL'), name, '| state', st, '| signedOut', st.get('signedOut'), '| signed-out page', signed, '| playing at start', start, '| paused after toggle (muted video playing)', paused, '| playing after toggle', resumed, '| next', nx.get('ok'), '| tracks', tracks, '| player log', log, '| late host song', late, '| covered in game', hidden, '| button >= 40px', tall, '| revealed', revealed, '| covered on next song', recovered, '| START opens', opened)
         ctx.close()
 print('all players OK' if ok else 'SOME PLAYERS FAILED')
 sys.exit(0 if ok else 1)

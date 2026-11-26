@@ -55,5 +55,8 @@
   },
   "coverShow": {
     "message": "Mostrar el reproductor"
+  },
+  "coverSignIn": {
+    "message": "Inicia sesión para que suene la música: pulsa «Mostrar el reproductor»"
   }
 }
