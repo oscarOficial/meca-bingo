@@ -147,7 +147,7 @@ When the task is merged: `- [x] <title> → task/<id>`. Done by hand: `- [x] <ti
 
 ### Host and game rules (26 Nov)
 
-- [ ] Player's Meca Bingo logo is not a link
+- [x] Player's Meca Bingo logo is not a link → task/players-meca-bingo-logo-is-not-a-link
     En la pantalla de usuario (la del cartón) el logo de Meca Bingo no debería de llevar a la página inicial (evitar clicks inadecuados).
     Note: today `public/play.html:75` wraps the `h1` in `<a id="homeLink">`, and `public/js/play.js:176` asks for confirmation during a game (from task/meca-bingo-logo-links-to-the-home-page). Make it plain text on the player screen: no link, no pointer, no confirmation dialog left behind; it must look the same. The spec decides whether the join screen (before a card is shown) keeps the link. The host's logo stays as it is.
 - [x] Host checks a called prize by hand → dropped (doesn't fit: the automatic check already works in both modes, since the extension or the host marks every song; a by-hand check would only help a host who marks nothing, and would lose the song log and the Nope reasons. Replaced by "Called card shown big on the host screen")
