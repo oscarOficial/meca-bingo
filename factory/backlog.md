@@ -67,7 +67,7 @@ When the task is merged: `- [x] <title> → task/<id>`. Done by hand: `- [x] <ti
 
 - [x] Extension: detect when Spotify or Deezer can't play because the user isn't signed in → task/extension-detect-when-spotify-or-deezer
     Con Spotify y Deezer al no estar hecho login no permite hacer play.
-- [ ] Extension: clear, actionable errors on the host screen
+- [x] Extension: clear, actionable errors on the host screen → task/extension-clear-actionable-errors-on-the
     En general debemos mejorar que el usuario sepa qué hacer para cada error con la integración entre los diferentes servicios (login, abrir playlist, conexión, problemas de conectividad...). Los errores deben ser visibles para el host y claros.
 
 ### Extension: phones and tablets
