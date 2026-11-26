@@ -144,3 +144,18 @@ When the task is merged: `- [x] <title> → task/<id>`. Done by hand: `- [x] <ti
 - [ ] Extension only opens player addresses it knows
     El mensaje `mb-open` de la extensión abre cualquier dirección que le pase la página del sitio, sin comprobar que sea de un reproductor conocido.
     Note: `extension/background.js:57` (`mb-open`), and `mb-start`/`mb-import` next to it. Only the site's pages can send these, so the risk is low, but rejecting URLs whose host isn't in the players list (`extension/players.json`) costs little. Found by the START task review. Needs a new extension release to reach users.
+
+### Host and game rules (26 Nov)
+
+- [ ] Player's Meca Bingo logo is not a link
+    En la pantalla de usuario (la del cartón) el logo de Meca Bingo no debería de llevar a la página inicial (evitar clicks inadecuados).
+    Note: today `public/play.html:75` wraps the `h1` in `<a id="homeLink">`, and `public/js/play.js:176` asks for confirmation during a game (from task/meca-bingo-logo-links-to-the-home-page). Make it plain text on the player screen: no link, no pointer, no confirmation dialog left behind; it must look the same. The spec decides whether the join screen (before a card is shown) keeps the link. The host's logo stays as it is.
+- [ ] Host checks a called prize by hand
+    Que vuelva la verificación manual de premios.
+    Note: today every claim is checked automatically: `MB.checkClaim()` against the songs the host marked as played (`public/js/host.js:444-456`), so it is only right if the host taps every song. I found no earlier manual check in the git history, so the spec must ask the human what "vuelva" refers to and how it should work. Likely shape: a game setting "who checks prizes: automatic / the host"; with "the host", a call shows the player's card with their marks big on the host screen and the host presses Valid or Nope, which then follows today's win/nope flow (stamp, effects, winners list). Must work in manual mode, where the host may not have tapped the songs. `STATS.track('claim', …)` sends `ok`/`reason`: any change to what it sends is for the human (privacy.html).
+- [ ] Host can play too in manual mode
+    La modalidad manual también el Host puede jugar, solo que deberá de conocer todas las canciones para poder ver si la línea o el bingo cantados son correctos.
+    Note: do after "Host checks a called prize by hand". Today the texts forbid it: `stepsManual` ends with "Remember: you can't play, you see the song names" and `autoUnlock` warns too (`public/js/i18n.js`, 8 languages). Change them to say the host can play from their phone (scan the QR like everyone) if they know every song in the playlist, and checks calls by hand. Check the landing texts that describe manual mode (`site/landing.i18n.json`, rebuild with build_site.py).
+- [ ] Present the host as the game master on the TV
+    Hacer hincapié en la figura del HOST y de que debería de proyectarlo en TV para que todos puedan disfrutar de las fotos y de la actividad.
+    Note: today it is only mentioned in passing (landing `howLead`: "One person hosts on a laptop or TV"; `modeAutoDesc`/`modeManualDesc` talk about the sound, not the screen). Where it could go: the landing (how it works, FAQ), the host setup steps (`stepsAuto`/`stepsManual`), and a tip on the host game screen next to the full-screen button (`#fs`) to cast or connect it to the TV. Say why: everyone sees the QR, the photo moment, winners and effects. All in 8 languages; landing rebuilt with build_site.py.
