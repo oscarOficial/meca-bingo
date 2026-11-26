@@ -16,6 +16,10 @@ async function openAmazon(url, cover) {
   const target = url + (cover ? '#mbcover' : '');
   if (tab) await chrome.tabs.update(tab.id, { url: target });
   else tab = await chrome.tabs.create({ url: target, active: false });
+  return whenReady(tab);
+}
+// wait (up to 30 s) until the player script in the tab answers; null if the tab was closed
+async function whenReady(tab) {
   for (let i = 0; i < 60; i++) {
     await sleep(500);
     const t = await chrome.tabs.get(tab.id).catch(() => null);
@@ -49,6 +53,16 @@ chrome.runtime.onMessage.addListener((msg, sender, reply) => {
         const r = await chrome.tabs.sendMessage(tab.id, { type: 'mb-start', url: msg.url }).catch(() => null);
         if (host) await focus(host.id);
         return reply(r || { ok: false, error: 'failed' });
+      }
+      case 'mb-open': {   // other players can't start a playlist: open it on screen once (so it may play sound), back to the host
+        const host = sender.tab;
+        await chrome.storage.session.set({ hostTab: host && host.id });
+        const tab = await whenReady(await chrome.tabs.create({ url: msg.url, active: true, ...(host ? { windowId: host.windowId } : {}) }));
+        if (!tab) return reply({ ok: false, error: 'notab' });
+        const { shown = [] } = await chrome.storage.session.get('shown');
+        await chrome.storage.session.set({ shown: [...shown, tab.id] });
+        if (host) await focus(host.id);
+        return reply({ ok: true });
       }
       case 'mb-control': {
         const tab = await playerTab();

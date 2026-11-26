@@ -15,7 +15,7 @@
   const save = () => store.set(KEY, S);
 
   // ---------------- Meca Bingo Sync (browser extension, optional) ----------------
-  const EXT = { on: false, version: null, playing: false, player: false };
+  const EXT = { on: false, version: null, open: false, playing: false, player: null };   // player: null until the first getState
   // "Install" goes straight to this browser's store (store installs update themselves); others get the install page
   const STORES = { edge: 'https://microsoftedge.microsoft.com/addons/detail/meca-bingo-sync/jdkejadbliplmenkjebcboggjpnaibpi',
     firefox: 'https://addons.mozilla.org/firefox/addon/meca-bingo/', chrome: 'https://chromewebstore.google.com/detail/kjefpodcfpmpoocaeliddebomimbckic' };
@@ -73,7 +73,7 @@
   window.addEventListener('message', e => {
     const m = e.data; if (e.source !== window || !m || !m.__mbExt) return;
     if (m.id && extWait[m.id]) { const f = extWait[m.id]; delete extWait[m.id]; f(m); }
-    if (m.type === 'ready') { EXT.on = true; EXT.version = m.version; drawExt(); if (S.phase !== 'game') drawMode(); else drawGame(); syncExt(); }
+    if (m.type === 'ready') { EXT.on = true; EXT.version = m.version; EXT.open = !!m.open; drawExt(); if (S.phase !== 'game') drawMode(); else drawGame(); syncExt(); }
     else if (m.type === 'state' && !m.id) applyState(m);   // pushed by the player; replies to getState go through syncExt
     else if (m.type === 'track') heard(m.title, m.artist);
   });
@@ -502,19 +502,28 @@
     const inGame = S.phase === 'game';
     bar.classList.toggle('hidden', !(EXT.on && inGame));
     if (!inGame) return;
-    const canStart = S.playlist && S.playlist.provider === 'amazon' && S.playlist.url;
-    const pre = canStart && !S.musicStarted;
+    // START: Amazon before the music started, or any supported player whose tab is not open (older extensions can't open one)
+    const pl = S.playlist, amazon = pl && pl.provider === 'amazon' && pl.url;
+    const pre = amazon ? !S.musicStarted || EXT.player === false
+      : pl && pl.url && EXT.open && EXT.player === false && ['spotify', 'deezer', 'youtube', 'apple'].includes(pl.provider);
     bar.classList.toggle('pre', !!pre);
     const tg = $('ctlToggle');
     if (pre) { tg.innerHTML = icon('play') + ' ' + esc(t.startMusic); tg.removeAttribute('aria-label'); tg.removeAttribute('title'); tg.classList.add('start'); tg.classList.remove('playing'); }
     else { tg.innerHTML = icon(EXT.playing ? 'pause' : 'play'); tg.title = EXT.playing ? t.ctlPause : t.ctlPlay; tg.setAttribute('aria-label', tg.title); tg.classList.remove('start'); tg.classList.toggle('playing', EXT.playing); }
   }
+  let starting = false;   // a START request is in flight
   async function ctl(action) {
     if (action === 'toggle' && $('ctlToggle').classList.contains('start')) {
-      S.musicStarted = true; save(); drawExt(); toast(() => t.startingMusic, undefined, 'play');
-      const r = await extCall('start', { url: S.playlist.url });
-      if (!r.ok) { S.musicStarted = false; save(); drawExt(); toast(() => t.startFailed, 6000, 'triangle-exclamation-point'); }
-      return;
+      if (starting) return; starting = true;
+      if (S.playlist.provider === 'amazon') {
+        S.musicStarted = true; save(); drawExt(); toast(() => t.startingMusic, undefined, 'play');
+        const r = await extCall('start', { url: S.playlist.url });
+        if (r.ok) EXT.player = true; else { S.musicStarted = false; save(); toast(() => t.startFailed, 6000, 'triangle-exclamation-point'); }
+      } else {
+        const r = await extCall('open', { url: openUrl(S.playlist) }, 45000);
+        if (r.ok) EXT.player = true; else toast(() => t.noPlayer, 5000, 'triangle-exclamation-point');
+      }
+      starting = false; drawExt(); return;
     }
     const was = EXT.playing;
     if (action === 'toggle') { EXT.playing = !EXT.playing; drawExt(); }
