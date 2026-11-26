@@ -239,6 +239,12 @@ def run():
             if tag == 'es':
                 check('host game screen opens at the top', host.evaluate('scrollY') == 0, f"scrollY={host.evaluate('scrollY')}")
                 check('game screen says the mode', 'manual' in host.inner_text('#modeBanner').lower())
+                ctx.set_offline(True); time.sleep(0.3)
+                b = host.evaluate("[document.getElementById('modeBanner').className, document.getElementById('modeBanner').innerText, I18N.get(document.documentElement.lang).roomOffline]")
+                check('offline: the game banner warns players cannot join', 'warn' in b[0].split() and b[1].strip() == b[2], str(b[:2]))
+                shot(host, 'host-offline')
+                ctx.set_offline(False); time.sleep(0.3)
+                check('back online: the banner says manual again', 'manual' in host.inner_text('#modeBanner').lower())
                 j = host.evaluate("(() => { const a = document.querySelector('#joinUrl'); return [a.tagName, a.target, a.rel, a.href]; })()")
                 check('host: join URL is a link that opens in a new tab', j[0] == 'A' and j[1] == '_blank' and 'noopener' in j[2].split(), str(j[:3]))
                 check('host: join link goes to the player page of this game', j[3].endswith(f"play.html?r={host.inner_text('#codeBig')}&net=local"), j[3])
