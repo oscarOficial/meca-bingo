@@ -78,6 +78,12 @@ npx wrangler dev          # app + playlist API on http://localhost:8787
 ```
 `?net=local` swaps WebRTC for a BroadcastChannel so everything runs in one browser.
 
+Connection problems show up in the browser console (host and players) as `[mb-net]` lines:
+signalling server, errors, ICE states and the candidate types found. A `still waiting for
+signalling server` warning means the PeerJS server can't be reached from that network.
+`?debug=1` on the host URL adds PeerJS's own logging and the type of each message received, and
+is passed to the players through the join link and QR.
+
 
 ## Meca Bingo Sync (browser extension, optional)
 
