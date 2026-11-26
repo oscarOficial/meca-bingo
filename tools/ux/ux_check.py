@@ -126,6 +126,29 @@ def confirm_checks(page, label, screen, shot_name, small=False):
     after = page.evaluate(f"[document.getElementById('modal').open, document.activeElement.id, !document.querySelector('{screen}').classList.contains('hidden')]")
     check(f'{label}: Escape closes the confirmation, back on the opener, still in the game', not after[0] and after[1] == 'homeLink' and after[2] and page.url == url, str(after) + ' ' + page.url)
 
+# The verdict stage after a call: the claimed card, its marks and wrong cells, inside the viewport
+STAGE_JS = r"""
+(() => {
+  const st = document.getElementById('stage'), card = st.querySelector('.scard'), stamp = st.querySelector('.stamp');
+  const inV = e => { const r = e.getBoundingClientRect(); return r.left >= 0 && r.top >= 0 && r.right <= innerWidth + 0.5 && r.bottom <= innerHeight + 0.5; };
+  const cells = [...card.querySelectorAll('.sc')], songs = cells.filter(c => !c.matches('.gap, .free')), s = st.getBoundingClientRect(), k = stamp.getBoundingClientRect(), c = card.getBoundingClientRect();
+  return { on: st.classList.contains('on') && getComputedStyle(st).display !== 'none', fmt: card.className, songs: songs.length, gaps: cells.filter(c => c.matches('.gap')).length,
+    marked: card.querySelectorAll('.sc.on').length, wrong: card.querySelectorAll('.sc.wrong').length, cardIn: inV(card), stampIn: inV(stamp),
+    stampOnCard: k.left < c.right && k.right > c.left && k.top < c.bottom && k.bottom > c.top, stamp: stamp.textContent, nope: I18N.get(document.documentElement.lang).nope,
+    scroll: Math.max(document.documentElement.scrollWidth - innerWidth, st.scrollWidth - st.clientWidth, st.scrollHeight - st.clientHeight),
+    minFont: Math.min(...songs.map(e => parseFloat(getComputedStyle(e.querySelector('.tt')).fontSize))),
+    over: songs.filter(e => e.scrollWidth > e.clientWidth + 1 || e.scrollHeight > e.clientHeight + 1).map(e => e.textContent.slice(0, 30)) };
+})()
+"""
+
+def stage_checks(page, label, min_font):
+    r = page.evaluate(STAGE_JS)
+    check(f'{label}: stage shown with the claimed 3x9 card', r['on'] and 'es' in r['fmt'].split() and r['songs'] == 15 and r['gaps'] == 12, f"on={r['on']} {r['fmt']} songs={r['songs']} gaps={r['gaps']}")
+    check(f'{label}: both marks of the player shown, at least one crossed as wrong', r['marked'] == 2 and r['wrong'] >= 1, f"marked={r['marked']} wrong={r['wrong']}")
+    check(f'{label}: NOPE stamp over the card', r['stamp'] == r['nope'] and r['stampOnCard'], f"{r['stamp']!r} on card={r['stampOnCard']}")
+    check(f'{label}: card and stamp inside the viewport, no scroll', r['cardIn'] and r['stampIn'] and r['scroll'] <= 1, f"card={r['cardIn']} stamp={r['stampIn']} scroll={r['scroll']}px")
+    check(f'{label}: song titles ≥ {min_font}px and fit their cell', r['minFont'] >= min_font and not r['over'], f"smallest {r['minFont']}px; over: {', '.join(r['over'])}")
+
 def shot(page, name, full=False):
     page.screenshot(path=os.path.join(OUT, name + '.png'), full_page=full)
 
@@ -303,6 +326,10 @@ def run():
                 shot(player, 'player-result-phone')
                 if EVENT: check('player: the call shows the event\'s win/nope effect', player.evaluate("!!document.querySelector('.evfx[data-fx=win], .evfx[data-fx=nope]')"))
                 host.set_viewport_size({'width': 1366, 'height': 850}); time.sleep(0.2); shot(host, 'host-call-desktop')
+                stage_checks(host, 'host call stage (desktop)', 16)
+                w, h = DEVICES['phone-portrait']; host.set_viewport_size({'width': w, 'height': h}); time.sleep(0.3)
+                shot(host, 'host-call-phone'); stage_checks(host, 'host call stage (phone-portrait)', 9)
+                check('host call stage: still on within the 6 s Nope hold', host.evaluate("document.getElementById('stage').classList.contains('on')"))
                 # a new phone (no name yet, its own other skin): the name screen follows the host's skin
                 hs = host.evaluate('document.documentElement.dataset.skin')
                 own = next(k for k in ('street-party', 'dance-floor') if k != hs)
