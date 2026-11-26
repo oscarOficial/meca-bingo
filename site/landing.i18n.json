@@ -143,7 +143,7 @@
    ],
    [
     "Can the host play too?",
-    "Yes, in automatic mode: the extension marks the songs and the host never sees their names, so the host can join from a phone like everyone else. In manual mode the host marks the songs and sees the names, so the host shouldn't play."
+    "Yes, in automatic mode: the extension marks the songs and the host never sees their names, so the host can join from a phone like everyone else. In manual mode the host marks the songs and sees their names, so the host can play too if they know every song in the playlist."
    ],
    [
     "Can I host from my phone?",
@@ -247,7 +247,7 @@
   "wayManP": "The music plays from anywhere and the host taps each song on the screen when it plays.",
   "wayManL": [
    "Any app or device: phone, speaker, TV, records…",
-   "The host marks the songs, so the host doesn't play",
+   "The host marks the songs and can play too if they know them all",
    "Works on a computer, tablet or phone",
    "No extension needed"
   ],
@@ -397,7 +397,7 @@
    ],
    [
     "¿Puede jugar el presentador?",
-    "Sí, en modo automático: la extensión marca las canciones y el presentador nunca ve los títulos, así que puede unirse desde su móvil como los demás. En modo manual el presentador marca las canciones y ve los títulos, así que no debería jugar."
+    "Sí, en modo automático: la extensión marca las canciones y el presentador nunca ve los títulos, así que puede unirse desde su móvil como los demás. En modo manual el presentador marca las canciones y ve los títulos, así que también puede jugar si conoce todas las canciones de la playlist."
    ],
    [
     "¿Puedo ser el presentador desde el móvil?",
@@ -501,7 +501,7 @@
   "wayManP": "La música suena desde cualquier sitio y el presentador toca en la pantalla cada canción cuando suena.",
   "wayManL": [
    "Cualquier app o aparato: móvil, altavoz, tele, discos…",
-   "El presentador marca las canciones, así que no juega",
+   "El presentador marca las canciones y también puede jugar si se las sabe todas",
    "Funciona en ordenador, tablet o móvil",
    "Sin extensión"
   ],
@@ -651,7 +651,7 @@
    ],
    [
     "L’animateur peut-il jouer aussi ?",
-    "Oui, en mode automatique : l’extension coche les chansons et l’animateur ne voit jamais les titres, il peut donc rejoindre la partie depuis son téléphone comme tout le monde. En mode manuel, l’animateur coche les chansons et voit les titres, donc il ne devrait pas jouer."
+    "Oui, en mode automatique : l’extension coche les chansons et l’animateur ne voit jamais les titres, il peut donc rejoindre la partie depuis son téléphone comme tout le monde. En mode manuel, l’animateur coche les chansons et voit les titres, il peut donc jouer aussi s’il connaît toutes les chansons de la playlist."
    ],
    [
     "Puis-je animer depuis mon téléphone ?",
@@ -755,7 +755,7 @@
   "wayManP": "La musique joue depuis n’importe où et l’animateur touche chaque chanson à l’écran quand elle passe.",
   "wayManL": [
    "N’importe quelle appli ou appareil : téléphone, enceinte, télé, vinyles…",
-   "L’animateur coche les chansons, donc il ne joue pas",
+   "L’animateur coche les chansons et peut jouer aussi s’il les connaît toutes",
    "Marche sur ordinateur, tablette ou téléphone",
    "Aucune extension nécessaire"
   ],
@@ -905,7 +905,7 @@
    ],
    [
     "Kann die Spielleitung mitspielen?",
-    "Ja, im automatischen Modus: Die Erweiterung markiert die Songs und die Spielleitung sieht nie die Titel, kann also wie alle anderen mit dem Handy mitspielen. Im manuellen Modus markiert die Spielleitung die Songs und sieht die Titel, sollte also nicht mitspielen."
+    "Ja, im automatischen Modus: Die Erweiterung markiert die Songs und die Spielleitung sieht nie die Titel, kann also wie alle anderen mit dem Handy mitspielen. Im manuellen Modus markiert die Spielleitung die Songs und sieht die Titel, kann also mitspielen, wenn sie jeden Song der Playlist kennt."
    ],
    [
     "Kann ich das Spiel vom Handy aus leiten?",
@@ -1009,7 +1009,7 @@
   "wayManP": "Die Musik läuft von überall, und die Spielleitung tippt jeden Song auf dem Bildschirm an, wenn er läuft.",
   "wayManL": [
    "Jede App und jedes Gerät: Handy, Box, Fernseher, Schallplatten…",
-   "Die Spielleitung markiert die Songs, spielt also nicht mit",
+   "Die Spielleitung markiert die Songs und kann mitspielen, wenn sie alle kennt",
    "Läuft auf Computer, Tablet oder Handy",
    "Keine Erweiterung nötig"
   ],
@@ -1159,7 +1159,7 @@
    ],
    [
     "Chi presenta può giocare?",
-    "Sì, in modo automatico: l’estensione segna le canzoni e chi presenta non vede mai i titoli, quindi può entrare dal telefono come tutti gli altri. In modo manuale chi presenta segna le canzoni e vede i titoli, quindi non dovrebbe giocare."
+    "Sì, in modo automatico: l’estensione segna le canzoni e chi presenta non vede mai i titoli, quindi può entrare dal telefono come tutti gli altri. In modo manuale chi presenta segna le canzoni e vede i titoli, quindi può giocare se conosce tutte le canzoni della playlist."
    ],
    [
     "Posso presentare dal telefono?",
@@ -1263,7 +1263,7 @@
   "wayManP": "La musica suona da dove vuoi e chi presenta tocca ogni canzone sullo schermo quando suona.",
   "wayManL": [
    "Qualsiasi app o dispositivo: telefono, cassa, TV, vinili…",
-   "Chi presenta segna le canzoni, quindi non gioca",
+   "Chi presenta segna le canzoni e può anche giocare, se le conosce tutte",
    "Funziona su computer, tablet o telefono",
    "Nessuna estensione necessaria"
   ],
@@ -1413,7 +1413,7 @@
    ],
    [
     "Kan de spelleider ook meespelen?",
-    "Ja, in de automatische modus: de extensie vinkt de nummers aan en de spelleider ziet nooit de titels, dus kan hij net als iedereen meedoen met zijn telefoon. In de handmatige modus vinkt de spelleider de nummers aan en ziet hij de titels, dus kan hij beter niet meespelen."
+    "Ja, in de automatische modus: de extensie vinkt de nummers aan en de spelleider ziet nooit de titels, dus kan hij net als iedereen meedoen met zijn telefoon. In de handmatige modus vinkt de spelleider de nummers aan en ziet hij de titels, dus kan hij ook meespelen als hij elk nummer van de playlist kent."
    ],
    [
     "Kan ik het spel leiden vanaf mijn telefoon?",
@@ -1517,7 +1517,7 @@
   "wayManP": "De muziek speelt van waar dan ook en de spelleider tikt elk nummer op het scherm aan als het speelt.",
   "wayManL": [
    "Elke app of elk apparaat: telefoon, speaker, tv, platen…",
-   "De spelleider vinkt de nummers aan, dus speelt niet mee",
+   "De spelleider vinkt de nummers aan en kan meespelen als hij ze allemaal kent",
    "Werkt op computer, tablet of telefoon",
    "Geen extensie nodig"
   ],
@@ -1667,7 +1667,7 @@
    ],
    [
     "Czy prowadzący też może grać?",
-    "Tak, w trybie automatycznym: rozszerzenie zaznacza piosenki, a prowadzący nigdy nie widzi tytułów, więc może dołączyć z telefonu jak wszyscy. W trybie ręcznym prowadzący zaznacza piosenki i widzi tytuły, więc nie powinien grać."
+    "Tak, w trybie automatycznym: rozszerzenie zaznacza piosenki, a prowadzący nigdy nie widzi tytułów, więc może dołączyć z telefonu jak wszyscy. W trybie ręcznym prowadzący zaznacza piosenki i widzi tytuły, więc też może grać, jeśli zna wszystkie piosenki z playlisty."
    ],
    [
     "Czy mogę prowadzić grę z telefonu?",
@@ -1771,7 +1771,7 @@
   "wayManP": "Muzyka gra z dowolnego miejsca, a prowadzący stuka każdą piosenkę na ekranie, kiedy leci.",
   "wayManL": [
    "Dowolna aplikacja lub urządzenie: telefon, głośnik, telewizor, winyle…",
-   "Prowadzący zaznacza piosenki, więc nie gra",
+   "Prowadzący zaznacza piosenki i też może grać, jeśli zna je wszystkie",
    "Działa na komputerze, tablecie i telefonie",
    "Rozszerzenie niepotrzebne"
   ],
@@ -1921,7 +1921,7 @@
    ],
    [
     "Môže moderátor hrať tiež?",
-    "Áno, v automatickom režime: rozšírenie označuje pesničky a moderátor nikdy nevidí ich názvy, takže sa môže pridať z mobilu ako všetci ostatní. V ručnom režime moderátor označuje pesničky a vidí ich názvy, takže by nemal hrať."
+    "Áno, v automatickom režime: rozšírenie označuje pesničky a moderátor nikdy nevidí ich názvy, takže sa môže pridať z mobilu ako všetci ostatní. V ručnom režime moderátor označuje pesničky a vidí ich názvy, takže môže hrať aj on, ak pozná všetky pesničky v playliste."
    ],
    [
     "Môžem moderovať z mobilu?",
@@ -2025,7 +2025,7 @@
   "wayManP": "Hudba hrá odkiaľkoľvek a moderátor ťukne každú pesničku na obrazovke, keď hrá.",
   "wayManL": [
    "Akákoľvek aplikácia či zariadenie: mobil, reproduktor, televízor, platne…",
-   "Moderátor označuje pesničky, takže nehrá",
+   "Moderátor označuje pesničky a môže hrať aj on, ak ich pozná všetky",
    "Funguje na počítači, tablete aj mobile",
    "Rozšírenie netreba"
   ],

@@ -133,7 +133,7 @@
     set('tOrPaste', t.orPaste); set('useList', t.useList); set('plChange', '↺ ' + t.change); set('tSongList', t.songList || t.songs);
     set('tModeTitle', t.modeTitle); seti('tModeAuto', 'headphones', t.modeAuto); seti('tModeManual', 'hand', t.modeManual); set('tModeAutoDesc', t.modeAutoDesc); set('tModeManualDesc', t.modeManualDesc);
     const facts = (id, l, ics) => $(id).innerHTML = l.map((x, i) => `<li>${icon(ics[i])} ${esc(x)}</li>`).join('');
-    facts('modeAutoFacts', t.modeAutoFacts, ['headphones', 'sparkles', 'user-check', 'laptop']); facts('modeManualFacts', t.modeManualFacts, ['headphones', 'hand', 'user-x', 'smartphone']);
+    facts('modeAutoFacts', t.modeAutoFacts, ['headphones', 'sparkles', 'user-check', 'laptop']); facts('modeManualFacts', t.modeManualFacts, ['headphones', 'hand', 'user-check', 'smartphone']);
     set('tExtMissing', t.extMissing); set('getExtBtn', t.getExtBtn + ' →'); $('getExtBtn').href = extStoreUrl; set('tSteps', t.stepsTitle); set('helpTitle', t.howToPlay); set('helpOk', t.gotIt); $('helpBtn').title = t.howToPlay; $('helpBtn').setAttribute('aria-label', t.howToPlay);
     set('tCard', t.cardType); set('tFree', t.freeCenter); set('tFreeHint', t.freeCenterHint);
     $('fmt').children[0].innerHTML = `${cardPic('es')}<span><b>${esc(t.cardEsShort)}</b><small>${esc(t.cardEsDesc)}</small></span>`;
@@ -213,7 +213,7 @@
     $('create').disabled = !(ok && c.prizes.length);
     drawMode();
   }
-  // automatic (extension marks the songs, host can play) or manual (host marks, doesn't play)
+  // automatic (extension marks the songs, host can play) or manual (host marks; can play if they know every song)
   const mode = () => S.cfg.mode || (EXT.on ? 'auto' : 'manual');
   function drawMode() {
     if (!$('modePick')) return;
