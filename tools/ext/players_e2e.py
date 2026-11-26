@@ -11,6 +11,8 @@ receives the song that is playing, follows play/pause (a muted video playing doe
 can skip to the next song, and that a second host page opened later gets the song in getState.
 During the game (the host's getState) the player tab must be covered with its title "Meca Bingo",
 also after the song changes; "Show the player" reveals the page and its title, the next song covers it again.
+For the players START can only open (all but Amazon): the bridge's "ready" says open: true, and with no player
+tab open, "open" opens the player's address in a tab and brings the host page back to the front.
 """
 import base64, json, os, struct, sys, tempfile, time
 from playwright.sync_api import sync_playwright
@@ -84,9 +86,21 @@ with sync_playwright() as p:
         ask({'type': 'control', 'action': 'next'}); time.sleep(1)
         recovered = covered()
         cover_ok = hidden and tall and revealed and recovered
+        opened = 'skipped'
+        if not pl_cfg.get('start'):   # START opens the player tab, then the host comes back
+            ready = host.evaluate("new Promise(r=>{addEventListener('message',e=>{if(e.data&&e.data.__mbExt&&e.data.type==='ready')r(e.data)});postMessage({__mbPage:true,type:'hello'},'*')})")
+            pl.close(); time.sleep(0.5)
+            none = ask({'type': 'getState'}).get('player') is False
+            # a tab the extension opens loads before Playwright's routes apply to it: load it again, now as the fake player
+            ctx.on('page', lambda pg: pg.goto(url))
+            op = ask({'type': 'open', 'url': url})
+            tab = any(pg.url == url and pg.title() in ('Song One - Artist A', 'Meca Bingo') for pg in ctx.pages)
+            visible = host.evaluate('document.visibilityState') == 'visible'
+            opened = {'ready open': ready.get('open') is True, 'no tab before': none, 'open ok': op.get('ok') is True, 'tab': tab, 'host visible': visible}
+            cover_ok = cover_ok and all(opened.values())
         good = st.get('player') and start and paused and resumed and nx.get('ok') and 'Song One' in tracks and 'Song Two' in tracks and 'next' in log and late == 'Song Two' and cover_ok
         ok &= bool(good)
-        print(('OK ' if good else 'FAIL'), name, '| state', st, '| playing at start', start, '| paused after toggle (muted video playing)', paused, '| playing after toggle', resumed, '| next', nx.get('ok'), '| tracks', tracks, '| player log', log, '| late host song', late, '| covered in game', hidden, '| button >= 40px', tall, '| revealed', revealed, '| covered on next song', recovered)
+        print(('OK ' if good else 'FAIL'), name, '| state', st, '| playing at start', start, '| paused after toggle (muted video playing)', paused, '| playing after toggle', resumed, '| next', nx.get('ok'), '| tracks', tracks, '| player log', log, '| late host song', late, '| covered in game', hidden, '| button >= 40px', tall, '| revealed', revealed, '| covered on next song', recovered, '| START opens', opened)
         ctx.close()
 print('all players OK' if ok else 'SOME PLAYERS FAILED')
 sys.exit(0 if ok else 1)
