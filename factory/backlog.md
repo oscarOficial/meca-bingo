@@ -57,7 +57,7 @@ When the task is merged: `- [x] <title> → task/<id>`. Done by hand: `- [x] <ti
     Con YouTube la extensión no parece funcionar (no se entera de que está corriendo la playlist de fondo).
 - [x] Extension: host shows the current song after signing in to Spotify → task/extension-host-shows-the-current-song
     Tras hacer login en Spotify la playlist empieza pero la página de Host no se actualiza correctamente (no muestra que haya una canción reproduciéndose).
-- [ ] Extension: hide the playing song in the player tab
+- [x] Extension: hide the playing song in the player tab → task/extension-hide-the-playing-song-in-the
     La extensión debe asegurar que en la tab que esté abierta no se muestra la canción que se está reproduciendo ni en el title ni en ningún sitio del reproductor (lo habíamos hecho anteriormente mostrando una capa superpuesta a la página con una foto divertida).
     Note: extension/provider.js already has cover()/uncover(), today only used while importing/starting Amazon.
 - [ ] Extension: START button opens the player tab and returns to the host
