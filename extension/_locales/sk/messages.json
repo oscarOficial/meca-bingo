@@ -49,5 +49,11 @@
   },
   "startingMusic": {
     "message": "Spúšťam hudbu…"
+  },
+  "coverHint": {
+    "message": "Pieseň je počas hry skrytá"
+  },
+  "coverShow": {
+    "message": "Zobraziť prehrávač"
   }
 }

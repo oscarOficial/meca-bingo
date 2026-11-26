@@ -49,5 +49,11 @@
   },
   "startingMusic": {
     "message": "Starting the music…"
+  },
+  "coverHint": {
+    "message": "The song is hidden during the game"
+  },
+  "coverShow": {
+    "message": "Show the player"
   }
 }
