@@ -55,5 +55,8 @@
   },
   "coverShow": {
     "message": "Show the player"
+  },
+  "coverSignIn": {
+    "message": "Sign in to play the music: press “Show the player”"
   }
 }

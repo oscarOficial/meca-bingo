@@ -55,5 +55,8 @@
   },
   "coverShow": {
     "message": "Player anzeigen"
+  },
+  "coverSignIn": {
+    "message": "Melde dich an, damit die Musik spielt: tippe auf „Player anzeigen“"
   }
 }

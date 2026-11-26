@@ -55,5 +55,8 @@
   },
   "coverShow": {
     "message": "Afficher le lecteur"
+  },
+  "coverSignIn": {
+    "message": "Connectez-vous pour lancer la musique : appuyez sur « Afficher le lecteur »"
   }
 }

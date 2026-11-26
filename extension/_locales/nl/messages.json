@@ -55,5 +55,8 @@
   },
   "coverShow": {
     "message": "Speler tonen"
+  },
+  "coverSignIn": {
+    "message": "Log in om de muziek af te spelen: druk op ‘Speler tonen’"
   }
 }

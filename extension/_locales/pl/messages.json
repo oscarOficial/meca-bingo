@@ -55,5 +55,8 @@
   },
   "coverShow": {
     "message": "Pokaż odtwarzacz"
+  },
+  "coverSignIn": {
+    "message": "Zaloguj się, aby włączyć muzykę: naciśnij „Pokaż odtwarzacz”"
   }
 }

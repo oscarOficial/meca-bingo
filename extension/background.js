@@ -72,7 +72,7 @@ chrome.runtime.onMessage.addListener((msg, sender, reply) => {
       case 'mb-getstate': {
         const tab = await playerTab();
         const r = tab ? await chrome.tabs.sendMessage(tab.id, { type: 'mb-status', game: !!sender.tab }).catch(() => null) : null;
-        return reply({ player: !!tab, playing: !!(r && r.playing), track: (r && r.track) || null });
+        return reply({ player: !!tab, playing: !!(r && r.playing), track: (r && r.track) || null, signedOut: (r && r.signedOut) || null });
       }
       // ---- from the player tab (provider.js) ----
       case 'mb-track': tellSite({ type: 'mb-track', title: msg.title, artist: msg.artist, ts: msg.ts }); await chrome.storage.session.set({ heard: Date.now() }); return reply({ ok: true });
