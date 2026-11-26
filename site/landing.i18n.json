@@ -159,7 +159,7 @@
    ],
    [
     "Do I need the extension?",
-    "Only for automatic mode (songs marked by themselves, host can play) and to import Amazon Music playlists. Manual mode needs nothing."
+    "Only for automatic mode (songs marked by themselves, host can play) and to import Amazon Music playlists. Manual mode needs nothing. For automatic mode, the music service has to be signed in and playing in the computer's browser; a paid account is best, because ads can't be marked."
    ],
    [
     "Do I need a license to play music in public?",
@@ -238,7 +238,7 @@
   "wayAutoT": "Automatic",
   "wayAutoP": "The music plays in the host's computer browser and the free extension marks every song by itself.",
   "wayAutoL": [
-   "Spotify, Amazon Music, Deezer, YouTube Music or Apple Music web player",
+   "Spotify, Amazon Music, Deezer, YouTube Music or Apple Music web player, signed in (a paid plan avoids ads)",
    "It can sound through a speaker or the TV connected to the computer",
    "The host plays too: nobody sees the song names",
    "Computer with Chrome, Edge or Firefox"
@@ -413,7 +413,7 @@
    ],
    [
     "¿Necesito la extensión?",
-    "Solo para el modo automático (las canciones se marcan solas y el presentador puede jugar) y para importar playlists de Amazon Music. El modo manual no necesita nada."
+    "Solo para el modo automático (las canciones se marcan solas y el presentador puede jugar) y para importar playlists de Amazon Music. El modo manual no necesita nada. Para el modo automático, el servicio de música tiene que tener la sesión iniciada y estar sonando en el navegador del ordenador; mejor con cuenta de pago, porque los anuncios no se pueden marcar."
    ],
    [
     "¿Hace falta licencia para poner música en público?",
@@ -492,7 +492,7 @@
   "wayAutoT": "Automático",
   "wayAutoP": "La música suena en el navegador del ordenador del presentador y la extensión gratuita marca sola cada canción.",
   "wayAutoL": [
-   "Reproductor web de Spotify, Amazon Music, Deezer, YouTube Music o Apple Music",
+   "Reproductor web de Spotify, Amazon Music, Deezer, YouTube Music o Apple Music, con la sesión iniciada (una cuenta de pago evita anuncios)",
    "Puede sonar por un altavoz o la tele conectados al ordenador",
    "El presentador también juega: nadie ve los títulos",
    "Ordenador con Chrome, Edge o Firefox"
@@ -667,7 +667,7 @@
    ],
    [
     "Ai-je besoin de l’extension ?",
-    "Seulement pour le mode automatique (chansons cochées toutes seules, l’animateur peut jouer) et pour importer des playlists Amazon Music. Le mode manuel ne demande rien."
+    "Seulement pour le mode automatique (chansons cochées toutes seules, l’animateur peut jouer) et pour importer des playlists Amazon Music. Le mode manuel ne demande rien. Pour le mode automatique, le service de musique doit être connecté et en lecture dans le navigateur de l’ordinateur ; un compte payant est préférable, car les pubs ne peuvent pas être cochées."
    ],
    [
     "Faut-il une licence pour passer de la musique en public ?",
@@ -746,7 +746,7 @@
   "wayAutoT": "Automatique",
   "wayAutoP": "La musique joue dans le navigateur de l’ordinateur de l’animateur et l’extension gratuite coche chaque chanson toute seule.",
   "wayAutoL": [
-   "Lecteur web Spotify, Amazon Music, Deezer, YouTube Music ou Apple Music",
+   "Lecteur web Spotify, Amazon Music, Deezer, YouTube Music ou Apple Music, connecté (un compte payant évite les pubs)",
    "Le son peut sortir d’une enceinte ou de la télé branchée à l’ordinateur",
    "L’animateur joue aussi : personne ne voit les titres",
    "Ordinateur avec Chrome, Edge ou Firefox"
@@ -921,7 +921,7 @@
    ],
    [
     "Brauche ich die Erweiterung?",
-    "Nur für den automatischen Modus (Songs markieren sich selbst, die Spielleitung kann mitspielen) und zum Importieren von Amazon-Music-Playlists. Der manuelle Modus braucht nichts."
+    "Nur für den automatischen Modus (Songs markieren sich selbst, die Spielleitung kann mitspielen) und zum Importieren von Amazon-Music-Playlists. Der manuelle Modus braucht nichts. Für den automatischen Modus muss der Musikdienst im Browser des Computers angemeldet sein und laufen; am besten mit einem bezahlten Konto, weil Werbung nicht markiert werden kann."
    ],
    [
     "Brauche ich eine Lizenz, um öffentlich Musik zu spielen?",
@@ -1000,7 +1000,7 @@
   "wayAutoT": "Automatisch",
   "wayAutoP": "Die Musik läuft im Browser am Computer der Spielleitung, und die kostenlose Erweiterung markiert jeden Song von selbst.",
   "wayAutoL": [
-   "Web-Player von Spotify, Amazon Music, Deezer, YouTube Music oder Apple Music",
+   "Web-Player von Spotify, Amazon Music, Deezer, YouTube Music oder Apple Music, angemeldet (ein Bezahl-Abo vermeidet Werbung)",
    "Sie kann über eine Box oder den Fernseher am Computer laufen",
    "Die Spielleitung spielt mit: Niemand sieht die Songtitel",
    "Computer mit Chrome, Edge oder Firefox"
@@ -1175,7 +1175,7 @@
    ],
    [
     "Mi serve l’estensione?",
-    "Solo per il modo automatico (canzoni segnate da sole, chi presenta può giocare) e per importare playlist di Amazon Music. Il modo manuale non richiede niente."
+    "Solo per il modo automatico (canzoni segnate da sole, chi presenta può giocare) e per importare playlist di Amazon Music. Il modo manuale non richiede niente. Per il modo automatico il servizio musicale deve avere l’accesso fatto e suonare nel browser del computer; meglio un account a pagamento, perché le pubblicità non si possono segnare."
    ],
    [
     "Serve una licenza per mettere musica in pubblico?",
@@ -1254,7 +1254,7 @@
   "wayAutoT": "Automatico",
   "wayAutoP": "La musica suona nel browser del computer di chi presenta e l’estensione gratuita segna ogni canzone da sola.",
   "wayAutoL": [
-   "Web player di Spotify, Amazon Music, Deezer, YouTube Music o Apple Music",
+   "Web player di Spotify, Amazon Music, Deezer, YouTube Music o Apple Music, con l’accesso fatto (un account a pagamento evita la pubblicità)",
    "Può suonare da una cassa o dalla TV collegata al computer",
    "Anche chi presenta gioca: nessuno vede i titoli",
    "Computer con Chrome, Edge o Firefox"
@@ -1429,7 +1429,7 @@
    ],
    [
     "Heb ik de extensie nodig?",
-    "Alleen voor de automatische modus (nummers worden vanzelf aangevinkt, de spelleider kan meespelen) en om playlists van Amazon Music te importeren. De handmatige modus heeft niets nodig."
+    "Alleen voor de automatische modus (nummers worden vanzelf aangevinkt, de spelleider kan meespelen) en om playlists van Amazon Music te importeren. De handmatige modus heeft niets nodig. Voor de automatische modus moet je bij de muziekdienst ingelogd zijn en moet die in de browser van de computer spelen; een betaald account is het best, want advertenties kunnen niet worden aangevinkt."
    ],
    [
     "Heb ik een licentie nodig om in het openbaar muziek te draaien?",
@@ -1508,7 +1508,7 @@
   "wayAutoT": "Automatisch",
   "wayAutoP": "De muziek speelt in de browser van de computer van de spelleider en de gratis extensie vinkt elk nummer vanzelf aan.",
   "wayAutoL": [
-   "Webspeler van Spotify, Amazon Music, Deezer, YouTube Music of Apple Music",
+   "Webspeler van Spotify, Amazon Music, Deezer, YouTube Music of Apple Music, ingelogd (een betaald account voorkomt advertenties)",
    "Het geluid kan via een speaker of de tv aan de computer",
    "De spelleider speelt mee: niemand ziet de titels",
    "Computer met Chrome, Edge of Firefox"
@@ -1683,7 +1683,7 @@
    ],
    [
     "Czy potrzebuję rozszerzenia?",
-    "Tylko do trybu automatycznego (piosenki zaznaczają się same, prowadzący może grać) i do importu playlist z Amazon Music. Tryb ręczny nie wymaga niczego."
+    "Tylko do trybu automatycznego (piosenki zaznaczają się same, prowadzący może grać) i do importu playlist z Amazon Music. Tryb ręczny nie wymaga niczego. W trybie automatycznym serwis muzyczny musi być zalogowany i grać w przeglądarce komputera; najlepiej z płatnym kontem, bo reklam nie da się zaznaczyć."
    ],
    [
     "Czy potrzebuję licencji, żeby puszczać muzykę publicznie?",
@@ -1762,7 +1762,7 @@
   "wayAutoT": "Automatycznie",
   "wayAutoP": "Muzyka gra w przeglądarce na komputerze prowadzącego, a darmowe rozszerzenie samo zaznacza każdą piosenkę.",
   "wayAutoL": [
-   "Odtwarzacz webowy Spotify, Amazon Music, Deezer, YouTube Music lub Apple Music",
+   "Odtwarzacz webowy Spotify, Amazon Music, Deezer, YouTube Music lub Apple Music, z zalogowanym kontem (płatne konto oznacza brak reklam)",
    "Dźwięk może iść przez głośnik lub telewizor podłączony do komputera",
    "Prowadzący też gra: nikt nie widzi tytułów",
    "Komputer z Chrome, Edge lub Firefox"
@@ -1937,7 +1937,7 @@
    ],
    [
     "Potrebujem rozšírenie?",
-    "Iba pre automatický režim (pesničky sa označia samy, moderátor môže hrať) a na import playlistov z Amazon Music. Ručný režim nepotrebuje nič."
+    "Iba pre automatický režim (pesničky sa označia samy, moderátor môže hrať) a na import playlistov z Amazon Music. Ručný režim nepotrebuje nič. V automatickom režime musí byť hudobná služba prihlásená a hrať v prehliadači počítača; najlepšie s plateným účtom, lebo reklamy sa nedajú označiť."
    ],
    [
     "Potrebujem licenciu na púšťanie hudby na verejnosti?",
@@ -2016,7 +2016,7 @@
   "wayAutoT": "Automaticky",
   "wayAutoP": "Hudba hrá v prehliadači na počítači moderátora a bezplatné rozšírenie samo označí každú pesničku.",
   "wayAutoL": [
-   "Webový prehrávač Spotify, Amazon Music, Deezer, YouTube Music alebo Apple Music",
+   "Webový prehrávač Spotify, Amazon Music, Deezer, YouTube Music alebo Apple Music, s prihlásením (platený účet je bez reklám)",
    "Môže hrať cez reproduktor alebo televízor pripojený k počítaču",
    "Moderátor hrá tiež: nikto nevidí názvy pesničiek",
    "Počítač s Chrome, Edge alebo Firefox"
