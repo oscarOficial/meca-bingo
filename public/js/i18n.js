@@ -191,7 +191,7 @@
       needFor: (p, m, k) => `Pour ${p} joueurs, il faut au moins ${m} chansons : ajoutes-en ${k}.`,
       orLower: c => `Ou joue avec ${c} joueurs maximum.`, setPlayers: c => `Mettre ${c} joueurs`,
       openPlaylist: p => `Ouvrir la playlist${p ? ' dans ' + p : ''} ↗`,
-      signInPlayer: p => `Connectez-vous à ${p} dans son onglet pour que la musique puisse jouer`,
+      signInPlayer: p => `Connecte-toi à ${p} dans son onglet pour que la musique puisse jouer`,
       myList: 'Ma liste', online: 'en ligne', noFullscreen: 'Le plein écran n’est pas disponible ici',
       providers: { spotify: 'Spotify', deezer: 'Deezer', apple: 'Apple Music', youtube: 'YouTube Music', amazon: 'Amazon Music', pasted: '' },
       tagline: 'Transforme n’importe quelle playlist publique en soirée bingo musical',

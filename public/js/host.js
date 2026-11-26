@@ -447,7 +447,7 @@
     }
   }
   function startGame() {
-    lastHeard = null;
+    lastHeard = null; EXT.signedOut = null;   // so a new game still signed out gets its toast at the first poll
     $('setup').classList.add('hidden'); $('game').classList.remove('hidden'); scrollTo(0, 0); document.body.classList.add('ingame');
     const url = new URL('play.html', location.href).href.replace(/\?.*$/, '') + '?r=' + S.code + (new URLSearchParams(location.search).get('net') === 'local' ? '&net=local' : '');
     $('codeBig').textContent = S.code; $('joinUrl').textContent = url.replace(/^https?:\/\//, '').replace(/\?.*/, '') + ' · ' + S.code; $('joinUrl').href = url;
@@ -533,9 +533,7 @@
     const was = EXT.playing;
     if (action === 'toggle') { EXT.playing = !EXT.playing; drawExt(); }
     const r = await extControl(action, 8000);
-    if (!r.ok) { EXT.playing = was; drawExt(); }
-    if (EXT.signedOut) signInToast();   // the control was sent anyway, so a wrong detection never blocks the buttons
-    else if (!r.ok) toast(() => r.error === 'notab' ? t.noPlayer : t.controlFailed, 5000, 'triangle-exclamation-point');
+    if (!r.ok) { EXT.playing = was; drawExt(); if (EXT.signedOut) signInToast(); else toast(() => r.error === 'notab' ? t.noPlayer : t.controlFailed, 5000, 'triangle-exclamation-point'); }
   }
   // Photo moment: after each new song the photo and its message take the whole screen for a few seconds
   let mT = null, mN = 0;
