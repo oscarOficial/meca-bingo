@@ -34,7 +34,10 @@ Chrome upload file: `public/download/meca-bingo-sync-chrome.zip`.
   • Amazon Music: imports the playlist (Amazon has no public API, so the extension reads it in your own browser) and starts the round in shuffle
 
   Works with the Spotify, Amazon Music, Deezer, YouTube Music and Apple Music web players. Players do not need the extension.
-  No accounts, no tracking, no data leaves your browser.
+
+  Before the game, sign in to the music service in its web player in the same browser and check that a song plays there. Use a paid (Premium) account: on free plans ads play between songs, they can’t be marked and the round gets out of sync.
+
+  No Meca Bingo account, no tracking, no data leaves your browser.
   ```
 
   **Español (es)**
@@ -48,7 +51,10 @@ Chrome upload file: `public/download/meca-bingo-sync-chrome.zip`.
   • Amazon Music: importa la playlist (Amazon no tiene API pública, así que la extensión la lee en tu propio navegador) y arranca la ronda en aleatorio
 
   Funciona con los reproductores web de Spotify, Amazon Music, Deezer, YouTube Music y Apple Music. Los jugadores no necesitan la extensión.
-  Sin cuentas, sin rastreo, ningún dato sale de tu navegador.
+
+  Antes de la partida, inicia sesión en el reproductor web del servicio de música en el mismo navegador y comprueba que ahí suena una canción. Usa una cuenta de pago (Premium): en los planes gratuitos suenan anuncios entre canciones, no se pueden marcar y la ronda se descuadra.
+
+  Sin cuenta de Meca Bingo, sin rastreo, ningún dato sale de tu navegador.
   ```
 
   **Français (fr)**
@@ -62,7 +68,10 @@ Chrome upload file: `public/download/meca-bingo-sync-chrome.zip`.
   • Amazon Music : importe la playlist (Amazon n’a pas d’API publique, l’extension la lit donc dans ton propre navigateur) et lance la manche en aléatoire
 
   Fonctionne avec les lecteurs web de Spotify, Amazon Music, Deezer, YouTube Music et Apple Music. Les joueurs n’ont pas besoin de l’extension.
-  Pas de compte, pas de pistage, aucune donnée ne quitte ton navigateur.
+
+  Avant la partie, connecte-toi au service de musique dans son lecteur web, dans le même navigateur, et vérifie qu’une chanson s’y lance bien. Utilise un compte payant (Premium) : avec les offres gratuites, des pubs passent entre les chansons, elles ne peuvent pas être cochées et la manche se décale.
+
+  Pas de compte Meca Bingo, pas de pistage, aucune donnée ne quitte ton navigateur.
   ```
 
   **Deutsch (de)**
@@ -76,7 +85,10 @@ Chrome upload file: `public/download/meca-bingo-sync-chrome.zip`.
   • Amazon Music: importiert die Playlist (Amazon hat keine öffentliche API, daher liest die Erweiterung sie in deinem eigenen Browser) und startet die Runde im Zufallsmodus
 
   Funktioniert mit den Web-Playern von Spotify, Amazon Music, Deezer, YouTube Music und Apple Music. Die Spieler brauchen die Erweiterung nicht.
-  Keine Konten, kein Tracking, keine Daten verlassen deinen Browser.
+
+  Melde dich vor dem Spiel im selben Browser im Web-Player des Musikdienstes an und prüfe, dass dort ein Song läuft. Nutze ein bezahltes Konto (Premium): Bei kostenlosen Abos läuft zwischen den Songs Werbung, die nicht markiert werden kann, und die Runde gerät aus dem Takt.
+
+  Kein Meca-Bingo-Konto, kein Tracking, keine Daten verlassen deinen Browser.
   ```
 
   **Italiano (it)**
@@ -90,7 +102,10 @@ Chrome upload file: `public/download/meca-bingo-sync-chrome.zip`.
   • Amazon Music: importa la playlist (Amazon non ha un’API pubblica, quindi l’estensione la legge nel tuo browser) e fa partire il turno in ordine casuale
 
   Funziona con i web player di Spotify, Amazon Music, Deezer, YouTube Music e Apple Music. Ai giocatori l’estensione non serve.
-  Niente account, niente tracciamento, nessun dato lascia il tuo browser.
+
+  Prima della partita, accedi al servizio musicale nel suo web player, nello stesso browser, e controlla che lì suoni una canzone. Usa un account a pagamento (Premium): con i piani gratuiti tra una canzone e l’altra partono le pubblicità, che non si possono segnare, e il turno va fuori sincrono.
+
+  Nessun account Meca Bingo, niente tracciamento, nessun dato lascia il tuo browser.
   ```
 
   **Nederlands (nl)**
@@ -104,7 +119,10 @@ Chrome upload file: `public/download/meca-bingo-sync-chrome.zip`.
   • Amazon Music: importeert de playlist (Amazon heeft geen openbare API, dus de extensie leest hem in je eigen browser) en start de ronde in willekeurige volgorde
 
   Werkt met de webspelers van Spotify, Amazon Music, Deezer, YouTube Music en Apple Music. Spelers hebben de extensie niet nodig.
-  Geen accounts, geen tracking, er verlaten geen gegevens je browser.
+
+  Log voor het spel in dezelfde browser in op de webspeler van de muziekdienst en controleer of er een nummer speelt. Gebruik een betaald account (Premium): bij gratis abonnementen komen er advertenties tussen de nummers, die kunnen niet worden aangevinkt en de ronde loopt niet meer gelijk.
+
+  Geen Meca Bingo-account, geen tracking, er verlaten geen gegevens je browser.
   ```
 
   **Polski (pl)**
@@ -118,7 +136,10 @@ Chrome upload file: `public/download/meca-bingo-sync-chrome.zip`.
   • Amazon Music: importuje playlistę (Amazon nie ma publicznego API, więc rozszerzenie czyta ją w Twojej przeglądarce) i puszcza rundę losowo
 
   Działa z odtwarzaczami webowymi Spotify, Amazon Music, Deezer, YouTube Music i Apple Music. Gracze nie potrzebują rozszerzenia.
-  Bez kont, bez śledzenia, żadne dane nie opuszczają Twojej przeglądarki.
+
+  Przed grą zaloguj się do serwisu muzycznego w jego odtwarzaczu webowym, w tej samej przeglądarce, i sprawdź, czy piosenka się tam odtwarza. Używaj płatnego konta (Premium): w darmowych planach między piosenkami lecą reklamy, których nie da się zaznaczyć, i runda się rozjeżdża.
+
+  Bez konta Meca Bingo, bez śledzenia, żadne dane nie opuszczają Twojej przeglądarki.
   ```
 
   **Slovenčina (sk)**
@@ -132,7 +153,10 @@ Chrome upload file: `public/download/meca-bingo-sync-chrome.zip`.
   • Amazon Music: importuje playlist (Amazon nemá verejné API, preto ho rozšírenie číta v tvojom vlastnom prehliadači) a pustí kolo náhodne
 
   Funguje s webovými prehrávačmi Spotify, Amazon Music, Deezer, YouTube Music a Apple Music. Hráči rozšírenie nepotrebujú.
-  Žiadne účty, žiadne sledovanie, žiadne dáta neopúšťajú tvoj prehliadač.
+
+  Pred hrou sa prihlás do hudobnej služby v jej webovom prehrávači v tom istom prehliadači a over, že tam pesnička hrá. Používaj platený účet (Premium): pri bezplatných plánoch hrajú medzi pesničkami reklamy, ktoré sa nedajú označiť, a kolo sa rozíde.
+
+  Žiadny účet Meca Bingo, žiadne sledovanie, žiadne dáta neopúšťajú tvoj prehliadač.
   ```
 
 - **Icon:** `icons/icon128.png`
