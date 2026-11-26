@@ -87,7 +87,7 @@ When the task is merged: `- [x] <title> → task/<id>`. Done by hand: `- [x] <ti
     "Abrir la playlist en Spotify" en neerlandés aparece en español. Revisar bien las traducciones en todos los idiomas.
     Note: `openPlaylist` in `public/js/i18n.js` is already right in `nl`, so the cause is probably that `#plOpen` / the host's playlist link keep the text from when they were rendered and aren't refreshed on a language change (host.js:134, :402). The audit: every key present in all 8 languages, no text left in another language, and every visible string re-rendered when the language changes.
 
-- [ ] Extension texts: premium accounts and signed-in player needed
+- [x] Extension texts: premium accounts and signed-in player needed → task/extension-texts-premium-accounts-and
     Actualizar la descripción para que se haga hincapié en el uso de cuentas de pago de los servicios para evitar publicidad, además de que deben estar con login hecho y todo funcionando en el reproductor del servicio para que la sincronización funcione correctamente.
     Where: extension/STORE.md, public/extension.html, the extension's _locales and the landing texts that mention the extension, in all 8 languages.
 
