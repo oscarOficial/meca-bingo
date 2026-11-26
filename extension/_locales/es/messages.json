@@ -49,5 +49,11 @@
   },
   "startingMusic": {
     "message": "Arrancando la música…"
+  },
+  "coverHint": {
+    "message": "La canción está oculta durante la partida"
+  },
+  "coverShow": {
+    "message": "Mostrar el reproductor"
   }
 }

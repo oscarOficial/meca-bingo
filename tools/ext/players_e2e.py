@@ -9,6 +9,8 @@ page that behaves like the player (Media Session title/artist + media-key handle
 player's real address, opens the host page, and checks that the host page sees the player,
 receives the song that is playing, follows play/pause (a muted video playing does not count),
 can skip to the next song, and that a second host page opened later gets the song in getState.
+During the game (the host's getState) the player tab must be covered with its title "Meca Bingo",
+also after the song changes; "Show the player" reveals the page and its title, the next song covers it again.
 """
 import base64, json, os, struct, sys, tempfile, time
 from playwright.sync_api import sync_playwright
@@ -23,7 +25,7 @@ WAV = 'data:audio/wav;base64,' + base64.b64encode(b'RIFF' + struct.pack('<I', 36
 FAKE = '''<!doctype html><title>fake player</title><body><audio id=a loop src="WAV"></audio><video id=v muted loop src="WAV"></video>
 <script>
 let i=0; const songs=[['Song One','Artist A'],['Song Two','Artist B'],['Song Three','Artist C']]; window.log=[];
-function show(){ navigator.mediaSession.metadata=new MediaMetadata({title:songs[i][0],artist:songs[i][1]}); }
+function show(){ navigator.mediaSession.metadata=new MediaMetadata({title:songs[i][0],artist:songs[i][1]}); document.title=songs[i][0]+' - '+songs[i][1]; }
 navigator.mediaSession.setActionHandler('play',()=>{log.push('play');a.play();navigator.mediaSession.playbackState='playing'});
 navigator.mediaSession.setActionHandler('pause',()=>{log.push('pause');a.pause();navigator.mediaSession.playbackState='paused'});
 navigator.mediaSession.setActionHandler('nexttrack',()=>{log.push('next');i=(i+1)%3;show()});
@@ -57,6 +59,8 @@ with sync_playwright() as p:
         pl = ctx.new_page(); pl.goto(url); time.sleep(3.5)
         ask = lambda m: host.evaluate("m=>new Promise(r=>{const id=Math.random();addEventListener('message',function h(e){if(e.data&&e.data.__mbExt&&e.data.id===id){removeEventListener('message',h);r(e.data)}});postMessage(Object.assign({__mbPage:true,id},m),'*')})", m)
         st = ask({'type': 'getState'})
+        covered = lambda: pl.evaluate("!!document.getElementById('mb-cover') && document.title === 'Meca Bingo'")
+        hidden = covered()
         pushed = lambda: [g['playing'] for g in host.evaluate('got') if g.get('type') == 'state' and 'id' not in g]
         def after_toggle(want):   # toggle, then wait up to ~2 s for getState and the pushed state to show `want`
             ask({'type': 'control', 'action': 'toggle'})
@@ -71,11 +75,18 @@ with sync_playwright() as p:
         nx = ask({'type': 'control', 'action': 'next'}); time.sleep(2.5)
         tracks = [g['title'] for g in host.evaluate('got') if g.get('type') == 'track']
         log = pl.evaluate('window.log')
+        hidden = hidden and covered()   # still covered after the song changed
         host = ctx.new_page(); host.goto(f'https://{SITE}/host.html'); time.sleep(1)   # opened after the song started: it missed the push
         late = (ask({'type': 'getState'}).get('track') or {}).get('title')
-        good = st.get('player') and start and paused and resumed and nx.get('ok') and 'Song One' in tracks and 'Song Two' in tracks and 'next' in log and late == 'Song Two'
+        tall = pl.evaluate("document.getElementById('mb-cover-show').offsetHeight") >= 40
+        pl.click('#mb-cover-show'); time.sleep(0.5)
+        revealed = pl.evaluate("!document.getElementById('mb-cover') && document.title === 'Song Two - Artist B'")
+        ask({'type': 'control', 'action': 'next'}); time.sleep(1)
+        recovered = covered()
+        cover_ok = hidden and tall and revealed and recovered
+        good = st.get('player') and start and paused and resumed and nx.get('ok') and 'Song One' in tracks and 'Song Two' in tracks and 'next' in log and late == 'Song Two' and cover_ok
         ok &= bool(good)
-        print(('OK ' if good else 'FAIL'), name, '| state', st, '| playing at start', start, '| paused after toggle (muted video playing)', paused, '| playing after toggle', resumed, '| next', nx.get('ok'), '| tracks', tracks, '| player log', log, '| late host song', late)
+        print(('OK ' if good else 'FAIL'), name, '| state', st, '| playing at start', start, '| paused after toggle (muted video playing)', paused, '| playing after toggle', resumed, '| next', nx.get('ok'), '| tracks', tracks, '| player log', log, '| late host song', late, '| covered in game', hidden, '| button >= 40px', tall, '| revealed', revealed, '| covered on next song', recovered)
         ctx.close()
 print('all players OK' if ok else 'SOME PLAYERS FAILED')
 sys.exit(0 if ok else 1)

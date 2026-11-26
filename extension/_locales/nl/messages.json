@@ -49,5 +49,11 @@
   },
   "startingMusic": {
     "message": "Muziek wordt gestart…"
+  },
+  "coverHint": {
+    "message": "Het nummer is verborgen tijdens het spel"
+  },
+  "coverShow": {
+    "message": "Speler tonen"
   }
 }

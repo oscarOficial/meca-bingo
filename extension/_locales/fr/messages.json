@@ -49,5 +49,11 @@
   },
   "startingMusic": {
     "message": "Lancement de la musique…"
+  },
+  "coverHint": {
+    "message": "La chanson est masquée pendant la partie"
+  },
+  "coverShow": {
+    "message": "Afficher le lecteur"
   }
 }

@@ -84,7 +84,8 @@ npx wrangler dev          # app + playlist API on http://localhost:8787
 One code base in `extension/` for Chrome/Edge, Firefox and Safari. It marks the song that is
 playing and adds play / pause / next to the host screen with the Spotify, Amazon Music, Deezer,
 YouTube Music and Apple Music web players (list in `extension/players.json`). With Amazon Music
-(no public API) it also imports the playlist and starts the round in shuffle.
+(no public API) it also imports the playlist and starts the round in shuffle. During a game the player tab is
+covered and its title hidden, so the song isn't given away.
 
 - Build: `python3 tools/build_extension.py` (`--bump patch|minor|major` to raise the version)
 - Test with fake players: `python3 tools/ext/players_e2e.py`
